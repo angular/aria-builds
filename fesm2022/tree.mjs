@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, computed, ElementRef, signal, input, booleanAttribute, model, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
+import { inject, computed, ElementRef, signal, input, booleanAttribute, model, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/deferred-content';
@@ -39,7 +39,7 @@ function sortDirectives(a, b) {
  */
 class Tree {
     /** A unique identifier for the tree. */
-    _generatedId = inject(_IdGenerator).getId('ng-tree-', true);
+    _generatedId = inject(_IdGenerator).getId('ng-tree-');
     // TODO(wagnermaciel): https://github.com/angular/components/pull/30495#discussion_r1972601144.
     /** A unique identifier for the tree. */
     id = computed(() => this._generatedId, ...(ngDevMode ? [{ debugName: "id" }] : []));
@@ -159,7 +159,7 @@ class TreeItem extends DeferredContentAware {
     /** A reference to the tree item element. */
     _elementRef = inject(ElementRef);
     /** A unique identifier for the tree item. */
-    _id = inject(_IdGenerator).getId('ng-tree-item-', true);
+    _id = inject(_IdGenerator).getId('ng-tree-item-');
     /** The owned tree item group. */
     _group = signal(undefined, ...(ngDevMode ? [{ debugName: "_group" }] : []));
     /** The host native element. */
@@ -187,11 +187,7 @@ class TreeItem extends DeferredContentAware {
     _pattern;
     constructor() {
         super();
-        afterNextRender(() => {
-            if (this.tree()._pattern instanceof ComboboxTreePattern) {
-                this.preserveContent.set(true);
-            }
-        });
+        this.preserveContent.set(true);
         // Connect the group's hidden state to the DeferredContentAware's visibility.
         afterRenderEffect(() => {
             this.tree()._pattern instanceof ComboboxTreePattern

@@ -402,8 +402,8 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     autocomplete: _angular_core.Signal<"both" | "list">;
     /** The ARIA role of the popup associated with the combobox. */
     hasPopup: _angular_core.Signal<"listbox" | "tree" | "grid" | null>;
-    /** Whether the combobox is read-only. */
-    readonly: _angular_core.Signal<true | null>;
+    /** Whether the combobox is interactive. */
+    isInteractive: _angular_core.Signal<boolean>;
     /** The keydown event manager for the combobox. */
     keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerup event manager for the combobox. */
@@ -426,14 +426,11 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     /** Highlights the currently selected item in the combobox. */
     highlight(): void;
     /** Closes the combobox. */
-    close(opts?: {
-        reset: boolean;
-    }): void;
+    close(): void;
     /** Opens the combobox. */
     open(nav?: {
         first?: boolean;
         last?: boolean;
-        selected?: boolean;
     }): void;
     /** Navigates to the next focusable item in the combobox popup. */
     next(): void;
@@ -1421,7 +1418,7 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     /** Whether this item is currently expanded. */
     readonly expanded: _angular_core.Signal<boolean>;
     /** Whether this item is visible. */
-    readonly visible: SignalLike<boolean>;
+    readonly visible: _angular_core.Signal<boolean>;
     /** The number of items under the same parent at the same level. */
     readonly setsize: _angular_core.Signal<number>;
     /** The position of this item among its siblings (1-based). */
@@ -1467,8 +1464,6 @@ declare class TreePattern<V> {
     readonly level: () => number;
     /** The root is always expanded. */
     readonly expanded: () => boolean;
-    /** The roow is always visible. */
-    readonly visible: () => boolean;
     /** The tabindex of the tree. */
     readonly tabindex: SignalLike<-1 | 0>;
     /** The id of the current active item. */

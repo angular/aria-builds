@@ -25,21 +25,14 @@ class ComboboxPattern {
     autocomplete = computed(() => (this.inputs.filterMode() === 'highlight' ? 'both' : 'list'));
     /** The ARIA role of the popup associated with the combobox. */
     hasPopup = computed(() => this.inputs.popupControls()?.role() || null);
-    /** Whether the combobox is read-only. */
-    readonly = computed(() => this.inputs.readonly() || null);
+    /** Whether the combobox is interactive. */
+    isInteractive = computed(() => !this.inputs.disabled() && !this.inputs.readonly());
     /** The keydown event manager for the combobox. */
     keydown = computed(() => {
         if (!this.expanded()) {
-            const manager = new KeyboardEventManager()
+            return new KeyboardEventManager()
                 .on('ArrowDown', () => this.open({ first: true }))
-                .on('ArrowUp', () => this.open({ last: true }))
-                .on('Escape', () => this.close({ reset: true }));
-            if (this.readonly()) {
-                manager
-                    .on('Enter', () => this.open({ selected: true }))
-                    .on(' ', () => this.open({ selected: true }));
-            }
-            return manager;
+                .on('ArrowUp', () => this.open({ last: true }));
         }
         const popupControls = this.inputs.popupControls();
         if (!popupControls) {
@@ -50,11 +43,22 @@ class ComboboxPattern {
             .on('ArrowUp', () => this.prev())
             .on('Home', () => this.first())
             .on('End', () => this.last())
-            .on('Escape', () => this.close({ reset: true }))
+            .on('Escape', () => {
+            // TODO(wagnermaciel): We may want to fold this logic into the close() method.
+            if (this.inputs.filterMode() === 'highlight' && popupControls.activeId()) {
+                popupControls.unfocus();
+                popupControls.clearSelection();
+                const inputEl = this.inputs.inputEl();
+                if (inputEl) {
+                    inputEl.value = this.inputs.inputValue();
+                }
+            }
+            else {
+                this.close();
+                this.inputs.popupControls()?.clearSelection();
+            }
+        }) // TODO: When filter mode is 'highlight', escape should revert to the last committed value.
             .on('Enter', () => this.select({ commit: true, close: true }));
-        if (this.readonly()) {
-            manager.on(' ', () => this.select({ commit: true, close: true }));
-        }
         if (popupControls.role() === 'tree') {
             const treeControls = popupControls;
             if (treeControls.isItemExpandable() || treeControls.isItemCollapsible()) {
@@ -74,12 +78,7 @@ class ComboboxPattern {
             this.inputs.inputEl()?.focus(); // Return focus to the input after selecting.
         }
         if (e.target === this.inputs.inputEl()) {
-            if (this.readonly()) {
-                this.expanded() ? this.close() : this.open({ selected: true });
-            }
-            else {
-                this.open();
-            }
+            this.open();
         }
     }));
     constructor(inputs) {
@@ -87,19 +86,19 @@ class ComboboxPattern {
     }
     /** Handles keydown events for the combobox. */
     onKeydown(event) {
-        if (!this.inputs.disabled()) {
+        if (this.isInteractive()) {
             this.keydown().handle(event);
         }
     }
     /** Handles pointerup events for the combobox. */
     onPointerup(event) {
-        if (!this.inputs.disabled()) {
+        if (this.isInteractive()) {
             this.pointerup().handle(event);
         }
     }
     /** Handles input events for the combobox. */
     onInput(event) {
-        if (this.inputs.disabled() || this.inputs.readonly()) {
+        if (!this.isInteractive()) {
             return;
         }
         const inputEl = this.inputs.inputEl();
@@ -115,9 +114,6 @@ class ComboboxPattern {
                 this.inputs.popupControls()?.clearSelection();
             }
         }
-        if (this.inputs.filterMode() === 'highlight' && !this.isDeleting) {
-            this.highlight();
-        }
     }
     /** Handles focus in events for the combobox. */
     onFocusIn() {
@@ -125,7 +121,7 @@ class ComboboxPattern {
     }
     /** Handles focus out events for the combobox. */
     onFocusOut(event) {
-        if (this.inputs.disabled()) {
+        if (this.inputs.disabled() || this.inputs.readonly()) {
             return;
         }
         if (!(event.relatedTarget instanceof HTMLElement) ||
@@ -210,53 +206,18 @@ class ComboboxPattern {
         }
     }
     /** Closes the combobox. */
-    close(opts) {
-        if (!opts?.reset) {
-            this.expanded.set(false);
-            this.inputs.popupControls()?.unfocus();
-            return;
-        }
-        const popupControls = this.inputs.popupControls();
-        if (!this.expanded()) {
-            this.inputs.inputValue?.set('');
-            popupControls?.clearSelection();
-            const inputEl = this.inputs.inputEl();
-            if (inputEl) {
-                inputEl.value = '';
-            }
-        }
-        else if (this.expanded()) {
-            this.close();
-            const selectedItem = popupControls?.getSelectedItem();
-            if (selectedItem?.searchTerm() !== this.inputs.inputValue()) {
-                popupControls?.clearSelection();
-            }
-        }
-        this.close();
-        if (!this.readonly()) {
-            this.inputs.popupControls()?.clearSelection();
-        }
+    close() {
+        this.expanded.set(false);
+        this.inputs.popupControls()?.unfocus();
     }
     /** Opens the combobox. */
     open(nav) {
         this.expanded.set(true);
-        const inputEl = this.inputs.inputEl();
-        if (inputEl && this.inputs.filterMode() === 'highlight') {
-            const isHighlighting = inputEl.selectionStart !== inputEl.value.length;
-            this.inputs.inputValue?.set(inputEl.value.slice(0, inputEl.selectionStart || 0));
-            if (!isHighlighting) {
-                this.highlightedItem.set(undefined);
-            }
-        }
         if (nav?.first) {
             this.first();
         }
         if (nav?.last) {
             this.last();
-        }
-        if (nav?.selected) {
-            const selectedItem = this.inputs.popupControls()?.getSelectedItem();
-            selectedItem ? this.inputs.popupControls()?.focus(selectedItem) : this.first();
         }
     }
     /** Navigates to the next focusable item in the combobox popup. */
@@ -2579,7 +2540,7 @@ class TreeItemPattern {
     /** Whether this item is currently expanded. */
     expanded = computed(() => this.expansion.isExpanded());
     /** Whether this item is visible. */
-    visible = computed(() => this.parent().expanded() && this.parent().visible());
+    visible = computed(() => this.parent().expanded());
     /** The number of items under the same parent at the same level. */
     setsize = computed(() => this.parent().children().length);
     /** The position of this item among its siblings (1-based). */
@@ -2648,8 +2609,6 @@ class TreePattern {
     level = () => 0;
     /** The root is always expanded. */
     expanded = () => true;
-    /** The roow is always visible. */
-    visible = () => true;
     /** The tabindex of the tree. */
     tabindex = computed(() => this.listBehavior.tabindex());
     /** The id of the current active item. */
@@ -2720,12 +2679,12 @@ class TreePattern {
         if (!this.followFocus() && this.inputs.multi()) {
             manager
                 .on(this.dynamicSpaceKey, () => list.toggle())
-                .on('Enter', () => list.toggle(), { preventDefault: !this.nav() })
+                .on('Enter', () => list.toggle())
                 .on([Modifier.Ctrl, Modifier.Meta], 'A', () => list.toggleAll());
         }
         if (!this.followFocus() && !this.inputs.multi()) {
             manager.on(this.dynamicSpaceKey, () => list.selectOne());
-            manager.on('Enter', () => list.selectOne(), { preventDefault: !this.nav() });
+            manager.on('Enter', () => list.selectOne());
         }
         if (this.inputs.multi() && this.followFocus()) {
             manager

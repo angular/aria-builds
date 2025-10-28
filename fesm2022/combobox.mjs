@@ -94,13 +94,12 @@ class ComboboxInput {
         this.combobox._pattern.inputs.inputValue = this.value;
         /** Focuses & selects the first item in the combobox if the user changes the input value. */
         afterRenderEffect(() => {
-            this.value();
             this.combobox.popup()?.controls()?.items();
             untracked(() => this.combobox._pattern.onFilter());
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: ComboboxInput, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "20.2.0-next.2", type: ComboboxInput, isStandalone: true, selector: "input[ngComboboxInput]", inputs: { value: { classPropertyName: "value", publicName: "value", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { value: "valueChange" }, host: { attributes: { "role": "combobox" }, properties: { "value": "value()", "attr.aria-expanded": "combobox._pattern.expanded()", "attr.aria-activedescendant": "combobox._pattern.activedescendant()", "attr.aria-controls": "combobox._pattern.popupId()", "attr.aria-haspopup": "combobox._pattern.hasPopup()", "attr.aria-autocomplete": "combobox._pattern.autocomplete()", "attr.readonly": "combobox._pattern.readonly()" } }, exportAs: ["ngComboboxInput"], ngImport: i0 });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "20.2.0-next.2", type: ComboboxInput, isStandalone: true, selector: "input[ngComboboxInput]", inputs: { value: { classPropertyName: "value", publicName: "value", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { value: "valueChange" }, host: { attributes: { "role": "combobox" }, properties: { "value": "value()", "attr.aria-expanded": "combobox._pattern.expanded()", "attr.aria-activedescendant": "combobox._pattern.activedescendant()", "attr.aria-controls": "combobox._pattern.popupId()", "attr.aria-haspopup": "combobox._pattern.hasPopup()", "attr.aria-autocomplete": "combobox._pattern.autocomplete()" } }, exportAs: ["ngComboboxInput"], ngImport: i0 });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: ComboboxInput, decorators: [{
             type: Directive,
@@ -115,7 +114,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
                         '[attr.aria-controls]': 'combobox._pattern.popupId()',
                         '[attr.aria-haspopup]': 'combobox._pattern.hasPopup()',
                         '[attr.aria-autocomplete]': 'combobox._pattern.autocomplete()',
-                        '[attr.readonly]': 'combobox._pattern.readonly()',
                     },
                 }]
         }], ctorParameters: () => [] });

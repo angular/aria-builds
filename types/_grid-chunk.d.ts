@@ -65,9 +65,9 @@ type KeyCode = string | SignalLike<string> | RegExp;
 declare class KeyboardEventManager<T extends KeyboardEvent> extends EventManager<T> {
     options: EventHandlerOptions;
     /** Configures this event manager to handle events with a specific key and no modifiers. */
-    on(key: KeyCode, handler: EventHandler<T>, options?: Partial<EventHandlerOptions>): this;
+    on(key: KeyCode, handler: EventHandler<T>): this;
     /**  Configures this event manager to handle events with a specific modifer and key combination. */
-    on(modifiers: ModifierInputs, key: KeyCode, handler: EventHandler<T>, options?: Partial<EventHandlerOptions>): this;
+    on(modifiers: ModifierInputs, key: KeyCode, handler: EventHandler<T>): this;
     private _normalizeInputs;
     private _isMatch;
 }
@@ -127,6 +127,8 @@ declare class GridData<T extends BaseGridCell> {
     readonly inputs: GridDataInputs<T>;
     /** The two-dimensional array of cells that represents the grid. */
     readonly cells: SignalLike<T[][]>;
+    /** The number of rows in the grid. */
+    readonly rowCount: _angular_core.Signal<number>;
     /** The maximum number of rows in the grid, accounting for row spans. */
     readonly maxRowCount: _angular_core.Signal<number>;
     /** The maximum number of columns in the grid, accounting for column spans. */
@@ -527,7 +529,7 @@ declare class GridPattern {
     /** Handles pointerup events on the grid. */
     onPointerup(event: PointerEvent): void;
     /** Handles focusin events on the grid. */
-    onFocusIn(): void;
+    onFocusIn(event: FocusEvent): void;
     /** Indicates maybe the losing focus is caused by row/cell deletion. */
     private readonly _maybeDeletion;
     /** Handles focusout events on the grid. */

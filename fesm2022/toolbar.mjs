@@ -126,7 +126,7 @@ class ToolbarWidget {
     /** The parent Toolbar. */
     _toolbar = inject(Toolbar);
     /** A unique identifier for the widget. */
-    _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-', true);
+    _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-');
     /** A unique identifier for the widget. */
     id = computed(() => this._generatedId, ...(ngDevMode ? [{ debugName: "id" }] : []));
     /** The parent Toolbar UIPattern. */
@@ -179,7 +179,7 @@ class ToolbarWidgetGroup {
     /** The parent Toolbar. */
     _toolbar = inject(Toolbar, { optional: true });
     /** A unique identifier for the widget. */
-    _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-group-', true);
+    _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-group-');
     /** A unique identifier for the widget. */
     id = computed(() => this._generatedId, ...(ngDevMode ? [{ debugName: "id" }] : []));
     /** The parent Toolbar UIPattern. */

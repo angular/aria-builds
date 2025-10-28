@@ -154,7 +154,7 @@ class RadioButton {
     /** The parent RadioGroup. */
     _radioGroup = inject(RadioGroup);
     /** A unique identifier for the radio button. */
-    _generatedId = inject(_IdGenerator).getId('ng-radio-button-', true);
+    _generatedId = inject(_IdGenerator).getId('ng-radio-button-');
     /** A unique identifier for the radio button. */
     id = computed(() => this._generatedId, ...(ngDevMode ? [{ debugName: "id" }] : []));
     /** The value associated with the radio button. */

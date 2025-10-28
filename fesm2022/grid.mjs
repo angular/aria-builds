@@ -52,7 +52,7 @@ class Grid {
         return;
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: Grid, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.2.0", version: "20.2.0-next.2", type: Grid, isStandalone: true, selector: "[ngGrid]", inputs: { enableSelection: { classPropertyName: "enableSelection", publicName: "enableSelection", isSignal: true, isRequired: false, transformFunction: null }, disabled: { classPropertyName: "disabled", publicName: "disabled", isSignal: true, isRequired: false, transformFunction: null }, skipDisabled: { classPropertyName: "skipDisabled", publicName: "skipDisabled", isSignal: true, isRequired: false, transformFunction: null }, focusMode: { classPropertyName: "focusMode", publicName: "focusMode", isSignal: true, isRequired: false, transformFunction: null }, rowWrap: { classPropertyName: "rowWrap", publicName: "rowWrap", isSignal: true, isRequired: false, transformFunction: null }, colWrap: { classPropertyName: "colWrap", publicName: "colWrap", isSignal: true, isRequired: false, transformFunction: null } }, host: { attributes: { "role": "grid" }, listeners: { "keydown": "_pattern.onKeydown($event)", "pointerdown": "_pattern.onPointerdown($event)", "pointermove": "_pattern.onPointermove($event)", "pointerup": "_pattern.onPointerup($event)", "focusin": "_pattern.onFocusIn()", "focusout": "_pattern.onFocusOut($event)" }, properties: { "tabindex": "_pattern.tabIndex()", "attr.aria-disabled": "_pattern.disabled()", "attr.aria-activedescendant": "_pattern.activeDescendant()" }, classAttribute: "grid" }, queries: [{ propertyName: "_rows", predicate: GridRow, isSignal: true }], exportAs: ["ngGrid"], ngImport: i0 });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.2.0", version: "20.2.0-next.2", type: Grid, isStandalone: true, selector: "[ngGrid]", inputs: { enableSelection: { classPropertyName: "enableSelection", publicName: "enableSelection", isSignal: true, isRequired: false, transformFunction: null }, disabled: { classPropertyName: "disabled", publicName: "disabled", isSignal: true, isRequired: false, transformFunction: null }, skipDisabled: { classPropertyName: "skipDisabled", publicName: "skipDisabled", isSignal: true, isRequired: false, transformFunction: null }, focusMode: { classPropertyName: "focusMode", publicName: "focusMode", isSignal: true, isRequired: false, transformFunction: null }, rowWrap: { classPropertyName: "rowWrap", publicName: "rowWrap", isSignal: true, isRequired: false, transformFunction: null }, colWrap: { classPropertyName: "colWrap", publicName: "colWrap", isSignal: true, isRequired: false, transformFunction: null } }, host: { attributes: { "role": "grid" }, listeners: { "keydown": "_pattern.onKeydown($event)", "pointerdown": "_pattern.onPointerdown($event)", "pointermove": "_pattern.onPointermove($event)", "pointerup": "_pattern.onPointerup($event)", "focusin": "_pattern.onFocusIn($event)", "focusout": "_pattern.onFocusOut($event)" }, properties: { "tabindex": "_pattern.tabIndex()", "attr.aria-disabled": "_pattern.disabled()", "attr.aria-activedescendant": "_pattern.activeDescendant()" }, classAttribute: "grid" }, queries: [{ propertyName: "_rows", predicate: GridRow, isSignal: true }], exportAs: ["ngGrid"], ngImport: i0 });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: Grid, decorators: [{
             type: Directive,
@@ -69,7 +69,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
                         '(pointerdown)': '_pattern.onPointerdown($event)',
                         '(pointermove)': '_pattern.onPointermove($event)',
                         '(pointerup)': '_pattern.onPointerup($event)',
-                        '(focusin)': '_pattern.onFocusIn()',
+                        '(focusin)': '_pattern.onFocusIn($event)',
                         '(focusout)': '_pattern.onFocusOut($event)',
                     },
                 }]
@@ -122,7 +122,7 @@ class GridCell {
     /** The parent row. */
     _row = inject(GridRow);
     /** A unique identifier for the cell. */
-    _id = inject(_IdGenerator).getId('ng-grid-cell-', true);
+    _id = inject(_IdGenerator).getId('ng-grid-cell-');
     /** The host native element. */
     element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{ debugName: "element" }] : []));
     /** The ARIA role for the cell. */

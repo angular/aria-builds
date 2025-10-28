@@ -63,26 +63,22 @@ class KeyboardEventManager extends EventManager {
         stopPropagation: true,
     };
     on(...args) {
-        const { modifiers, key, handler, options } = this._normalizeInputs(...args);
+        const { modifiers, key, handler } = this._normalizeInputs(...args);
         this.configs.push({
             handler: handler,
             matcher: event => this._isMatch(event, key, modifiers),
             ...this.options,
-            ...options,
         });
         return this;
     }
     _normalizeInputs(...args) {
-        const withModifiers = Array.isArray(args[0]) || args[0] in Modifier;
-        const modifiers = withModifiers ? args[0] : Modifier.None;
-        const key = withModifiers ? args[1] : args[0];
-        const handler = withModifiers ? args[2] : args[1];
-        const options = withModifiers ? args[3] : args[2];
+        const key = args.length === 3 ? args[1] : args[0];
+        const handler = args.length === 3 ? args[2] : args[1];
+        const modifiers = args.length === 3 ? args[0] : Modifier.None;
         return {
             key: key,
             handler: handler,
             modifiers: modifiers,
-            options: (options ?? {}),
         };
     }
     _isMatch(event, key, modifiers) {
@@ -152,6 +148,8 @@ class GridData {
     inputs;
     /** The two-dimensional array of cells that represents the grid. */
     cells;
+    /** The number of rows in the grid. */
+    rowCount = computed(() => this.cells().length);
     /** The maximum number of rows in the grid, accounting for row spans. */
     maxRowCount = computed(() => Math.max(...this._rowCountByCol().values(), 0));
     /** The maximum number of columns in the grid, accounting for column spans. */
@@ -460,12 +458,6 @@ class GridNavigation {
                 nextCoords = {
                     row: (nextCoords.row + rowDelta + maxRowCount) % maxRowCount,
                     col: (nextCoords.col + colDelta + maxColCount) % maxColCount,
-                };
-            }
-            if (wrap === 'nowrap') {
-                nextCoords = {
-                    row: nextCoords.row + rowDelta,
-                    col: nextCoords.col + colDelta,
                 };
             }
             // Back to original coordinates.
@@ -868,8 +860,12 @@ class GridPattern {
         }
     }
     /** Handles focusin events on the grid. */
-    onFocusIn() {
+    onFocusIn(event) {
         this.isFocused.set(true);
+        const cell = this.inputs.getCell(event.target);
+        if (!cell)
+            return;
+        this.gridBehavior.gotoCell(cell);
     }
     /** Indicates maybe the losing focus is caused by row/cell deletion. */
     _maybeDeletion = signal(false);

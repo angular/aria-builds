@@ -23,7 +23,7 @@ import '@angular/aria/deferred-content';
  */
 class Listbox {
     /** A unique identifier for the listbox. */
-    _generatedId = inject(_IdGenerator).getId('ng-listbox-', true);
+    _generatedId = inject(_IdGenerator).getId('ng-listbox-');
     // TODO(wagnermaciel): https://github.com/angular/components/pull/30495#discussion_r1972601144.
     /** A unique identifier for the listbox. */
     id = computed(() => this._generatedId, ...(ngDevMode ? [{ debugName: "id" }] : []));
@@ -152,7 +152,7 @@ class Option {
     /** The parent Listbox. */
     _listbox = inject(Listbox);
     /** A unique identifier for the option. */
-    _generatedId = inject(_IdGenerator).getId('ng-option-', true);
+    _generatedId = inject(_IdGenerator).getId('ng-option-');
     // TODO(wagnermaciel): https://github.com/angular/components/pull/30495#discussion_r1972601144.
     /** A unique identifier for the option. */
     id = computed(() => this._generatedId, ...(ngDevMode ? [{ debugName: "id" }] : []));
