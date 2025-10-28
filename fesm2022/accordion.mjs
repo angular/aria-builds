@@ -14,7 +14,7 @@ class AccordionPanel {
     /** The DeferredContentAware host directive. */
     _deferredContentAware = inject(DeferredContentAware);
     /** A global unique identifier for the panel. */
-    _id = inject(_IdGenerator).getId('accordion-trigger-');
+    _id = inject(_IdGenerator).getId('accordion-trigger-', true);
     /** A local unique identifier for the panel, used to match with its trigger's value. */
     value = input.required(...(ngDevMode ? [{ debugName: "value" }] : []));
     /** The parent accordion trigger pattern that controls this panel. This is set by AccordionGroup. */
@@ -60,7 +60,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
  */
 class AccordionTrigger {
     /** A global unique identifier for the trigger. */
-    _id = inject(_IdGenerator).getId('ng-accordion-trigger-');
+    _id = inject(_IdGenerator).getId('ng-accordion-trigger-', true);
     /** A reference to the trigger element. */
     _elementRef = inject(ElementRef);
     /** The parent AccordionGroup. */

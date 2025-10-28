@@ -235,7 +235,7 @@ class TabPanel {
     /** The parent Tabs. */
     _Tabs = inject(Tabs);
     /** A global unique identifier for the tab. */
-    _id = inject(_IdGenerator).getId('ng-tabpanel-');
+    _id = inject(_IdGenerator).getId('ng-tabpanel-', true);
     /** The Tab UIPattern associated with the tabpanel */
     tab = computed(() => this._Tabs.tabs()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{ debugName: "tab" }] : []));
     /** A local unique identifier for the tabpanel. */

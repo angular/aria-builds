@@ -59,8 +59,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 39,
-        "endLine": 74
+        "startLine": 40,
+        "endLine": 75
       }
     },
     {
@@ -297,8 +297,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 92,
-        "endLine": 215
+        "startLine": 93,
+        "endLine": 216
       }
     },
     {
@@ -405,8 +405,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 224,
-        "endLine": 299
+        "startLine": 225,
+        "endLine": 300
       }
     },
     {
@@ -518,8 +518,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 306,
-        "endLine": 363
+        "startLine": 307,
+        "endLine": 364
       }
     }
   ],
@@ -591,6 +591,10 @@
     [
       "MenuTriggerPattern",
       "@angular/aria/private"
+    ],
+    [
+      "_IdGenerator",
+      "@angular/cdk/a11y"
     ],
     [
       "toSignal",

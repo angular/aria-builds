@@ -122,7 +122,7 @@ class GridCell {
     /** The parent row. */
     _row = inject(GridRow);
     /** A unique identifier for the cell. */
-    _id = inject(_IdGenerator).getId('ng-grid-cell-');
+    _id = inject(_IdGenerator).getId('ng-grid-cell-', true);
     /** The host native element. */
     element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{ debugName: "element" }] : []));
     /** The ARIA role for the cell. */

@@ -1,6 +1,7 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, input, output, computed, Directive, contentChildren, signal, afterRenderEffect, untracked, model } from '@angular/core';
 import { MenuTriggerPattern, MenuPattern, MenuBarPattern, MenuItemPattern } from '@angular/aria/private';
+import { _IdGenerator } from '@angular/cdk/a11y';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Directionality } from '@angular/cdk/bidi';
 
@@ -80,7 +81,7 @@ class Menu {
     /** The submenu associated with the menu. */
     submenu = input(undefined, ...(ngDevMode ? [{ debugName: "submenu" }] : []));
     /** The unique ID of the menu. */
-    id = input(Math.random().toString(36).substring(2, 10), ...(ngDevMode ? [{ debugName: "id" }] : []));
+    id = input(inject(_IdGenerator).getId('ng-menu-', true), ...(ngDevMode ? [{ debugName: "id" }] : []));
     /** Whether the menu should wrap its items. */
     wrap = input(true, ...(ngDevMode ? [{ debugName: "wrap" }] : []));
     /** The delay in seconds before the typeahead buffer is cleared. */
@@ -251,7 +252,7 @@ class MenuItem {
     /** A reference to the menu element. */
     element = this._elementRef.nativeElement;
     /** The unique ID of the menu item. */
-    id = input(Math.random().toString(36).substring(2, 10), ...(ngDevMode ? [{ debugName: "id" }] : []));
+    id = input(inject(_IdGenerator).getId('ng-menu-item-', true), ...(ngDevMode ? [{ debugName: "id" }] : []));
     /** The value of the menu item. */
     value = input.required(...(ngDevMode ? [{ debugName: "value" }] : []));
     /** Whether the menu item is disabled. */
