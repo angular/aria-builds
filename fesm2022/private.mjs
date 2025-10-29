@@ -1060,17 +1060,20 @@ class MenuPattern {
       const isMenu = root instanceof MenuPattern;
       const isMenuBar = root instanceof MenuBarPattern;
       const isMenuTrigger = root instanceof MenuTriggerPattern;
-      if (!item.submenu() && (isMenuTrigger || isMenuBar)) {
+      if (!item.submenu() && isMenuTrigger) {
         root.close({
           refocus: true
         });
-        root?.inputs.onSubmit?.(item.value());
+      }
+      if (!item.submenu() && isMenuBar) {
+        root.close();
+        root?.inputs.onSelect?.(item.value());
       }
       if (!item.submenu() && isMenu) {
         root.inputs.activeItem()?.close({
           refocus: true
         });
-        root?.inputs.onSubmit?.(item.value());
+        root?.inputs.onSelect?.(item.value());
       }
     }
   }
@@ -1222,8 +1225,8 @@ class MenuTriggerPattern {
   expanded = signal(false);
   role = () => 'button';
   hasPopup = () => true;
-  submenu;
-  tabindex = computed(() => this.expanded() && this.submenu()?.inputs.activeItem() ? -1 : 0);
+  menu;
+  tabindex = computed(() => this.expanded() && this.menu()?.inputs.activeItem() ? -1 : 0);
   keydownManager = computed(() => {
     return new KeyboardEventManager().on(' ', () => this.open({
       first: true
@@ -1239,7 +1242,7 @@ class MenuTriggerPattern {
   });
   constructor(inputs) {
     this.inputs = inputs;
-    this.submenu = this.inputs.submenu;
+    this.menu = this.inputs.menu;
   }
   onKeydown(event) {
     this.keydownManager().handle(event);
@@ -1252,25 +1255,25 @@ class MenuTriggerPattern {
   onFocusOut(event) {
     const element = this.inputs.element();
     const relatedTarget = event.relatedTarget;
-    if (this.expanded() && !element?.contains(relatedTarget) && !this.inputs.submenu()?.inputs.element()?.contains(relatedTarget)) {
+    if (this.expanded() && !element?.contains(relatedTarget) && !this.inputs.menu()?.inputs.element()?.contains(relatedTarget)) {
       this.close();
     }
   }
   open(opts) {
     this.expanded.set(true);
     if (opts?.first) {
-      this.inputs.submenu()?.first();
+      this.inputs.menu()?.first();
     } else if (opts?.last) {
-      this.inputs.submenu()?.last();
+      this.inputs.menu()?.last();
     }
   }
   close(opts = {}) {
     this.expanded.set(false);
-    this.submenu()?.listBehavior.unfocus();
+    this.menu()?.listBehavior.unfocus();
     if (opts.refocus) {
       this.inputs.element()?.focus();
     }
-    let menuitems = this.inputs.submenu()?.inputs.items() ?? [];
+    let menuitems = this.inputs.menu()?.inputs.items() ?? [];
     while (menuitems.length) {
       const menuitem = menuitems.pop();
       menuitem?._expanded.set(false);

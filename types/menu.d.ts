@@ -2,6 +2,7 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { Signal } from '@angular/core';
 import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/deferred-content';
 
 /**
  * A trigger for a menu.
@@ -14,14 +15,13 @@ declare class MenuTrigger<V> {
     private readonly _elementRef;
     /** A reference to the menu element. */
     readonly element: HTMLButtonElement;
-    /** The submenu associated with the menu trigger. */
-    submenu: _angular_core.InputSignal<Menu<V> | undefined>;
-    /** A callback function triggered when a menu item is selected. */
-    onSubmit: _angular_core.OutputEmitterRef<V>;
+    /** The menu associated with the trigger. */
+    menu: _angular_core.InputSignal<Menu<V> | undefined>;
     /** The menu trigger ui pattern instance. */
-    readonly _pattern: MenuTriggerPattern<V>;
+    _pattern: MenuTriggerPattern<V>;
+    constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuTrigger<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "button[ngMenuTrigger]", ["ngMenuTrigger"], { "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "onSubmit": "onSubmit"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "button[ngMenuTrigger]", ["ngMenuTrigger"], { "menu": { "alias": "menu"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
  * A list of menu items.
@@ -40,6 +40,8 @@ declare class MenuTrigger<V> {
  * ```
  */
 declare class Menu<V> {
+    /** The DeferredContentAware host directive. */
+    private readonly _deferredContentAware;
     /** The menu items contained in the menu. */
     readonly _allItems: Signal<readonly MenuItem<V>[]>;
     /** The menu items that are direct children of this menu. */
@@ -52,8 +54,6 @@ declare class Menu<V> {
     private readonly _directionality;
     /** A signal wrapper for directionality. */
     readonly textDirection: Signal<_angular_cdk_bidi.Direction>;
-    /** The submenu associated with the menu. */
-    readonly submenu: _angular_core.InputSignal<Menu<V> | undefined>;
     /** The unique ID of the menu. */
     readonly id: _angular_core.InputSignal<string>;
     /** Whether the menu should wrap its items. */
@@ -61,7 +61,7 @@ declare class Menu<V> {
     /** The delay in seconds before the typeahead buffer is cleared. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
     /** A reference to the parent menu item or menu trigger. */
-    readonly parent: _angular_core.InputSignal<MenuItem<V> | MenuTrigger<V> | undefined>;
+    readonly parent: _angular_core.WritableSignal<MenuTrigger<V> | MenuItem<V> | undefined>;
     /** The menu ui pattern instance. */
     readonly _pattern: MenuPattern<V>;
     /**
@@ -75,7 +75,7 @@ declare class Menu<V> {
     /** Whether the menu is visible. */
     isVisible: Signal<boolean>;
     /** A callback function triggered when a menu item is selected. */
-    onSubmit: _angular_core.OutputEmitterRef<V>;
+    onSelect: _angular_core.OutputEmitterRef<V>;
     constructor();
     /** Closes the menu. */
     close(opts?: {
@@ -86,7 +86,7 @@ declare class Menu<V> {
         refocus?: boolean;
     }): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Menu<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "parent": { "alias": "parent"; "required": false; "isSignal": true; }; }, { "onSubmit": "onSubmit"; }, ["_allItems"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "onSelect": "onSelect"; }, ["_allItems"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 /**
  * A menu bar of menu items.
@@ -118,10 +118,10 @@ declare class MenuBar<V> {
     /** The menu items as a writable signal. */
     readonly items: _angular_core.WritableSignal<MenuItemPattern<V>[]>;
     /** A callback function triggered when a menu item is selected. */
-    onSubmit: _angular_core.OutputEmitterRef<V>;
+    onSelect: _angular_core.OutputEmitterRef<V>;
     constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuBar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "value": { "alias": "value"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; "onSubmit": "onSubmit"; }, ["_allItems"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "value": { "alias": "value"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; "onSelect": "onSelect"; }, ["_allItems"], never, true, never>;
 }
 /**
  * An item in a Menu.
@@ -151,8 +151,14 @@ declare class MenuItem<V> {
     readonly submenu: _angular_core.InputSignal<Menu<V> | undefined>;
     /** The menu item ui pattern instance. */
     readonly _pattern: MenuItemPattern<V>;
+    constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuItem<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
 }
+/** Defers the rendering of the menu content. */
+declare class MenuContent {
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuContent, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuContent, "ng-template[ngMenuContent]", ["ngMenuContent"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+}
 
-export { Menu, MenuBar, MenuItem, MenuTrigger };
+export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger };

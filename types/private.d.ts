@@ -611,7 +611,7 @@ interface MenuBarInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'disa
     /** The menu items contained in the menu. */
     items: SignalLike<MenuItemPattern<V>[]>;
     /** Callback function triggered when a menu item is selected. */
-    onSubmit?: (value: V) => void;
+    onSelect?: (value: V) => void;
 }
 /** The inputs for the MenuPattern class. */
 interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' | 'disabled'> {
@@ -622,16 +622,14 @@ interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' 
     /** A reference to the parent menu or menu trigger. */
     parent: SignalLike<MenuTriggerPattern<V> | MenuItemPattern<V> | undefined>;
     /** Callback function triggered when a menu item is selected. */
-    onSubmit?: (value: V) => void;
+    onSelect?: (value: V) => void;
 }
 /** The inputs for the MenuTriggerPattern class. */
 interface MenuTriggerInputs<V> {
     /** A reference to the menu trigger element. */
     element: SignalLike<HTMLElement | undefined>;
-    /** A reference to the submenu associated with the menu trigger. */
-    submenu: SignalLike<MenuPattern<V> | undefined>;
-    /** Callback function triggered when a menu item is selected. */
-    onSubmit?: (value: V) => void;
+    /** A reference to the menu associated with the trigger. */
+    menu: SignalLike<MenuPattern<V> | undefined>;
 }
 /** The inputs for the MenuItemPattern class. */
 interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
@@ -755,8 +753,8 @@ declare class MenuTriggerPattern<V> {
     role: () => string;
     /** Whether the menu trigger has a popup. */
     hasPopup: () => boolean;
-    /** The submenu associated with the trigger. */
-    submenu: SignalLike<MenuPattern<V> | undefined>;
+    /** The menu associated with the trigger. */
+    menu: SignalLike<MenuPattern<V> | undefined>;
     /** The tabindex of the menu trigger. */
     tabindex: Signal<-1 | 0>;
     /** Handles keyboard events for the menu trigger. */

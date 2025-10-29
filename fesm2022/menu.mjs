@@ -1,22 +1,25 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, output, computed, Directive, contentChildren, signal, afterRenderEffect, untracked, model } from '@angular/core';
+import { inject, ElementRef, input, computed, effect, Directive, contentChildren, signal, output, afterRenderEffect, untracked, model } from '@angular/core';
 import { MenuTriggerPattern, MenuPattern, MenuBarPattern, MenuItemPattern } from '@angular/aria/private';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Directionality } from '@angular/cdk/bidi';
+import * as i1 from '@angular/aria/deferred-content';
+import { DeferredContentAware, DeferredContent } from '@angular/aria/deferred-content';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  submenu = input(undefined, ...(ngDevMode ? [{
-    debugName: "submenu"
+  menu = input(undefined, ...(ngDevMode ? [{
+    debugName: "menu"
   }] : []));
-  onSubmit = output();
   _pattern = new MenuTriggerPattern({
-    onSubmit: value => this.onSubmit.emit(value),
     element: computed(() => this._elementRef.nativeElement),
-    submenu: computed(() => this.submenu()?._pattern)
+    menu: computed(() => this.menu()?._pattern)
   });
+  constructor() {
+    effect(() => this.menu()?.parent.set(this));
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -32,16 +35,13 @@ class MenuTrigger {
     isStandalone: true,
     selector: "button[ngMenuTrigger]",
     inputs: {
-      submenu: {
-        classPropertyName: "submenu",
-        publicName: "submenu",
+      menu: {
+        classPropertyName: "menu",
+        publicName: "menu",
         isSignal: true,
         isRequired: false,
         transformFunction: null
       }
-    },
-    outputs: {
-      onSubmit: "onSubmit"
     },
     host: {
       listeners: {
@@ -53,7 +53,7 @@ class MenuTrigger {
         "attr.tabindex": "_pattern.tabindex()",
         "attr.aria-haspopup": "_pattern.hasPopup()",
         "attr.aria-expanded": "_pattern.expanded()",
-        "attr.aria-controls": "_pattern.submenu()?.id()"
+        "attr.aria-controls": "_pattern.menu()?.id()"
       },
       classAttribute: "ng-menu-trigger"
     },
@@ -76,15 +76,19 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.tabindex]': '_pattern.tabindex()',
         '[attr.aria-haspopup]': '_pattern.hasPopup()',
         '[attr.aria-expanded]': '_pattern.expanded()',
-        '[attr.aria-controls]': '_pattern.submenu()?.id()',
+        '[attr.aria-controls]': '_pattern.menu()?.id()',
         '(click)': '_pattern.onClick()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusout)': '_pattern.onFocusOut($event)'
       }
     }]
-  }]
+  }],
+  ctorParameters: () => []
 });
 class Menu {
+  _deferredContentAware = inject(DeferredContentAware, {
+    optional: true
+  });
   _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
     debugName: "_allItems",
     descendants: true
@@ -100,9 +104,6 @@ class Menu {
   textDirection = toSignal(this._directionality.change, {
     initialValue: this._directionality.value
   });
-  submenu = input(undefined, ...(ngDevMode ? [{
-    debugName: "submenu"
-  }] : []));
   id = input(inject(_IdGenerator).getId('ng-menu-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -112,7 +113,7 @@ class Menu {
   typeaheadDelay = input(0.5, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
-  parent = input(...(ngDevMode ? [undefined, {
+  parent = signal(undefined, ...(ngDevMode ? [{
     debugName: "parent"
   }] : []));
   _pattern;
@@ -120,7 +121,7 @@ class Menu {
   isVisible = computed(() => this._pattern.isVisible(), ...(ngDevMode ? [{
     debugName: "isVisible"
   }] : []));
-  onSubmit = output();
+  onSelect = output();
   constructor() {
     this._pattern = new MenuPattern({
       ...this,
@@ -132,7 +133,10 @@ class Menu {
       selectionMode: () => 'explicit',
       activeItem: signal(undefined),
       element: computed(() => this._elementRef.nativeElement),
-      onSubmit: value => this.onSubmit.emit(value)
+      onSelect: value => this.onSelect.emit(value)
+    });
+    afterRenderEffect(() => {
+      this._deferredContentAware?.contentVisible.set(this._pattern.isVisible());
     });
     afterRenderEffect(() => {
       if (this._pattern.isVisible()) {
@@ -173,13 +177,6 @@ class Menu {
     isStandalone: true,
     selector: "[ngMenu]",
     inputs: {
-      submenu: {
-        classPropertyName: "submenu",
-        publicName: "submenu",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
       id: {
         classPropertyName: "id",
         publicName: "id",
@@ -200,17 +197,10 @@ class Menu {
         isSignal: true,
         isRequired: false,
         transformFunction: null
-      },
-      parent: {
-        classPropertyName: "parent",
-        publicName: "parent",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
       }
     },
     outputs: {
-      onSubmit: "onSubmit"
+      onSelect: "onSelect"
     },
     host: {
       attributes: {
@@ -237,6 +227,10 @@ class Menu {
       isSignal: true
     }],
     exportAs: ["ngMenu"],
+    hostDirectives: [{
+      directive: i1.DeferredContentAware,
+      inputs: ["preserveContent", "preserveContent"]
+    }],
     ngImport: i0
   });
 }
@@ -261,7 +255,11 @@ i0.ɵɵngDeclareClassMetadata({
         '(focusout)': '_pattern.onFocusOut($event)',
         '(focusin)': '_pattern.onFocusIn()',
         '(click)': '_pattern.onClick($event)'
-      }
+      },
+      hostDirectives: [{
+        directive: DeferredContentAware,
+        inputs: ['preserveContent']
+      }]
     }]
   }],
   ctorParameters: () => []
@@ -293,7 +291,7 @@ class MenuBar {
   items = signal([], ...(ngDevMode ? [{
     debugName: "items"
   }] : []));
-  onSubmit = output();
+  onSelect = output();
   constructor() {
     this._pattern = new MenuBarPattern({
       ...this,
@@ -302,7 +300,7 @@ class MenuBar {
       focusMode: () => 'roving',
       orientation: () => 'horizontal',
       selectionMode: () => 'explicit',
-      onSubmit: value => this.onSubmit.emit(value),
+      onSelect: value => this.onSelect.emit(value),
       activeItem: signal(undefined),
       element: computed(() => this._elementRef.nativeElement)
     });
@@ -354,7 +352,7 @@ class MenuBar {
     },
     outputs: {
       value: "valueChange",
-      onSubmit: "onSubmit"
+      onSelect: "onSelect"
     },
     host: {
       attributes: {
@@ -436,6 +434,9 @@ class MenuItem {
     parent: computed(() => this.parent?._pattern),
     submenu: computed(() => this.submenu()?._pattern)
   });
+  constructor() {
+    effect(() => this.submenu()?.parent.set(this));
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -529,8 +530,45 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-controls]': '_pattern.submenu()?.id()'
       }
     }]
+  }],
+  ctorParameters: () => []
+});
+class MenuContent {
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "20.2.0-next.2",
+    ngImport: i0,
+    type: MenuContent,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "14.0.0",
+    version: "20.2.0-next.2",
+    type: MenuContent,
+    isStandalone: true,
+    selector: "ng-template[ngMenuContent]",
+    exportAs: ["ngMenuContent"],
+    hostDirectives: [{
+      directive: i1.DeferredContent
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "20.2.0-next.2",
+  ngImport: i0,
+  type: MenuContent,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: 'ng-template[ngMenuContent]',
+      exportAs: 'ngMenuContent',
+      hostDirectives: [DeferredContent]
+    }]
   }]
 });
 
-export { Menu, MenuBar, MenuItem, MenuTrigger };
+export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger };
 //# sourceMappingURL=menu.mjs.map
