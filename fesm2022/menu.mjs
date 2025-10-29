@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, effect, Directive, contentChildren, signal, output, afterRenderEffect, untracked, model } from '@angular/core';
+import { inject, ElementRef, input, signal, computed, effect, Directive, contentChildren, output, afterRenderEffect, untracked, model } from '@angular/core';
 import { MenuTriggerPattern, MenuPattern, MenuBarPattern, MenuItemPattern } from '@angular/aria/private';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -13,12 +13,18 @@ class MenuTrigger {
   menu = input(undefined, ...(ngDevMode ? [{
     debugName: "menu"
   }] : []));
+  hasBeenFocused = signal(false, ...(ngDevMode ? [{
+    debugName: "hasBeenFocused"
+  }] : []));
   _pattern = new MenuTriggerPattern({
     element: computed(() => this._elementRef.nativeElement),
     menu: computed(() => this.menu()?._pattern)
   });
   constructor() {
     effect(() => this.menu()?.parent.set(this));
+  }
+  onFocusIn() {
+    this.hasBeenFocused.set(true);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -47,7 +53,8 @@ class MenuTrigger {
       listeners: {
         "click": "_pattern.onClick()",
         "keydown": "_pattern.onKeydown($event)",
-        "focusout": "_pattern.onFocusOut($event)"
+        "focusout": "_pattern.onFocusOut($event)",
+        "focusin": "onFocusIn()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabindex()",
@@ -79,7 +86,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-controls]': '_pattern.menu()?.id()',
         '(click)': '_pattern.onClick()',
         '(keydown)': '_pattern.onKeydown($event)',
-        '(focusout)': '_pattern.onFocusOut($event)'
+        '(focusout)': '_pattern.onFocusOut($event)',
+        '(focusin)': 'onFocusIn()'
       }
     }]
   }],
@@ -136,7 +144,12 @@ class Menu {
       onSelect: value => this.onSelect.emit(value)
     });
     afterRenderEffect(() => {
-      this._deferredContentAware?.contentVisible.set(this._pattern.isVisible());
+      const parent = this.parent();
+      if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
+        this._deferredContentAware?.contentVisible.set(true);
+      } else {
+        this._deferredContentAware?.contentVisible.set(this._pattern.isVisible() || !!this.parent()?.hasBeenFocused());
+      }
     });
     afterRenderEffect(() => {
       if (this._pattern.isVisible()) {
@@ -425,6 +438,9 @@ class MenuItem {
   submenu = input(undefined, ...(ngDevMode ? [{
     debugName: "submenu"
   }] : []));
+  hasBeenFocused = signal(false, ...(ngDevMode ? [{
+    debugName: "hasBeenFocused"
+  }] : []));
   _pattern = new MenuItemPattern({
     id: this.id,
     value: this.value,
@@ -436,6 +452,9 @@ class MenuItem {
   });
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
+  }
+  onFocusIn() {
+    this.hasBeenFocused.set(true);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -495,6 +514,9 @@ class MenuItem {
       attributes: {
         "role": "menuitem"
       },
+      listeners: {
+        "focusin": "onFocusIn()"
+      },
       properties: {
         "attr.tabindex": "_pattern.tabindex()",
         "attr.data-active": "_pattern.isActive()",
@@ -522,6 +544,7 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'menuitem',
         'class': 'ng-menu-item',
+        '(focusin)': 'onFocusIn()',
         '[attr.tabindex]': '_pattern.tabindex()',
         '[attr.data-active]': '_pattern.isActive()',
         '[attr.aria-haspopup]': '_pattern.hasPopup()',

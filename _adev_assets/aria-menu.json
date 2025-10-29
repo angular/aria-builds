@@ -30,6 +30,49 @@
           "jsdocTags": [],
           "inputAlias": "menu",
           "isRequiredInput": false
+        },
+        {
+          "name": "hasBeenFocused",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the menu item has been focused.",
+          "jsdocTags": []
+        },
+        {
+          "name": "onFocusIn",
+          "signatures": [
+            {
+              "name": "onFocusIn",
+              "entryType": "function",
+              "description": "Marks the menu trigger as having been focused.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Marks the menu trigger as having been focused. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "onFocusIn",
+            "description": "Marks the menu trigger as having been focused.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Marks the menu trigger as having been focused. */"
+          },
+          "entryType": "function",
+          "description": "Marks the menu trigger as having been focused.",
+          "jsdocTags": [],
+          "rawComment": "/** Marks the menu trigger as having been focused. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -49,7 +92,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
         "startLine": 42,
-        "endLine": 77
+        "endLine": 86
       }
     },
     {
@@ -253,8 +296,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 95,
-        "endLine": 228
+        "startLine": 104,
+        "endLine": 244
       }
     },
     {
@@ -361,8 +404,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 237,
-        "endLine": 312
+        "startLine": 253,
+        "endLine": 328
       }
     },
     {
@@ -456,6 +499,49 @@
           "jsdocTags": [],
           "inputAlias": "submenu",
           "isRequiredInput": false
+        },
+        {
+          "name": "hasBeenFocused",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the menu item has been focused.",
+          "jsdocTags": []
+        },
+        {
+          "name": "onFocusIn",
+          "signatures": [
+            {
+              "name": "onFocusIn",
+              "entryType": "function",
+              "description": "Marks the menu item as having been focused.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Marks the menu item as having been focused. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "onFocusIn",
+            "description": "Marks the menu item as having been focused.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Marks the menu item as having been focused. */"
+          },
+          "entryType": "function",
+          "description": "Marks the menu item as having been focused.",
+          "jsdocTags": [],
+          "rawComment": "/** Marks the menu item as having been focused. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -474,8 +560,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 319,
-        "endLine": 380
+        "startLine": 335,
+        "endLine": 405
       }
     },
     {
@@ -490,8 +576,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 383,
-        "endLine": 388
+        "startLine": 408,
+        "endLine": 413
       }
     }
   ],
@@ -621,6 +707,14 @@
       "@angular/aria/menu"
     ],
     [
+      "MenuTrigger.hasBeenFocused",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuTrigger.onFocusIn",
+      "@angular/aria/menu"
+    ],
+    [
       "Menu",
       "@angular/aria/menu"
     ],
@@ -730,6 +824,14 @@
     ],
     [
       "MenuItem.submenu",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuItem.hasBeenFocused",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuItem.onFocusIn",
       "@angular/aria/menu"
     ],
     [
