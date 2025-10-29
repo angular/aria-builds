@@ -669,12 +669,14 @@ class GridPattern {
   pauseNavigation = computed(() => this.gridBehavior.data.cells().flat().reduce((res, c) => res || c.widgetActivated(), false));
   isFocused = signal(false);
   dragging = signal(false);
+  prevColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
+  nextColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
     if (this.pauseNavigation()) {
       return manager;
     }
-    manager.on('ArrowUp', () => this.gridBehavior.up()).on('ArrowDown', () => this.gridBehavior.down()).on('ArrowLeft', () => this.gridBehavior.left()).on('ArrowRight', () => this.gridBehavior.right()).on('Home', () => this.gridBehavior.firstInRow()).on('End', () => this.gridBehavior.lastInRow()).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first()).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last());
+    manager.on('ArrowUp', () => this.gridBehavior.up()).on('ArrowDown', () => this.gridBehavior.down()).on(this.prevColKey(), () => this.gridBehavior.left()).on(this.nextColKey(), () => this.gridBehavior.right()).on('Home', () => this.gridBehavior.firstInRow()).on('End', () => this.gridBehavior.lastInRow()).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first()).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last());
     if (this.inputs.enableSelection()) {
       manager.on(Modifier.Shift, 'ArrowUp', () => this.gridBehavior.rangeSelectUp()).on(Modifier.Shift, 'ArrowDown', () => this.gridBehavior.rangeSelectDown()).on(Modifier.Shift, 'ArrowLeft', () => this.gridBehavior.rangeSelectLeft()).on(Modifier.Shift, 'ArrowRight', () => this.gridBehavior.rangeSelectRight()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => this.gridBehavior.selectAll()).on([Modifier.Shift], ' ', () => this.gridBehavior.selectRow()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => this.gridBehavior.selectCol());
     }

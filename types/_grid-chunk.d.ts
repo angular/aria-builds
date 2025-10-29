@@ -487,6 +487,8 @@ interface GridInputs extends Omit<GridInputs$1<GridCellPattern>, 'cells'> {
     element: SignalLike<HTMLElement>;
     /** The rows that make up the grid. */
     rows: SignalLike<GridRowPattern[]>;
+    /** The direction that text is read based on the users locale. */
+    textDirection: SignalLike<'rtl' | 'ltr'>;
     /** A function that returns the grid cell associated with a given element. */
     getCell: (e: Element) => GridCellPattern | undefined;
 }
@@ -511,6 +513,10 @@ declare class GridPattern {
     readonly isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the user is currently dragging to select a range of cells. */
     readonly dragging: _angular_core.WritableSignal<boolean>;
+    /** The key for navigating to the previous column. */
+    readonly prevColKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft">;
+    /** The key for navigating to the next column. */
+    readonly nextColKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft">;
     /** The keydown event manager for the grid. */
     readonly keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the grid. */

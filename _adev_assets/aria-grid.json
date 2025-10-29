@@ -10,6 +10,16 @@
       "entryType": "directive",
       "members": [
         {
+          "name": "textDirection",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Text direction.",
+          "jsdocTags": []
+        },
+        {
           "name": "element",
           "type": "any",
           "memberType": "property",
@@ -110,8 +120,8 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 26,
-        "endLine": 106
+        "startLine": 27,
+        "endLine": 110
       }
     },
     {
@@ -178,8 +188,8 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 109,
-        "endLine": 149
+        "startLine": 113,
+        "endLine": 153
       }
     },
     {
@@ -316,8 +326,8 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 152,
-        "endLine": 224
+        "startLine": 156,
+        "endLine": 228
       }
     },
     {
@@ -396,8 +406,8 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 227,
-        "endLine": 259
+        "startLine": 231,
+        "endLine": 263
       }
     }
   ],
@@ -451,6 +461,10 @@
       "@angular/core"
     ],
     [
+      "Directionality",
+      "@angular/cdk/bidi"
+    ],
+    [
       "Grid",
       "@angular/aria/grid"
     ],
@@ -468,6 +482,10 @@
     ],
     [
       "Grid",
+      "@angular/aria/grid"
+    ],
+    [
+      "Grid.textDirection",
       "@angular/aria/grid"
     ],
     [

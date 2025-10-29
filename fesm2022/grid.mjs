@@ -1,6 +1,7 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, contentChild, model } from '@angular/core';
+import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_widget-chunk.mjs';
 
 class Grid {
@@ -11,6 +12,7 @@ class Grid {
   _rowPatterns = computed(() => this._rows().map(r => r._pattern), ...(ngDevMode ? [{
     debugName: "_rowPatterns"
   }] : []));
+  textDirection = inject(Directionality).valueSignal;
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));

@@ -1,5 +1,6 @@
 import * as _angular_core from '@angular/core';
 import { Signal } from '@angular/core';
+import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_grid-chunk.js';
 
 /** A directive that provides grid-based navigation and selection behavior. */
@@ -10,6 +11,8 @@ declare class Grid {
     private readonly _rows;
     /** The UI patterns for the rows in the grid. */
     private readonly _rowPatterns;
+    /** Text direction. */
+    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The host native element. */
     readonly element: Signal<any>;
     /** Whether selection is enabled for the grid. */
