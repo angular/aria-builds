@@ -230,8 +230,8 @@ class AccordionGroup {
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
   }] : []));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -299,9 +299,9 @@ class AccordionGroup {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null

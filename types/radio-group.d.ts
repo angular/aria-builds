@@ -34,8 +34,8 @@ declare class RadioGroup<V> {
     protected items: _angular_core.Signal<RadioButtonPattern<any>[]>;
     /** Whether the radio group is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
-    /** Whether disabled items in the group should be skipped when navigating. */
-    readonly skipDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether disabled items in the group should be focusable. */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The focus strategy used by the radio group. */
     readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
     /** Whether the radio group is disabled. */
@@ -53,7 +53,7 @@ declare class RadioGroup<V> {
     constructor();
     onFocus(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<RadioGroup<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<RadioGroup<any>, "[ngRadioGroup]", ["ngRadioGroup"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "skipDisabled": { "alias": "skipDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_radioButtons"], never, true, [{ directive: typeof i1.ToolbarWidgetGroup; inputs: { "disabled": "disabled"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<RadioGroup<any>, "[ngRadioGroup]", ["ngRadioGroup"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_radioButtons"], never, true, [{ directive: typeof i1.ToolbarWidgetGroup; inputs: { "disabled": "disabled"; }; outputs: {}; }]>;
 }
 /** A selectable radio button in a RadioGroup. */
 declare class RadioButton<V> {

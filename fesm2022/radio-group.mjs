@@ -39,8 +39,8 @@ class RadioGroup {
   orientation = input('vertical', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -131,9 +131,9 @@ class RadioGroup {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null

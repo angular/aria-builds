@@ -68,8 +68,8 @@ declare class TabList implements OnInit, OnDestroy {
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether focus should wrap when navigating. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Whether disabled items in the list should be skipped when navigating. */
-    readonly skipDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether to allow disabled items to receive focus. */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The focus strategy used by the tablist. */
     readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
     /** The selection strategy used by the tablist. */
@@ -89,7 +89,7 @@ declare class TabList implements OnInit, OnDestroy {
     register(child: Tab): void;
     deregister(child: Tab): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "skipDisabled": { "alias": "skipDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
 }
 /** A selectable tab in a TabList. */
 declare class Tab implements HasElement, OnInit, OnDestroy {

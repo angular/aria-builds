@@ -167,8 +167,8 @@ interface GridFocusInputs {
     focusMode: SignalLike<'roving' | 'activedescendant'>;
     /** Whether the grid is disabled. */
     disabled: SignalLike<boolean>;
-    /** Whether disabled cells in the grid should be skipped when navigating. */
-    skipDisabled: SignalLike<boolean>;
+    /** Whether disabled cells in the grid should be focusable. */
+    softDisabled: SignalLike<boolean>;
 }
 /** Dependencies for the `GridFocus` class. */
 interface GridFocusDeps<T extends GridFocusCell> {

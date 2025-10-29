@@ -294,7 +294,7 @@ class GridFocus {
     return this.activeCell() === cell ? 0 : -1;
   }
   isFocusable(cell) {
-    return !cell.disabled() || !this.inputs.skipDisabled();
+    return !cell.disabled() || this.inputs.softDisabled();
   }
   focusCell(cell) {
     if (this.gridDisabled()) {

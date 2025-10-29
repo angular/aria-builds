@@ -135,7 +135,7 @@ class Menu {
       ...this,
       parent: computed(() => this.parent()?._pattern),
       multi: () => false,
-      skipDisabled: () => false,
+      softDisabled: () => true,
       focusMode: () => 'roving',
       orientation: () => 'vertical',
       selectionMode: () => 'explicit',
@@ -309,7 +309,7 @@ class MenuBar {
     this._pattern = new MenuBarPattern({
       ...this,
       multi: () => false,
-      skipDisabled: () => false,
+      softDisabled: () => true,
       focusMode: () => 'roving',
       orientation: () => 'horizontal',
       selectionMode: () => 'explicit',

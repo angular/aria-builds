@@ -24,8 +24,8 @@ interface ListFocusInputs<T extends ListFocusItem> {
     items: SignalLike<T[]>;
     /** The active item. */
     activeItem: WritableSignalLike<T | undefined>;
-    /** Whether disabled items in the list should be skipped when navigating. */
-    skipDisabled: SignalLike<boolean>;
+    /** Whether disabled items in the list should be focusable. */
+    softDisabled: SignalLike<boolean>;
     element: SignalLike<HTMLElement | undefined>;
 }
 /** Controls focus for a list of items. */
@@ -1006,8 +1006,8 @@ declare class ToolbarPattern<V> {
     readonly listBehavior: List<ToolbarWidgetPattern<V> | ToolbarWidgetGroupPattern<V>, V>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: SignalLike<'vertical' | 'horizontal'>;
-    /** Whether disabled items in the group should be skipped when navigating. */
-    readonly skipDisabled: SignalLike<boolean>;
+    /** Whether disabled items in the group should be focusable. */
+    readonly softDisabled: SignalLike<boolean>;
     /** Whether the toolbar is disabled. */
     readonly disabled: _angular_core.Signal<boolean>;
     /** The tabindex of the toolbar (if using activedescendant). */
@@ -1505,8 +1505,8 @@ declare class TreePattern<V> {
     disabled: SignalLike<boolean>;
     /** The currently active item in the tree. */
     activeItem: WritableSignalLike<TreeItemPattern<V> | undefined>;
-    /** Whether disabled items should be skipped when navigating. */
-    skipDisabled: SignalLike<boolean>;
+    /** Whether disabled items should be focusable. */
+    softDisabled: SignalLike<boolean>;
     /** Whether the focus should wrap when navigating past the first or last item. */
     wrap: SignalLike<boolean>;
     /** The orientation of the tree. */

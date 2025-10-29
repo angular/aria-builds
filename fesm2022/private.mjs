@@ -342,7 +342,7 @@ class ListFocus {
     return true;
   }
   isFocusable(item) {
-    return !item.disabled() || !this.inputs.skipDisabled();
+    return !item.disabled() || this.inputs.softDisabled();
   }
 }
 
@@ -1425,8 +1425,8 @@ class RadioGroupPattern {
   }
   validate() {
     const violations = [];
-    if (this.selectedItem()?.disabled() && this.inputs.skipDisabled()) {
-      violations.push("Accessibility Violation: The selected radio button is disabled while 'skipDisabled' is true, making the selection unreachable via keyboard.");
+    if (this.selectedItem()?.disabled() && !this.inputs.softDisabled()) {
+      violations.push("Accessibility Violation: The selected radio button is disabled while 'softDisabled' is false, making the selection unreachable via keyboard.");
     }
     return violations;
   }
@@ -1460,7 +1460,7 @@ class ToolbarRadioGroupPattern extends RadioGroupPattern {
   constructor(inputs) {
     if (!!inputs.toolbar()) {
       inputs.orientation = inputs.toolbar().orientation;
-      inputs.skipDisabled = inputs.toolbar().skipDisabled;
+      inputs.softDisabled = inputs.toolbar().softDisabled;
     }
     super(inputs);
     this.inputs = inputs;
@@ -1786,7 +1786,7 @@ class ToolbarPattern {
   inputs;
   listBehavior;
   orientation;
-  skipDisabled;
+  softDisabled;
   disabled = computed(() => this.listBehavior.disabled());
   tabindex = computed(() => this.listBehavior.tabindex());
   activedescendant = computed(() => this.listBehavior.activedescendant());
@@ -1898,7 +1898,7 @@ class ToolbarPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.orientation = inputs.orientation;
-    this.skipDisabled = inputs.skipDisabled;
+    this.softDisabled = inputs.softDisabled;
     this.listBehavior = new List({
       ...inputs,
       multi: () => false,
@@ -1954,7 +1954,7 @@ class AccordionGroupPattern {
     this.multiExpandable = inputs.multiExpandable;
     this.items = inputs.items;
     this.expandedIds = inputs.expandedIds;
-    this.skipDisabled = inputs.skipDisabled;
+    this.softDisabled = inputs.softDisabled;
     this.focusManager = new ListFocus({
       ...inputs,
       focusMode
@@ -2246,7 +2246,7 @@ class TreePattern {
   allItems;
   disabled;
   activeItem = signal(undefined);
-  skipDisabled;
+  softDisabled;
   wrap;
   orientation;
   textDirection;
@@ -2263,7 +2263,7 @@ class TreePattern {
     this.focusMode = inputs.focusMode;
     this.disabled = inputs.disabled;
     this.activeItem = inputs.activeItem;
-    this.skipDisabled = inputs.skipDisabled;
+    this.softDisabled = inputs.softDisabled;
     this.wrap = inputs.wrap;
     this.orientation = inputs.orientation;
     this.textDirection = inputs.textDirection;

@@ -40,13 +40,13 @@
           "jsdocTags": []
         },
         {
-          "name": "skipDisabled",
+          "name": "softDisabled",
           "type": "any",
           "memberType": "property",
           "memberTags": [
             "readonly"
           ],
-          "description": "Whether disabled items in the group should be skipped when navigating.",
+          "description": "Whether disabled items in the group should be focusable.",
           "jsdocTags": []
         },
         {
@@ -334,7 +334,7 @@
       "@angular/aria/radio-group"
     ],
     [
-      "RadioGroup.skipDisabled",
+      "RadioGroup.softDisabled",
       "@angular/aria/radio-group"
     ],
     [

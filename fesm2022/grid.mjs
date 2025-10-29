@@ -28,8 +28,8 @@ class Grid {
   }] : [{
     transform: booleanAttribute
   }]));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -94,9 +94,9 @@ class Grid {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null

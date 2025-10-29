@@ -19,8 +19,8 @@ declare class Grid {
     readonly enableSelection: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the grid is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Whether to skip disabled items during navigation. */
-    readonly skipDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether to allow disabled items to receive focus. */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The focus strategy used by the grid. */
     readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
     /** The wrapping behavior for keyboard navigation along the row axis. */
@@ -33,7 +33,7 @@ declare class Grid {
     /** Gets the cell pattern for a given element. */
     private _getCell;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Grid, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "skipDisabled": { "alias": "skipDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
 }
 /** A directive that represents a row in a grid. */
 declare class GridRow {
