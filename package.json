@@ -73,10 +73,6 @@
       "types": "./types/private.d.ts",
       "default": "./fesm2022/private.mjs"
     },
-    "./radio-group": {
-      "types": "./types/radio-group.d.ts",
-      "default": "./fesm2022/radio-group.mjs"
-    },
     "./tabs": {
       "types": "./types/tabs.d.ts",
       "default": "./fesm2022/tabs.mjs"
