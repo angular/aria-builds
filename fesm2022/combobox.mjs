@@ -1,8 +1,7 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChild, input, signal, computed, afterRenderEffect, Directive, model, untracked } from '@angular/core';
-import * as i1 from '@angular/aria/deferred-content';
-import { DeferredContentAware, DeferredContent } from '@angular/aria/deferred-content';
-import { ComboboxPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/private';
+import { DeferredContentAware, ComboboxPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 

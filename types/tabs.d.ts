@@ -1,8 +1,8 @@
 import * as _angular_core from '@angular/core';
 import { Signal, OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
+import * as i1 from '@angular/aria/private';
 import { TabPattern, TabPanelPattern, TabListPattern } from '@angular/aria/private';
-import * as i1 from '@angular/aria/deferred-content';
 
 interface HasElement {
     element: Signal<HTMLElement>;

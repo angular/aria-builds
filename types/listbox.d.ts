@@ -2,7 +2,6 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { OptionPattern, ListboxPattern } from '@angular/aria/private';
 import { ComboboxPopup } from './combobox.js';
-import '@angular/aria/deferred-content';
 
 /**
  * A listbox container.

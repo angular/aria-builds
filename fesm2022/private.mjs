@@ -1,4 +1,5 @@
-import { signal, computed } from '@angular/core';
+import * as i0 from '@angular/core';
+import { signal, computed, model, Directive, inject, TemplateRef, ViewContainerRef, afterRenderEffect } from '@angular/core';
 import { KeyboardEventManager, PointerEventManager, Modifier } from './_widget-chunk.mjs';
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern } from './_widget-chunk.mjs';
 
@@ -2343,5 +2344,111 @@ class ComboboxTreePattern extends TreePattern {
   collapseAll = () => this.items().forEach(item => item.expansion.close());
 }
 
-export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, RadioButtonPattern, RadioGroupPattern, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarRadioGroupPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, convertGetterSetterToWritableSignalLike };
+class DeferredContentAware {
+  contentVisible = signal(false, ...(ngDevMode ? [{
+    debugName: "contentVisible"
+  }] : []));
+  preserveContent = model(false, ...(ngDevMode ? [{
+    debugName: "preserveContent"
+  }] : []));
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "20.2.0-next.2",
+    ngImport: i0,
+    type: DeferredContentAware,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "20.2.0-next.2",
+    type: DeferredContentAware,
+    isStandalone: true,
+    inputs: {
+      preserveContent: {
+        classPropertyName: "preserveContent",
+        publicName: "preserveContent",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    outputs: {
+      preserveContent: "preserveContentChange"
+    },
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "20.2.0-next.2",
+  ngImport: i0,
+  type: DeferredContentAware,
+  decorators: [{
+    type: Directive
+  }]
+});
+class DeferredContent {
+  _deferredContentAware = inject(DeferredContentAware, {
+    optional: true
+  });
+  _templateRef = inject(TemplateRef);
+  _viewContainerRef = inject(ViewContainerRef);
+  _currentViewRef = null;
+  _isRendered = false;
+  deferredContentAware = signal(this._deferredContentAware, ...(ngDevMode ? [{
+    debugName: "deferredContentAware"
+  }] : []));
+  constructor() {
+    afterRenderEffect(() => {
+      if (this.deferredContentAware()?.contentVisible()) {
+        if (!this._isRendered) {
+          this._destroyContent();
+          this._currentViewRef = this._viewContainerRef.createEmbeddedView(this._templateRef);
+          this._isRendered = true;
+        }
+      } else if (!this.deferredContentAware()?.preserveContent()) {
+        this._destroyContent();
+        this._isRendered = false;
+      }
+    });
+  }
+  ngOnDestroy() {
+    this._destroyContent();
+  }
+  _destroyContent() {
+    const ref = this._currentViewRef;
+    if (ref && !ref.destroyed) {
+      ref.destroy();
+      this._currentViewRef = null;
+    }
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "20.2.0-next.2",
+    ngImport: i0,
+    type: DeferredContent,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "14.0.0",
+    version: "20.2.0-next.2",
+    type: DeferredContent,
+    isStandalone: true,
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "20.2.0-next.2",
+  ngImport: i0,
+  type: DeferredContent,
+  decorators: [{
+    type: Directive
+  }],
+  ctorParameters: () => []
+});
+
+export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, RadioButtonPattern, RadioGroupPattern, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarRadioGroupPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, convertGetterSetterToWritableSignalLike };
 //# sourceMappingURL=private.mjs.map

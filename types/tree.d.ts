@@ -1,9 +1,8 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { Signal, OnInit, OnDestroy } from '@angular/core';
-import * as i1 from '@angular/aria/deferred-content';
-import { DeferredContentAware } from '@angular/aria/deferred-content';
-import { TreePattern, TreeItemPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/private';
+import { TreePattern, DeferredContentAware, TreeItemPattern } from '@angular/aria/private';
 import { ComboboxPopup } from './combobox.js';
 
 interface HasElement {

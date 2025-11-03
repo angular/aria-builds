@@ -2,9 +2,8 @@ import * as i0 from '@angular/core';
 import { inject, input, signal, afterRenderEffect, Directive, ElementRef, booleanAttribute, computed, contentChildren, model } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
-import * as i1 from '@angular/aria/deferred-content';
-import { DeferredContentAware, DeferredContent } from '@angular/aria/deferred-content';
-import { AccordionPanelPattern, AccordionTriggerPattern, AccordionGroupPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/private';
+import { DeferredContentAware, AccordionPanelPattern, AccordionTriggerPattern, AccordionGroupPattern, DeferredContent } from '@angular/aria/private';
 
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);

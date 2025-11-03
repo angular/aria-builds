@@ -1,8 +1,8 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { WritableSignal } from '@angular/core';
+import * as i1 from '@angular/aria/private';
 import { AccordionTriggerPattern, AccordionPanelPattern, AccordionGroupPattern } from '@angular/aria/private';
-import * as i1 from '@angular/aria/deferred-content';
 
 /**
  * Represents the content panel of an accordion item. It is controlled by an
