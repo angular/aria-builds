@@ -2,9 +2,8 @@ import * as i0 from '@angular/core';
 import { inject, computed, ElementRef, signal, input, booleanAttribute, model, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
-import * as i1 from '@angular/aria/deferred-content';
-import { DeferredContentAware, DeferredContent } from '@angular/aria/deferred-content';
-import { ComboboxTreePattern, TreePattern, TreeItemPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/private';
+import { ComboboxTreePattern, TreePattern, DeferredContentAware, TreeItemPattern, DeferredContent } from '@angular/aria/private';
 import { ComboboxPopup } from './combobox.mjs';
 import '@angular/core/rxjs-interop';
 

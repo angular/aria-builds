@@ -1,11 +1,10 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, input, signal, computed, effect, Directive, contentChildren, output, afterRenderEffect, untracked, model } from '@angular/core';
-import { MenuTriggerPattern, MenuPattern, MenuBarPattern, MenuItemPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/private';
+import { MenuTriggerPattern, DeferredContentAware, MenuPattern, MenuBarPattern, MenuItemPattern, DeferredContent } from '@angular/aria/private';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Directionality } from '@angular/cdk/bidi';
-import * as i1 from '@angular/aria/deferred-content';
-import { DeferredContentAware, DeferredContent } from '@angular/aria/deferred-content';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);

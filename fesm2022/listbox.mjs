@@ -5,7 +5,6 @@ import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { ComboboxPopup } from './combobox.mjs';
-import '@angular/aria/deferred-content';
 
 class Listbox {
   _generatedId = inject(_IdGenerator).getId('ng-listbox-', true);

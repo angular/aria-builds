@@ -1,8 +1,8 @@
 import * as _angular_core from '@angular/core';
 import { WritableSignal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
+import * as i1 from '@angular/aria/private';
 import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from '@angular/aria/private';
-import * as i1 from '@angular/aria/deferred-content';
 
 declare class Combobox<V> {
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */

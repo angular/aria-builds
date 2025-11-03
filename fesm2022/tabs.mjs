@@ -1,10 +1,9 @@
-import * as i1 from '@angular/aria/deferred-content';
-import { DeferredContentAware, DeferredContent } from '@angular/aria/deferred-content';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i0 from '@angular/core';
 import { signal, computed, Directive, inject, ElementRef, linkedSignal, input, booleanAttribute, model, afterRenderEffect } from '@angular/core';
-import { TabListPattern, TabPattern, TabPanelPattern } from '@angular/aria/private';
+import * as i1 from '@angular/aria/private';
+import { TabListPattern, TabPattern, DeferredContentAware, TabPanelPattern, DeferredContent } from '@angular/aria/private';
 
 function sortDirectives(a, b) {
   return (a.element().compareDocumentPosition(b.element()) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;

@@ -1,8 +1,8 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { Signal } from '@angular/core';
+import * as i1 from '@angular/aria/private';
 import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPattern } from '@angular/aria/private';
-import * as i1 from '@angular/aria/deferred-content';
 
 /**
  * A trigger for a menu.
