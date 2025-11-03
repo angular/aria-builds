@@ -170,6 +170,7 @@ class ComboboxInput {
     this.combobox._pattern.inputs.inputEl.set(this._elementRef.nativeElement);
     this.combobox._pattern.inputs.inputValue = this.value;
     afterRenderEffect(() => {
+      this.value();
       this.combobox.popup()?.controls()?.items();
       untracked(() => this.combobox._pattern.onFilter());
     });
@@ -210,7 +211,8 @@ class ComboboxInput {
         "attr.aria-activedescendant": "combobox._pattern.activedescendant()",
         "attr.aria-controls": "combobox._pattern.popupId()",
         "attr.aria-haspopup": "combobox._pattern.hasPopup()",
-        "attr.aria-autocomplete": "combobox._pattern.autocomplete()"
+        "attr.aria-autocomplete": "combobox._pattern.autocomplete()",
+        "attr.readonly": "combobox._pattern.readonly()"
       }
     },
     exportAs: ["ngComboboxInput"],
@@ -234,7 +236,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': 'combobox._pattern.activedescendant()',
         '[attr.aria-controls]': 'combobox._pattern.popupId()',
         '[attr.aria-haspopup]': 'combobox._pattern.hasPopup()',
-        '[attr.aria-autocomplete]': 'combobox._pattern.autocomplete()'
+        '[attr.aria-autocomplete]': 'combobox._pattern.autocomplete()',
+        '[attr.readonly]': 'combobox._pattern.readonly()'
       }
     }]
   }],

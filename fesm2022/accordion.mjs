@@ -7,7 +7,7 @@ import { DeferredContentAware, AccordionPanelPattern, AccordionTriggerPattern, A
 
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);
-  _id = inject(_IdGenerator).getId('accordion-trigger-');
+  _id = inject(_IdGenerator).getId('accordion-trigger-', true);
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
   }] : []));
@@ -92,7 +92,7 @@ i0.ɵɵngDeclareClassMetadata({
   ctorParameters: () => []
 });
 class AccordionTrigger {
-  _id = inject(_IdGenerator).getId('ng-accordion-trigger-');
+  _id = inject(_IdGenerator).getId('ng-accordion-trigger-', true);
   _elementRef = inject(ElementRef);
   _accordionGroup = inject(AccordionGroup);
   value = input.required(...(ngDevMode ? [{
@@ -229,8 +229,8 @@ class AccordionGroup {
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
   }] : []));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -298,9 +298,9 @@ class AccordionGroup {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null

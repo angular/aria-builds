@@ -96,8 +96,8 @@ class TabList {
   }] : [{
     transform: booleanAttribute
   }]));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -181,9 +181,9 @@ class TabList {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -376,7 +376,7 @@ i0.ɵɵngDeclareClassMetadata({
 class TabPanel {
   _deferredContentAware = inject(DeferredContentAware);
   _Tabs = inject(Tabs);
-  _id = inject(_IdGenerator).getId('ng-tabpanel-');
+  _id = inject(_IdGenerator).getId('ng-tabpanel-', true);
   tab = computed(() => this._Tabs.tabs()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
     debugName: "tab"
   }] : []));

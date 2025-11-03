@@ -19,8 +19,8 @@ class Toolbar {
   orientation = input('horizontal', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
-  skipDisabled = input(false, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(true, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -105,9 +105,9 @@ class Toolbar {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -174,7 +174,7 @@ i0.ɵɵngDeclareClassMetadata({
 class ToolbarWidget {
   _elementRef = inject(ElementRef);
   _toolbar = inject(Toolbar);
-  _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-');
+  _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-', true);
   id = computed(() => this._generatedId, ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -190,7 +190,7 @@ class ToolbarWidget {
   }] : [{
     transform: booleanAttribute
   }]));
-  hardDisabled = computed(() => this._pattern.disabled() && this._toolbar.skipDisabled(), ...(ngDevMode ? [{
+  hardDisabled = computed(() => this._pattern.disabled() && !this._toolbar.softDisabled(), ...(ngDevMode ? [{
     debugName: "hardDisabled"
   }] : []));
   _pattern = new ToolbarWidgetPattern({
@@ -270,7 +270,7 @@ class ToolbarWidgetGroup {
   _toolbar = inject(Toolbar, {
     optional: true
   });
-  _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-group-');
+  _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-group-', true);
   id = computed(() => this._generatedId, ...(ngDevMode ? [{
     debugName: "id"
   }] : []));

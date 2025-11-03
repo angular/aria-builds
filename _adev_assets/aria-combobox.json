@@ -156,7 +156,7 @@
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
         "startLine": 119,
-        "endLine": 154
+        "endLine": 156
       }
     },
     {
@@ -171,8 +171,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 156,
-        "endLine": 161
+        "startLine": 158,
+        "endLine": 163
       }
     },
     {
@@ -217,8 +217,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 163,
-        "endLine": 175
+        "startLine": 165,
+        "endLine": 177
       }
     }
   ],

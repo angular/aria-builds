@@ -7,7 +7,7 @@ import { _IdGenerator } from '@angular/cdk/a11y';
 import { ComboboxPopup } from './combobox.mjs';
 
 class Listbox {
-  _generatedId = inject(_IdGenerator).getId('ng-listbox-');
+  _generatedId = inject(_IdGenerator).getId('ng-listbox-', true);
   id = computed(() => this._generatedId, ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -43,8 +43,8 @@ class Listbox {
   }] : [{
     transform: booleanAttribute
   }]));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -163,9 +163,9 @@ class Listbox {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -283,7 +283,7 @@ i0.ɵɵngDeclareClassMetadata({
 class Option {
   _elementRef = inject(ElementRef);
   _listbox = inject(Listbox);
-  _generatedId = inject(_IdGenerator).getId('ng-option-');
+  _generatedId = inject(_IdGenerator).getId('ng-option-', true);
   id = computed(() => this._generatedId, ...(ngDevMode ? [{
     debugName: "id"
   }] : []));

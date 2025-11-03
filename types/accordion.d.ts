@@ -70,15 +70,15 @@ declare class AccordionGroup {
     multiExpandable: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The values of the current selected/expanded accordions. */
     value: _angular_core.ModelSignal<string[]>;
-    /** Whether disabled items should be skipped during keyboard navigation. */
-    skipDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether to allow disabled items to receive focus. */
+    softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether keyboard navigation should wrap around from the last item to the first, and vice-versa. */
     wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The UI pattern instance for this accordion group. */
     readonly _pattern: AccordionGroupPattern;
     constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionGroup, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "skipDisabled": { "alias": "skipDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_triggers", "_panels"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_triggers", "_panels"], never, true, never>;
 }
 /**
  * A structural directive that marks the `ng-template` to be used as the content

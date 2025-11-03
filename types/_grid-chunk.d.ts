@@ -65,9 +65,9 @@ type KeyCode = string | SignalLike<string> | RegExp;
 declare class KeyboardEventManager<T extends KeyboardEvent> extends EventManager<T> {
     options: EventHandlerOptions;
     /** Configures this event manager to handle events with a specific key and no modifiers. */
-    on(key: KeyCode, handler: EventHandler<T>): this;
+    on(key: KeyCode, handler: EventHandler<T>, options?: Partial<EventHandlerOptions>): this;
     /**  Configures this event manager to handle events with a specific modifer and key combination. */
-    on(modifiers: ModifierInputs, key: KeyCode, handler: EventHandler<T>): this;
+    on(modifiers: ModifierInputs, key: KeyCode, handler: EventHandler<T>, options?: Partial<EventHandlerOptions>): this;
     private _normalizeInputs;
     private _isMatch;
 }
@@ -127,8 +127,6 @@ declare class GridData<T extends BaseGridCell> {
     readonly inputs: GridDataInputs<T>;
     /** The two-dimensional array of cells that represents the grid. */
     readonly cells: SignalLike<T[][]>;
-    /** The number of rows in the grid. */
-    readonly rowCount: _angular_core.Signal<number>;
     /** The maximum number of rows in the grid, accounting for row spans. */
     readonly maxRowCount: _angular_core.Signal<number>;
     /** The maximum number of columns in the grid, accounting for column spans. */
@@ -169,8 +167,8 @@ interface GridFocusInputs {
     focusMode: SignalLike<'roving' | 'activedescendant'>;
     /** Whether the grid is disabled. */
     disabled: SignalLike<boolean>;
-    /** Whether disabled cells in the grid should be skipped when navigating. */
-    skipDisabled: SignalLike<boolean>;
+    /** Whether disabled cells in the grid should be focusable. */
+    softDisabled: SignalLike<boolean>;
 }
 /** Dependencies for the `GridFocus` class. */
 interface GridFocusDeps<T extends GridFocusCell> {
@@ -489,6 +487,8 @@ interface GridInputs extends Omit<GridInputs$1<GridCellPattern>, 'cells'> {
     element: SignalLike<HTMLElement>;
     /** The rows that make up the grid. */
     rows: SignalLike<GridRowPattern[]>;
+    /** The direction that text is read based on the users locale. */
+    textDirection: SignalLike<'rtl' | 'ltr'>;
     /** A function that returns the grid cell associated with a given element. */
     getCell: (e: Element) => GridCellPattern | undefined;
 }
@@ -513,6 +513,10 @@ declare class GridPattern {
     readonly isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the user is currently dragging to select a range of cells. */
     readonly dragging: _angular_core.WritableSignal<boolean>;
+    /** The key for navigating to the previous column. */
+    readonly prevColKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft">;
+    /** The key for navigating to the next column. */
+    readonly nextColKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft">;
     /** The keydown event manager for the grid. */
     readonly keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the grid. */
@@ -529,7 +533,7 @@ declare class GridPattern {
     /** Handles pointerup events on the grid. */
     onPointerup(event: PointerEvent): void;
     /** Handles focusin events on the grid. */
-    onFocusIn(event: FocusEvent): void;
+    onFocusIn(): void;
     /** Indicates maybe the losing focus is caused by row/cell deletion. */
     private readonly _maybeDeletion;
     /** Handles focusout events on the grid. */

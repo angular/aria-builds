@@ -15,35 +15,41 @@ class ComboboxPattern {
   popupId = computed(() => this.inputs.popupControls()?.id() || null);
   autocomplete = computed(() => this.inputs.filterMode() === 'highlight' ? 'both' : 'list');
   hasPopup = computed(() => this.inputs.popupControls()?.role() || null);
-  isInteractive = computed(() => !this.inputs.disabled() && !this.inputs.readonly());
+  readonly = computed(() => this.inputs.readonly() || null);
   keydown = computed(() => {
     if (!this.expanded()) {
-      return new KeyboardEventManager().on('ArrowDown', () => this.open({
+      const manager = new KeyboardEventManager().on('ArrowDown', () => this.open({
         first: true
       })).on('ArrowUp', () => this.open({
         last: true
+      })).on('Escape', () => this.close({
+        reset: true
       }));
+      if (this.readonly()) {
+        manager.on('Enter', () => this.open({
+          selected: true
+        })).on(' ', () => this.open({
+          selected: true
+        }));
+      }
+      return manager;
     }
     const popupControls = this.inputs.popupControls();
     if (!popupControls) {
       return new KeyboardEventManager();
     }
-    const manager = new KeyboardEventManager().on('ArrowDown', () => this.next()).on('ArrowUp', () => this.prev()).on('Home', () => this.first()).on('End', () => this.last()).on('Escape', () => {
-      if (this.inputs.filterMode() === 'highlight' && popupControls.activeId()) {
-        popupControls.unfocus();
-        popupControls.clearSelection();
-        const inputEl = this.inputs.inputEl();
-        if (inputEl) {
-          inputEl.value = this.inputs.inputValue();
-        }
-      } else {
-        this.close();
-        this.inputs.popupControls()?.clearSelection();
-      }
-    }).on('Enter', () => this.select({
+    const manager = new KeyboardEventManager().on('ArrowDown', () => this.next()).on('ArrowUp', () => this.prev()).on('Home', () => this.first()).on('End', () => this.last()).on('Escape', () => this.close({
+      reset: true
+    })).on('Enter', () => this.select({
       commit: true,
       close: true
     }));
+    if (this.readonly()) {
+      manager.on(' ', () => this.select({
+        commit: true,
+        close: true
+      }));
+    }
     if (popupControls.role() === 'tree') {
       const treeControls = popupControls;
       if (treeControls.isItemExpandable() || treeControls.isItemCollapsible()) {
@@ -66,24 +72,30 @@ class ComboboxPattern {
       this.inputs.inputEl()?.focus();
     }
     if (e.target === this.inputs.inputEl()) {
-      this.open();
+      if (this.readonly()) {
+        this.expanded() ? this.close() : this.open({
+          selected: true
+        });
+      } else {
+        this.open();
+      }
     }
   }));
   constructor(inputs) {
     this.inputs = inputs;
   }
   onKeydown(event) {
-    if (this.isInteractive()) {
+    if (!this.inputs.disabled()) {
       this.keydown().handle(event);
     }
   }
   onPointerup(event) {
-    if (this.isInteractive()) {
+    if (!this.inputs.disabled()) {
       this.pointerup().handle(event);
     }
   }
   onInput(event) {
-    if (!this.isInteractive()) {
+    if (this.inputs.disabled() || this.inputs.readonly()) {
       return;
     }
     const inputEl = this.inputs.inputEl();
@@ -99,12 +111,15 @@ class ComboboxPattern {
         this.inputs.popupControls()?.clearSelection();
       }
     }
+    if (this.inputs.filterMode() === 'highlight' && !this.isDeleting) {
+      this.highlight();
+    }
   }
   onFocusIn() {
     this.isFocused.set(true);
   }
   onFocusOut(event) {
-    if (this.inputs.disabled() || this.inputs.readonly()) {
+    if (this.inputs.disabled()) {
       return;
     }
     if (!(event.relatedTarget instanceof HTMLElement) || !this.inputs.containerEl()?.contains(event.relatedTarget)) {
@@ -169,17 +184,51 @@ class ComboboxPattern {
       this.highlightedItem.set(item);
     }
   }
-  close() {
-    this.expanded.set(false);
-    this.inputs.popupControls()?.unfocus();
+  close(opts) {
+    if (!opts?.reset) {
+      this.expanded.set(false);
+      this.inputs.popupControls()?.unfocus();
+      return;
+    }
+    const popupControls = this.inputs.popupControls();
+    if (!this.expanded()) {
+      this.inputs.inputValue?.set('');
+      popupControls?.clearSelection();
+      const inputEl = this.inputs.inputEl();
+      if (inputEl) {
+        inputEl.value = '';
+      }
+    } else if (this.expanded()) {
+      this.close();
+      const selectedItem = popupControls?.getSelectedItem();
+      if (selectedItem?.searchTerm() !== this.inputs.inputValue()) {
+        popupControls?.clearSelection();
+      }
+    }
+    this.close();
+    if (!this.readonly()) {
+      this.inputs.popupControls()?.clearSelection();
+    }
   }
   open(nav) {
     this.expanded.set(true);
+    const inputEl = this.inputs.inputEl();
+    if (inputEl && this.inputs.filterMode() === 'highlight') {
+      const isHighlighting = inputEl.selectionStart !== inputEl.value.length;
+      this.inputs.inputValue?.set(inputEl.value.slice(0, inputEl.selectionStart || 0));
+      if (!isHighlighting) {
+        this.highlightedItem.set(undefined);
+      }
+    }
     if (nav?.first) {
       this.first();
     }
     if (nav?.last) {
       this.last();
+    }
+    if (nav?.selected) {
+      const selectedItem = this.inputs.popupControls()?.getSelectedItem();
+      selectedItem ? this.inputs.popupControls()?.focus(selectedItem) : this.first();
     }
   }
   next() {
@@ -294,7 +343,7 @@ class ListFocus {
     return true;
   }
   isFocusable(item) {
-    return !item.disabled() || !this.inputs.skipDisabled();
+    return !item.disabled() || this.inputs.softDisabled();
   }
 }
 
@@ -1012,17 +1061,20 @@ class MenuPattern {
       const isMenu = root instanceof MenuPattern;
       const isMenuBar = root instanceof MenuBarPattern;
       const isMenuTrigger = root instanceof MenuTriggerPattern;
-      if (!item.submenu() && (isMenuTrigger || isMenuBar)) {
+      if (!item.submenu() && isMenuTrigger) {
         root.close({
           refocus: true
         });
-        root?.inputs.onSubmit?.(item.value());
+      }
+      if (!item.submenu() && isMenuBar) {
+        root.close();
+        root?.inputs.onSelect?.(item.value());
       }
       if (!item.submenu() && isMenu) {
         root.inputs.activeItem()?.close({
           refocus: true
         });
-        root?.inputs.onSubmit?.(item.value());
+        root?.inputs.onSelect?.(item.value());
       }
     }
   }
@@ -1174,8 +1226,8 @@ class MenuTriggerPattern {
   expanded = signal(false);
   role = () => 'button';
   hasPopup = () => true;
-  submenu;
-  tabindex = computed(() => this.expanded() && this.submenu()?.inputs.activeItem() ? -1 : 0);
+  menu;
+  tabindex = computed(() => this.expanded() && this.menu()?.inputs.activeItem() ? -1 : 0);
   keydownManager = computed(() => {
     return new KeyboardEventManager().on(' ', () => this.open({
       first: true
@@ -1191,7 +1243,7 @@ class MenuTriggerPattern {
   });
   constructor(inputs) {
     this.inputs = inputs;
-    this.submenu = this.inputs.submenu;
+    this.menu = this.inputs.menu;
   }
   onKeydown(event) {
     this.keydownManager().handle(event);
@@ -1204,25 +1256,25 @@ class MenuTriggerPattern {
   onFocusOut(event) {
     const element = this.inputs.element();
     const relatedTarget = event.relatedTarget;
-    if (this.expanded() && !element?.contains(relatedTarget) && !this.inputs.submenu()?.inputs.element()?.contains(relatedTarget)) {
+    if (this.expanded() && !element?.contains(relatedTarget) && !this.inputs.menu()?.inputs.element()?.contains(relatedTarget)) {
       this.close();
     }
   }
   open(opts) {
     this.expanded.set(true);
     if (opts?.first) {
-      this.inputs.submenu()?.first();
+      this.inputs.menu()?.first();
     } else if (opts?.last) {
-      this.inputs.submenu()?.last();
+      this.inputs.menu()?.last();
     }
   }
   close(opts = {}) {
     this.expanded.set(false);
-    this.submenu()?.listBehavior.unfocus();
+    this.menu()?.listBehavior.unfocus();
     if (opts.refocus) {
       this.inputs.element()?.focus();
     }
-    let menuitems = this.inputs.submenu()?.inputs.items() ?? [];
+    let menuitems = this.inputs.menu()?.inputs.items() ?? [];
     while (menuitems.length) {
       const menuitem = menuitems.pop();
       menuitem?._expanded.set(false);
@@ -1284,171 +1336,6 @@ class MenuItemPattern {
       menuitem?.inputs.parent()?.listBehavior.unfocus();
       menuitems = menuitems.concat(menuitem?.submenu()?.inputs.items() ?? []);
     }
-  }
-}
-
-class RadioGroupPattern {
-  inputs;
-  listBehavior;
-  orientation;
-  wrap = signal(false);
-  selectionMode = signal('follow');
-  disabled = computed(() => this.inputs.disabled() || this.listBehavior.disabled());
-  selectedItem = computed(() => this.listBehavior.selectionBehavior.selectedItems()[0]);
-  readonly = computed(() => this.selectedItem()?.disabled() || this.inputs.readonly());
-  tabindex = computed(() => this.listBehavior.tabindex());
-  activedescendant = computed(() => this.listBehavior.activedescendant());
-  _prevKey = computed(() => {
-    if (this.inputs.orientation() === 'vertical') {
-      return 'ArrowUp';
-    }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
-  });
-  _nextKey = computed(() => {
-    if (this.inputs.orientation() === 'vertical') {
-      return 'ArrowDown';
-    }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
-  });
-  keydown = computed(() => {
-    const manager = new KeyboardEventManager();
-    if (this.readonly()) {
-      return manager.on(this._prevKey, () => this.listBehavior.prev()).on(this._nextKey, () => this.listBehavior.next()).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last());
-    }
-    return manager.on(this._prevKey, () => this.listBehavior.prev({
-      selectOne: true
-    })).on(this._nextKey, () => this.listBehavior.next({
-      selectOne: true
-    })).on('Home', () => this.listBehavior.first({
-      selectOne: true
-    })).on('End', () => this.listBehavior.last({
-      selectOne: true
-    })).on(' ', () => this.listBehavior.selectOne()).on('Enter', () => this.listBehavior.selectOne());
-  });
-  pointerdown = computed(() => {
-    const manager = new PointerEventManager();
-    if (this.readonly()) {
-      return manager.on(e => this.listBehavior.goto(this.inputs.getItem(e)));
-    }
-    return manager.on(e => this.listBehavior.goto(this.inputs.getItem(e), {
-      selectOne: true
-    }));
-  });
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.orientation = inputs.orientation;
-    this.listBehavior = new List({
-      ...inputs,
-      wrap: this.wrap,
-      selectionMode: this.selectionMode,
-      multi: () => false,
-      typeaheadDelay: () => 0
-    });
-  }
-  onKeydown(event) {
-    if (!this.disabled()) {
-      this.keydown().handle(event);
-    }
-  }
-  onPointerdown(event) {
-    if (!this.disabled()) {
-      this.pointerdown().handle(event);
-    }
-  }
-  setDefaultState() {
-    let firstItem = null;
-    for (const item of this.inputs.items()) {
-      if (this.listBehavior.isFocusable(item)) {
-        if (!firstItem) {
-          firstItem = item;
-        }
-        if (item.selected()) {
-          this.inputs.activeItem.set(item);
-          return;
-        }
-      }
-    }
-    if (firstItem) {
-      this.inputs.activeItem.set(firstItem);
-    }
-  }
-  validate() {
-    const violations = [];
-    if (this.selectedItem()?.disabled() && this.inputs.skipDisabled()) {
-      violations.push("Accessibility Violation: The selected radio button is disabled while 'skipDisabled' is true, making the selection unreachable via keyboard.");
-    }
-    return violations;
-  }
-}
-
-class RadioButtonPattern {
-  inputs;
-  id;
-  value;
-  index = computed(() => this.group()?.listBehavior.inputs.items().indexOf(this) ?? -1);
-  active = computed(() => this.group()?.listBehavior.inputs.activeItem() === this);
-  selected = computed(() => !!this.group()?.listBehavior.inputs.value().includes(this.value()));
-  selectable = () => true;
-  disabled;
-  group;
-  tabindex = computed(() => this.group()?.listBehavior.getItemTabindex(this));
-  element;
-  searchTerm = () => '';
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.id = inputs.id;
-    this.value = inputs.value;
-    this.group = inputs.group;
-    this.element = inputs.element;
-    this.disabled = inputs.disabled;
-  }
-}
-
-class ToolbarRadioGroupPattern extends RadioGroupPattern {
-  inputs;
-  constructor(inputs) {
-    if (!!inputs.toolbar()) {
-      inputs.orientation = inputs.toolbar().orientation;
-      inputs.skipDisabled = inputs.toolbar().skipDisabled;
-    }
-    super(inputs);
-    this.inputs = inputs;
-  }
-  onKeydown(_) {}
-  onPointerdown(_) {}
-  isOnFirstItem() {
-    return this.listBehavior.navigationBehavior.peekPrev() === undefined;
-  }
-  isOnLastItem() {
-    return this.listBehavior.navigationBehavior.peekNext() === undefined;
-  }
-  next(wrap) {
-    this.wrap.set(wrap);
-    this.listBehavior.next();
-    this.wrap.set(false);
-  }
-  prev(wrap) {
-    this.wrap.set(wrap);
-    this.listBehavior.prev();
-    this.wrap.set(false);
-  }
-  first() {
-    this.listBehavior.first();
-  }
-  last() {
-    this.listBehavior.last();
-  }
-  unfocus() {
-    this.inputs.activeItem.set(undefined);
-  }
-  trigger() {
-    if (this.readonly()) return;
-    this.listBehavior.selectOne();
-  }
-  goto(e) {
-    this.listBehavior.goto(this.inputs.getItem(e), {
-      selectOne: !this.readonly()
-    });
   }
 }
 
@@ -1735,7 +1622,7 @@ class ToolbarPattern {
   inputs;
   listBehavior;
   orientation;
-  skipDisabled;
+  softDisabled;
   disabled = computed(() => this.listBehavior.disabled());
   tabindex = computed(() => this.listBehavior.tabindex());
   activedescendant = computed(() => this.listBehavior.activedescendant());
@@ -1847,7 +1734,7 @@ class ToolbarPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.orientation = inputs.orientation;
-    this.skipDisabled = inputs.skipDisabled;
+    this.softDisabled = inputs.softDisabled;
     this.listBehavior = new List({
       ...inputs,
       multi: () => false,
@@ -1903,7 +1790,7 @@ class AccordionGroupPattern {
     this.multiExpandable = inputs.multiExpandable;
     this.items = inputs.items;
     this.expandedIds = inputs.expandedIds;
-    this.skipDisabled = inputs.skipDisabled;
+    this.softDisabled = inputs.softDisabled;
     this.focusManager = new ListFocus({
       ...inputs,
       focusMode
@@ -2018,7 +1905,7 @@ class TreeItemPattern {
   selectable;
   level = computed(() => this.parent().level() + 1);
   expanded = computed(() => this.expansion.isExpanded());
-  visible = computed(() => this.parent().expanded());
+  visible = computed(() => this.parent().expanded() && this.parent().visible());
   setsize = computed(() => this.parent().children().length);
   posinset = computed(() => this.parent().children().indexOf(this) + 1);
   active = computed(() => this.tree().activeItem() === this);
@@ -2075,6 +1962,7 @@ class TreePattern {
   expansionManager;
   level = () => 0;
   expanded = () => true;
+  visible = () => true;
   tabindex = computed(() => this.listBehavior.tabindex());
   activedescendant = computed(() => this.listBehavior.activedescendant());
   children = computed(() => this.inputs.allItems().filter(item => item.level() === this.level() + 1));
@@ -2144,11 +2032,15 @@ class TreePattern {
       }));
     }
     if (!this.followFocus() && this.inputs.multi()) {
-      manager.on(this.dynamicSpaceKey, () => list.toggle()).on('Enter', () => list.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => list.toggleAll());
+      manager.on(this.dynamicSpaceKey, () => list.toggle()).on('Enter', () => list.toggle(), {
+        preventDefault: !this.nav()
+      }).on([Modifier.Ctrl, Modifier.Meta], 'A', () => list.toggleAll());
     }
     if (!this.followFocus() && !this.inputs.multi()) {
       manager.on(this.dynamicSpaceKey, () => list.selectOne());
-      manager.on('Enter', () => list.selectOne());
+      manager.on('Enter', () => list.selectOne(), {
+        preventDefault: !this.nav()
+      });
     }
     if (this.inputs.multi() && this.followFocus()) {
       manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => list.prev()).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => list.next()).on([Modifier.Ctrl, Modifier.Meta], this.expandKey, () => this.expand()).on([Modifier.Ctrl, Modifier.Meta], this.collapseKey, () => this.collapse()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => list.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => list.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => list.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => list.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
@@ -2190,7 +2082,7 @@ class TreePattern {
   allItems;
   disabled;
   activeItem = signal(undefined);
-  skipDisabled;
+  softDisabled;
   wrap;
   orientation;
   textDirection;
@@ -2207,7 +2099,7 @@ class TreePattern {
     this.focusMode = inputs.focusMode;
     this.disabled = inputs.disabled;
     this.activeItem = inputs.activeItem;
-    this.skipDisabled = inputs.skipDisabled;
+    this.softDisabled = inputs.softDisabled;
     this.wrap = inputs.wrap;
     this.orientation = inputs.orientation;
     this.textDirection = inputs.textDirection;
@@ -2450,5 +2342,5 @@ i0.ɵɵngDeclareClassMetadata({
   ctorParameters: () => []
 });
 
-export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, RadioButtonPattern, RadioGroupPattern, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarRadioGroupPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, convertGetterSetterToWritableSignalLike };
+export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, convertGetterSetterToWritableSignalLike };
 //# sourceMappingURL=private.mjs.map

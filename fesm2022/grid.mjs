@@ -1,6 +1,7 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, contentChild, model } from '@angular/core';
+import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_widget-chunk.mjs';
 
 class Grid {
@@ -11,6 +12,7 @@ class Grid {
   _rowPatterns = computed(() => this._rows().map(r => r._pattern), ...(ngDevMode ? [{
     debugName: "_rowPatterns"
   }] : []));
+  textDirection = inject(Directionality).valueSignal;
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));
@@ -26,8 +28,8 @@ class Grid {
   }] : [{
     transform: booleanAttribute
   }]));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -92,9 +94,9 @@ class Grid {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -130,7 +132,7 @@ class Grid {
         "pointerdown": "_pattern.onPointerdown($event)",
         "pointermove": "_pattern.onPointermove($event)",
         "pointerup": "_pattern.onPointerup($event)",
-        "focusin": "_pattern.onFocusIn($event)",
+        "focusin": "_pattern.onFocusIn()",
         "focusout": "_pattern.onFocusOut($event)"
       },
       properties: {
@@ -169,7 +171,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(pointermove)': '_pattern.onPointermove($event)',
         '(pointerup)': '_pattern.onPointerup($event)',
-        '(focusin)': '_pattern.onFocusIn($event)',
+        '(focusin)': '_pattern.onFocusIn()',
         '(focusout)': '_pattern.onFocusOut($event)'
       }
     }]
@@ -272,7 +274,7 @@ class GridCell {
     debugName: "_widgetPattern"
   }] : []));
   _row = inject(GridRow);
-  _id = inject(_IdGenerator).getId('ng-grid-cell-');
+  _id = inject(_IdGenerator).getId('ng-grid-cell-', true);
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));

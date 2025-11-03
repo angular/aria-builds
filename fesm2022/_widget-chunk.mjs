@@ -46,23 +46,28 @@ class KeyboardEventManager extends EventManager {
     const {
       modifiers,
       key,
-      handler
+      handler,
+      options
     } = this._normalizeInputs(...args);
     this.configs.push({
       handler: handler,
       matcher: event => this._isMatch(event, key, modifiers),
-      ...this.options
+      ...this.options,
+      ...options
     });
     return this;
   }
   _normalizeInputs(...args) {
-    const key = args.length === 3 ? args[1] : args[0];
-    const handler = args.length === 3 ? args[2] : args[1];
-    const modifiers = args.length === 3 ? args[0] : Modifier.None;
+    const withModifiers = Array.isArray(args[0]) || args[0] in Modifier;
+    const modifiers = withModifiers ? args[0] : Modifier.None;
+    const key = withModifiers ? args[1] : args[0];
+    const handler = withModifiers ? args[2] : args[1];
+    const options = withModifiers ? args[3] : args[2];
     return {
       key: key,
       handler: handler,
-      modifiers: modifiers
+      modifiers: modifiers,
+      options: options ?? {}
     };
   }
   _isMatch(event, key, modifiers) {
@@ -130,7 +135,6 @@ class PointerEventManager extends EventManager {
 class GridData {
   inputs;
   cells;
-  rowCount = computed(() => this.cells().length);
   maxRowCount = computed(() => Math.max(...this._rowCountByCol().values(), 0));
   maxColCount = computed(() => Math.max(...this._colCountsByRow().values(), 0));
   _coordsMap = computed(() => {
@@ -290,7 +294,7 @@ class GridFocus {
     return this.activeCell() === cell ? 0 : -1;
   }
   isFocusable(cell) {
-    return !cell.disabled() || !this.inputs.skipDisabled();
+    return !cell.disabled() || this.inputs.softDisabled();
   }
   focusCell(cell) {
     if (this.gridDisabled()) {
@@ -404,6 +408,12 @@ class GridNavigation {
         nextCoords = {
           row: (nextCoords.row + rowDelta + maxRowCount) % maxRowCount,
           col: (nextCoords.col + colDelta + maxColCount) % maxColCount
+        };
+      }
+      if (wrap === 'nowrap') {
+        nextCoords = {
+          row: nextCoords.row + rowDelta,
+          col: nextCoords.col + colDelta
         };
       }
       if (nextCoords.row === fromCoords.row && nextCoords.col === fromCoords.col) {
@@ -659,12 +669,14 @@ class GridPattern {
   pauseNavigation = computed(() => this.gridBehavior.data.cells().flat().reduce((res, c) => res || c.widgetActivated(), false));
   isFocused = signal(false);
   dragging = signal(false);
+  prevColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
+  nextColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
     if (this.pauseNavigation()) {
       return manager;
     }
-    manager.on('ArrowUp', () => this.gridBehavior.up()).on('ArrowDown', () => this.gridBehavior.down()).on('ArrowLeft', () => this.gridBehavior.left()).on('ArrowRight', () => this.gridBehavior.right()).on('Home', () => this.gridBehavior.firstInRow()).on('End', () => this.gridBehavior.lastInRow()).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first()).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last());
+    manager.on('ArrowUp', () => this.gridBehavior.up()).on('ArrowDown', () => this.gridBehavior.down()).on(this.prevColKey(), () => this.gridBehavior.left()).on(this.nextColKey(), () => this.gridBehavior.right()).on('Home', () => this.gridBehavior.firstInRow()).on('End', () => this.gridBehavior.lastInRow()).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first()).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last());
     if (this.inputs.enableSelection()) {
       manager.on(Modifier.Shift, 'ArrowUp', () => this.gridBehavior.rangeSelectUp()).on(Modifier.Shift, 'ArrowDown', () => this.gridBehavior.rangeSelectDown()).on(Modifier.Shift, 'ArrowLeft', () => this.gridBehavior.rangeSelectLeft()).on(Modifier.Shift, 'ArrowRight', () => this.gridBehavior.rangeSelectRight()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => this.gridBehavior.selectAll()).on([Modifier.Shift], ' ', () => this.gridBehavior.selectRow()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => this.gridBehavior.selectCol());
     }
@@ -733,11 +745,8 @@ class GridPattern {
       this.pointerup().handle(event);
     }
   }
-  onFocusIn(event) {
+  onFocusIn() {
     this.isFocused.set(true);
-    const cell = this.inputs.getCell(event.target);
-    if (!cell) return;
-    this.gridBehavior.gotoCell(cell);
   }
   _maybeDeletion = signal(false);
   onFocusOut(event) {

@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, computed, ElementRef, signal, input, booleanAttribute, model, afterRenderEffect, untracked, Directive } from '@angular/core';
+import { inject, computed, ElementRef, signal, input, booleanAttribute, model, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
@@ -11,7 +11,7 @@ function sortDirectives(a, b) {
   return (a.element().compareDocumentPosition(b.element()) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
 class Tree {
-  _generatedId = inject(_IdGenerator).getId('ng-tree-');
+  _generatedId = inject(_IdGenerator).getId('ng-tree-', true);
   id = computed(() => this._generatedId, ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -49,8 +49,8 @@ class Tree {
   }] : [{
     transform: booleanAttribute
   }]));
-  skipDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "skipDisabled",
+  softDisabled = input(false, ...(ngDevMode ? [{
+    debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
@@ -178,9 +178,9 @@ class Tree {
         isRequired: false,
         transformFunction: null
       },
-      skipDisabled: {
-        classPropertyName: "skipDisabled",
-        publicName: "skipDisabled",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -275,7 +275,7 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class TreeItem extends DeferredContentAware {
   _elementRef = inject(ElementRef);
-  _id = inject(_IdGenerator).getId('ng-tree-item-');
+  _id = inject(_IdGenerator).getId('ng-tree-item-', true);
   _group = signal(undefined, ...(ngDevMode ? [{
     debugName: "_group"
   }] : []));
@@ -314,7 +314,11 @@ class TreeItem extends DeferredContentAware {
   _pattern;
   constructor() {
     super();
-    this.preserveContent.set(true);
+    afterNextRender(() => {
+      if (this.tree()._pattern instanceof ComboboxTreePattern) {
+        this.preserveContent.set(true);
+      }
+    });
     afterRenderEffect(() => {
       this.tree()._pattern instanceof ComboboxTreePattern ? this.contentVisible.set(true) : this.contentVisible.set(this._pattern.expanded());
     });

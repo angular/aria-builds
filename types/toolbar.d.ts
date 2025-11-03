@@ -32,8 +32,8 @@ declare class Toolbar<V> {
     readonly items: Signal<(ToolbarWidgetPattern<V> | ToolbarWidgetGroupPattern<V>)[]>;
     /** Whether the toolbar is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
-    /** Whether disabled items in the group should be skipped when navigating. */
-    readonly skipDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether to allow disabled items to receive focus. */
+    softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the toolbar is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether focus should wrap when navigating. */
@@ -49,7 +49,7 @@ declare class Toolbar<V> {
     /** Finds the toolbar item associated with a given element. */
     private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Toolbar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Toolbar<any>, "[ngToolbar]", ["ngToolbar"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "skipDisabled": { "alias": "skipDisabled"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Toolbar<any>, "[ngToolbar]", ["ngToolbar"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
  * A widget within a toolbar.
