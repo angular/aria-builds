@@ -284,7 +284,7 @@ class GridFocus {
   constructor(inputs) {
     this.inputs = inputs;
   }
-  getCellTabindex(cell) {
+  getCellTabIndex(cell) {
     if (this.gridDisabled()) {
       return -1;
     }
@@ -530,7 +530,7 @@ class Grid {
     return index !== undefined ? index + 1 : undefined;
   }
   cellTabIndex(cell) {
-    return this.focusBehavior.getCellTabindex(cell);
+    return this.focusBehavior.getCellTabIndex(cell);
   }
   up() {
     return this.navigationBehavior.advance(direction.Up);

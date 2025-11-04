@@ -104,7 +104,7 @@ class AccordionTrigger {
   }] : [{
     transform: booleanAttribute
   }]));
-  hardDisabled = computed(() => this._pattern.disabled() && this._pattern.tabindex() < 0, ...(ngDevMode ? [{
+  hardDisabled = computed(() => this._pattern.disabled() && this._pattern.tabIndex() < 0, ...(ngDevMode ? [{
     debugName: "hardDisabled"
   }] : []));
   accordionPanel = signal(undefined, ...(ngDevMode ? [{
@@ -164,7 +164,7 @@ class AccordionTrigger {
         "attr.aria-controls": "_pattern.controls()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.disabled": "hardDisabled() ? true : null",
-        "attr.tabindex": "_pattern.tabindex()"
+        "attr.tabindex": "_pattern.tabIndex()"
       },
       classAttribute: "ng-accordion-trigger"
     },
@@ -191,7 +191,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-controls]': '_pattern.controls()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.disabled]': 'hardDisabled() ? true : null',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': '_pattern.onFocus($event)'

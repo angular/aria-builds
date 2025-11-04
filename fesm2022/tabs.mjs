@@ -230,10 +230,10 @@ class TabList {
         "focusin": "onFocus()"
       },
       properties: {
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-orientation": "_pattern.orientation()",
-        "attr.aria-activedescendant": "_pattern.activedescendant()"
+        "attr.aria-activedescendant": "_pattern.activeDescendant()"
       },
       classAttribute: "ng-tablist"
     },
@@ -254,10 +254,10 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'tablist',
         'class': 'ng-tablist',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-orientation]': '_pattern.orientation()',
-        '[attr.aria-activedescendant]': '_pattern.activedescendant()',
+        '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': 'onFocus()'
@@ -339,7 +339,7 @@ class Tab {
       properties: {
         "attr.data-active": "_pattern.active()",
         "attr.id": "_pattern.id()",
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-selected": "_pattern.selected()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-controls": "_pattern.controls()"
@@ -365,7 +365,7 @@ i0.ɵɵngDeclareClassMetadata({
         'class': 'ng-tab',
         '[attr.data-active]': '_pattern.active()',
         '[attr.id]': '_pattern.id()',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-selected]': '_pattern.selected()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-controls]': '_pattern.controls()'
@@ -426,7 +426,7 @@ class TabPanel {
       },
       properties: {
         "attr.id": "_pattern.id()",
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.inert": "_pattern.hidden() ? true : null",
         "attr.aria-labelledby": "_pattern.labelledBy()"
       },
@@ -454,7 +454,7 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'tabpanel',
         'class': 'ng-tabpanel',
         '[attr.id]': '_pattern.id()',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.inert]': '_pattern.hidden() ? true : null',
         '[attr.aria-labelledby]': '_pattern.labelledBy()'
       },

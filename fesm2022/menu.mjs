@@ -56,7 +56,7 @@ class MenuTrigger {
         "focusin": "onFocusIn()"
       },
       properties: {
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-haspopup": "_pattern.hasPopup()",
         "attr.aria-expanded": "_pattern.expanded()",
         "attr.aria-controls": "_pattern.menu()?.id()"
@@ -79,7 +79,7 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngMenuTrigger',
       host: {
         'class': 'ng-menu-trigger',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-haspopup]': '_pattern.hasPopup()',
         '[attr.aria-expanded]': '_pattern.expanded()',
         '[attr.aria-controls]': '_pattern.menu()?.id()',
@@ -517,7 +517,7 @@ class MenuItem {
         "focusin": "onFocusIn()"
       },
       properties: {
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.data-active": "_pattern.isActive()",
         "attr.aria-haspopup": "_pattern.hasPopup()",
         "attr.aria-expanded": "_pattern.expanded()",
@@ -544,7 +544,7 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'menuitem',
         'class': 'ng-menu-item',
         '(focusin)': 'onFocusIn()',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.data-active]': '_pattern.isActive()',
         '[attr.aria-haspopup]': '_pattern.hasPopup()',
         '[attr.aria-expanded]': '_pattern.expanded()',

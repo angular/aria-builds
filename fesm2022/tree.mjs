@@ -231,8 +231,8 @@ class Tree {
         "attr.aria-orientation": "_pattern.orientation()",
         "attr.aria-multiselectable": "_pattern.multi()",
         "attr.aria-disabled": "_pattern.disabled()",
-        "attr.aria-activedescendant": "_pattern.activedescendant()",
-        "tabindex": "_pattern.tabindex()"
+        "attr.aria-activedescendant": "_pattern.activeDescendant()",
+        "tabindex": "_pattern.tabIndex()"
       },
       classAttribute: "ng-tree"
     },
@@ -260,8 +260,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-orientation]': '_pattern.orientation()',
         '[attr.aria-multiselectable]': '_pattern.multi()',
         '[attr.aria-disabled]': '_pattern.disabled()',
-        '[attr.aria-activedescendant]': '_pattern.activedescendant()',
-        '[tabindex]': '_pattern.tabindex()',
+        '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
+        '[tabindex]': '_pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': 'onFocus()'
@@ -421,7 +421,7 @@ class TreeItem extends DeferredContentAware {
         "attr.aria-level": "_pattern.level()",
         "attr.aria-setsize": "_pattern.setsize()",
         "attr.aria-posinset": "_pattern.posinset()",
-        "attr.tabindex": "_pattern.tabindex()"
+        "attr.tabindex": "_pattern.tabIndex()"
       },
       classAttribute: "ng-treeitem"
     },
@@ -452,7 +452,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-level]': '_pattern.level()',
         '[attr.aria-setsize]': '_pattern.setsize()',
         '[attr.aria-posinset]': '_pattern.posinset()',
-        '[attr.tabindex]': '_pattern.tabindex()'
+        '[attr.tabindex]': '_pattern.tabIndex()'
       }
     }]
   }],

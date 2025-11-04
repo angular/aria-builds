@@ -196,11 +196,11 @@ declare class GridFocus<T extends GridFocusCell> {
     readonly activeDescendant: _angular_core.Signal<string | undefined>;
     /** Whether the grid is in a disabled state. */
     readonly gridDisabled: _angular_core.Signal<boolean>;
-    /** The tabindex for the grid container. */
+    /** The tab index for the grid container. */
     readonly gridTabIndex: _angular_core.Signal<0 | -1>;
     constructor(inputs: GridFocusInputs & GridFocusDeps<T>);
-    /** Returns the tabindex for the given grid cell cell. */
-    getCellTabindex(cell: T): -1 | 0;
+    /** Returns the tab index for the given grid cell cell. */
+    getCellTabIndex(cell: T): -1 | 0;
     /** Returns true if the given cell can be navigated to. */
     isFocusable(cell: T): boolean;
     /** Focuses the given cell. */
@@ -336,7 +336,7 @@ declare class Grid<T extends GridCell> {
     readonly selectionBehavior: GridSelection<T>;
     /** The anchor point for range selection, linked to the active coordinates. */
     readonly selectionAnchor: _angular_core.WritableSignal<RowCol>;
-    /** The `tabindex` for the grid container. */
+    /** The `tab index` for the grid container. */
     readonly gridTabIndex: _angular_core.Signal<0 | -1>;
     /** Whether the grid is in a disabled state. */
     readonly gridDisabled: _angular_core.Signal<boolean>;
@@ -347,7 +347,7 @@ declare class Grid<T extends GridCell> {
     rowIndex(cell: T): number | undefined;
     /** Gets the 1-based column index of a cell. */
     colIndex(cell: T): number | undefined;
-    /** Gets the `tabindex` for a given cell. */
+    /** Gets the `tab index` for a given cell. */
     cellTabIndex(cell: T): -1 | 0;
     /** Navigates to the cell above the currently active cell. */
     up(): boolean;
@@ -408,7 +408,7 @@ declare class GridCellWidgetPattern {
     readonly inputs: GridCellWidgetInputs;
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement>;
-    /** The `tabindex` for the widget. */
+    /** The `tab index` for the widget. */
     readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the widget is in an active state (i.e. its containing cell is active). */
     readonly active: SignalLike<boolean>;
@@ -455,12 +455,12 @@ declare class GridCellPattern implements GridCell {
     readonly active: _angular_core.Signal<boolean>;
     /** The internal tab index calculation for the cell. */
     private readonly _tabIndex;
-    /** The `tabindex` for the cell. If the cell contains a widget, the cell's tabindex is -1. */
+    /** The tab index for the cell. If the cell contains a widget, the cell's tab index is -1. */
     readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the widget within the cell is activated. */
     readonly widgetActivated: SignalLike<boolean>;
     constructor(inputs: GridCellInputs);
-    /** Gets the `tabindex` for the widget within the cell. */
+    /** Gets the tab index for the widget within the cell. */
     widgetTabIndex(): -1 | 0;
 }
 

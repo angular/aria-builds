@@ -44,10 +44,10 @@ declare class ListFocus<T extends ListFocusItem> {
     isListDisabledFocusable(): boolean;
     /** The id of the current active item. */
     getActiveDescendant(): string | undefined;
-    /** The tabindex for the list. */
-    getListTabindex(): -1 | 0;
-    /** Returns the tabindex for the given item. */
-    getItemTabindex(item: T): -1 | 0;
+    /** The tab index for the list. */
+    getListTabIndex(): -1 | 0;
+    /** Returns the tab index for the given item. */
+    getItemTabIndex(item: T): -1 | 0;
     /** Moves focus to the given item if it is focusable. */
     focus(item: T, opts?: {
         focusElement?: boolean;
@@ -242,9 +242,9 @@ declare class List<T extends ListItem<V>, V> {
     /** Whether the list is disabled. */
     disabled: _angular_core.Signal<boolean>;
     /** The id of the current active item. */
-    activedescendant: _angular_core.Signal<string | undefined>;
-    /** The tabindex of the list. */
-    tabindex: _angular_core.Signal<0 | -1>;
+    activeDescendant: _angular_core.Signal<string | undefined>;
+    /** The tab index of the list. */
+    tabIndex: _angular_core.Signal<0 | -1>;
     /** The index of the currently active item in the list. */
     activeIndex: _angular_core.Signal<number>;
     /**
@@ -263,7 +263,7 @@ declare class List<T extends ListItem<V>, V> {
     /** Whether the list should wrap. Used to disable wrapping while range selecting. */
     private _wrap;
     constructor(inputs: ListInputs<T, V>);
-    /** Returns the tabindex for the given item. */
+    /** Returns the tab index for the given item. */
     getItemTabindex(item: T): 0 | -1;
     /** Navigates to the first option in the list. */
     first(opts?: NavOptions): void;
@@ -387,7 +387,7 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     /** Whether the combobox is expanded. */
     expanded: _angular_core.WritableSignal<boolean>;
     /** The ID of the active item in the combobox. */
-    activedescendant: _angular_core.Signal<string | null>;
+    activeDescendant: _angular_core.Signal<string | null>;
     /** The currently highlighted item in the combobox. */
     highlightedItem: _angular_core.WritableSignal<T | undefined>;
     /** Whether the most recent input event was a deletion. */
@@ -493,8 +493,8 @@ declare class OptionPattern<V> {
     searchTerm: SignalLike<string>;
     /** A reference to the parent listbox. */
     listbox: SignalLike<ListboxPattern$1<V> | undefined>;
-    /** The tabindex of the option. */
-    tabindex: _angular_core.Signal<0 | -1 | undefined>;
+    /** The tab index of the option. */
+    tabIndex: _angular_core.Signal<0 | -1 | undefined>;
     /** The html element that should receive focus. */
     element: SignalLike<HTMLElement>;
     constructor(args: OptionInputs<V>);
@@ -517,10 +517,10 @@ declare class ListboxPattern<V> {
     disabled: _angular_core.Signal<boolean>;
     /** Whether the listbox is readonly. */
     readonly: SignalLike<boolean>;
-    /** The tabindex of the listbox. */
-    tabindex: SignalLike<-1 | 0>;
+    /** The tab index of the listbox. */
+    tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active item. */
-    activedescendant: _angular_core.Signal<string | undefined>;
+    activeDescendant: _angular_core.Signal<string | undefined>;
     /** Whether multiple items in the list can be selected at once. */
     multi: SignalLike<boolean>;
     /** The number of items in the listbox. */
@@ -575,8 +575,8 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
     activeId: _angular_core.Signal<string | undefined>;
     /** The list of options in the listbox. */
     items: SignalLike<OptionPattern<V>[]>;
-    /** The tabindex for the listbox. Always -1 because the combobox handles focus. */
-    tabindex: SignalLike<-1 | 0>;
+    /** The tab index for the listbox. Always -1 because the combobox handles focus. */
+    tabIndex: SignalLike<-1 | 0>;
     constructor(inputs: ComboboxListboxInputs<V>);
     /** Noop. The combobox handles keydown events. */
     onKeydown(_: KeyboardEvent): void;
@@ -757,8 +757,8 @@ declare class MenuTriggerPattern<V> {
     hasPopup: () => boolean;
     /** The menu associated with the trigger. */
     menu: SignalLike<MenuPattern<V> | undefined>;
-    /** The tabindex of the menu trigger. */
-    tabindex: Signal<-1 | 0>;
+    /** The tab index of the menu trigger. */
+    tabIndex: Signal<-1 | 0>;
     /** Handles keyboard events for the menu trigger. */
     keydownManager: Signal<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuTriggerInputs<V>);
@@ -793,8 +793,8 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     element: SignalLike<HTMLElement>;
     /** Whether the menu item is active. */
     isActive: Signal<boolean>;
-    /** The tabindex of the menu item. */
-    tabindex: Signal<0 | -1>;
+    /** The tab index of the menu item. */
+    tabIndex: Signal<0 | -1>;
     /** The position of the menu item in the menu. */
     index: Signal<number>;
     /** Whether the menu item is expanded. */
@@ -947,8 +947,8 @@ declare class TabPattern {
     readonly active: _angular_core.Signal<boolean>;
     /** Whether the tab is selected. */
     readonly selected: _angular_core.Signal<boolean>;
-    /** The tabindex of the tab. */
-    readonly tabindex: _angular_core.Signal<0 | -1>;
+    /** The tab index of the tab. */
+    readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The id of the tabpanel associated with the tab. */
     readonly controls: _angular_core.Signal<string | undefined>;
     constructor(inputs: TabInputs);
@@ -970,8 +970,8 @@ declare class TabPanelPattern {
     readonly labelManager: LabelControl;
     /** Whether the tabpanel is hidden. */
     readonly hidden: _angular_core.Signal<boolean>;
-    /** The tabindex of this tabpanel. */
-    readonly tabindex: _angular_core.Signal<0 | -1>;
+    /** The tab index of this tabpanel. */
+    readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The aria-labelledby value for this tabpanel. */
     readonly labelledBy: _angular_core.Signal<string | undefined>;
     constructor(inputs: TabPanelInputs);
@@ -989,10 +989,10 @@ declare class TabListPattern {
     readonly orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether the tablist is disabled. */
     readonly disabled: SignalLike<boolean>;
-    /** The tabindex of the tablist. */
-    readonly tabindex: _angular_core.Signal<0 | -1>;
+    /** The tab index of the tablist. */
+    readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The id of the current active tab. */
-    readonly activedescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: _angular_core.Signal<string | undefined>;
     /** Whether selection should follow focus. */
     readonly followFocus: _angular_core.Signal<boolean>;
     /** The key used to navigate to the previous tab in the tablist. */
@@ -1036,8 +1036,8 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
     readonly disabled: SignalLike<boolean>;
     /** A reference to the parent toolbar. */
     readonly toolbar: SignalLike<ToolbarPattern<V>>;
-    /** The tabindex of the widgdet. */
-    readonly tabindex: _angular_core.Signal<0 | -1>;
+    /** The tab index of the widgdet. */
+    readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The text used by the typeahead search. */
     readonly searchTerm: () => string;
     /** The value associated with the widget. */
@@ -1123,10 +1123,10 @@ declare class ToolbarPattern<V> {
     readonly softDisabled: SignalLike<boolean>;
     /** Whether the toolbar is disabled. */
     readonly disabled: _angular_core.Signal<boolean>;
-    /** The tabindex of the toolbar (if using activedescendant). */
-    readonly tabindex: _angular_core.Signal<0 | -1>;
+    /** The tab index of the toolbar (if using activedescendant). */
+    readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The id of the current active widget (if using activedescendant). */
-    readonly activedescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: _angular_core.Signal<string | undefined>;
     /** The key used to navigate to the previous widget. */
     private readonly _prevKey;
     /** The key used to navigate to the next widget. */
@@ -1210,8 +1210,8 @@ declare class AccordionTriggerPattern {
     active: _angular_core.Signal<boolean>;
     /** Id of the accordion panel controlled by the trigger. */
     controls: _angular_core.Signal<string | undefined>;
-    /** The tabindex of the trigger. */
-    tabindex: _angular_core.Signal<-1 | 0>;
+    /** The tab index of the trigger. */
+    tabIndex: _angular_core.Signal<-1 | 0>;
     /** Whether the trigger is disabled. Disabling an accordion group disables all the triggers. */
     disabled: _angular_core.Signal<boolean>;
     /** The index of the trigger within its accordion group. */
@@ -1308,8 +1308,8 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     readonly posinset: _angular_core.Signal<number>;
     /** Whether the item is active. */
     readonly active: _angular_core.Signal<boolean>;
-    /** The tabindex of the item. */
-    readonly tabindex: _angular_core.Signal<0 | -1>;
+    /** The tab index of the item. */
+    readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** Whether the item is selected. */
     readonly selected: SignalLike<boolean | undefined>;
     /** The current type of this item. */
@@ -1349,10 +1349,10 @@ declare class TreePattern<V> {
     readonly expanded: () => boolean;
     /** The roow is always visible. */
     readonly visible: () => boolean;
-    /** The tabindex of the tree. */
-    readonly tabindex: SignalLike<-1 | 0>;
+    /** The tab index of the tree. */
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active item. */
-    readonly activedescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: _angular_core.Signal<string | undefined>;
     /** The direct children of the root (top-level tree items). */
     readonly children: _angular_core.Signal<TreeItemPattern<V>[]>;
     /** All currently visible tree items. An item is visible if their parent is expanded. */
@@ -1442,8 +1442,8 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     activeId: _angular_core.Signal<string | undefined>;
     /** The list of items in the tree. */
     items: _angular_core.Signal<TreeItemPattern<V>[]>;
-    /** The tabindex for the tree. Always -1 because the combobox handles focus. */
-    tabindex: SignalLike<-1 | 0>;
+    /** The tab index for the tree. Always -1 because the combobox handles focus. */
+    tabIndex: SignalLike<-1 | 0>;
     constructor(inputs: ComboboxTreeInputs<V>);
     /** Noop. The combobox handles keydown events. */
     onKeydown(_: KeyboardEvent): void;
