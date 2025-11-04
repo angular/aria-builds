@@ -49,7 +49,7 @@ class Tree {
   }] : [{
     transform: booleanAttribute
   }]));
-  softDisabled = input(false, ...(ngDevMode ? [{
+  softDisabled = input(true, ...(ngDevMode ? [{
     debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{

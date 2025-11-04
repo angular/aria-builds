@@ -229,7 +229,7 @@ class AccordionGroup {
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
   }] : []));
-  softDisabled = input(false, ...(ngDevMode ? [{
+  softDisabled = input(true, ...(ngDevMode ? [{
     debugName: "softDisabled",
     transform: booleanAttribute
   }] : [{

@@ -311,7 +311,7 @@ class GridFocus {
     return true;
   }
   focusCoordinates(coords) {
-    if (this.gridDisabled()) {
+    if (this.gridDisabled() && !this.inputs.softDisabled()) {
       return false;
     }
     const cell = this.inputs.grid.getCell(coords);
