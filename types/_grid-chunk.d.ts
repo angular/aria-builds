@@ -250,7 +250,7 @@ declare class GridNavigation<T extends GridNavigationCell> {
     /**
      * Gets the coordinates of the next focusable cell in a given direction, without changing focus.
      */
-    peek(direction: Delta, fromCoords: RowCol, wrap?: WrapStrategy): RowCol | undefined;
+    peek(direction: Delta, fromCoords: RowCol, wrap?: WrapStrategy, allowDisabled?: boolean): RowCol | undefined;
     /**
      * Navigates to the next focusable cell in a given direction.
      */
@@ -259,7 +259,7 @@ declare class GridNavigation<T extends GridNavigationCell> {
      * Gets the coordinates of the first focusable cell.
      * If a row is not provided, searches the entire grid.
      */
-    peekFirst(row?: number): RowCol | undefined;
+    peekFirst(row?: number, allowDisabled?: boolean): RowCol | undefined;
     /**
      * Navigates to the first focusable cell.
      * If a row is not provided, searches the entire grid.
@@ -269,7 +269,7 @@ declare class GridNavigation<T extends GridNavigationCell> {
      * Gets the coordinates of the last focusable cell.
      * If a row is not provided, searches the entire grid.
      */
-    peekLast(row?: number): RowCol | undefined;
+    peekLast(row?: number, allowDisabled?: boolean): RowCol | undefined;
     /**
      * Navigates to the last focusable cell.
      * If a row is not provided, searches the entire grid.
@@ -301,7 +301,11 @@ interface GridSelectionDeps<T extends GridSelectionCell> {
 /** Controls selection for a grid of items. */
 declare class GridSelection<T extends GridSelectionCell> {
     readonly inputs: GridSelectionInputs & GridSelectionDeps<T>;
+    /** The list of cells that were changed in the last selection operation. */
+    private readonly _undoList;
     constructor(inputs: GridSelectionInputs & GridSelectionDeps<T>);
+    /** Reverts the last selection change. */
+    undo(): void;
     /** Selects one or more cells in a given range. */
     select(fromCoords: RowCol, toCoords?: RowCol): void;
     /** Deselects one or more cells in a given range. */
@@ -312,17 +316,40 @@ declare class GridSelection<T extends GridSelectionCell> {
     selectAll(): void;
     /** Deselects all valid cells in the grid. */
     deselectAll(): void;
-    /** A generator that yields all valid (selectable and not disabled) cells within a given range. */
+    /** Whether a cell is selctable. */
+    isSelectable(cell: T): boolean;
+    /** A generator that yields all cells within a given range. */
     _validCells(fromCoords: RowCol, toCoords: RowCol): Generator<T>;
+    /**
+     * Updates the selection state of cells in a given range and preserves previous changes
+     * to a undo list.
+     */
+    private _updateState;
 }
 
+/** The selection operations that can be performed after a navigation operation. */
+interface NavOptions {
+    /** Toggles the selection state of the active cell. */
+    toggle?: boolean;
+    /**
+     * Toggles the selection state of the active cell, and deselects all other cells if the
+     * active cell is selected. If the active cell is the only selected cell, it will be deselected.
+     */
+    toggleOne?: boolean;
+    /** Selects the active cell, preserving the selection state of other cells. */
+    select?: boolean;
+    /** Deselects all other cells and selects the active cell. */
+    selectOne?: boolean;
+    /**
+     * Moves the selection anchor to the active cell and updates the selection to include all
+     * cells between the anchor and the active cell.
+     */
+    anchor?: boolean;
+}
 /** A type that represents a cell in a grid, combining all cell-related interfaces. */
 type GridCell = BaseGridCell & GridFocusCell & GridNavigationCell & GridSelectionCell;
 /** Represents the required inputs for a grid. */
-interface GridInputs$1<T extends GridCell> extends GridDataInputs<T>, GridFocusInputs, GridNavigationInputs, GridSelectionInputs {
-    /** Whether selection is enabled for the grid. */
-    enableSelection: SignalLike<boolean>;
-}
+type GridInputs$1<T extends GridCell> = GridDataInputs<T> & GridFocusInputs & GridNavigationInputs & GridSelectionInputs;
 /** The main class that orchestrates the grid behaviors. */
 declare class Grid<T extends GridCell> {
     readonly inputs: GridInputs$1<T>;
@@ -336,59 +363,74 @@ declare class Grid<T extends GridCell> {
     readonly selectionBehavior: GridSelection<T>;
     /** The anchor point for range selection, linked to the active coordinates. */
     readonly selectionAnchor: _angular_core.WritableSignal<RowCol>;
-    /** The `tab index` for the grid container. */
-    readonly gridTabIndex: _angular_core.Signal<0 | -1>;
+    /** The cell at the selection anchor. */
+    readonly selectionAnchorCell: _angular_core.Signal<T | undefined>;
+    /** Whether a range selection has settled. */
+    readonly selectionStabled: _angular_core.WritableSignal<boolean>;
+    /** Whether all selectable cells are selected. */
+    readonly allSelected: SignalLike<boolean>;
+    /** The tab index for the grid container. */
+    readonly gridTabIndex: SignalLike<-1 | 0>;
     /** Whether the grid is in a disabled state. */
-    readonly gridDisabled: _angular_core.Signal<boolean>;
+    readonly gridDisabled: SignalLike<boolean>;
     /** The ID of the active descendant for ARIA `activedescendant` focus management. */
-    readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     constructor(inputs: GridInputs$1<T>);
     /** Gets the 1-based row index of a cell. */
     rowIndex(cell: T): number | undefined;
     /** Gets the 1-based column index of a cell. */
     colIndex(cell: T): number | undefined;
-    /** Gets the `tab index` for a given cell. */
+    /** Gets the tab index for a given cell. */
     cellTabIndex(cell: T): -1 | 0;
     /** Navigates to the cell above the currently active cell. */
-    up(): boolean;
-    /** Extends the selection to the cell above the selection anchor. */
-    rangeSelectUp(): void;
+    up(opts?: NavOptions): boolean;
     /** Navigates to the cell below the currently active cell. */
-    down(): boolean;
-    /** Extends the selection to the cell below the selection anchor. */
-    rangeSelectDown(): void;
+    down(opts?: NavOptions): boolean;
     /** Navigates to the cell to the left of the currently active cell. */
-    left(): boolean;
-    /** Extends the selection to the cell to the left of the selection anchor. */
-    rangeSelectLeft(): void;
+    left(opts?: NavOptions): boolean;
     /** Navigates to the cell to the right of the currently active cell. */
-    right(): boolean;
-    /** Extends the selection to the cell to the right of the selection anchor. */
-    rangeSelectRight(): void;
+    right(opts?: NavOptions): boolean;
     /** Navigates to the first focusable cell in the grid. */
-    first(): boolean;
+    first(opts?: NavOptions): boolean;
     /** Navigates to the first focusable cell in the current row. */
-    firstInRow(): boolean;
+    firstInRow(opts?: NavOptions): boolean;
     /** Navigates to the last focusable cell in the grid. */
-    last(): boolean;
+    last(opts?: NavOptions): boolean;
     /** Navigates to the last focusable cell in the current row. */
-    lastInRow(): boolean;
+    lastInRow(opts?: NavOptions): boolean;
     /** Selects all cells in the current row. */
     selectRow(): void;
     /** Selects all cells in the current column. */
     selectCol(): void;
+    /** Selects the active cell. */
+    select(): void;
+    /** Deselects the active cell. */
+    deselect(): void;
+    /**
+     * Toggles the selection state of the coordinates of the given cell
+     * or the current active coordinates.
+     */
+    toggle(): void;
+    /** Toggles the selection state of the active cell, and deselects all other cells. */
+    toggleOne(): void;
     /** Selects all selectable cells in the grid. */
     selectAll(): void;
+    /** Deselects all cells in the grid. */
+    deselectAll(): void;
     /** Navigates to and focuses the given cell. */
-    gotoCell(cell: T): boolean;
-    /** Toggles the selection state of the given cell. */
-    toggleSelect(cell: T): void;
-    /** Extends the selection from the anchor to the given cell. */
-    rangeSelect(cell: T): void;
-    /** Extends the selection to the given coordinates. */
-    private _rangeSelectCoords;
+    gotoCell(cell: T, opts?: NavOptions): boolean;
+    /** Sets the default active state of the grid. */
+    setDefaultState(): boolean;
     /** Resets the active state of the grid if it is empty or stale. */
     resetState(): boolean;
+    /** Updates the selection anchor to the given coordinates. */
+    private _updateSelectionAnchor;
+    /** Updates the selection to include all cells between the anchor and the active cell. */
+    private _updateRangeSelection;
+    /** Gets the start and end coordinates for a selection range. */
+    private _getSelectionCoords;
+    /** Executes a navigation operation and applies selection options. */
+    private _navigateWithSelection;
 }
 
 /** The inputs for the `GridCellWidgetPattern`. */
@@ -453,6 +495,8 @@ declare class GridCellPattern implements GridCell {
     readonly element: SignalLike<HTMLElement>;
     /** Whether the cell is active. */
     readonly active: _angular_core.Signal<boolean>;
+    /** Whether the cell is a selection anchor. */
+    readonly anchor: SignalLike<true | undefined>;
     /** The internal tab index calculation for the cell. */
     private readonly _tabIndex;
     /** The tab index for the cell. If the cell contains a widget, the cell's tab index is -1. */
@@ -489,6 +533,14 @@ interface GridInputs extends Omit<GridInputs$1<GridCellPattern>, 'cells'> {
     rows: SignalLike<GridRowPattern[]>;
     /** The direction that text is read based on the users locale. */
     textDirection: SignalLike<'rtl' | 'ltr'>;
+    /** Whether selection is enabled for the grid. */
+    enableSelection: SignalLike<boolean>;
+    /** Whether multiple cell in the grid can be selected. */
+    multi: SignalLike<boolean>;
+    /** The selection strategy used by the grid. */
+    selectionMode: SignalLike<'follow' | 'explicit'>;
+    /** Whether enable range selection. */
+    enableRangeSelection: SignalLike<boolean>;
     /** A function that returns the grid cell associated with a given element. */
     getCell: (e: Element) => GridCellPattern | undefined;
 }
@@ -507,10 +559,14 @@ declare class GridPattern {
     readonly activeDescendant: _angular_core.Signal<string | undefined>;
     /** The currently active cell. */
     readonly activeCell: _angular_core.Signal<GridCellPattern | undefined>;
+    /** The current selection anchor cell. */
+    readonly anchorCell: SignalLike<GridCellPattern | undefined>;
     /** Whether to pause grid navigation. */
     readonly pauseNavigation: _angular_core.Signal<boolean>;
     /** Whether the focus is in the grid. */
     readonly isFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the grid has been focused once. */
+    readonly hasBeenFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the user is currently dragging to select a range of cells. */
     readonly dragging: _angular_core.WritableSignal<boolean>;
     /** The key for navigating to the previous column. */
@@ -523,6 +579,10 @@ declare class GridPattern {
     readonly pointerdown: _angular_core.Signal<PointerEventManager<PointerEvent>>;
     /** The pointerup event manager for the grid. */
     readonly pointerup: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    /** Indicates maybe the losing focus is caused by row/cell deletion. */
+    private readonly _maybeDeletion;
+    /** Indicates the losing focus is certainly caused by row/cell deletion. */
+    private readonly _deletion;
     constructor(inputs: GridInputs);
     /** Handles keydown events on the grid. */
     onKeydown(event: KeyboardEvent): void;
@@ -534,12 +594,10 @@ declare class GridPattern {
     onPointerup(event: PointerEvent): void;
     /** Handles focusin events on the grid. */
     onFocusIn(): void;
-    /** Indicates maybe the losing focus is caused by row/cell deletion. */
-    private readonly _maybeDeletion;
     /** Handles focusout events on the grid. */
     onFocusOut(event: FocusEvent): void;
-    /** Indicates the losing focus is certainly caused by row/cell deletion. */
-    private readonly _deletion;
+    /** Sets the default active state of the grid before receiving focus the first time. */
+    setDefaultStateEffect(): void;
     /** Resets the active state of the grid if it is empty or stale. */
     resetStateEffect(): void;
     /** Focuses on the active cell element. */
