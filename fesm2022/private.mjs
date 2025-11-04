@@ -6,7 +6,7 @@ export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern } f
 class ComboboxPattern {
   inputs;
   expanded = signal(false);
-  activedescendant = computed(() => this.inputs.popupControls()?.activeId() ?? null);
+  activeDescendant = computed(() => this.inputs.popupControls()?.activeId() ?? null);
   highlightedItem = signal(undefined);
   isDeleting = false;
   isFocused = signal(false);
@@ -319,13 +319,13 @@ class ListFocus {
     }
     return this.inputs.activeItem()?.id() ?? undefined;
   }
-  getListTabindex() {
+  getListTabIndex() {
     if (this.isListDisabledFocusable()) {
       return 0;
     }
     return this.inputs.focusMode() === 'activedescendant' ? 0 : -1;
   }
-  getItemTabindex(item) {
+  getItemTabIndex(item) {
     if (this.isListDisabledFocusable()) {
       return -1;
     }
@@ -575,8 +575,8 @@ class List {
   typeaheadBehavior;
   focusBehavior;
   disabled = computed(() => this.focusBehavior.isListDisabled());
-  activedescendant = computed(() => this.focusBehavior.getActiveDescendant());
-  tabindex = computed(() => this.focusBehavior.getListTabindex());
+  activeDescendant = computed(() => this.focusBehavior.getActiveDescendant());
+  tabIndex = computed(() => this.focusBehavior.getListTabIndex());
   activeIndex = computed(() => this.focusBehavior.activeIndex());
   _anchorIndex = signal(0);
   _wrap = signal(true);
@@ -598,7 +598,7 @@ class List {
     });
   }
   getItemTabindex(item) {
-    return this.focusBehavior.getItemTabindex(item);
+    return this.focusBehavior.getItemTabIndex(item);
   }
   first(opts) {
     this._navigate(opts, () => this.navigationBehavior.first(opts));
@@ -689,8 +689,8 @@ class ListboxPattern {
   orientation;
   disabled = computed(() => this.listBehavior.disabled());
   readonly;
-  tabindex = computed(() => this.listBehavior.tabindex());
-  activedescendant = computed(() => this.listBehavior.activedescendant());
+  tabIndex = computed(() => this.listBehavior.tabIndex());
+  activeDescendant = computed(() => this.listBehavior.activeDescendant());
   multi;
   setsize = computed(() => this.inputs.items().length);
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
@@ -858,7 +858,7 @@ class OptionPattern {
   disabled;
   searchTerm;
   listbox;
-  tabindex = computed(() => this.listbox()?.listBehavior.getItemTabindex(this));
+  tabIndex = computed(() => this.listbox()?.listBehavior.getItemTabindex(this));
   element;
   constructor(args) {
     this.id = args.id;
@@ -874,9 +874,9 @@ class ComboboxListboxPattern extends ListboxPattern {
   inputs;
   id = computed(() => this.inputs.id());
   role = computed(() => 'listbox');
-  activeId = computed(() => this.listBehavior.activedescendant());
+  activeId = computed(() => this.listBehavior.activeDescendant());
   items = computed(() => this.inputs.items());
-  tabindex = () => -1;
+  tabIndex = () => -1;
   constructor(inputs) {
     if (inputs.combobox()) {
       inputs.multi = () => false;
@@ -1230,7 +1230,7 @@ class MenuTriggerPattern {
   role = () => 'button';
   hasPopup = () => true;
   menu;
-  tabindex = computed(() => this.expanded() && this.menu()?.inputs.activeItem() ? -1 : 0);
+  tabIndex = computed(() => this.expanded() && this.menu()?.inputs.activeItem() ? -1 : 0);
   keydownManager = computed(() => {
     return new KeyboardEventManager().on(' ', () => this.open({
       first: true
@@ -1294,7 +1294,7 @@ class MenuItemPattern {
   searchTerm;
   element;
   isActive = computed(() => this.inputs.parent()?.inputs.activeItem() === this);
-  tabindex = computed(() => {
+  tabIndex = computed(() => {
     if (this.submenu() && this.submenu()?.inputs.activeItem()) {
       return -1;
     }
@@ -1447,7 +1447,7 @@ class TabPattern {
   expanded = computed(() => this.expansion.isExpanded());
   active = computed(() => this.inputs.tablist().inputs.activeItem() === this);
   selected = computed(() => !!this.inputs.tablist().inputs.value().includes(this.value()));
-  tabindex = computed(() => this.inputs.tablist().listBehavior.getItemTabindex(this));
+  tabIndex = computed(() => this.inputs.tablist().listBehavior.getItemTabindex(this));
   controls = computed(() => this.inputs.tabpanel()?.id());
   constructor(inputs) {
     this.inputs = inputs;
@@ -1469,7 +1469,7 @@ class TabPanelPattern {
   value;
   labelManager;
   hidden = computed(() => this.inputs.tab()?.expanded() === false);
-  tabindex = computed(() => this.hidden() ? -1 : 0);
+  tabIndex = computed(() => this.hidden() ? -1 : 0);
   labelledBy = computed(() => this.labelManager.labelledBy().length > 0 ? this.labelManager.labelledBy().join(' ') : undefined);
   constructor(inputs) {
     this.inputs = inputs;
@@ -1487,8 +1487,8 @@ class TabListPattern {
   expansionManager;
   orientation;
   disabled;
-  tabindex = computed(() => this.listBehavior.tabindex());
-  activedescendant = computed(() => this.listBehavior.activedescendant());
+  tabIndex = computed(() => this.listBehavior.tabIndex());
+  activeDescendant = computed(() => this.listBehavior.activeDescendant());
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
   prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
@@ -1574,7 +1574,7 @@ class ToolbarWidgetPattern {
   element;
   disabled;
   toolbar;
-  tabindex = computed(() => this.toolbar().listBehavior.getItemTabindex(this));
+  tabIndex = computed(() => this.toolbar().listBehavior.getItemTabindex(this));
   searchTerm = () => '';
   value = () => '';
   selectable = () => true;
@@ -1627,8 +1627,8 @@ class ToolbarPattern {
   orientation;
   softDisabled;
   disabled = computed(() => this.listBehavior.disabled());
-  tabindex = computed(() => this.listBehavior.tabindex());
-  activedescendant = computed(() => this.listBehavior.activedescendant());
+  tabIndex = computed(() => this.listBehavior.tabIndex());
+  activeDescendant = computed(() => this.listBehavior.activeDescendant());
   _prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
@@ -1816,7 +1816,7 @@ class AccordionTriggerPattern {
   expansionControl;
   active = computed(() => this.inputs.accordionGroup().activeItem() === this);
   controls = computed(() => this.inputs.accordionPanel()?.id());
-  tabindex = computed(() => this.inputs.accordionGroup().focusManager.isFocusable(this) ? 0 : -1);
+  tabIndex = computed(() => this.inputs.accordionGroup().focusManager.isFocusable(this) ? 0 : -1);
   disabled = computed(() => this.inputs.disabled() || this.inputs.accordionGroup().disabled());
   index = computed(() => this.inputs.accordionGroup().items().indexOf(this));
   constructor(inputs) {
@@ -1912,7 +1912,7 @@ class TreeItemPattern {
   setsize = computed(() => this.parent().children().length);
   posinset = computed(() => this.parent().children().indexOf(this) + 1);
   active = computed(() => this.tree().activeItem() === this);
-  tabindex = computed(() => this.tree().listBehavior.getItemTabindex(this));
+  tabIndex = computed(() => this.tree().listBehavior.getItemTabindex(this));
   selected = computed(() => {
     if (this.tree().nav()) {
       return undefined;
@@ -1966,8 +1966,8 @@ class TreePattern {
   level = () => 0;
   expanded = () => true;
   visible = () => true;
-  tabindex = computed(() => this.listBehavior.tabindex());
-  activedescendant = computed(() => this.listBehavior.activedescendant());
+  tabIndex = computed(() => this.listBehavior.tabIndex());
+  activeDescendant = computed(() => this.listBehavior.activeDescendant());
   children = computed(() => this.inputs.allItems().filter(item => item.level() === this.level() + 1));
   visibleItems = computed(() => this.inputs.allItems().filter(item => item.visible()));
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
@@ -2204,9 +2204,9 @@ class ComboboxTreePattern extends TreePattern {
   inputs;
   isItemCollapsible = () => this.inputs.activeItem()?.parent() instanceof TreeItemPattern;
   role = () => 'tree';
-  activeId = computed(() => this.listBehavior.activedescendant());
+  activeId = computed(() => this.listBehavior.activeDescendant());
   items = computed(() => this.inputs.allItems());
-  tabindex = () => -1;
+  tabIndex = () => -1;
   constructor(inputs) {
     if (inputs.combobox()) {
       inputs.multi = () => false;

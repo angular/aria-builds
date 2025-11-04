@@ -227,12 +227,12 @@ class Listbox {
       },
       properties: {
         "attr.id": "id()",
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-readonly": "_pattern.readonly()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-orientation": "_pattern.orientation()",
         "attr.aria-multiselectable": "_pattern.multi()",
-        "attr.aria-activedescendant": "_pattern.activedescendant()"
+        "attr.aria-activedescendant": "_pattern.activeDescendant()"
       },
       classAttribute: "ng-listbox"
     },
@@ -263,12 +263,12 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'listbox',
         'class': 'ng-listbox',
         '[attr.id]': 'id()',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-readonly]': '_pattern.readonly()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-orientation]': '_pattern.orientation()',
         '[attr.aria-multiselectable]': '_pattern.multi()',
-        '[attr.aria-activedescendant]': '_pattern.activedescendant()',
+        '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': 'onFocus()'
@@ -363,7 +363,7 @@ class Option {
       properties: {
         "attr.data-active": "_pattern.active()",
         "attr.id": "_pattern.id()",
-        "attr.tabindex": "_pattern.tabindex()",
+        "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-selected": "_pattern.selected()",
         "attr.aria-disabled": "_pattern.disabled()"
       },
@@ -388,7 +388,7 @@ i0.ɵɵngDeclareClassMetadata({
         'class': 'ng-option',
         '[attr.data-active]': '_pattern.active()',
         '[attr.id]': '_pattern.id()',
-        '[attr.tabindex]': '_pattern.tabindex()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-selected]': '_pattern.selected()',
         '[attr.aria-disabled]': '_pattern.disabled()'
       }
