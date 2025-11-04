@@ -125,7 +125,7 @@ class Listbox {
   scrollActiveItemIntoView(options = {
     block: 'nearest'
   }) {
-    this._pattern.inputs.activeItem()?.element().scrollIntoView(options);
+    this._pattern.inputs.activeItem()?.element()?.scrollIntoView(options);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
