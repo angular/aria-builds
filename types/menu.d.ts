@@ -1,6 +1,6 @@
-import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { Signal } from '@angular/core';
+import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
 import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPattern } from '@angular/aria/private';
 
@@ -13,6 +13,8 @@ import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPa
 declare class MenuTrigger<V> {
     /** A reference to the menu trigger element. */
     private readonly _elementRef;
+    /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
+    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** A reference to the menu element. */
     readonly element: HTMLButtonElement;
     /** The menu associated with the trigger. */
@@ -55,9 +57,7 @@ declare class Menu<V> {
     /** A reference to the menu element. */
     readonly element: HTMLElement;
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
-    private readonly _directionality;
-    /** A signal wrapper for directionality. */
-    readonly textDirection: Signal<_angular_cdk_bidi.Direction>;
+    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The unique ID of the menu. */
     readonly id: _angular_core.InputSignal<string>;
     /** Whether the menu should wrap its items. */
@@ -108,9 +108,7 @@ declare class MenuBar<V> {
     /** A reference to the menubar element. */
     readonly element: HTMLElement;
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
-    private readonly _directionality;
-    /** A signal wrapper for directionality. */
-    readonly textDirection: Signal<_angular_cdk_bidi.Direction>;
+    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The value of the menu. */
     readonly value: _angular_core.ModelSignal<V[]>;
     /** Whether the menu should wrap its items. */

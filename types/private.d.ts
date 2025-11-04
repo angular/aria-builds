@@ -618,6 +618,8 @@ interface MenuBarInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'disa
     items: SignalLike<MenuItemPattern<V>[]>;
     /** Callback function triggered when a menu item is selected. */
     onSelect?: (value: V) => void;
+    /** The text direction of the menu bar. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuPattern class. */
 interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' | 'disabled'> {
@@ -629,6 +631,8 @@ interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' 
     parent: SignalLike<MenuTriggerPattern<V> | MenuItemPattern<V> | undefined>;
     /** Callback function triggered when a menu item is selected. */
     onSelect?: (value: V) => void;
+    /** The text direction of the menu bar. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuTriggerPattern class. */
 interface MenuTriggerInputs<V> {
@@ -636,6 +640,8 @@ interface MenuTriggerInputs<V> {
     element: SignalLike<HTMLElement | undefined>;
     /** A reference to the menu associated with the trigger. */
     menu: SignalLike<MenuPattern<V> | undefined>;
+    /** The text direction of the menu bar. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuItemPattern class. */
 interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
