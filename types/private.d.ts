@@ -8,7 +8,7 @@ interface ListFocusItem {
     /** A unique identifier for the item. */
     id: SignalLike<string>;
     /** The html element that should receive focus. */
-    element: SignalLike<HTMLElement>;
+    element: SignalLike<HTMLElement | undefined>;
     /** Whether an item is disabled. */
     disabled: SignalLike<boolean>;
     /** The index of the item in the list. */
@@ -100,6 +100,10 @@ declare class ListNavigation<T extends ListNavigationItem> {
     last(opts?: {
         focusElement?: boolean;
     }): boolean;
+    /** Gets the first focusable item from the given list of items. */
+    peekFirst(items?: T[]): T | undefined;
+    /** Gets the last focusable item from the given list of items. */
+    peekLast(items?: T[]): T | undefined;
     /** Advances to the next or previous focusable item in the list based on the given delta. */
     private _advance;
     /** Peeks the next or previous focusable item in the list based on the given delta. */
@@ -288,7 +292,7 @@ declare class List<T extends ListItem<V>, V> {
     /** Sets the selection to only the current active item. */
     selectOne(): void;
     /** Deselects the currently active item in the list. */
-    deselect(): void;
+    deselect(item?: T): void;
     /** Deselects all items in the list. */
     deselectAll(): void;
     /** Toggles the currently active item in the list. */
@@ -496,7 +500,7 @@ declare class OptionPattern<V> {
     /** The tab index of the option. */
     tabIndex: _angular_core.Signal<0 | -1 | undefined>;
     /** The html element that should receive focus. */
-    element: SignalLike<HTMLElement>;
+    element: SignalLike<HTMLElement | undefined>;
     constructor(args: OptionInputs<V>);
 }
 
@@ -614,6 +618,8 @@ interface MenuBarInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'disa
     items: SignalLike<MenuItemPattern<V>[]>;
     /** Callback function triggered when a menu item is selected. */
     onSelect?: (value: V) => void;
+    /** The text direction of the menu bar. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuPattern class. */
 interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' | 'disabled'> {
@@ -625,6 +631,8 @@ interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' 
     parent: SignalLike<MenuTriggerPattern<V> | MenuItemPattern<V> | undefined>;
     /** Callback function triggered when a menu item is selected. */
     onSelect?: (value: V) => void;
+    /** The text direction of the menu bar. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuTriggerPattern class. */
 interface MenuTriggerInputs<V> {
@@ -632,6 +640,8 @@ interface MenuTriggerInputs<V> {
     element: SignalLike<HTMLElement | undefined>;
     /** A reference to the menu associated with the trigger. */
     menu: SignalLike<MenuPattern<V> | undefined>;
+    /** The text direction of the menu bar. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuItemPattern class. */
 interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
@@ -790,7 +800,7 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** The search term for the menu item. */
     searchTerm: SignalLike<string>;
     /** The element of the menu item. */
-    element: SignalLike<HTMLElement>;
+    element: SignalLike<HTMLElement | undefined>;
     /** Whether the menu item is active. */
     isActive: Signal<boolean>;
     /** The tab index of the menu item. */
@@ -932,7 +942,7 @@ declare class TabPattern {
     /** Whether the tab is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The html element that should receive focus. */
-    readonly element: SignalLike<HTMLElement>;
+    readonly element: SignalLike<HTMLElement | undefined>;
     /** Whether the tab is selectable. */
     readonly selectable: () => boolean;
     /** The text used by the typeahead search. */
@@ -1021,22 +1031,53 @@ declare class TabListPattern {
     private _getItem;
 }
 
+/** Represents the required inputs for a toolbar widget group. */
+interface ToolbarWidgetGroupInputs<T extends ListItem<V>, V> {
+    /** A reference to the parent toolbar. */
+    toolbar: SignalLike<ToolbarPattern<V> | undefined>;
+    /** Whether the widget group is disabled. */
+    disabled: SignalLike<boolean>;
+    /** The list of items within the widget group. */
+    items: SignalLike<T[]>;
+    /** Whether the group allows multiple widgets to be selected. */
+    multi: SignalLike<boolean>;
+}
+/** A group of widgets within a toolbar that provides nested navigation. */
+declare class ToolbarWidgetGroupPattern<T extends ListItem<V>, V> {
+    readonly inputs: ToolbarWidgetGroupInputs<T, V>;
+    /** Whether the widget is disabled. */
+    readonly disabled: () => boolean;
+    /** A reference to the parent toolbar. */
+    readonly toolbar: () => ToolbarPattern<V> | undefined;
+    /** Whether the group allows multiple widgets to be selected. */
+    readonly multi: () => boolean;
+    readonly searchTerm: () => string;
+    readonly value: () => V;
+    readonly selectable: () => boolean;
+    readonly element: () => undefined;
+    constructor(inputs: ToolbarWidgetGroupInputs<T, V>);
+}
+
 /** Represents the required inputs for a toolbar widget in a toolbar. */
-interface ToolbarWidgetInputs<V> extends Omit<ListItem<V>, 'searchTerm' | 'value' | 'index' | 'selectable'> {
+interface ToolbarWidgetInputs<V> extends Omit<ListItem<V>, 'searchTerm' | 'index' | 'selectable'> {
     /** A reference to the parent toolbar. */
     toolbar: SignalLike<ToolbarPattern<V>>;
+    /** A reference to the parent widget group. */
+    group: SignalLike<ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V> | undefined>;
 }
 declare class ToolbarWidgetPattern<V> implements ListItem<V> {
     readonly inputs: ToolbarWidgetInputs<V>;
     /** A unique identifier for the widget. */
-    readonly id: SignalLike<string>;
+    readonly id: () => string;
     /** The html element that should receive focus. */
-    readonly element: SignalLike<HTMLElement>;
+    readonly element: () => HTMLElement | undefined;
     /** Whether the widget is disabled. */
-    readonly disabled: SignalLike<boolean>;
+    readonly disabled: () => boolean;
     /** A reference to the parent toolbar. */
-    readonly toolbar: SignalLike<ToolbarPattern<V>>;
-    /** The tab index of the widgdet. */
+    readonly group: () => ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V> | undefined;
+    /** A reference to the toolbar containing the widget. */
+    readonly toolbar: () => ToolbarPattern<V>;
+    /** The tabindex of the widget. */
     readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The text used by the typeahead search. */
     readonly searchTerm: () => string;
@@ -1046,77 +1087,23 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
     readonly selectable: () => boolean;
     /** The position of the widget within the toolbar. */
     readonly index: _angular_core.Signal<number>;
+    /** Whether the widget is selected (only relevant in a selection group). */
+    readonly selected: _angular_core.Signal<boolean>;
     /** Whether the widget is currently the active one (focused). */
-    readonly active: _angular_core.Signal<boolean>;
+    readonly active: SignalLike<boolean>;
     constructor(inputs: ToolbarWidgetInputs<V>);
 }
 
-/** An interface that allows sub patterns to expose the necessary controls for the toolbar. */
-interface ToolbarWidgetGroupControls {
-    /** Whether the widget group is currently on the first item. */
-    isOnFirstItem(): boolean;
-    /** Whether the widget group is currently on the last item. */
-    isOnLastItem(): boolean;
-    /** Navigates to the next widget in the group. */
-    next(wrap: boolean): void;
-    /** Navigates to the previous widget in the group. */
-    prev(wrap: boolean): void;
-    /** Navigates to the first widget in the group. */
-    first(): void;
-    /** Navigates to the last widget in the group. */
-    last(): void;
-    /** Removes focus from the widget group. */
-    unfocus(): void;
-    /** Triggers the action of the currently active widget in the group. */
-    trigger(): void;
-    /** Navigates to the widget targeted by a pointer event. */
-    goto(event: PointerEvent): void;
-    /** Sets the widget group to its default initial state. */
-    setDefaultState(): void;
-}
-/** Represents the required inputs for a toolbar widget group. */
-interface ToolbarWidgetGroupInputs<V> extends Omit<ListItem<V>, 'searchTerm' | 'value' | 'index' | 'selectable'> {
-    /** A reference to the parent toolbar. */
-    toolbar: SignalLike<ToolbarPattern<V> | undefined>;
-    /** The controls for the sub patterns associated with the toolbar. */
-    controls: SignalLike<ToolbarWidgetGroupControls | undefined>;
-}
-/** A group of widgets within a toolbar that provides nested navigation. */
-declare class ToolbarWidgetGroupPattern<V> implements ListItem<V> {
-    readonly inputs: ToolbarWidgetGroupInputs<V>;
-    /** A unique identifier for the widget. */
-    readonly id: SignalLike<string>;
-    /** The html element that should receive focus. */
-    readonly element: SignalLike<HTMLElement>;
-    /** Whether the widget is disabled. */
-    readonly disabled: SignalLike<boolean>;
-    /** A reference to the parent toolbar. */
-    readonly toolbar: SignalLike<ToolbarPattern<V> | undefined>;
-    /** The text used by the typeahead search. */
-    readonly searchTerm: () => string;
-    /** The value associated with the widget. */
-    readonly value: () => V;
-    /** Whether the widget is selectable. */
-    readonly selectable: () => boolean;
-    /** The position of the widget within the toolbar. */
-    readonly index: _angular_core.Signal<number>;
-    /** The actions that can be performed on the widget group. */
-    readonly controls: SignalLike<ToolbarWidgetGroupControls>;
-    /** Default toolbar widget group controls when no controls provided. */
-    private readonly _defaultControls;
-    constructor(inputs: ToolbarWidgetGroupInputs<V>);
-}
-
 /** Represents the required inputs for a toolbar. */
-type ToolbarInputs<V> = Omit<ListInputs<ToolbarWidgetPattern<V> | ToolbarWidgetGroupPattern<V>, V>, 'multi' | 'typeaheadDelay' | 'value' | 'selectionMode' | 'focusMode'> & {
+type ToolbarInputs<V> = Omit<ListInputs<ToolbarWidgetPattern<V>, V>, 'multi' | 'typeaheadDelay' | 'value' | 'selectionMode' | 'focusMode'> & {
     /** A function that returns the toolbar item associated with a given element. */
-    getItem: (e: Element) => ToolbarWidgetPattern<V> | ToolbarWidgetGroupPattern<V> | undefined;
+    getItem: (e: Element) => ToolbarWidgetPattern<V> | undefined;
 };
 /** Controls the state of a toolbar. */
 declare class ToolbarPattern<V> {
     readonly inputs: ToolbarInputs<V>;
     /** The list behavior for the toolbar. */
-    readonly listBehavior: List<ToolbarWidgetPattern<V> | ToolbarWidgetGroupPattern<V>, V>;
+    readonly listBehavior: List<ToolbarWidgetPattern<V>, V>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether disabled items in the group should be focusable. */
@@ -1127,6 +1114,8 @@ declare class ToolbarPattern<V> {
     readonly tabIndex: _angular_core.Signal<0 | -1>;
     /** The id of the current active widget (if using activedescendant). */
     readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    /** The currently active item in the toolbar. */
+    readonly activeItem: () => ToolbarWidgetPattern<V> | undefined;
     /** The key used to navigate to the previous widget. */
     private readonly _prevKey;
     /** The key used to navigate to the next widget. */
@@ -1137,27 +1126,19 @@ declare class ToolbarPattern<V> {
     private readonly _altNextKey;
     /** The keydown event manager for the toolbar. */
     private readonly _keydown;
-    /** The pointerdown event manager for the toolbar. */
-    private readonly _pointerdown;
-    /** Navigates to the next widget in the toolbar. */
-    private _next;
-    /** Navigates to the previous widget in the toolbar. */
-    private _prev;
+    /** Navigates to the next widget in a widget group. */
     private _groupNext;
+    /** Navigates to the previous widget in a widget group. */
     private _groupPrev;
-    /** Triggers the action of the currently active widget. */
-    private _trigger;
-    /** Navigates to the first widget in the toolbar. */
-    private _first;
-    /** Navigates to the last widget in the toolbar. */
-    private _last;
     /** Navigates to the widget targeted by a pointer event. */
     private _goto;
+    select(): void;
     constructor(inputs: ToolbarInputs<V>);
     /** Handles keydown events for the toolbar. */
     onKeydown(event: KeyboardEvent): void;
-    /** Handles pointerdown events for the toolbar. */
     onPointerdown(event: PointerEvent): void;
+    /** Handles click events for the toolbar. */
+    onClick(event: MouseEvent): void;
     /**
      * Sets the toolbar to its default initial state.
      *
@@ -1273,7 +1254,7 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     /** The value of this item. */
     readonly value: SignalLike<V>;
     /** A reference to the item element. */
-    readonly element: SignalLike<HTMLElement>;
+    readonly element: SignalLike<HTMLElement | undefined>;
     /** Whether the item is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The text used by the typeahead search. */
@@ -1524,4 +1505,4 @@ declare class DeferredContent implements OnDestroy {
 }
 
 export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, SignalLike, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, WritableSignalLike };
-export type { AccordionGroupInputs, AccordionPanelInputs, AccordionTriggerInputs, ComboboxInputs, ComboboxListboxControls, ComboboxListboxInputs, ComboboxTreeControls, ComboboxTreeInputs, ListboxInputs, MenuBarInputs, MenuInputs, MenuItemInputs, MenuTriggerInputs, OptionInputs, TabInputs, TabListInputs, TabPanelInputs, ToolbarInputs, ToolbarWidgetGroupControls, ToolbarWidgetGroupInputs, ToolbarWidgetInputs, TreeInputs, TreeItemInputs };
+export type { AccordionGroupInputs, AccordionPanelInputs, AccordionTriggerInputs, ComboboxInputs, ComboboxListboxControls, ComboboxListboxInputs, ComboboxTreeControls, ComboboxTreeInputs, ListboxInputs, MenuBarInputs, MenuInputs, MenuItemInputs, MenuTriggerInputs, OptionInputs, TabInputs, TabListInputs, TabPanelInputs, ToolbarInputs, ToolbarWidgetGroupInputs, ToolbarWidgetInputs, TreeInputs, TreeItemInputs };

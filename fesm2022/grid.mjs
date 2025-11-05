@@ -7,8 +7,11 @@ import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } f
 class Grid {
   _elementRef = inject(ElementRef);
   _rows = contentChildren(GridRow, ...(ngDevMode ? [{
-    debugName: "_rows"
-  }] : []));
+    debugName: "_rows",
+    descendants: true
+  }] : [{
+    descendants: true
+  }]));
   _rowPatterns = computed(() => this._rows().map(r => r._pattern), ...(ngDevMode ? [{
     debugName: "_rowPatterns"
   }] : []));
@@ -43,12 +46,28 @@ class Grid {
   colWrap = input('loop', ...(ngDevMode ? [{
     debugName: "colWrap"
   }] : []));
+  multi = input(false, ...(ngDevMode ? [{
+    debugName: "multi",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  selectionMode = input('follow', ...(ngDevMode ? [{
+    debugName: "selectionMode"
+  }] : []));
+  enableRangeSelection = input(false, ...(ngDevMode ? [{
+    debugName: "enableRangeSelection",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   _pattern = new GridPattern({
     ...this,
     rows: this._rowPatterns,
     getCell: e => this._getCell(e)
   });
   constructor() {
+    afterRenderEffect(() => this._pattern.setDefaultStateEffect());
     afterRenderEffect(() => this._pattern.resetStateEffect());
     afterRenderEffect(() => this._pattern.focusEffect());
   }
@@ -121,6 +140,27 @@ class Grid {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      multi: {
+        classPropertyName: "multi",
+        publicName: "multi",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      selectionMode: {
+        classPropertyName: "selectionMode",
+        publicName: "selectionMode",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      enableRangeSelection: {
+        classPropertyName: "enableRangeSelection",
+        publicName: "enableRangeSelection",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
     },
     host: {
@@ -145,6 +185,7 @@ class Grid {
     queries: [{
       propertyName: "_rows",
       predicate: GridRow,
+      descendants: true,
       isSignal: true
     }],
     exportAs: ["ngGrid"],
@@ -181,8 +222,11 @@ i0.ɵɵngDeclareClassMetadata({
 class GridRow {
   _elementRef = inject(ElementRef);
   _cells = contentChildren(GridCell, ...(ngDevMode ? [{
-    debugName: "_cells"
-  }] : []));
+    debugName: "_cells",
+    descendants: true
+  }] : [{
+    descendants: true
+  }]));
   _cellPatterns = computed(() => this._cells().map(c => c._pattern), ...(ngDevMode ? [{
     debugName: "_cellPatterns"
   }] : []));
@@ -242,6 +286,7 @@ class GridRow {
     queries: [{
       propertyName: "_cells",
       predicate: GridCell,
+      descendants: true,
       isSignal: true
     }],
     exportAs: ["ngGridRow"],
@@ -394,6 +439,7 @@ class GridCell {
         "attr.rowspan": "_pattern.rowSpan()",
         "attr.colspan": "_pattern.colSpan()",
         "attr.data-active": "_pattern.active()",
+        "attr.data-anchor": "_pattern.anchor()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-rowspan": "_pattern.rowSpan()",
         "attr.aria-colspan": "_pattern.colSpan()",
@@ -432,6 +478,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.rowspan]': '_pattern.rowSpan()',
         '[attr.colspan]': '_pattern.colSpan()',
         '[attr.data-active]': '_pattern.active()',
+        '[attr.data-anchor]': '_pattern.anchor()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-rowspan]': '_pattern.rowSpan()',
         '[attr.aria-colspan]': '_pattern.colSpan()',

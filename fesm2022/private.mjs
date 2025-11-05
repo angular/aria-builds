@@ -341,7 +341,7 @@ class ListFocus {
     this.prevActiveItem.set(this.inputs.activeItem());
     this.inputs.activeItem.set(item);
     if (opts?.focusElement || opts?.focusElement === undefined) {
-      this.inputs.focusMode() === 'roving' ? item.element().focus() : this.inputs.element()?.focus();
+      this.inputs.focusMode() === 'roving' ? item.element()?.focus() : this.inputs.element()?.focus();
     }
     return true;
   }
@@ -371,17 +371,23 @@ class ListNavigation {
     return this._peek(-1);
   }
   first(opts) {
-    const item = this.inputs.items().find(i => this.inputs.focusManager.isFocusable(i));
+    const item = this.peekFirst();
     return item ? this.goto(item, opts) : false;
   }
   last(opts) {
-    const items = this.inputs.items();
+    const item = this.peekLast();
+    return item ? this.goto(item, opts) : false;
+  }
+  peekFirst(items = this.inputs.items()) {
+    return items.find(i => this.inputs.focusManager.isFocusable(i));
+  }
+  peekLast(items = this.inputs.items()) {
     for (let i = items.length - 1; i >= 0; i--) {
       if (this.inputs.focusManager.isFocusable(items[i])) {
-        return this.goto(items[i], opts);
+        return items[i];
       }
     }
-    return false;
+    return;
   }
   _advance(delta, opts) {
     const item = this._peek(delta);
@@ -633,8 +639,8 @@ class List {
   selectOne() {
     this.selectionBehavior.selectOne();
   }
-  deselect() {
-    this.selectionBehavior.deselect();
+  deselect(item) {
+    this.selectionBehavior.deselect(item);
   }
   deselectAll() {
     this.selectionBehavior.deselectAll();
@@ -1027,7 +1033,7 @@ class MenuPattern {
     if (parent instanceof MenuItemPattern) {
       const grandparent = parent.inputs.parent();
       const siblings = grandparent?.inputs.items().filter(i => i !== parent);
-      const item = siblings?.find(i => i.element().contains(relatedTarget));
+      const item = siblings?.find(i => i.element()?.contains(relatedTarget));
       if (item) {
         return;
       }
@@ -1568,59 +1574,6 @@ class TabListPattern {
   }
 }
 
-class ToolbarWidgetPattern {
-  inputs;
-  id;
-  element;
-  disabled;
-  toolbar;
-  tabIndex = computed(() => this.toolbar().listBehavior.getItemTabindex(this));
-  searchTerm = () => '';
-  value = () => '';
-  selectable = () => true;
-  index = computed(() => this.toolbar().inputs.items().indexOf(this) ?? -1);
-  active = computed(() => this.toolbar().inputs.activeItem() === this);
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.id = inputs.id;
-    this.element = inputs.element;
-    this.disabled = inputs.disabled;
-    this.toolbar = inputs.toolbar;
-  }
-}
-
-class ToolbarWidgetGroupPattern {
-  inputs;
-  id;
-  element;
-  disabled;
-  toolbar;
-  searchTerm = () => '';
-  value = () => '';
-  selectable = () => true;
-  index = computed(() => this.toolbar()?.inputs.items().indexOf(this) ?? -1);
-  controls = computed(() => this.inputs.controls() ?? this._defaultControls);
-  _defaultControls = {
-    isOnFirstItem: () => true,
-    isOnLastItem: () => true,
-    next: () => {},
-    prev: () => {},
-    first: () => {},
-    last: () => {},
-    unfocus: () => {},
-    trigger: () => {},
-    goto: () => {},
-    setDefaultState: () => {}
-  };
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.id = inputs.id;
-    this.element = inputs.element;
-    this.disabled = inputs.disabled;
-    this.toolbar = inputs.toolbar;
-  }
-}
-
 class ToolbarPattern {
   inputs;
   listBehavior;
@@ -1629,6 +1582,7 @@ class ToolbarPattern {
   disabled = computed(() => this.listBehavior.disabled());
   tabIndex = computed(() => this.listBehavior.tabIndex());
   activeDescendant = computed(() => this.listBehavior.activeDescendant());
+  activeItem = () => this.listBehavior.inputs.activeItem();
   _prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
@@ -1655,84 +1609,45 @@ class ToolbarPattern {
   });
   _keydown = computed(() => {
     const manager = new KeyboardEventManager();
-    return manager.on(this._nextKey, () => this._next()).on(this._prevKey, () => this._prev()).on(this._altNextKey, () => this._groupNext()).on(this._altPrevKey, () => this._groupPrev()).on(' ', () => this._trigger()).on('Enter', () => this._trigger()).on('Home', () => this._first()).on('End', () => this._last());
+    return manager.on(this._nextKey, () => this.listBehavior.next()).on(this._prevKey, () => this.listBehavior.prev()).on(this._altNextKey, () => this._groupNext()).on(this._altPrevKey, () => this._groupPrev()).on(' ', () => this.select()).on('Enter', () => this.select()).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last());
   });
-  _pointerdown = computed(() => new PointerEventManager().on(e => this._goto(e)));
-  _next() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetGroupPattern) {
-      if (!item.disabled() && !item.controls().isOnLastItem()) {
-        item.controls().next(false);
-        return;
-      }
-      item.controls().unfocus();
+  _groupNext() {
+    const currGroup = this.inputs.activeItem()?.group();
+    const nextGroup = this.listBehavior.navigationBehavior.peekNext()?.group();
+    if (!currGroup) {
+      return;
+    }
+    if (currGroup !== nextGroup) {
+      this.listBehavior.goto(this.listBehavior.navigationBehavior.peekFirst(currGroup.inputs.items()));
+      return;
     }
     this.listBehavior.next();
-    const newItem = this.inputs.activeItem();
-    if (newItem instanceof ToolbarWidgetGroupPattern) {
-      newItem.controls().first();
-    }
-  }
-  _prev() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetGroupPattern) {
-      if (!item.disabled() && !item.controls().isOnFirstItem()) {
-        item.controls().prev(false);
-        return;
-      }
-      item.controls().unfocus();
-    }
-    this.listBehavior.prev();
-    const newItem = this.inputs.activeItem();
-    if (newItem instanceof ToolbarWidgetGroupPattern) {
-      newItem.controls().last();
-    }
-  }
-  _groupNext() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetPattern) return;
-    item?.controls().next(true);
   }
   _groupPrev() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetPattern) return;
-    item?.controls().prev(true);
-  }
-  _trigger() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetGroupPattern) {
-      item.controls().trigger();
+    const currGroup = this.inputs.activeItem()?.group();
+    const nextGroup = this.listBehavior.navigationBehavior.peekPrev()?.group();
+    if (!currGroup) {
+      return;
     }
-  }
-  _first() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetGroupPattern) {
-      item.controls().unfocus();
+    if (currGroup !== nextGroup) {
+      this.listBehavior.goto(this.listBehavior.navigationBehavior.peekLast(currGroup.inputs.items()));
+      return;
     }
-    this.listBehavior.first();
-    const newItem = this.inputs.activeItem();
-    if (newItem instanceof ToolbarWidgetGroupPattern) {
-      newItem.controls().first();
-    }
-  }
-  _last() {
-    const item = this.inputs.activeItem();
-    if (item instanceof ToolbarWidgetGroupPattern) {
-      item.controls().unfocus();
-    }
-    this.listBehavior.last();
-    const newItem = this.inputs.activeItem();
-    if (newItem instanceof ToolbarWidgetGroupPattern) {
-      newItem.controls().last();
-    }
+    this.listBehavior.prev();
   }
   _goto(e) {
     const item = this.inputs.getItem(e.target);
-    if (!item) return;
-    this.listBehavior.goto(item);
-    if (item instanceof ToolbarWidgetGroupPattern) {
-      item.controls().goto(e);
+    if (item) {
+      this.listBehavior.goto(item);
+      this.select();
     }
+  }
+  select() {
+    const group = this.inputs.activeItem()?.group();
+    if (!group?.multi()) {
+      group?.inputs.items().forEach(i => this.listBehavior.deselect(i));
+    }
+    this.listBehavior.toggle();
   }
   constructor(inputs) {
     this.inputs = inputs;
@@ -1740,7 +1655,7 @@ class ToolbarPattern {
     this.softDisabled = inputs.softDisabled;
     this.listBehavior = new List({
       ...inputs,
-      multi: () => false,
+      multi: () => true,
       focusMode: () => 'roving',
       selectionMode: () => 'explicit',
       value: signal([]),
@@ -1752,28 +1667,54 @@ class ToolbarPattern {
     this._keydown().handle(event);
   }
   onPointerdown(event) {
+    event.preventDefault();
+  }
+  onClick(event) {
     if (this.disabled()) return;
-    this._pointerdown().handle(event);
+    this._goto(event);
   }
   setDefaultState() {
-    let firstItem = null;
-    for (const item of this.inputs.items()) {
-      if (this.listBehavior.isFocusable(item)) {
-        if (!firstItem) {
-          firstItem = item;
-        }
-      }
-    }
+    const firstItem = this.listBehavior.navigationBehavior.peekFirst(this.inputs.items());
     if (firstItem) {
       this.inputs.activeItem.set(firstItem);
-    }
-    if (firstItem instanceof ToolbarWidgetGroupPattern) {
-      firstItem.controls().setDefaultState();
     }
   }
   validate() {
     const violations = [];
     return violations;
+  }
+}
+
+class ToolbarWidgetPattern {
+  inputs;
+  id = () => this.inputs.id();
+  element = () => this.inputs.element();
+  disabled = () => this.inputs.disabled() || this.group()?.disabled() || false;
+  group = () => this.inputs.group();
+  toolbar = () => this.inputs.toolbar();
+  tabIndex = computed(() => this.toolbar().listBehavior.getItemTabindex(this));
+  searchTerm = () => '';
+  value = () => this.inputs.value();
+  selectable = () => true;
+  index = computed(() => this.toolbar().inputs.items().indexOf(this) ?? -1);
+  selected = computed(() => this.toolbar().listBehavior.inputs.value().includes(this.value()));
+  active = computed(() => this.toolbar().activeItem() === this);
+  constructor(inputs) {
+    this.inputs = inputs;
+  }
+}
+
+class ToolbarWidgetGroupPattern {
+  inputs;
+  disabled = () => this.inputs.disabled();
+  toolbar = () => this.inputs.toolbar();
+  multi = () => this.inputs.multi();
+  searchTerm = () => '';
+  value = () => '';
+  selectable = () => true;
+  element = () => undefined;
+  constructor(inputs) {
+    this.inputs = inputs;
   }
 }
 

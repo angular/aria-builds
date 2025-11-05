@@ -3,11 +3,11 @@ import { inject, ElementRef, input, signal, computed, effect, Directive, content
 import * as i1 from '@angular/aria/private';
 import { MenuTriggerPattern, DeferredContentAware, MenuPattern, MenuBarPattern, MenuItemPattern, DeferredContent } from '@angular/aria/private';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Directionality } from '@angular/cdk/bidi';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);
+  textDirection = inject(Directionality).valueSignal;
   element = this._elementRef.nativeElement;
   menu = input(undefined, ...(ngDevMode ? [{
     debugName: "menu"
@@ -16,6 +16,7 @@ class MenuTrigger {
     debugName: "hasBeenFocused"
   }] : []));
   _pattern = new MenuTriggerPattern({
+    textDirection: this.textDirection,
     element: computed(() => this._elementRef.nativeElement),
     menu: computed(() => this.menu()?._pattern)
   });
@@ -107,10 +108,7 @@ class Menu {
   }] : []));
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _directionality = inject(Directionality);
-  textDirection = toSignal(this._directionality.change, {
-    initialValue: this._directionality.value
-  });
+  textDirection = inject(Directionality).valueSignal;
   id = input(inject(_IdGenerator).getId('ng-menu-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -286,10 +284,7 @@ class MenuBar {
   _items = () => this._allItems().filter(i => i.parent === this);
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _directionality = inject(Directionality);
-  textDirection = toSignal(this._directionality.change, {
-    initialValue: this._directionality.value
-  });
+  textDirection = inject(Directionality).valueSignal;
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
   }] : []));

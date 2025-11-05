@@ -1,7 +1,7 @@
 import * as _angular_core from '@angular/core';
 import { Signal, OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { ToolbarWidgetPattern, ToolbarWidgetGroupPattern, ToolbarPattern, ToolbarWidgetGroupControls } from '@angular/aria/private';
+import { ToolbarWidgetPattern, ToolbarPattern, SignalLike, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 
 /**
  * A toolbar widget container.
@@ -26,10 +26,10 @@ declare class Toolbar<V> {
     private readonly _elementRef;
     /** The TabList nested inside of the container. */
     private readonly _widgets;
-    /** A signal wrapper for directionality. */
+    /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Sorted UIPatterns of the child widgets */
-    readonly items: Signal<(ToolbarWidgetPattern<V> | ToolbarWidgetGroupPattern<V>)[]>;
+    readonly items: Signal<ToolbarWidgetPattern<V>[]>;
     /** Whether the toolbar is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether to allow disabled items to receive focus. */
@@ -41,11 +41,11 @@ declare class Toolbar<V> {
     /** The toolbar UIPattern. */
     readonly _pattern: ToolbarPattern<V>;
     /** Whether the toolbar has received focus yet. */
-    private _hasFocused;
+    private _hasBeenFocused;
     constructor();
     onFocus(): void;
-    register(widget: ToolbarWidget<V> | ToolbarWidgetGroup<V>): void;
-    unregister(widget: ToolbarWidget<V> | ToolbarWidgetGroup<V>): void;
+    register(widget: ToolbarWidget<V>): void;
+    unregister(widget: ToolbarWidget<V>): void;
     /** Finds the toolbar item associated with a given element. */
     private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Toolbar<any>, never>;
@@ -65,7 +65,7 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     /** A unique identifier for the widget. */
     private readonly _generatedId;
     /** A unique identifier for the widget. */
-    readonly id: Signal<string>;
+    readonly id: _angular_core.InputSignal<string>;
     /** The parent Toolbar UIPattern. */
     readonly toolbar: Signal<ToolbarPattern<any>>;
     /** A reference to the widget element to be focused on navigation. */
@@ -74,40 +74,43 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the widget is 'hard' disabled, which is different from `aria-disabled`. A hard disabled widget cannot receive focus. */
     readonly hardDisabled: Signal<boolean>;
+    /** The optional ToolbarWidgetGroup this widget belongs to. */
+    readonly _group: ToolbarWidgetGroup<any> | null;
+    /** The value associated with the widget. */
+    readonly value: _angular_core.InputSignal<V>;
+    /** Whether the widget is currently active (focused). */
+    readonly active: Signal<boolean>;
+    /** Whether the widget is selected (only relevant in a selection group). */
+    readonly selected: () => boolean;
+    readonly group: SignalLike<ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V> | undefined>;
     /** The ToolbarWidget UIPattern. */
     readonly _pattern: ToolbarWidgetPattern<V>;
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ToolbarWidget<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ToolbarWidget<any>, "[ngToolbarWidget]", ["ngToolbarWidget"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ToolbarWidget<any>, "[ngToolbarWidget]", ["ngToolbarWidget"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
  * A directive that groups toolbar widgets, used for more complex widgets like radio groups that
  * have their own internal navigation.
  */
-declare class ToolbarWidgetGroup<V> implements OnInit, OnDestroy {
-    /** A reference to the widget element. */
-    private readonly _elementRef;
+declare class ToolbarWidgetGroup<V> {
     /** The parent Toolbar. */
     private readonly _toolbar;
-    /** A unique identifier for the widget. */
-    private readonly _generatedId;
-    /** A unique identifier for the widget. */
-    readonly id: Signal<string>;
+    /** The list of child widgets within the group. */
+    private readonly _widgets;
     /** The parent Toolbar UIPattern. */
     readonly toolbar: Signal<ToolbarPattern<any> | undefined>;
-    /** A reference to the widget element to be focused on navigation. */
-    readonly element: Signal<any>;
     /** Whether the widget group is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The controls that can be performed on the widget group. */
-    readonly controls: _angular_core.WritableSignal<ToolbarWidgetGroupControls | undefined>;
+    /** The list of toolbar items within the group. */
+    readonly items: () => ToolbarWidgetPattern<any>[];
+    /** Whether the group allows multiple widgets to be selected. */
+    readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The ToolbarWidgetGroup UIPattern. */
-    readonly _pattern: ToolbarWidgetGroupPattern<V>;
-    ngOnInit(): void;
-    ngOnDestroy(): void;
+    readonly _pattern: ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V>;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ToolbarWidgetGroup<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ToolbarWidgetGroup<any>, never, never, { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ToolbarWidgetGroup<any>, "[ngToolbarWidgetGroup]", ["ngToolbarWidgetGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; }, {}, ["_widgets"], never, true, never>;
 }
 
 export { Toolbar, ToolbarWidget, ToolbarWidgetGroup };

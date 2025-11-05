@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, computed, input, booleanAttribute, afterRenderEffect, Directive } from '@angular/core';
+import { inject, ElementRef, signal, computed, input, booleanAttribute, afterRenderEffect, Directive, contentChildren } from '@angular/core';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -44,8 +44,8 @@ class Toolbar {
     element: () => this._elementRef.nativeElement,
     getItem: e => this._getItem(e)
   });
-  _hasFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "_hasFocused"
+  _hasBeenFocused = signal(false, ...(ngDevMode ? [{
+    debugName: "_hasBeenFocused"
   }] : []));
   constructor() {
     afterRenderEffect(() => {
@@ -57,13 +57,13 @@ class Toolbar {
       }
     });
     afterRenderEffect(() => {
-      if (!this._hasFocused()) {
+      if (!this._hasBeenFocused()) {
         this._pattern.setDefaultState();
       }
     });
   }
   onFocus() {
-    this._hasFocused.set(true);
+    this._hasBeenFocused.set(true);
   }
   register(widget) {
     const widgets = this._widgets();
@@ -80,8 +80,7 @@ class Toolbar {
   }
   _getItem(element) {
     const widgetTarget = element.closest('.ng-toolbar-widget');
-    const groupTarget = element.closest('.ng-toolbar-widget-group');
-    return this.items().find(widget => widget.element() === widgetTarget || widget.element() === groupTarget);
+    return this.items().find(widget => widget.element() === widgetTarget);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -133,6 +132,7 @@ class Toolbar {
       },
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
+        "click": "_pattern.onClick($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
         "focusin": "onFocus()"
       },
@@ -164,6 +164,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-orientation]': '_pattern.orientation()',
         '(keydown)': '_pattern.onKeydown($event)',
+        '(click)': '_pattern.onClick($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': 'onFocus()'
       }
@@ -175,7 +176,7 @@ class ToolbarWidget {
   _elementRef = inject(ElementRef);
   _toolbar = inject(Toolbar);
   _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-', true);
-  id = computed(() => this._generatedId, ...(ngDevMode ? [{
+  id = input(this._generatedId, ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
   toolbar = computed(() => this._toolbar._pattern, ...(ngDevMode ? [{
@@ -193,11 +194,22 @@ class ToolbarWidget {
   hardDisabled = computed(() => this._pattern.disabled() && !this._toolbar.softDisabled(), ...(ngDevMode ? [{
     debugName: "hardDisabled"
   }] : []));
+  _group = inject(ToolbarWidgetGroup, {
+    optional: true
+  });
+  value = input.required(...(ngDevMode ? [{
+    debugName: "value"
+  }] : []));
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
+  selected = () => this._pattern.selected();
+  group = () => this._group?._pattern;
   _pattern = new ToolbarWidgetPattern({
     ...this,
     id: this.id,
-    element: this.element,
-    disabled: computed(() => this._toolbar.disabled() || this.disabled())
+    value: this.value,
+    element: this.element
   });
   ngOnInit() {
     this._toolbar.register(this);
@@ -220,11 +232,25 @@ class ToolbarWidget {
     isStandalone: true,
     selector: "[ngToolbarWidget]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
         isSignal: true,
         isRequired: false,
+        transformFunction: null
+      },
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
+        isSignal: true,
+        isRequired: true,
         transformFunction: null
       }
     },
@@ -266,19 +292,17 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 class ToolbarWidgetGroup {
-  _elementRef = inject(ElementRef);
   _toolbar = inject(Toolbar, {
     optional: true
   });
-  _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-group-', true);
-  id = computed(() => this._generatedId, ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
+  _widgets = contentChildren(ToolbarWidget, ...(ngDevMode ? [{
+    debugName: "_widgets",
+    descendants: true
+  }] : [{
+    descendants: true
+  }]));
   toolbar = computed(() => this._toolbar?._pattern, ...(ngDevMode ? [{
     debugName: "toolbar"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -286,20 +310,14 @@ class ToolbarWidgetGroup {
   }] : [{
     transform: booleanAttribute
   }]));
-  controls = signal(undefined, ...(ngDevMode ? [{
-    debugName: "controls"
-  }] : []));
-  _pattern = new ToolbarWidgetGroupPattern({
-    ...this,
-    id: this.id,
-    element: this.element
-  });
-  ngOnInit() {
-    this._toolbar?.register(this);
-  }
-  ngOnDestroy() {
-    this._toolbar?.unregister(this);
-  }
+  items = () => this._widgets().map(w => w._pattern);
+  multi = input(false, ...(ngDevMode ? [{
+    debugName: "multi",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  _pattern = new ToolbarWidgetGroupPattern(this);
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -309,14 +327,22 @@ class ToolbarWidgetGroup {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
+    minVersion: "17.2.0",
     version: "20.2.0-next.2",
     type: ToolbarWidgetGroup,
     isStandalone: true,
+    selector: "[ngToolbarWidgetGroup]",
     inputs: {
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      multi: {
+        classPropertyName: "multi",
+        publicName: "multi",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -327,6 +353,13 @@ class ToolbarWidgetGroup {
         "class.ng-toolbar-widget-group": "!!toolbar()"
       }
     },
+    queries: [{
+      propertyName: "_widgets",
+      predicate: ToolbarWidget,
+      descendants: true,
+      isSignal: true
+    }],
+    exportAs: ["ngToolbarWidgetGroup"],
     ngImport: i0
   });
 }
@@ -338,6 +371,8 @@ i0.ɵɵngDeclareClassMetadata({
   decorators: [{
     type: Directive,
     args: [{
+      selector: '[ngToolbarWidgetGroup]',
+      exportAs: 'ngToolbarWidgetGroup',
       host: {
         '[class.ng-toolbar-widget-group]': '!!toolbar()'
       }

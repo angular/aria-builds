@@ -27,13 +27,19 @@ declare class Grid {
     readonly rowWrap: _angular_core.InputSignal<"continuous" | "loop" | "nowrap">;
     /** The wrapping behavior for keyboard navigation along the column axis. */
     readonly colWrap: _angular_core.InputSignal<"continuous" | "loop" | "nowrap">;
+    /** Whether multiple cells in the grid can be selected. */
+    readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The selection strategy used by the grid. */
+    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    /** Whether enable range selections (with modifier keys or dragging). */
+    readonly enableRangeSelection: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The UI pattern for the grid. */
     readonly _pattern: GridPattern;
     constructor();
     /** Gets the cell pattern for a given element. */
     private _getCell;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Grid, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "enableRangeSelection": { "alias": "enableRangeSelection"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
 }
 /** A directive that represents a row in a grid. */
 declare class GridRow {
