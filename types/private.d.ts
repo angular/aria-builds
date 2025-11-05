@@ -143,9 +143,9 @@ declare class ListSelection<T extends ListSelectionItem<V>, V> {
         anchor: boolean;
     }): void;
     /** Deselects the item at the current active index. */
-    deselect(item?: T | null): void;
+    deselect(item?: ListSelectionItem<V>): void;
     /** Toggles the item at the current active index. */
-    toggle(): void;
+    toggle(item?: ListSelectionItem<V>): void;
     /** Toggles only the item at the current active index. */
     toggleOne(): void;
     /** Selects all items in the list. */
@@ -294,7 +294,7 @@ declare class List<T extends ListItem<V>, V> {
     /** Deselects all items in the list. */
     deselectAll(): void;
     /** Toggles the currently active item in the list. */
-    toggle(): void;
+    toggle(item?: T): void;
     /** Toggles the currently active item in the list, deselecting all other items. */
     toggleOne(): void;
     /** Toggles the selection of all items in the list. */
@@ -342,12 +342,16 @@ interface ComboboxListboxControls<T extends ListItem<V>, V> {
     id: () => string;
     /** The ARIA role for the popup. */
     role: SignalLike<'listbox' | 'tree' | 'grid'>;
+    /** Whether multiple items in the popup can be selected at once. */
+    multi: SignalLike<boolean>;
     /** The ID of the active item in the popup. */
     activeId: SignalLike<string | undefined>;
     /** The list of items in the popup. */
     items: SignalLike<T[]>;
     /** Navigates to the given item in the popup. */
-    focus: (item: T) => void;
+    focus: (item: T, opts?: {
+        focusElement?: boolean;
+    }) => void;
     /** Navigates to the next item in the popup. */
     next: () => void;
     /** Navigates to the previous item in the popup. */
@@ -358,14 +362,16 @@ interface ComboboxListboxControls<T extends ListItem<V>, V> {
     last: () => void;
     /** Selects the current item in the popup. */
     select: (item?: T) => void;
+    /** Toggles the selection state of the given item in the popup. */
+    toggle: (item?: T) => void;
     /** Clears the selection state of the popup. */
     clearSelection: () => void;
     /** Removes focus from any item in the popup. */
     unfocus: () => void;
     /** Returns the item corresponding to the given event. */
     getItem: (e: PointerEvent) => T | undefined;
-    /** Returns the currently selected item in the popup. */
-    getSelectedItem: () => T | undefined;
+    /** Returns the currently selected items in the popup. */
+    getSelectedItems: () => T[];
     /** Sets the value of the combobox based on the selected item. */
     setValue: (value: V | undefined) => void;
 }
@@ -377,11 +383,15 @@ interface ComboboxTreeControls<T extends ListItem<V>, V> extends ComboboxListbox
     /** Collapses the currently active item in the popup. */
     collapseItem: () => void;
     /** Checks if the currently active item in the popup is expandable. */
-    isItemExpandable: () => boolean;
+    isItemExpandable: (item?: T) => boolean;
     /** Expands all nodes in the tree. */
     expandAll: () => void;
     /** Collapses all nodes in the tree. */
     collapseAll: () => void;
+    /** Toggles the expansion state of the currently active item in the popup. */
+    toggleExpansion: (item?: T) => void;
+    /** Whether the current active item is selectable. */
+    isItemSelectable: (item?: T) => boolean;
 }
 /** Controls the state of a combobox. */
 declare class ComboboxPattern<T extends ListItem<V>, V> {
@@ -579,6 +589,8 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
     items: SignalLike<OptionPattern<V>[]>;
     /** The tab index for the listbox. Always -1 because the combobox handles focus. */
     tabIndex: SignalLike<-1 | 0>;
+    /** Whether multiple items in the list can be selected at once. */
+    multi: _angular_core.Signal<boolean>;
     constructor(inputs: ComboboxListboxInputs<V>);
     /** Noop. The combobox handles keydown events. */
     onKeydown(_: KeyboardEvent): void;
@@ -587,7 +599,9 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
     /** Noop. The combobox controls the open state. */
     setDefaultState(): void;
     /** Navigates to the specified item in the listbox. */
-    focus: (item: OptionPattern<V>) => void;
+    focus: (item: OptionPattern<V>, opts?: {
+        focusElement?: boolean;
+    }) => void;
     /** Navigates to the next focusable item in the listbox. */
     next: () => void;
     /** Navigates to the previous focusable item in the listbox. */
@@ -600,12 +614,14 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
     unfocus: () => void;
     /** Selects the specified item in the listbox. */
     select: (item?: OptionPattern<V>) => void;
+    /** Toggles the selection state of the given item in the listbox. */
+    toggle: (item?: OptionPattern<V>) => void;
     /** Clears the selection in the listbox. */
     clearSelection: () => void;
     /** Retrieves the OptionPattern associated with a pointer event. */
     getItem: (e: PointerEvent) => OptionPattern<V> | undefined;
-    /** Retrieves the currently selected item in the listbox. */
-    getSelectedItem: () => OptionPattern<V> | undefined;
+    /** Retrieves the currently selected items in the listbox. */
+    getSelectedItems: () => OptionPattern<V>[];
     /** Sets the value of the combobox listbox. */
     setValue: (value: V | undefined) => void;
 }
@@ -1444,12 +1460,14 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     unfocus: () => void;
     /** Selects the specified item in the tree or the current active item if not provided. */
     select: (item?: TreeItemPattern<V>) => void;
+    /** Toggles the selection state of the given item in the tree or the current active item if not provided. */
+    toggle: (item?: TreeItemPattern<V>) => void;
     /** Clears the selection in the tree. */
     clearSelection: () => void;
     /** Retrieves the TreeItemPattern associated with a pointer event. */
     getItem: (e: PointerEvent) => TreeItemPattern<V> | undefined;
-    /** Retrieves the currently selected item in the tree */
-    getSelectedItem: () => TreeItemPattern<V> | undefined;
+    /** Retrieves the currently selected items in the tree */
+    getSelectedItems: () => TreeItemPattern<V>[];
     /** Sets the value of the combobox tree. */
     setValue: (value: V | undefined) => void;
     /** Expands the currently focused item if it is expandable. */
@@ -1462,6 +1480,8 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     expandAll: () => void;
     /** Collapses all of the tree items. */
     collapseAll: () => void;
+    /** Whether the currently active item is selectable. */
+    isItemSelectable: (item?: TreeItemPattern<V> | undefined) => boolean;
 }
 
 /**
