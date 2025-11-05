@@ -23,7 +23,7 @@ class ComboboxPattern {
       })).on('ArrowUp', () => this.open({
         last: true
       })).on('Escape', () => this.close({
-        reset: true
+        reset: !this.readonly()
       }));
       if (this.readonly()) {
         manager.on('Enter', () => this.open({
@@ -39,19 +39,30 @@ class ComboboxPattern {
       return new KeyboardEventManager();
     }
     const manager = new KeyboardEventManager().on('ArrowDown', () => this.next()).on('ArrowUp', () => this.prev()).on('Home', () => this.first()).on('End', () => this.last()).on('Escape', () => this.close({
-      reset: true
-    })).on('Enter', () => this.select({
-      commit: true,
-      close: true
+      reset: !this.readonly()
     }));
     if (this.readonly()) {
       manager.on(' ', () => this.select({
         commit: true,
-        close: true
+        close: !popupControls.multi()
+      }));
+    }
+    if (popupControls.role() === 'listbox') {
+      manager.on('Enter', () => this.select({
+        commit: true,
+        close: !popupControls.multi()
       }));
     }
     if (popupControls.role() === 'tree') {
       const treeControls = popupControls;
+      if (treeControls.isItemSelectable()) {
+        manager.on('Enter', () => this.select({
+          commit: true,
+          close: true
+        }));
+      } else if (treeControls.isItemExpandable()) {
+        manager.on('Enter', () => this.expandItem());
+      }
       if (treeControls.isItemExpandable() || treeControls.isItemCollapsible()) {
         manager.on(this.collapseKey(), () => this.collapseItem());
       }
@@ -64,10 +75,18 @@ class ComboboxPattern {
   pointerup = computed(() => new PointerEventManager().on(e => {
     const item = this.inputs.popupControls()?.getItem(e);
     if (item) {
+      if (this.inputs.popupControls()?.role() === 'tree') {
+        const treeControls = this.inputs.popupControls();
+        if (treeControls.isItemExpandable(item) && !treeControls.isItemSelectable(item)) {
+          treeControls.toggleExpansion(item);
+          this.inputs.inputEl()?.focus();
+          return;
+        }
+      }
       this.select({
         item,
         commit: true,
-        close: true
+        close: !this.inputs.popupControls()?.multi()
       });
       this.inputs.inputEl()?.focus();
     }
@@ -76,8 +95,6 @@ class ComboboxPattern {
         this.expanded() ? this.close() : this.open({
           selected: true
         });
-      } else {
-        this.open();
       }
     }
   }));
@@ -106,7 +123,8 @@ class ComboboxPattern {
     this.inputs.inputValue?.set(inputEl.value);
     this.isDeleting = event instanceof InputEvent && !!event.inputType.match(/^delete/);
     if (this.inputs.filterMode() === 'manual') {
-      const searchTerm = this.inputs.popupControls()?.getSelectedItem()?.searchTerm();
+      const selectedItems = this.inputs.popupControls()?.getSelectedItems();
+      const searchTerm = selectedItems?.[0]?.searchTerm();
       if (searchTerm && this.inputs.inputValue() !== searchTerm) {
         this.inputs.popupControls()?.clearSelection();
       }
@@ -124,6 +142,10 @@ class ComboboxPattern {
     }
     if (!(event.relatedTarget instanceof HTMLElement) || !this.inputs.containerEl()?.contains(event.relatedTarget)) {
       this.isFocused.set(false);
+      if (this.readonly()) {
+        this.close();
+        return;
+      }
       if (this.inputs.filterMode() !== 'manual') {
         this.commit();
       } else {
@@ -144,6 +166,9 @@ class ComboboxPattern {
     return this.inputs.popupControls()?.items().find(i => i.value() === this.inputs.firstMatch());
   });
   onFilter() {
+    if (this.readonly()) {
+      return;
+    }
     const isInitialRender = !this.inputs.inputValue?.().length && !this.isDeleting;
     if (isInitialRender) {
       return;
@@ -173,7 +198,8 @@ class ComboboxPattern {
   }
   highlight() {
     const inputEl = this.inputs.inputEl();
-    const item = this.inputs.popupControls()?.getSelectedItem();
+    const selectedItems = this.inputs.popupControls()?.getSelectedItems();
+    const item = selectedItems?.[0];
     if (!inputEl || !item) {
       return;
     }
@@ -200,7 +226,7 @@ class ComboboxPattern {
       }
     } else if (this.expanded()) {
       this.close();
-      const selectedItem = popupControls?.getSelectedItem();
+      const selectedItem = popupControls?.getSelectedItems()?.[0];
       if (selectedItem?.searchTerm() !== this.inputs.inputValue()) {
         popupControls?.clearSelection();
       }
@@ -227,7 +253,7 @@ class ComboboxPattern {
       this.last();
     }
     if (nav?.selected) {
-      const selectedItem = this.inputs.popupControls()?.getSelectedItem();
+      const selectedItem = this.inputs.popupControls()?.items().find(i => this.inputs.popupControls()?.getSelectedItems().includes(i));
       selectedItem ? this.inputs.popupControls()?.focus(selectedItem) : this.first();
     }
   }
@@ -252,7 +278,13 @@ class ComboboxPattern {
     this._navigate(() => controls?.expandItem());
   }
   select(opts = {}) {
-    this.inputs.popupControls()?.select(opts.item);
+    const controls = this.inputs.popupControls();
+    if (opts.item) {
+      controls?.focus(opts.item, {
+        focusElement: false
+      });
+    }
+    controls?.multi() ? controls.toggle(opts.item) : controls?.select(opts.item);
     if (opts.commit) {
       this.commit();
     }
@@ -262,14 +294,15 @@ class ComboboxPattern {
   }
   commit() {
     const inputEl = this.inputs.inputEl();
-    const item = this.inputs.popupControls()?.getSelectedItem();
-    if (inputEl && item) {
-      inputEl.value = item.searchTerm();
-      this.inputs.inputValue?.set(item.searchTerm());
-      if (this.inputs.filterMode() === 'highlight') {
-        const length = inputEl.value.length;
-        inputEl.setSelectionRange(length, length);
-      }
+    const selectedItems = this.inputs.popupControls()?.getSelectedItems();
+    if (!inputEl) {
+      return;
+    }
+    inputEl.value = selectedItems?.map(i => i.searchTerm()).join(', ') || '';
+    this.inputs.inputValue?.set(inputEl.value);
+    if (this.inputs.filterMode() === 'highlight' && !this.readonly()) {
+      const length = inputEl.value.length;
+      inputEl.setSelectionRange(length, length);
     }
   }
   _navigate(operation) {
@@ -278,7 +311,7 @@ class ComboboxPattern {
       this.select();
     }
     if (this.inputs.filterMode() === 'highlight') {
-      const selectedItem = this.inputs.popupControls()?.getSelectedItem();
+      const selectedItem = this.inputs.popupControls()?.getSelectedItems()[0];
       if (!selectedItem) {
         return;
       }
@@ -434,10 +467,10 @@ class ListSelection {
       this.inputs.value.update(values => values.filter(value => value !== item.value()));
     }
   }
-  toggle() {
-    const item = this.inputs.focusManager.inputs.activeItem();
+  toggle(item) {
+    item = item ?? this.inputs.focusManager.inputs.activeItem();
     if (item) {
-      this.inputs.value().includes(item.value()) ? this.deselect() : this.select();
+      this.inputs.value().includes(item.value()) ? this.deselect(item) : this.select(item);
     }
   }
   toggleOne() {
@@ -642,8 +675,8 @@ class List {
   deselectAll() {
     this.selectionBehavior.deselectAll();
   }
-  toggle() {
-    this.selectionBehavior.toggle();
+  toggle(item) {
+    this.selectionBehavior.toggle(item);
   }
   toggleOne() {
     this.selectionBehavior.toggleOne();
@@ -880,9 +913,11 @@ class ComboboxListboxPattern extends ListboxPattern {
   activeId = computed(() => this.listBehavior.activeDescendant());
   items = computed(() => this.inputs.items());
   tabIndex = () => -1;
+  multi = computed(() => {
+    return this.inputs.combobox()?.readonly() ? this.inputs.multi() : false;
+  });
   constructor(inputs) {
     if (inputs.combobox()) {
-      inputs.multi = () => false;
       inputs.focusMode = () => 'activedescendant';
       inputs.element = inputs.combobox().inputs.inputEl;
     }
@@ -892,16 +927,28 @@ class ComboboxListboxPattern extends ListboxPattern {
   onKeydown(_) {}
   onPointerdown(_) {}
   setDefaultState() {}
-  focus = item => this.listBehavior.goto(item);
+  focus = (item, opts) => {
+    this.listBehavior.goto(item, opts);
+  };
   next = () => this.listBehavior.next();
   prev = () => this.listBehavior.prev();
   last = () => this.listBehavior.last();
   first = () => this.listBehavior.first();
   unfocus = () => this.listBehavior.unfocus();
   select = item => this.listBehavior.select(item);
+  toggle = item => this.listBehavior.toggle(item);
   clearSelection = () => this.listBehavior.deselectAll();
   getItem = e => this._getItem(e);
-  getSelectedItem = () => this.inputs.items().find(i => i.selected());
+  getSelectedItems = () => {
+    const items = [];
+    for (const value of this.inputs.value()) {
+      const item = this.items().find(i => i.value() === value);
+      if (item) {
+        items.push(item);
+      }
+    }
+    return items;
+  };
   setValue = value => this.inputs.value.set(value ? [value] : []);
 }
 
@@ -2164,9 +2211,10 @@ class ComboboxTreePattern extends TreePattern {
   first = () => this.listBehavior.first();
   unfocus = () => this.listBehavior.unfocus();
   select = item => this.listBehavior.select(item);
+  toggle = item => this.listBehavior.toggle(item);
   clearSelection = () => this.listBehavior.deselectAll();
   getItem = e => this._getItem(e);
-  getSelectedItem = () => this.inputs.allItems().find(i => i.selected());
+  getSelectedItems = () => this.inputs.allItems().filter(item => item.selected());
   setValue = value => this.inputs.value.set(value ? [value] : []);
   expandItem = () => this.expand();
   collapseItem = () => this.collapse();
@@ -2175,6 +2223,9 @@ class ComboboxTreePattern extends TreePattern {
   }
   expandAll = () => this.items().forEach(item => item.expansion.open());
   collapseAll = () => this.items().forEach(item => item.expansion.close());
+  isItemSelectable = (item = this.inputs.activeItem()) => {
+    return item ? item.selectable() : false;
+  };
 }
 
 class DeferredContentAware {

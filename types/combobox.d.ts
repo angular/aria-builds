@@ -19,7 +19,7 @@ declare class Combobox<V> {
     filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
     /** Whether the combobox is focused. */
     readonly isFocused: WritableSignal<boolean>;
-    /** Whether the listbox has received focus yet. */
+    /** Whether the combobox has received focus yet. */
     private _hasBeenFocused;
     /** Whether the combobox is disabled. */
     readonly disabled: _angular_core.InputSignal<boolean>;
