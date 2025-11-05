@@ -40,8 +40,6 @@ declare class ListFocus<T extends ListFocusItem> {
     constructor(inputs: ListFocusInputs<T>);
     /** Whether the list is in a disabled state. */
     isListDisabled(): boolean;
-    /** Whether the list is in a disabled state, but should still be focusable */
-    isListDisabledFocusable(): boolean;
     /** The id of the current active item. */
     getActiveDescendant(): string | undefined;
     /** The tab index for the list. */

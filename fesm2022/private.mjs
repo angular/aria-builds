@@ -307,11 +307,8 @@ class ListFocus {
   isListDisabled() {
     return this.inputs.disabled() || this.inputs.items().every(i => i.disabled());
   }
-  isListDisabledFocusable() {
-    return this.isListDisabled() && !this.inputs.softDisabled();
-  }
   getActiveDescendant() {
-    if (this.isListDisabledFocusable()) {
+    if (this.isListDisabled()) {
       return undefined;
     }
     if (this.inputs.focusMode() === 'roving') {
@@ -320,13 +317,13 @@ class ListFocus {
     return this.inputs.activeItem()?.id() ?? undefined;
   }
   getListTabIndex() {
-    if (this.isListDisabledFocusable()) {
+    if (this.isListDisabled()) {
       return 0;
     }
     return this.inputs.focusMode() === 'activedescendant' ? 0 : -1;
   }
   getItemTabIndex(item) {
-    if (this.isListDisabledFocusable()) {
+    if (this.isListDisabled()) {
       return -1;
     }
     if (this.inputs.focusMode() === 'activedescendant') {
@@ -335,7 +332,7 @@ class ListFocus {
     return this.inputs.activeItem() === item ? 0 : -1;
   }
   focus(item, opts) {
-    if (this.isListDisabledFocusable() || !this.isFocusable(item)) {
+    if (this.isListDisabled() || !this.isFocusable(item)) {
       return false;
     }
     this.prevActiveItem.set(this.inputs.activeItem());
@@ -682,7 +679,7 @@ class List {
       this.selectionBehavior.rangeStartIndex.set(this._anchorIndex());
     }
     const moved = operation();
-    if (moved && !this.disabled()) {
+    if (moved) {
       this.updateSelection(opts);
     }
     this._wrap.set(true);
