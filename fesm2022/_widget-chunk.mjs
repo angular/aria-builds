@@ -311,7 +311,7 @@ class GridFocus {
     return true;
   }
   focusCoordinates(coords) {
-    if (this.gridDisabled() && !this.inputs.softDisabled()) {
+    if (this.gridDisabled()) {
       return false;
     }
     const cell = this.inputs.grid.getCell(coords);
@@ -384,6 +384,7 @@ class GridNavigation {
     return !!nextCoords && this.gotoCoords(nextCoords);
   }
   _peekDirectional(delta, fromCoords, wrap, allowDisabled = false) {
+    if (this.inputs.gridFocus.gridDisabled()) return undefined;
     const fromCell = this.inputs.grid.getCell(fromCoords);
     const maxRowCount = this.inputs.grid.maxRowCount();
     const maxColCount = this.inputs.grid.maxColCount();
