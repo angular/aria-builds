@@ -1,8 +1,8 @@
 import * as _angular_core from '@angular/core';
-import { WritableSignal } from '@angular/core';
+import { WritableSignal, ElementRef } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
-import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from '@angular/aria/private';
+import { ComboboxPattern, ComboboxDialogPattern, ComboboxListboxControls, ComboboxTreeControls } from '@angular/aria/private';
 
 declare class Combobox<V> {
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
@@ -29,13 +29,14 @@ declare class Combobox<V> {
     readonly firstMatch: _angular_core.InputSignal<V | undefined>;
     /** Whether the combobox is expanded. */
     readonly expanded: _angular_core.Signal<boolean>;
+    readonly alwaysExpanded: _angular_core.InputSignal<boolean>;
     /** Input element connected to the combobox, if any. */
     readonly inputElement: _angular_core.Signal<HTMLInputElement | undefined>;
     /** The combobox ui pattern. */
     readonly _pattern: ComboboxPattern<any, V>;
     constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 declare class ComboboxInput {
     /** The element that the combobox is attached to. */
@@ -56,9 +57,22 @@ declare class ComboboxPopup<V> {
     /** The combobox that the popup belongs to. */
     readonly combobox: Combobox<V> | null;
     /** The controls the popup exposes to the combobox. */
-    readonly controls: WritableSignal<ComboboxListboxControls<any, V> | ComboboxTreeControls<any, V> | undefined>;
+    readonly controls: WritableSignal<ComboboxDialogPattern | ComboboxListboxControls<any, V> | ComboboxTreeControls<any, V> | undefined>;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup<any>, "[ngComboboxPopup]", ["ngComboboxPopup"], {}, {}, never, never, true, never>;
 }
+declare class ComboboxDialog {
+    /** The dialog element. */
+    readonly element: ElementRef<any>;
+    /** The combobox that the dialog belongs to. */
+    readonly combobox: Combobox<any>;
+    /** A reference to the parent combobox popup, if one exists. */
+    private readonly _popup;
+    _pattern: ComboboxDialogPattern;
+    constructor();
+    close(): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxDialog, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxDialog, "dialog[ngComboboxDialog]", ["ngComboboxDialog"], {}, {}, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
+}
 
-export { Combobox, ComboboxInput, ComboboxPopup, ComboboxPopupContainer };
+export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer };

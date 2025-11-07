@@ -1,29 +1,67 @@
 import * as i0 from '@angular/core';
 import { signal, computed, model, Directive, inject, TemplateRef, ViewContainerRef, afterRenderEffect } from '@angular/core';
-import { KeyboardEventManager, PointerEventManager, Modifier } from './_widget-chunk.mjs';
+import { PointerEventManager, KeyboardEventManager, Modifier } from './_widget-chunk.mjs';
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern } from './_widget-chunk.mjs';
 
 class ComboboxPattern {
   inputs;
   expanded = signal(false);
-  activeDescendant = computed(() => this.inputs.popupControls()?.activeId() ?? null);
+  activeDescendant = computed(() => {
+    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
+      return null;
+    }
+    return popupControls?.activeId() ?? null;
+  });
   highlightedItem = signal(undefined);
   isDeleting = false;
   isFocused = signal(false);
+  hasBeenFocused = signal(false);
   expandKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
   collapseKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
   popupId = computed(() => this.inputs.popupControls()?.id() || null);
   autocomplete = computed(() => this.inputs.filterMode() === 'highlight' ? 'both' : 'list');
   hasPopup = computed(() => this.inputs.popupControls()?.role() || null);
   readonly = computed(() => this.inputs.readonly() || null);
+  listControls = () => {
+    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
+      return null;
+    }
+    return popupControls;
+  };
+  treeControls = () => {
+    const popupControls = this.inputs.popupControls();
+    if (popupControls?.role() === 'tree') {
+      return popupControls;
+    }
+    return null;
+  };
   keydown = computed(() => {
+    const manager = new KeyboardEventManager();
+    const popupControls = this.inputs.popupControls();
+    if (!popupControls) {
+      return manager;
+    }
+    if (popupControls instanceof ComboboxDialogPattern) {
+      if (!this.expanded()) {
+        manager.on('ArrowUp', () => this.open()).on('ArrowDown', () => this.open());
+        if (this.readonly()) {
+          manager.on('Enter', () => this.open()).on(' ', () => this.open());
+        }
+      }
+      return manager;
+    }
+    if (!this.inputs.alwaysExpanded()) {
+      manager.on('Escape', () => this.close({
+        reset: !this.readonly()
+      }));
+    }
     if (!this.expanded()) {
-      const manager = new KeyboardEventManager().on('ArrowDown', () => this.open({
+      manager.on('ArrowDown', () => this.open({
         first: true
       })).on('ArrowUp', () => this.open({
         last: true
-      })).on('Escape', () => this.close({
-        reset: !this.readonly()
       }));
       if (this.readonly()) {
         manager.on('Enter', () => this.open({
@@ -34,13 +72,7 @@ class ComboboxPattern {
       }
       return manager;
     }
-    const popupControls = this.inputs.popupControls();
-    if (!popupControls) {
-      return new KeyboardEventManager();
-    }
-    const manager = new KeyboardEventManager().on('ArrowDown', () => this.next()).on('ArrowUp', () => this.prev()).on('Home', () => this.first()).on('End', () => this.last()).on('Escape', () => this.close({
-      reset: !this.readonly()
-    }));
+    manager.on('ArrowDown', () => this.next()).on('ArrowUp', () => this.prev()).on('Home', () => this.first()).on('End', () => this.last());
     if (this.readonly()) {
       manager.on(' ', () => this.select({
         commit: true,
@@ -48,35 +80,47 @@ class ComboboxPattern {
       }));
     }
     if (popupControls.role() === 'listbox') {
+      manager.on('Enter', () => {
+        this.select({
+          commit: true,
+          close: !popupControls.multi()
+        });
+      });
+    }
+    const treeControls = this.treeControls();
+    if (treeControls?.isItemSelectable()) {
       manager.on('Enter', () => this.select({
         commit: true,
-        close: !popupControls.multi()
+        close: true
       }));
     }
-    if (popupControls.role() === 'tree') {
-      const treeControls = popupControls;
-      if (treeControls.isItemSelectable()) {
-        manager.on('Enter', () => this.select({
-          commit: true,
-          close: true
-        }));
-      } else if (treeControls.isItemExpandable()) {
+    if (treeControls?.isItemExpandable()) {
+      manager.on(this.expandKey(), () => this.expandItem()).on(this.collapseKey(), () => this.collapseItem());
+      if (!treeControls.isItemSelectable()) {
         manager.on('Enter', () => this.expandItem());
       }
-      if (treeControls.isItemExpandable() || treeControls.isItemCollapsible()) {
-        manager.on(this.collapseKey(), () => this.collapseItem());
-      }
-      if (treeControls.isItemExpandable()) {
-        manager.on(this.expandKey(), () => this.expandItem());
-      }
+    }
+    if (treeControls?.isItemCollapsible()) {
+      manager.on(this.collapseKey(), () => this.collapseItem());
     }
     return manager;
   });
   pointerup = computed(() => new PointerEventManager().on(e => {
-    const item = this.inputs.popupControls()?.getItem(e);
+    if (e.target === this.inputs.inputEl()) {
+      if (this.readonly()) {
+        this.expanded() ? this.close() : this.open({
+          selected: true
+        });
+      }
+    }
+    const controls = this.inputs.popupControls();
+    if (controls instanceof ComboboxDialogPattern) {
+      return;
+    }
+    const item = controls?.getItem(e);
     if (item) {
-      if (this.inputs.popupControls()?.role() === 'tree') {
-        const treeControls = this.inputs.popupControls();
+      if (controls?.role() === 'tree') {
+        const treeControls = controls;
         if (treeControls.isItemExpandable(item) && !treeControls.isItemSelectable(item)) {
           treeControls.toggleExpansion(item);
           this.inputs.inputEl()?.focus();
@@ -86,16 +130,9 @@ class ComboboxPattern {
       this.select({
         item,
         commit: true,
-        close: !this.inputs.popupControls()?.multi()
+        close: !controls?.multi()
       });
       this.inputs.inputEl()?.focus();
-    }
-    if (e.target === this.inputs.inputEl()) {
-      if (this.readonly()) {
-        this.expanded() ? this.close() : this.open({
-          selected: true
-        });
-      }
     }
   }));
   constructor(inputs) {
@@ -119,25 +156,31 @@ class ComboboxPattern {
     if (!inputEl) {
       return;
     }
+    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
+      return;
+    }
     this.open();
     this.inputs.inputValue?.set(inputEl.value);
     this.isDeleting = event instanceof InputEvent && !!event.inputType.match(/^delete/);
-    if (this.inputs.filterMode() === 'manual') {
-      const selectedItems = this.inputs.popupControls()?.getSelectedItems();
-      const searchTerm = selectedItems?.[0]?.searchTerm();
-      if (searchTerm && this.inputs.inputValue() !== searchTerm) {
-        this.inputs.popupControls()?.clearSelection();
-      }
-    }
     if (this.inputs.filterMode() === 'highlight' && !this.isDeleting) {
       this.highlight();
     }
   }
   onFocusIn() {
+    if (this.inputs.alwaysExpanded() && !this.hasBeenFocused()) {
+      const firstSelectedItem = this.listControls()?.getSelectedItems()[0];
+      firstSelectedItem ? this.listControls()?.focus(firstSelectedItem) : this.first();
+    }
     this.isFocused.set(true);
+    this.hasBeenFocused.set(true);
   }
   onFocusOut(event) {
     if (this.inputs.disabled()) {
+      return;
+    }
+    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
       return;
     }
     if (!(event.relatedTarget instanceof HTMLElement) || !this.inputs.containerEl()?.contains(event.relatedTarget)) {
@@ -149,7 +192,7 @@ class ComboboxPattern {
       if (this.inputs.filterMode() !== 'manual') {
         this.commit();
       } else {
-        const item = this.inputs.popupControls()?.items().find(i => i.searchTerm() === this.inputs.inputEl()?.value);
+        const item = popupControls?.items().find(i => i.searchTerm() === this.inputs.inputEl()?.value);
         if (item) {
           this.select({
             item
@@ -160,13 +203,17 @@ class ComboboxPattern {
     }
   }
   firstMatch = computed(() => {
-    if (this.inputs.popupControls()?.role() === 'listbox') {
-      return this.inputs.popupControls()?.items()[0];
+    if (this.listControls()?.role() === 'listbox') {
+      return this.listControls()?.items()[0];
     }
-    return this.inputs.popupControls()?.items().find(i => i.value() === this.inputs.firstMatch());
+    return this.listControls()?.items().find(i => i.value() === this.inputs.firstMatch());
   });
   onFilter() {
     if (this.readonly()) {
+      return;
+    }
+    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
       return;
     }
     const isInitialRender = !this.inputs.inputValue?.().length && !this.isDeleting;
@@ -182,11 +229,11 @@ class ComboboxPattern {
     }
     const item = this.firstMatch();
     if (!item) {
-      this.inputs.popupControls()?.clearSelection();
-      this.inputs.popupControls()?.unfocus();
+      popupControls?.clearSelection();
+      popupControls?.unfocus();
       return;
     }
-    this.inputs.popupControls()?.focus(item);
+    popupControls?.focus(item);
     if (this.inputs.filterMode() !== 'manual') {
       this.select({
         item
@@ -198,7 +245,7 @@ class ComboboxPattern {
   }
   highlight() {
     const inputEl = this.inputs.inputEl();
-    const selectedItems = this.inputs.popupControls()?.getSelectedItems();
+    const selectedItems = this.listControls()?.getSelectedItems();
     const item = selectedItems?.[0];
     if (!inputEl || !item) {
       return;
@@ -211,12 +258,24 @@ class ComboboxPattern {
     }
   }
   close(opts) {
-    if (!opts?.reset) {
-      this.expanded.set(false);
-      this.inputs.popupControls()?.unfocus();
+    const popupControls = this.inputs.popupControls();
+    if (this.inputs.alwaysExpanded()) {
       return;
     }
-    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
+      this.expanded.set(false);
+      return;
+    }
+    if (!opts?.reset) {
+      if (this.inputs.filterMode() === 'manual') {
+        if (!this.listControls()?.items().some(i => i.searchTerm() === this.inputs.inputEl()?.value)) {
+          this.listControls()?.clearSelection();
+        }
+      }
+      this.expanded.set(false);
+      popupControls?.unfocus();
+      return;
+    }
     if (!this.expanded()) {
       this.inputs.inputValue?.set('');
       popupControls?.clearSelection();
@@ -233,11 +292,15 @@ class ComboboxPattern {
     }
     this.close();
     if (!this.readonly()) {
-      this.inputs.popupControls()?.clearSelection();
+      popupControls?.clearSelection();
     }
   }
   open(nav) {
     this.expanded.set(true);
+    const popupControls = this.inputs.popupControls();
+    if (popupControls instanceof ComboboxDialogPattern) {
+      return;
+    }
     const inputEl = this.inputs.inputEl();
     if (inputEl && this.inputs.filterMode() === 'highlight') {
       const isHighlighting = inputEl.selectionStart !== inputEl.value.length;
@@ -253,21 +316,21 @@ class ComboboxPattern {
       this.last();
     }
     if (nav?.selected) {
-      const selectedItem = this.inputs.popupControls()?.items().find(i => this.inputs.popupControls()?.getSelectedItems().includes(i));
-      selectedItem ? this.inputs.popupControls()?.focus(selectedItem) : this.first();
+      const selectedItem = popupControls?.items().find(i => popupControls?.getSelectedItems().includes(i));
+      selectedItem ? popupControls?.focus(selectedItem) : this.first();
     }
   }
   next() {
-    this._navigate(() => this.inputs.popupControls()?.next());
+    this._navigate(() => this.listControls()?.next());
   }
   prev() {
-    this._navigate(() => this.inputs.popupControls()?.prev());
+    this._navigate(() => this.listControls()?.prev());
   }
   first() {
-    this._navigate(() => this.inputs.popupControls()?.first());
+    this._navigate(() => this.listControls()?.first());
   }
   last() {
-    this._navigate(() => this.inputs.popupControls()?.last());
+    this._navigate(() => this.listControls()?.last());
   }
   collapseItem() {
     const controls = this.inputs.popupControls();
@@ -278,7 +341,7 @@ class ComboboxPattern {
     this._navigate(() => controls?.expandItem());
   }
   select(opts = {}) {
-    const controls = this.inputs.popupControls();
+    const controls = this.listControls();
     if (opts.item) {
       controls?.focus(opts.item, {
         focusElement: false
@@ -294,7 +357,7 @@ class ComboboxPattern {
   }
   commit() {
     const inputEl = this.inputs.inputEl();
-    const selectedItems = this.inputs.popupControls()?.getSelectedItems();
+    const selectedItems = this.listControls()?.getSelectedItems();
     if (!inputEl) {
       return;
     }
@@ -311,7 +374,7 @@ class ComboboxPattern {
       this.select();
     }
     if (this.inputs.filterMode() === 'highlight') {
-      const selectedItem = this.inputs.popupControls()?.getSelectedItems()[0];
+      const selectedItem = this.listControls()?.getSelectedItems()[0];
       if (!selectedItem) {
         return;
       }
@@ -321,6 +384,25 @@ class ComboboxPattern {
         const inputEl = this.inputs.inputEl();
         inputEl.value = selectedItem?.searchTerm();
       }
+    }
+  }
+}
+class ComboboxDialogPattern {
+  inputs;
+  id = () => this.inputs.id();
+  role = () => 'dialog';
+  keydown = computed(() => {
+    return new KeyboardEventManager().on('Escape', () => this.inputs.combobox.close());
+  });
+  constructor(inputs) {
+    this.inputs = inputs;
+  }
+  onKeydown(event) {
+    this.keydown().handle(event);
+  }
+  onClick(event) {
+    if (event.target === this.inputs.element()) {
+      this.inputs.combobox.close();
     }
   }
 }
@@ -930,6 +1012,7 @@ class ComboboxListboxPattern extends ListboxPattern {
   focus = (item, opts) => {
     this.listBehavior.goto(item, opts);
   };
+  getActiveItem = () => this.inputs.activeItem();
   next = () => this.listBehavior.next();
   prev = () => this.listBehavior.prev();
   last = () => this.listBehavior.last();
@@ -2190,6 +2273,7 @@ class ComboboxTreePattern extends TreePattern {
   isItemCollapsible = () => this.inputs.activeItem()?.parent() instanceof TreeItemPattern;
   role = () => 'tree';
   activeId = computed(() => this.listBehavior.activeDescendant());
+  getActiveItem = () => this.inputs.activeItem();
   items = computed(() => this.inputs.allItems());
   tabIndex = () => -1;
   constructor(inputs) {
@@ -2334,5 +2418,5 @@ i0.ɵɵngDeclareClassMetadata({
   ctorParameters: () => []
 });
 
-export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, convertGetterSetterToWritableSignalLike };
+export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxDialogPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, convertGetterSetterToWritableSignalLike };
 //# sourceMappingURL=private.mjs.map

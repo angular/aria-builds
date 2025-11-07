@@ -127,6 +127,9 @@ class Listbox {
   }) {
     this._pattern.inputs.activeItem()?.element()?.scrollIntoView(options);
   }
+  gotoFirst() {
+    this._pattern.listBehavior.first();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -273,9 +276,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': 'onFocus()'
       },
-      hostDirectives: [{
-        directive: ComboboxPopup
-      }]
+      hostDirectives: [ComboboxPopup]
     }]
   }],
   ctorParameters: () => []
