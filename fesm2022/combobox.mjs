@@ -1,7 +1,7 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChild, input, signal, computed, afterRenderEffect, Directive, model, untracked } from '@angular/core';
 import * as i1 from '@angular/aria/private';
-import { DeferredContentAware, ComboboxPattern, DeferredContent } from '@angular/aria/private';
+import { DeferredContentAware, ComboboxPattern, ComboboxDialogPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -35,8 +35,11 @@ class Combobox {
   firstMatch = input(undefined, ...(ngDevMode ? [{
     debugName: "firstMatch"
   }] : []));
-  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
+  expanded = computed(() => this.alwaysExpanded() || this._pattern.expanded(), ...(ngDevMode ? [{
     debugName: "expanded"
+  }] : []));
+  alwaysExpanded = input(false, ...(ngDevMode ? [{
+    debugName: "alwaysExpanded"
   }] : []));
   inputElement = computed(() => this._pattern.inputs.inputEl(), ...(ngDevMode ? [{
     debugName: "inputElement"
@@ -53,7 +56,12 @@ class Combobox {
   });
   constructor() {
     afterRenderEffect(() => {
-      if (!this._deferredContentAware?.contentVisible() && this._pattern.isFocused()) {
+      if (this.alwaysExpanded()) {
+        this._pattern.expanded.set(true);
+      }
+    });
+    afterRenderEffect(() => {
+      if (!this._deferredContentAware?.contentVisible() && (this._pattern.isFocused() || this.alwaysExpanded())) {
         this._deferredContentAware?.contentVisible.set(true);
       }
     });
@@ -102,6 +110,13 @@ class Combobox {
       firstMatch: {
         classPropertyName: "firstMatch",
         publicName: "firstMatch",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      alwaysExpanded: {
+        classPropertyName: "alwaysExpanded",
+        publicName: "alwaysExpanded",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -169,9 +184,13 @@ class ComboboxInput {
   constructor() {
     this.combobox._pattern.inputs.inputEl.set(this._elementRef.nativeElement);
     this.combobox._pattern.inputs.inputValue = this.value;
+    const controls = this.combobox.popup()?.controls();
+    if (controls instanceof ComboboxDialogPattern) {
+      return;
+    }
     afterRenderEffect(() => {
       this.value();
-      this.combobox.popup()?.controls()?.items();
+      controls?.items();
       untracked(() => this.combobox._pattern.onFilter());
     });
   }
@@ -317,6 +336,81 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }]
 });
+class ComboboxDialog {
+  element = inject(ElementRef);
+  combobox = inject(Combobox);
+  _popup = inject(ComboboxPopup, {
+    optional: true
+  });
+  _pattern;
+  constructor() {
+    this._pattern = new ComboboxDialogPattern({
+      id: () => '',
+      element: () => this.element.nativeElement,
+      combobox: this.combobox._pattern
+    });
+    if (this._popup) {
+      this._popup.controls.set(this._pattern);
+    }
+    afterRenderEffect(() => {
+      if (this.element) {
+        this.combobox._pattern.expanded() ? this.element.nativeElement.showModal() : this.element.nativeElement.close();
+      }
+    });
+  }
+  close() {
+    this._popup?.combobox?._pattern.close();
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "20.2.0-next.2",
+    ngImport: i0,
+    type: ComboboxDialog,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "14.0.0",
+    version: "20.2.0-next.2",
+    type: ComboboxDialog,
+    isStandalone: true,
+    selector: "dialog[ngComboboxDialog]",
+    host: {
+      listeners: {
+        "keydown": "_pattern.onKeydown($event)",
+        "click": "_pattern.onClick($event)"
+      },
+      properties: {
+        "attr.data-open": "combobox._pattern.expanded()"
+      }
+    },
+    exportAs: ["ngComboboxDialog"],
+    hostDirectives: [{
+      directive: ComboboxPopup
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "20.2.0-next.2",
+  ngImport: i0,
+  type: ComboboxDialog,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: 'dialog[ngComboboxDialog]',
+      exportAs: 'ngComboboxDialog',
+      host: {
+        '[attr.data-open]': 'combobox._pattern.expanded()',
+        '(keydown)': '_pattern.onKeydown($event)',
+        '(click)': '_pattern.onClick($event)'
+      },
+      hostDirectives: [ComboboxPopup]
+    }]
+  }],
+  ctorParameters: () => []
+});
 
-export { Combobox, ComboboxInput, ComboboxPopup, ComboboxPopupContainer };
+export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer };
 //# sourceMappingURL=combobox.mjs.map

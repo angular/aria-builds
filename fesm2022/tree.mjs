@@ -266,9 +266,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': 'onFocus()'
       },
-      hostDirectives: [{
-        directive: ComboboxPopup
-      }]
+      hostDirectives: [ComboboxPopup]
     }]
   }],
   ctorParameters: () => []

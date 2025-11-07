@@ -318,7 +318,7 @@ declare class List<T extends ListItem<V>, V> {
 /** Represents the required inputs for a combobox. */
 interface ComboboxInputs<T extends ListItem<V>, V> {
     /** The controls for the popup associated with the combobox. */
-    popupControls: SignalLike<ComboboxListboxControls<T, V> | ComboboxTreeControls<T, V> | undefined>;
+    popupControls: SignalLike<ComboboxListboxControls<T, V> | ComboboxTreeControls<T, V> | ComboboxDialogPattern | undefined>;
     /** The HTML input element that serves as the combobox input. */
     inputEl: SignalLike<HTMLInputElement | undefined>;
     /** The HTML element that serves as the combobox container. */
@@ -335,6 +335,8 @@ interface ComboboxInputs<T extends ListItem<V>, V> {
     readonly: SignalLike<boolean>;
     /** Whether the combobox is in a right-to-left context. */
     textDirection: SignalLike<'rtl' | 'ltr'>;
+    /** Whether the combobox is always expanded. */
+    alwaysExpanded: SignalLike<boolean>;
 }
 /** An interface that allows combobox popups to expose the necessary controls for the combobox. */
 interface ComboboxListboxControls<T extends ListItem<V>, V> {
@@ -370,6 +372,8 @@ interface ComboboxListboxControls<T extends ListItem<V>, V> {
     unfocus: () => void;
     /** Returns the item corresponding to the given event. */
     getItem: (e: PointerEvent) => T | undefined;
+    /** Returns the currently active (focused) item in the popup. */
+    getActiveItem: () => T | undefined;
     /** Returns the currently selected items in the popup. */
     getSelectedItems: () => T[];
     /** Sets the value of the combobox based on the selected item. */
@@ -406,6 +410,8 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     isDeleting: boolean;
     /** Whether the combobox is focused. */
     isFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the combobox has ever been focused. */
+    hasBeenFocused: _angular_core.WritableSignal<boolean>;
     /** The key used to navigate to the previous item in the list. */
     expandKey: _angular_core.Signal<"ArrowLeft" | "ArrowRight">;
     /** The key used to navigate to the next item in the list. */
@@ -415,9 +421,13 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     /** The autocomplete behavior of the combobox. */
     autocomplete: _angular_core.Signal<"both" | "list">;
     /** The ARIA role of the popup associated with the combobox. */
-    hasPopup: _angular_core.Signal<"listbox" | "tree" | "grid" | null>;
+    hasPopup: _angular_core.Signal<"listbox" | "tree" | "grid" | "dialog" | null>;
     /** Whether the combobox is read-only. */
     readonly: _angular_core.Signal<true | null>;
+    /** Returns the listbox controls for the combobox. */
+    listControls: () => ComboboxListboxControls<T, V> | null | undefined;
+    /** Returns the tree controls for the combobox. */
+    treeControls: () => ComboboxTreeControls<T, V> | null;
     /** The keydown event manager for the combobox. */
     keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerup event manager for the combobox. */
@@ -471,6 +481,23 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     commit(): void;
     /** Navigates and handles additional actions based on filter mode. */
     private _navigate;
+}
+declare class ComboboxDialogPattern {
+    readonly inputs: {
+        combobox: ComboboxPattern<any, any>;
+        element: SignalLike<HTMLDialogElement>;
+        id: SignalLike<string>;
+    };
+    id: () => string;
+    role: () => "dialog";
+    keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    constructor(inputs: {
+        combobox: ComboboxPattern<any, any>;
+        element: SignalLike<HTMLDialogElement>;
+        id: SignalLike<string>;
+    });
+    onKeydown(event: KeyboardEvent): void;
+    onClick(event: MouseEvent): void;
 }
 
 /**
@@ -602,6 +629,8 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
     focus: (item: OptionPattern<V>, opts?: {
         focusElement?: boolean;
     }) => void;
+    /** Navigates to the previous focusable item in the listbox. */
+    getActiveItem: () => OptionPattern<V> | undefined;
     /** Navigates to the next focusable item in the listbox. */
     next: () => void;
     /** Navigates to the previous focusable item in the listbox. */
@@ -1435,6 +1464,8 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     /** The ARIA role for the tree. */
     role: () => "tree";
     activeId: _angular_core.Signal<string | undefined>;
+    /** Returns the currently active (focused) item in the tree. */
+    getActiveItem: () => TreeItemPattern<V> | undefined;
     /** The list of items in the tree. */
     items: _angular_core.Signal<TreeItemPattern<V>[]>;
     /** The tab index for the tree. Always -1 because the combobox handles focus. */
@@ -1522,5 +1553,5 @@ declare class DeferredContent implements OnDestroy {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<DeferredContent, never, never, {}, {}, never, never, true, never>;
 }
 
-export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, SignalLike, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, WritableSignalLike };
+export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern, ComboboxDialogPattern, ComboboxListboxPattern, ComboboxPattern, ComboboxTreePattern, DeferredContent, DeferredContentAware, ListboxPattern, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern, OptionPattern, SignalLike, TabListPattern, TabPanelPattern, TabPattern, ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern, TreeItemPattern, TreePattern, WritableSignalLike };
 export type { AccordionGroupInputs, AccordionPanelInputs, AccordionTriggerInputs, ComboboxInputs, ComboboxListboxControls, ComboboxListboxInputs, ComboboxTreeControls, ComboboxTreeInputs, ListboxInputs, MenuBarInputs, MenuInputs, MenuItemInputs, MenuTriggerInputs, OptionInputs, TabInputs, TabListInputs, TabPanelInputs, ToolbarInputs, ToolbarWidgetGroupInputs, ToolbarWidgetInputs, TreeInputs, TreeItemInputs };
