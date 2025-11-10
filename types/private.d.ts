@@ -676,6 +676,8 @@ interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' 
     onSelect?: (value: V) => void;
     /** The text direction of the menu bar. */
     textDirection: SignalLike<'ltr' | 'rtl'>;
+    /** The delay in milliseconds before expanding sub-menus on hover. */
+    expansionDelay: SignalLike<number>;
 }
 /** The inputs for the MenuTriggerPattern class. */
 interface MenuTriggerInputs<V> {
@@ -708,6 +710,10 @@ declare class MenuPattern<V> {
     isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the menu has received focus. */
     hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    /** Timeout used to open sub-menus on hover. */
+    _openTimeout: any;
+    /** Timeout used to close sub-menus on hover out. */
+    _closeTimeout: any;
     /** Whether the menu should be focused on mouse over. */
     shouldFocus: Signal<boolean>;
     /** The key used to expand sub-menus. */
@@ -729,6 +735,10 @@ declare class MenuPattern<V> {
     onKeydown(event: KeyboardEvent): void;
     /** Handles mouseover events for the menu. */
     onMouseOver(event: MouseEvent): void;
+    /** Closes the specified menu item after a delay. */
+    private _closeItem;
+    /** Opens the specified menu item after a delay. */
+    private _openItem;
     /** Handles mouseout events for the menu. */
     onMouseOut(event: MouseEvent): void;
     /** Handles click events for the menu. */
@@ -755,6 +765,12 @@ declare class MenuPattern<V> {
     expand(): void;
     /** Closes the menu and all parent menus. */
     closeAll(): void;
+    /** Clears any open or close timeouts for sub-menus. */
+    _clearTimeouts(): void;
+    /** Clears the open timeout. */
+    _clearOpenTimeout(): void;
+    /** Clears the close timeout. */
+    _clearCloseTimeout(): void;
 }
 /** The menubar ui pattern class. */
 declare class MenuBarPattern<V> {
