@@ -1043,6 +1043,8 @@ class MenuPattern {
   listBehavior;
   isFocused = signal(false);
   hasBeenFocused = signal(false);
+  _openTimeout;
+  _closeTimeout;
   shouldFocus = computed(() => {
     const root = this.root();
     if (root instanceof MenuTriggerPattern) {
@@ -1103,20 +1105,46 @@ class MenuPattern {
     if (!item) {
       return;
     }
+    const parent = this.inputs.parent();
     const activeItem = this?.inputs.activeItem();
+    if (parent instanceof MenuItemPattern) {
+      const grandparent = parent.inputs.parent();
+      if (grandparent instanceof MenuPattern) {
+        grandparent._clearTimeouts();
+        grandparent.listBehavior.goto(parent, {
+          focusElement: false
+        });
+      }
+    }
     if (activeItem && activeItem !== item) {
-      activeItem.close();
+      this._closeItem(activeItem);
     }
-    if (item.expanded() && item.submenu()?.inputs.activeItem()) {
-      item.submenu()?.inputs.activeItem()?.close();
-      item.submenu()?.listBehavior.unfocus();
+    if (item.expanded()) {
+      this._clearCloseTimeout();
     }
-    item.open();
+    this._openItem(item);
     this.listBehavior.goto(item, {
       focusElement: this.shouldFocus()
     });
   }
+  _closeItem(item) {
+    this._clearOpenTimeout();
+    if (!this._closeTimeout) {
+      this._closeTimeout = setTimeout(() => {
+        item.close();
+        this._closeTimeout = undefined;
+      }, this.inputs.expansionDelay());
+    }
+  }
+  _openItem(item) {
+    this._clearOpenTimeout();
+    this._openTimeout = setTimeout(() => {
+      item.open();
+      this._openTimeout = undefined;
+    }, this.inputs.expansionDelay());
+  }
   onMouseOut(event) {
+    this._clearOpenTimeout();
     if (this.isFocused()) {
       return;
     }
@@ -1250,6 +1278,22 @@ class MenuPattern {
       root.inputs.activeItem()?.close({
         refocus: true
       });
+    }
+  }
+  _clearTimeouts() {
+    this._clearOpenTimeout();
+    this._clearCloseTimeout();
+  }
+  _clearOpenTimeout() {
+    if (this._openTimeout) {
+      clearTimeout(this._openTimeout);
+      this._openTimeout = undefined;
+    }
+  }
+  _clearCloseTimeout() {
+    if (this._closeTimeout) {
+      clearTimeout(this._closeTimeout);
+      this._closeTimeout = undefined;
     }
   }
 }
@@ -1471,6 +1515,10 @@ class MenuItemPattern {
       menuitem?._expanded.set(false);
       menuitem?.inputs.parent()?.listBehavior.unfocus();
       menuitems = menuitems.concat(menuitem?.submenu()?.inputs.items() ?? []);
+      const parent = menuitem?.inputs.parent();
+      if (parent instanceof MenuPattern) {
+        parent._clearTimeouts();
+      }
     }
   }
 }

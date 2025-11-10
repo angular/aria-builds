@@ -127,6 +127,9 @@ class Menu {
     debugName: "isVisible"
   }] : []));
   onSelect = output();
+  expansionDelay = input(150, ...(ngDevMode ? [{
+    debugName: "expansionDelay"
+  }] : []));
   constructor() {
     this._pattern = new MenuPattern({
       ...this,
@@ -156,7 +159,7 @@ class Menu {
     });
     afterRenderEffect(() => {
       if (!this._pattern.hasBeenFocused()) {
-        this._pattern.setDefaultState();
+        untracked(() => this._pattern.setDefaultState());
       }
     });
   }
@@ -204,6 +207,13 @@ class Menu {
       typeaheadDelay: {
         classPropertyName: "typeaheadDelay",
         publicName: "typeaheadDelay",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      expansionDelay: {
+        classPropertyName: "expansionDelay",
+        publicName: "expansionDelay",
         isSignal: true,
         isRequired: false,
         transformFunction: null
