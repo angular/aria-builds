@@ -22,6 +22,12 @@ declare class AccordionPanel {
     /** The UI pattern instance for this panel. */
     readonly _pattern: AccordionPanelPattern;
     constructor();
+    /** Expands this item. */
+    expand(): void;
+    /** Collapses this item. */
+    collapse(): void;
+    /** Toggles the expansion state of this item. */
+    toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionPanel, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
@@ -54,6 +60,12 @@ declare class AccordionTrigger {
     readonly accordionPanel: WritableSignal<AccordionPanelPattern | undefined>;
     /** The UI pattern instance for this trigger. */
     readonly _pattern: AccordionTriggerPattern;
+    /** Expands this item. */
+    expand(): void;
+    /** Collapses this item. */
+    collapse(): void;
+    /** Toggles the expansion state of this item. */
+    toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionTrigger, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
@@ -83,6 +95,10 @@ declare class AccordionGroup {
     /** The UI pattern instance for this accordion group. */
     readonly _pattern: AccordionGroupPattern;
     constructor();
+    /** Expands all accordion panels if multi-expandable. */
+    expandAll(): void;
+    /** Collapses all accordion panels. */
+    collapseAll(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionGroup, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_triggers", "_panels"], never, true, never>;
 }

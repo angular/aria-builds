@@ -43,6 +43,8 @@ declare class Tabs {
     unorderedTabpanels: Signal<TabPanelPattern[]>;
     register(child: TabList | TabPanel): void;
     deregister(child: TabList | TabPanel): void;
+    /** Opens the tab panel with the specified value. */
+    open(value: string): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
 }
@@ -119,6 +121,8 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     readonly selected: Signal<boolean>;
     /** The Tab UIPattern. */
     readonly _pattern: TabPattern;
+    /** Opens this tab panel. */
+    open(): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tab, never>;

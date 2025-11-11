@@ -26,6 +26,14 @@ class MenuTrigger {
   constructor() {
     effect(() => this.menu()?.parent.set(this));
   }
+  open() {
+    this._pattern.open({
+      first: true
+    });
+  }
+  close() {
+    this._pattern.close();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -163,17 +171,8 @@ class Menu {
       }
     });
   }
-  close(opts) {
-    this._pattern.inputs.parent()?.close(opts);
-  }
-  closeAll(opts) {
-    const root = this._pattern.root();
-    if (root instanceof MenuTriggerPattern) {
-      root.close(opts);
-    }
-    if (root instanceof MenuPattern || root instanceof MenuBarPattern) {
-      root.inputs.activeItem()?.close(opts);
-    }
+  close() {
+    this._pattern.close();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -330,6 +329,9 @@ class MenuBar {
       }
     });
   }
+  close() {
+    this._pattern.close();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -462,6 +464,14 @@ class MenuItem {
   });
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
+  }
+  open() {
+    this._pattern.open({
+      first: true
+    });
+  }
+  close() {
+    this._pattern.close();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

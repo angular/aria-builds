@@ -27,6 +27,15 @@ class AccordionPanel {
       this._deferredContentAware.contentVisible.set(this.visible());
     });
   }
+  expand() {
+    this.accordionTrigger()?.expansionControl.open();
+  }
+  collapse() {
+    this.accordionTrigger()?.expansionControl.close();
+  }
+  toggle() {
+    this.accordionTrigger()?.expansionControl.toggle();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -127,6 +136,15 @@ class AccordionTrigger {
     accordionGroup: computed(() => this._accordionGroup._pattern),
     accordionPanel: this.accordionPanel
   });
+  expand() {
+    this._pattern.expansionControl.open();
+  }
+  collapse() {
+    this._pattern.expansionControl.close();
+  }
+  toggle() {
+    this._pattern.expansionControl.toggle();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -270,6 +288,12 @@ class AccordionGroup {
         }
       }
     });
+  }
+  expandAll() {
+    this._pattern.expansionManager.openAll();
+  }
+  collapseAll() {
+    this._pattern.expansionManager.closeAll();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

@@ -36,6 +36,105 @@
           ],
           "description": "The parent accordion trigger pattern that controls this panel. This is set by AccordionGroup.",
           "jsdocTags": []
+        },
+        {
+          "name": "expand",
+          "signatures": [
+            {
+              "name": "expand",
+              "entryType": "function",
+              "description": "Expands this item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Expands this item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "expand",
+            "description": "Expands this item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Expands this item. */"
+          },
+          "entryType": "function",
+          "description": "Expands this item.",
+          "jsdocTags": [],
+          "rawComment": "/** Expands this item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "collapse",
+          "signatures": [
+            {
+              "name": "collapse",
+              "entryType": "function",
+              "description": "Collapses this item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Collapses this item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "collapse",
+            "description": "Collapses this item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Collapses this item. */"
+          },
+          "entryType": "function",
+          "description": "Collapses this item.",
+          "jsdocTags": [],
+          "rawComment": "/** Collapses this item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "toggle",
+          "signatures": [
+            {
+              "name": "toggle",
+              "entryType": "function",
+              "description": "Toggles the expansion state of this item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Toggles the expansion state of this item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "toggle",
+            "description": "Toggles the expansion state of this item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Toggles the expansion state of this item. */"
+          },
+          "entryType": "function",
+          "description": "Toggles the expansion state of this item.",
+          "jsdocTags": [],
+          "rawComment": "/** Toggles the expansion state of this item. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [],
@@ -46,7 +145,7 @@
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
         "startLine": 36,
-        "endLine": 83
+        "endLine": 98
       }
     },
     {
@@ -117,6 +216,105 @@
           ],
           "description": "The accordion panel pattern controlled by this trigger. This is set by AccordionGroup.",
           "jsdocTags": []
+        },
+        {
+          "name": "expand",
+          "signatures": [
+            {
+              "name": "expand",
+              "entryType": "function",
+              "description": "Expands this item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Expands this item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "expand",
+            "description": "Expands this item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Expands this item. */"
+          },
+          "entryType": "function",
+          "description": "Expands this item.",
+          "jsdocTags": [],
+          "rawComment": "/** Expands this item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "collapse",
+          "signatures": [
+            {
+              "name": "collapse",
+              "entryType": "function",
+              "description": "Collapses this item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Collapses this item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "collapse",
+            "description": "Collapses this item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Collapses this item. */"
+          },
+          "entryType": "function",
+          "description": "Collapses this item.",
+          "jsdocTags": [],
+          "rawComment": "/** Collapses this item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "toggle",
+          "signatures": [
+            {
+              "name": "toggle",
+              "entryType": "function",
+              "description": "Toggles the expansion state of this item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Toggles the expansion state of this item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "toggle",
+            "description": "Toggles the expansion state of this item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Toggles the expansion state of this item. */"
+          },
+          "entryType": "function",
+          "description": "Toggles the expansion state of this item.",
+          "jsdocTags": [],
+          "rawComment": "/** Toggles the expansion state of this item. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [],
@@ -131,8 +329,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 89,
-        "endLine": 148
+        "startLine": 104,
+        "endLine": 178
       }
     },
     {
@@ -211,6 +409,72 @@
           "jsdocTags": [],
           "inputAlias": "wrap",
           "isRequiredInput": false
+        },
+        {
+          "name": "expandAll",
+          "signatures": [
+            {
+              "name": "expandAll",
+              "entryType": "function",
+              "description": "Expands all accordion panels if multi-expandable.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Expands all accordion panels if multi-expandable. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "expandAll",
+            "description": "Expands all accordion panels if multi-expandable.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Expands all accordion panels if multi-expandable. */"
+          },
+          "entryType": "function",
+          "description": "Expands all accordion panels if multi-expandable.",
+          "jsdocTags": [],
+          "rawComment": "/** Expands all accordion panels if multi-expandable. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "collapseAll",
+          "signatures": [
+            {
+              "name": "collapseAll",
+              "entryType": "function",
+              "description": "Collapses all accordion panels.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Collapses all accordion panels. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "collapseAll",
+            "description": "Collapses all accordion panels.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Collapses all accordion panels. */"
+          },
+          "entryType": "function",
+          "description": "Collapses all accordion panels.",
+          "jsdocTags": [],
+          "rawComment": "/** Collapses all accordion panels. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [],
@@ -225,8 +489,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 154,
-        "endLine": 217
+        "startLine": 184,
+        "endLine": 257
       }
     },
     {
@@ -241,8 +505,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 223,
-        "endLine": 227
+        "startLine": 263,
+        "endLine": 267
       }
     }
   ],
@@ -352,6 +616,18 @@
       "@angular/aria/accordion"
     ],
     [
+      "AccordionPanel.expand",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionPanel.collapse",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionPanel.toggle",
+      "@angular/aria/accordion"
+    ],
+    [
       "AccordionTrigger",
       "@angular/aria/accordion"
     ],
@@ -380,6 +656,18 @@
       "@angular/aria/accordion"
     ],
     [
+      "AccordionTrigger.expand",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionTrigger.collapse",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionTrigger.toggle",
+      "@angular/aria/accordion"
+    ],
+    [
       "AccordionGroup",
       "@angular/aria/accordion"
     ],
@@ -405,6 +693,14 @@
     ],
     [
       "AccordionGroup.wrap",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionGroup.expandAll",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionGroup.collapseAll",
       "@angular/aria/accordion"
     ],
     [

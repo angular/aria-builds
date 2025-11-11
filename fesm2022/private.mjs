@@ -1264,6 +1264,9 @@ class MenuPattern {
       root.next();
     }
   }
+  close() {
+    this.inputs.parent()?.close();
+  }
   closeAll() {
     const root = this.root();
     if (root instanceof MenuTriggerPattern) {

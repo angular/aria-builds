@@ -60,6 +60,14 @@ class Combobox {
       }
     });
   }
+  open() {
+    this._pattern.open({
+      selected: true
+    });
+  }
+  close() {
+    this._pattern.close();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",

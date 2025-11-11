@@ -60,6 +60,72 @@
           ],
           "description": "Whether the menu trigger has a popup.",
           "jsdocTags": []
+        },
+        {
+          "name": "open",
+          "signatures": [
+            {
+              "name": "open",
+              "entryType": "function",
+              "description": "Opens the menu focusing on the first menu item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Opens the menu focusing on the first menu item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "open",
+            "description": "Opens the menu focusing on the first menu item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Opens the menu focusing on the first menu item. */"
+          },
+          "entryType": "function",
+          "description": "Opens the menu focusing on the first menu item.",
+          "jsdocTags": [],
+          "rawComment": "/** Opens the menu focusing on the first menu item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "close",
+          "signatures": [
+            {
+              "name": "close",
+              "entryType": "function",
+              "description": "Closes the menu.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Closes the menu. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "close",
+            "description": "Closes the menu.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Closes the menu. */"
+          },
+          "entryType": "function",
+          "description": "Closes the menu.",
+          "jsdocTags": [],
+          "rawComment": "/** Closes the menu. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -79,7 +145,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
         "startLine": 42,
-        "endLine": 86
+        "endLine": 96
       }
     },
     {
@@ -195,29 +261,13 @@
               "generics": [],
               "isNewType": false,
               "jsdocTags": [],
-              "params": [
-                {
-                  "name": "opts",
-                  "description": "",
-                  "type": "{ refocus?: boolean | undefined; } | undefined",
-                  "isOptional": true,
-                  "isRestParam": false
-                }
-              ],
+              "params": [],
               "rawComment": "/** Closes the menu. */",
               "returnType": "void"
             }
           ],
           "implementation": {
-            "params": [
-              {
-                "name": "opts",
-                "description": "",
-                "type": "{ refocus?: boolean | undefined; } | undefined",
-                "isOptional": true,
-                "isRestParam": false
-              }
-            ],
+            "params": [],
             "isNewType": false,
             "returnType": "void",
             "generics": [],
@@ -233,55 +283,6 @@
           "rawComment": "/** Closes the menu. */",
           "memberType": "method",
           "memberTags": []
-        },
-        {
-          "name": "closeAll",
-          "signatures": [
-            {
-              "name": "closeAll",
-              "entryType": "function",
-              "description": "Closes all parent menus.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [
-                {
-                  "name": "opts",
-                  "description": "",
-                  "type": "{ refocus?: boolean | undefined; } | undefined",
-                  "isOptional": true,
-                  "isRestParam": false
-                }
-              ],
-              "rawComment": "/** Closes all parent menus. */",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [
-              {
-                "name": "opts",
-                "description": "",
-                "type": "{ refocus?: boolean | undefined; } | undefined",
-                "isOptional": true,
-                "isRestParam": false
-              }
-            ],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "closeAll",
-            "description": "Closes all parent menus.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Closes all parent menus. */"
-          },
-          "entryType": "function",
-          "description": "Closes all parent menus.",
-          "jsdocTags": [],
-          "rawComment": "/** Closes all parent menus. */",
-          "memberType": "method",
-          "memberTags": []
         }
       ],
       "generics": [
@@ -295,8 +296,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 104,
-        "endLine": 242
+        "startLine": 114,
+        "endLine": 237
       }
     },
     {
@@ -385,6 +386,39 @@
           "description": "A callback function triggered when a menu item is selected.",
           "jsdocTags": [],
           "outputAlias": "onSelect"
+        },
+        {
+          "name": "close",
+          "signatures": [
+            {
+              "name": "close",
+              "entryType": "function",
+              "description": "Closes the menubar.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Closes the menubar. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "close",
+            "description": "Closes the menubar.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Closes the menubar. */"
+          },
+          "entryType": "function",
+          "description": "Closes the menubar.",
+          "jsdocTags": [],
+          "rawComment": "/** Closes the menubar. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -403,7 +437,7 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 251,
+        "startLine": 246,
         "endLine": 321
       }
     },
@@ -528,6 +562,72 @@
           ],
           "description": "Whether the menu item has a popup.",
           "jsdocTags": []
+        },
+        {
+          "name": "open",
+          "signatures": [
+            {
+              "name": "open",
+              "entryType": "function",
+              "description": "Opens the submenu focusing on the first menu item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Opens the submenu focusing on the first menu item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "open",
+            "description": "Opens the submenu focusing on the first menu item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Opens the submenu focusing on the first menu item. */"
+          },
+          "entryType": "function",
+          "description": "Opens the submenu focusing on the first menu item.",
+          "jsdocTags": [],
+          "rawComment": "/** Opens the submenu focusing on the first menu item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "close",
+          "signatures": [
+            {
+              "name": "close",
+              "entryType": "function",
+              "description": "Closes the submenu.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Closes the submenu. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "close",
+            "description": "Closes the submenu.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Closes the submenu. */"
+          },
+          "entryType": "function",
+          "description": "Closes the submenu.",
+          "jsdocTags": [],
+          "rawComment": "/** Closes the submenu. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -547,7 +647,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
         "startLine": 328,
-        "endLine": 399
+        "endLine": 409
       }
     },
     {
@@ -562,8 +662,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 402,
-        "endLine": 407
+        "startLine": 412,
+        "endLine": 417
       }
     }
   ],
@@ -701,6 +801,14 @@
       "@angular/aria/menu"
     ],
     [
+      "MenuTrigger.open",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuTrigger.close",
+      "@angular/aria/menu"
+    ],
+    [
       "Menu",
       "@angular/aria/menu"
     ],
@@ -749,10 +857,6 @@
       "@angular/aria/menu"
     ],
     [
-      "Menu.closeAll",
-      "@angular/aria/menu"
-    ],
-    [
       "MenuBar",
       "@angular/aria/menu"
     ],
@@ -782,6 +886,10 @@
     ],
     [
       "MenuBar.onSelect",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuBar.close",
       "@angular/aria/menu"
     ],
     [
@@ -826,6 +934,14 @@
     ],
     [
       "MenuItem.hasPopup",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuItem.open",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuItem.close",
       "@angular/aria/menu"
     ],
     [

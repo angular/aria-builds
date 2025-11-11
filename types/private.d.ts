@@ -763,6 +763,8 @@ declare class MenuPattern<V> {
     collapse(): void;
     /** Expands the current menu or focuses the next item in the menubar. */
     expand(): void;
+    /** Closes the menu. */
+    close(): void;
     /** Closes the menu and all parent menus. */
     closeAll(): void;
     /** Clears any open or close timeouts for sub-menus. */

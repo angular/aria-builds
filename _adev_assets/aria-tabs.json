@@ -122,6 +122,55 @@
           "rawComment": "",
           "memberType": "method",
           "memberTags": []
+        },
+        {
+          "name": "open",
+          "signatures": [
+            {
+              "name": "open",
+              "entryType": "function",
+              "description": "Opens the tab panel with the specified value.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [
+                {
+                  "name": "value",
+                  "description": "",
+                  "type": "string",
+                  "isOptional": false,
+                  "isRestParam": false
+                }
+              ],
+              "rawComment": "/** Opens the tab panel with the specified value. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [
+              {
+                "name": "value",
+                "description": "",
+                "type": "string",
+                "isOptional": false,
+                "isRestParam": false
+              }
+            ],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "open",
+            "description": "Opens the tab panel with the specified value.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Opens the tab panel with the specified value. */"
+          },
+          "entryType": "function",
+          "description": "Opens the tab panel with the specified value.",
+          "jsdocTags": [],
+          "rawComment": "/** Opens the tab panel with the specified value. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [],
@@ -137,7 +186,7 @@
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
         "startLine": 72,
-        "endLine": 115
+        "endLine": 122
       }
     },
     {
@@ -471,8 +520,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 122,
-        "endLine": 224
+        "startLine": 129,
+        "endLine": 231
       }
     },
     {
@@ -567,6 +616,39 @@
           "jsdocTags": []
         },
         {
+          "name": "open",
+          "signatures": [
+            {
+              "name": "open",
+              "entryType": "function",
+              "description": "Opens this tab panel.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Opens this tab panel. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "open",
+            "description": "Opens this tab panel.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Opens this tab panel. */"
+          },
+          "entryType": "function",
+          "description": "Opens this tab panel.",
+          "jsdocTags": [],
+          "rawComment": "/** Opens this tab panel. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
           "name": "ngOnInit",
           "signatures": [
             {
@@ -649,8 +731,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 227,
-        "endLine": 296
+        "startLine": 234,
+        "endLine": 308
       }
     },
     {
@@ -765,8 +847,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 306,
-        "endLine": 361
+        "startLine": 318,
+        "endLine": 373
       }
     },
     {
@@ -781,8 +863,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 366,
-        "endLine": 371
+        "startLine": 378,
+        "endLine": 383
       }
     }
   ],
@@ -908,6 +990,10 @@
       "@angular/aria/tabs"
     ],
     [
+      "Tabs.open",
+      "@angular/aria/tabs"
+    ],
+    [
       "TabList",
       "@angular/aria/tabs"
     ],
@@ -1001,6 +1087,10 @@
     ],
     [
       "Tab.selected",
+      "@angular/aria/tabs"
+    ],
+    [
+      "Tab.open",
       "@angular/aria/tabs"
     ],
     [
