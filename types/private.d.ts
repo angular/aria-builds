@@ -820,6 +820,8 @@ declare class MenuTriggerPattern<V> {
     readonly inputs: MenuTriggerInputs<V>;
     /** Whether the menu is expanded. */
     expanded: _angular_core.WritableSignal<boolean>;
+    /** Whether the menu trigger has received focus. */
+    hasBeenFocused: _angular_core.WritableSignal<boolean>;
     /** The role of the menu trigger. */
     role: () => string;
     /** Whether the menu trigger has a popup. */
@@ -835,6 +837,8 @@ declare class MenuTriggerPattern<V> {
     onKeydown(event: KeyboardEvent): void;
     /** Handles click events for the menu trigger. */
     onClick(): void;
+    /** Handles focusin events for the menu trigger. */
+    onFocusIn(): void;
     /** Handles focusout events for the menu trigger. */
     onFocusOut(event: FocusEvent): void;
     /** Opens the menu. */
@@ -862,6 +866,8 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     element: SignalLike<HTMLElement | undefined>;
     /** Whether the menu item is active. */
     isActive: Signal<boolean>;
+    /** Whether the menu item has received focus. */
+    hasBeenFocused: _angular_core.WritableSignal<boolean>;
     /** The tab index of the menu item. */
     tabIndex: Signal<0 | -1>;
     /** The position of the menu item in the menu. */
@@ -890,6 +896,8 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     close(opts?: {
         refocus?: boolean;
     }): void;
+    /** Handles focusin events for the menu item. */
+    onFocusIn(): void;
 }
 
 /** Represents an item that can be expanded or collapsed. */
@@ -1387,7 +1395,7 @@ declare class TreePattern<V> {
     readonly level: () => number;
     /** The root is always expanded. */
     readonly expanded: () => boolean;
-    /** The roow is always visible. */
+    /** The root is always visible. */
     readonly visible: () => boolean;
     /** The tab index of the tree. */
     readonly tabIndex: SignalLike<-1 | 0>;

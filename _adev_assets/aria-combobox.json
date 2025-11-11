@@ -38,16 +38,6 @@
           "jsdocTags": []
         },
         {
-          "name": "isFocused",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Whether the combobox is focused.",
-          "jsdocTags": []
-        },
-        {
           "name": "disabled",
           "type": "any",
           "memberType": "property",
@@ -120,7 +110,7 @@
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
         "startLine": 33,
-        "endLine": 132
+        "endLine": 120
       }
     },
     {
@@ -165,8 +155,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 134,
-        "endLine": 176
+        "startLine": 122,
+        "endLine": 164
       }
     },
     {
@@ -181,8 +171,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 178,
-        "endLine": 183
+        "startLine": 166,
+        "endLine": 171
       }
     },
     {
@@ -227,8 +217,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 185,
-        "endLine": 200
+        "startLine": 173,
+        "endLine": 188
       }
     },
     {
@@ -302,8 +292,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 202,
-        "endLine": 249
+        "startLine": 190,
+        "endLine": 237
       }
     }
   ],
@@ -418,10 +408,6 @@
     ],
     [
       "Combobox.filterMode",
-      "@angular/aria/combobox"
-    ],
-    [
-      "Combobox.isFocused",
       "@angular/aria/combobox"
     ],
     [

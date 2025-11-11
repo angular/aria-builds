@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, signal, computed, effect, Directive, contentChildren, output, afterRenderEffect, untracked, model } from '@angular/core';
+import { inject, ElementRef, input, computed, effect, Directive, contentChildren, signal, output, afterRenderEffect, untracked, model } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { MenuTriggerPattern, DeferredContentAware, MenuPattern, MenuBarPattern, MenuItemPattern, DeferredContent } from '@angular/aria/private';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -12,8 +12,11 @@ class MenuTrigger {
   menu = input(undefined, ...(ngDevMode ? [{
     debugName: "menu"
   }] : []));
-  hasBeenFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "hasBeenFocused"
+  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
+  hasPopup = computed(() => this._pattern.hasPopup(), ...(ngDevMode ? [{
+    debugName: "hasPopup"
   }] : []));
   _pattern = new MenuTriggerPattern({
     textDirection: this.textDirection,
@@ -22,9 +25,6 @@ class MenuTrigger {
   });
   constructor() {
     effect(() => this.menu()?.parent.set(this));
-  }
-  onFocusIn() {
-    this.hasBeenFocused.set(true);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -54,12 +54,12 @@ class MenuTrigger {
         "click": "_pattern.onClick()",
         "keydown": "_pattern.onKeydown($event)",
         "focusout": "_pattern.onFocusOut($event)",
-        "focusin": "onFocusIn()"
+        "focusin": "_pattern.onFocusIn()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
-        "attr.aria-haspopup": "_pattern.hasPopup()",
-        "attr.aria-expanded": "_pattern.expanded()",
+        "attr.aria-haspopup": "hasPopup()",
+        "attr.aria-expanded": "expanded()",
         "attr.aria-controls": "_pattern.menu()?.id()"
       },
       classAttribute: "ng-menu-trigger"
@@ -81,13 +81,13 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'class': 'ng-menu-trigger',
         '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.aria-haspopup]': '_pattern.hasPopup()',
-        '[attr.aria-expanded]': '_pattern.expanded()',
+        '[attr.aria-haspopup]': 'hasPopup()',
+        '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-controls]': '_pattern.menu()?.id()',
         '(click)': '_pattern.onClick()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusout)': '_pattern.onFocusOut($event)',
-        '(focusin)': 'onFocusIn()'
+        '(focusin)': '_pattern.onFocusIn()'
       }
     }]
   }],
@@ -148,7 +148,7 @@ class Menu {
       if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
         this._deferredContentAware?.contentVisible.set(true);
       } else {
-        this._deferredContentAware?.contentVisible.set(this._pattern.isVisible() || !!this.parent()?.hasBeenFocused());
+        this._deferredContentAware?.contentVisible.set(this._pattern.isVisible() || !!this.parent()?._pattern.hasBeenFocused());
       }
     });
     afterRenderEffect(() => {
@@ -236,7 +236,7 @@ class Menu {
       },
       properties: {
         "attr.id": "_pattern.id()",
-        "attr.data-visible": "_pattern.isVisible()"
+        "attr.data-visible": "isVisible()"
       },
       classAttribute: "ng-menu"
     },
@@ -268,7 +268,7 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'menu',
         'class': 'ng-menu',
         '[attr.id]': '_pattern.id()',
-        '[attr.data-visible]': '_pattern.isVisible()',
+        '[attr.data-visible]': 'isVisible()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(mouseover)': '_pattern.onMouseOver($event)',
         '(mouseout)': '_pattern.onMouseOut($event)',
@@ -442,8 +442,14 @@ class MenuItem {
   submenu = input(undefined, ...(ngDevMode ? [{
     debugName: "submenu"
   }] : []));
-  hasBeenFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "hasBeenFocused"
+  isActive = computed(() => this._pattern.isActive(), ...(ngDevMode ? [{
+    debugName: "isActive"
+  }] : []));
+  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
+  hasPopup = computed(() => this._pattern.hasPopup(), ...(ngDevMode ? [{
+    debugName: "hasPopup"
   }] : []));
   _pattern = new MenuItemPattern({
     id: this.id,
@@ -456,9 +462,6 @@ class MenuItem {
   });
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
-  }
-  onFocusIn() {
-    this.hasBeenFocused.set(true);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -519,13 +522,13 @@ class MenuItem {
         "role": "menuitem"
       },
       listeners: {
-        "focusin": "onFocusIn()"
+        "focusin": "_pattern.onFocusIn()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
-        "attr.data-active": "_pattern.isActive()",
-        "attr.aria-haspopup": "_pattern.hasPopup()",
-        "attr.aria-expanded": "_pattern.expanded()",
+        "attr.data-active": "isActive()",
+        "attr.aria-haspopup": "hasPopup()",
+        "attr.aria-expanded": "expanded()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-controls": "_pattern.submenu()?.id()"
       },
@@ -548,11 +551,11 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'menuitem',
         'class': 'ng-menu-item',
-        '(focusin)': 'onFocusIn()',
+        '(focusin)': '_pattern.onFocusIn()',
         '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.data-active]': '_pattern.isActive()',
-        '[attr.aria-haspopup]': '_pattern.hasPopup()',
-        '[attr.aria-expanded]': '_pattern.expanded()',
+        '[attr.data-active]': 'isActive()',
+        '[attr.aria-haspopup]': 'hasPopup()',
+        '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-controls]': '_pattern.submenu()?.id()'
       }

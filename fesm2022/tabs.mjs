@@ -289,6 +289,15 @@ class Tab {
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
   }] : []));
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
+  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
+  selected = computed(() => this._pattern.selected(), ...(ngDevMode ? [{
+    debugName: "selected"
+  }] : []));
   _pattern = new TabPattern({
     ...this,
     id: () => this._id,
@@ -337,10 +346,10 @@ class Tab {
         "role": "tab"
       },
       properties: {
-        "attr.data-active": "_pattern.active()",
+        "attr.data-active": "active()",
         "attr.id": "_pattern.id()",
         "attr.tabindex": "_pattern.tabIndex()",
-        "attr.aria-selected": "_pattern.selected()",
+        "attr.aria-selected": "selected()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-controls": "_pattern.controls()"
       },
@@ -363,10 +372,10 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'tab',
         'class': 'ng-tab',
-        '[attr.data-active]': '_pattern.active()',
+        '[attr.data-active]': 'active()',
         '[attr.id]': '_pattern.id()',
         '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.aria-selected]': '_pattern.selected()',
+        '[attr.aria-selected]': 'selected()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-controls]': '_pattern.controls()'
       }
@@ -383,13 +392,16 @@ class TabPanel {
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
   }] : []));
+  visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
+    debugName: "visible"
+  }] : []));
   _pattern = new TabPanelPattern({
     ...this,
     id: () => this._id,
     tab: this.tab
   });
   constructor() {
-    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(!this._pattern.hidden()));
+    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
   }
   ngOnInit() {
     this._Tabs.register(this);
@@ -427,7 +439,7 @@ class TabPanel {
       properties: {
         "attr.id": "_pattern.id()",
         "attr.tabindex": "_pattern.tabIndex()",
-        "attr.inert": "_pattern.hidden() ? true : null",
+        "attr.inert": "!visible() ? true : null",
         "attr.aria-labelledby": "_pattern.labelledBy()"
       },
       classAttribute: "ng-tabpanel"
@@ -455,7 +467,7 @@ i0.ɵɵngDeclareClassMetadata({
         'class': 'ng-tabpanel',
         '[attr.id]': '_pattern.id()',
         '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.inert]': '_pattern.hidden() ? true : null',
+        '[attr.inert]': '!visible() ? true : null',
         '[attr.aria-labelledby]': '_pattern.labelledBy()'
       },
       hostDirectives: [{

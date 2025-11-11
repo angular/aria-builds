@@ -19,13 +19,13 @@ declare class MenuTrigger<V> {
     readonly element: HTMLButtonElement;
     /** The menu associated with the trigger. */
     menu: _angular_core.InputSignal<Menu<V> | undefined>;
-    /** Whether the menu item has been focused. */
-    readonly hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the menu is expanded. */
+    readonly expanded: Signal<boolean>;
+    /** Whether the menu trigger has a popup. */
+    readonly hasPopup: Signal<boolean>;
     /** The menu trigger ui pattern instance. */
     _pattern: MenuTriggerPattern<V>;
     constructor();
-    /** Marks the menu trigger as having been focused. */
-    onFocusIn(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuTrigger<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "button[ngMenuTrigger]", ["ngMenuTrigger"], { "menu": { "alias": "menu"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
@@ -77,7 +77,7 @@ declare class Menu<V> {
      */
     readonly items: () => MenuItemPattern<V>[];
     /** Whether the menu is visible. */
-    isVisible: Signal<boolean>;
+    readonly isVisible: Signal<boolean>;
     /** A callback function triggered when a menu item is selected. */
     onSelect: _angular_core.OutputEmitterRef<V>;
     /** The delay in milliseconds before expanding sub-menus on hover. */
@@ -153,13 +153,15 @@ declare class MenuItem<V> {
     readonly parent: Menu<V> | MenuBar<V> | null;
     /** The submenu associated with the menu item. */
     readonly submenu: _angular_core.InputSignal<Menu<V> | undefined>;
-    /** Whether the menu item has been focused. */
-    readonly hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the menu item is active. */
+    readonly isActive: Signal<boolean>;
+    /** Whether the menu is expanded. */
+    readonly expanded: Signal<boolean | null>;
+    /** Whether the menu item has a popup. */
+    readonly hasPopup: Signal<boolean>;
     /** The menu item ui pattern instance. */
     readonly _pattern: MenuItemPattern<V>;
     constructor();
-    /** Marks the menu item as having been focused. */
-    onFocusIn(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuItem<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
 }

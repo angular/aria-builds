@@ -537,6 +537,36 @@
           "isRequiredInput": true
         },
         {
+          "name": "active",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the tab is active.",
+          "jsdocTags": []
+        },
+        {
+          "name": "expanded",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the tab is expanded.",
+          "jsdocTags": []
+        },
+        {
+          "name": "selected",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the tab is selected.",
+          "jsdocTags": []
+        },
+        {
           "name": "ngOnInit",
           "signatures": [
             {
@@ -620,7 +650,7 @@
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
         "startLine": 227,
-        "endLine": 287
+        "endLine": 296
       }
     },
     {
@@ -646,6 +676,16 @@
             "readonly"
           ],
           "description": "A local unique identifier for the tabpanel.",
+          "jsdocTags": []
+        },
+        {
+          "name": "visible",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the tab panel is visible.",
           "jsdocTags": []
         },
         {
@@ -725,8 +765,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 297,
-        "endLine": 349
+        "startLine": 306,
+        "endLine": 361
       }
     },
     {
@@ -741,8 +781,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 354,
-        "endLine": 359
+        "startLine": 366,
+        "endLine": 371
       }
     }
   ],
@@ -952,6 +992,18 @@
       "@angular/aria/tabs"
     ],
     [
+      "Tab.active",
+      "@angular/aria/tabs"
+    ],
+    [
+      "Tab.expanded",
+      "@angular/aria/tabs"
+    ],
+    [
+      "Tab.selected",
+      "@angular/aria/tabs"
+    ],
+    [
       "Tab.ngOnInit",
       "@angular/aria/tabs"
     ],
@@ -969,6 +1021,10 @@
     ],
     [
       "TabPanel.value",
+      "@angular/aria/tabs"
+    ],
+    [
+      "TabPanel.visible",
       "@angular/aria/tabs"
     ],
     [

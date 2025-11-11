@@ -111,6 +111,12 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** A local unique identifier for the tab. */
     readonly value: _angular_core.InputSignal<string>;
+    /** Whether the tab is active. */
+    readonly active: Signal<boolean>;
+    /** Whether the tab is expanded. */
+    readonly expanded: Signal<boolean>;
+    /** Whether the tab is selected. */
+    readonly selected: Signal<boolean>;
     /** The Tab UIPattern. */
     readonly _pattern: TabPattern;
     ngOnInit(): void;
@@ -137,6 +143,8 @@ declare class TabPanel implements OnInit, OnDestroy {
     readonly tab: Signal<TabPattern | undefined>;
     /** A local unique identifier for the tabpanel. */
     readonly value: _angular_core.InputSignal<string>;
+    /** Whether the tab panel is visible. */
+    readonly visible: Signal<boolean>;
     /** The TabPanel UIPattern. */
     readonly _pattern: TabPanelPattern;
     constructor();

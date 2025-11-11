@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, contentChild, input, signal, computed, afterRenderEffect, Directive, model, untracked } from '@angular/core';
+import { inject, ElementRef, contentChild, input, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { DeferredContentAware, ComboboxPattern, ComboboxDialogPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
@@ -19,12 +19,6 @@ class Combobox {
   }] : []));
   filterMode = input('manual', ...(ngDevMode ? [{
     debugName: "filterMode"
-  }] : []));
-  isFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "isFocused"
-  }] : []));
-  _hasBeenFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "_hasBeenFocused"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled"
@@ -63,11 +57,6 @@ class Combobox {
     afterRenderEffect(() => {
       if (!this._deferredContentAware?.contentVisible() && (this._pattern.isFocused() || this.alwaysExpanded())) {
         this._deferredContentAware?.contentVisible.set(true);
-      }
-    });
-    afterRenderEffect(() => {
-      if (!this._hasBeenFocused() && this._pattern.isFocused()) {
-        this._hasBeenFocused.set(true);
       }
     });
   }

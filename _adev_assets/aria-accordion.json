@@ -18,6 +18,16 @@
           "jsdocTags": []
         },
         {
+          "name": "visible",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the accordion panel is visible. True if the associated trigger is expanded.",
+          "jsdocTags": []
+        },
+        {
           "name": "accordionTrigger",
           "type": "WritableSignal<any>",
           "memberType": "property",
@@ -36,7 +46,7 @@
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
         "startLine": 36,
-        "endLine": 80
+        "endLine": 83
       }
     },
     {
@@ -67,6 +77,26 @@
           "jsdocTags": [],
           "inputAlias": "disabled",
           "isRequiredInput": false
+        },
+        {
+          "name": "active",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the trigger is active.",
+          "jsdocTags": []
+        },
+        {
+          "name": "expanded",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the trigger is expanded.",
+          "jsdocTags": []
         },
         {
           "name": "hardDisabled",
@@ -101,8 +131,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 86,
-        "endLine": 139
+        "startLine": 89,
+        "endLine": 148
       }
     },
     {
@@ -195,8 +225,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 145,
-        "endLine": 208
+        "startLine": 154,
+        "endLine": 217
       }
     },
     {
@@ -211,8 +241,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 214,
-        "endLine": 218
+        "startLine": 223,
+        "endLine": 227
       }
     }
   ],
@@ -314,6 +344,10 @@
       "@angular/aria/accordion"
     ],
     [
+      "AccordionPanel.visible",
+      "@angular/aria/accordion"
+    ],
+    [
       "AccordionPanel.accordionTrigger",
       "@angular/aria/accordion"
     ],
@@ -327,6 +361,14 @@
     ],
     [
       "AccordionTrigger.disabled",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionTrigger.active",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionTrigger.expanded",
       "@angular/aria/accordion"
     ],
     [

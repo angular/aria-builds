@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, input, signal, afterRenderEffect, Directive, ElementRef, booleanAttribute, computed, contentChildren, model } from '@angular/core';
+import { inject, input, computed, signal, afterRenderEffect, Directive, ElementRef, booleanAttribute, contentChildren, model } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
@@ -11,6 +11,9 @@ class AccordionPanel {
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
   }] : []));
+  visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
+    debugName: "visible"
+  }] : []));
   accordionTrigger = signal(undefined, ...(ngDevMode ? [{
     debugName: "accordionTrigger"
   }] : []));
@@ -21,7 +24,7 @@ class AccordionPanel {
   });
   constructor() {
     afterRenderEffect(() => {
-      this._deferredContentAware.contentVisible.set(!this._pattern.hidden());
+      this._deferredContentAware.contentVisible.set(this.visible());
     });
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
@@ -54,7 +57,7 @@ class AccordionPanel {
       properties: {
         "attr.id": "_pattern.id()",
         "attr.aria-labelledby": "_pattern.accordionTrigger()?.id()",
-        "attr.inert": "_pattern.hidden() ? true : null"
+        "attr.inert": "!visible() ? true : null"
       },
       classAttribute: "ng-accordion-panel"
     },
@@ -85,7 +88,7 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'region',
         '[attr.id]': '_pattern.id()',
         '[attr.aria-labelledby]': '_pattern.accordionTrigger()?.id()',
-        '[attr.inert]': '_pattern.hidden() ? true : null'
+        '[attr.inert]': '!visible() ? true : null'
       }
     }]
   }],
@@ -104,6 +107,12 @@ class AccordionTrigger {
   }] : [{
     transform: booleanAttribute
   }]));
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
+  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
   hardDisabled = computed(() => this._pattern.disabled() && this._pattern.tabIndex() < 0, ...(ngDevMode ? [{
     debugName: "hardDisabled"
   }] : []));
@@ -158,9 +167,9 @@ class AccordionTrigger {
         "focusin": "_pattern.onFocus($event)"
       },
       properties: {
-        "attr.data-active": "_pattern.active()",
+        "attr.data-active": "active()",
         "id": "_pattern.id()",
-        "attr.aria-expanded": "_pattern.expanded()",
+        "attr.aria-expanded": "expanded()",
         "attr.aria-controls": "_pattern.controls()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.disabled": "hardDisabled() ? true : null",
@@ -184,10 +193,10 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngAccordionTrigger',
       host: {
         'class': 'ng-accordion-trigger',
-        '[attr.data-active]': '_pattern.active()',
+        '[attr.data-active]': 'active()',
         'role': 'button',
         '[id]': '_pattern.id()',
-        '[attr.aria-expanded]': '_pattern.expanded()',
+        '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-controls]': '_pattern.controls()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.disabled]': 'hardDisabled() ? true : null',

@@ -436,6 +436,56 @@
           "jsdocTags": []
         },
         {
+          "name": "active",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the item is active.",
+          "jsdocTags": []
+        },
+        {
+          "name": "expanded",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether this item is currently expanded, returning null if not expandable.",
+          "jsdocTags": []
+        },
+        {
+          "name": "level",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "The level of the current item in a tree.",
+          "jsdocTags": []
+        },
+        {
+          "name": "selected",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the item is selected.",
+          "jsdocTags": []
+        },
+        {
+          "name": "visible",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether this item is visible due to all of its parents being expanded.",
+          "jsdocTags": []
+        },
+        {
           "name": "ngOnInit",
           "signatures": [
             {
@@ -606,7 +656,7 @@
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
         "startLine": 218,
-        "endLine": 326
+        "endLine": 343
       }
     },
     {
@@ -813,8 +863,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
-        "startLine": 331,
-        "endLine": 369
+        "startLine": 348,
+        "endLine": 386
       }
     }
   ],
@@ -1021,6 +1071,26 @@
     ],
     [
       "TreeItem.tree",
+      "@angular/aria/tree"
+    ],
+    [
+      "TreeItem.active",
+      "@angular/aria/tree"
+    ],
+    [
+      "TreeItem.expanded",
+      "@angular/aria/tree"
+    ],
+    [
+      "TreeItem.level",
+      "@angular/aria/tree"
+    ],
+    [
+      "TreeItem.selected",
+      "@angular/aria/tree"
+    ],
+    [
+      "TreeItem.visible",
       "@angular/aria/tree"
     ],
     [

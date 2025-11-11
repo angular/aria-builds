@@ -15,6 +15,8 @@ declare class AccordionPanel {
     private readonly _id;
     /** A local unique identifier for the panel, used to match with its trigger's value. */
     value: _angular_core.InputSignal<string>;
+    /** Whether the accordion panel is visible. True if the associated trigger is expanded. */
+    readonly visible: _angular_core.Signal<boolean>;
     /** The parent accordion trigger pattern that controls this panel. This is set by AccordionGroup. */
     readonly accordionTrigger: WritableSignal<AccordionTriggerPattern | undefined>;
     /** The UI pattern instance for this panel. */
@@ -38,6 +40,10 @@ declare class AccordionTrigger {
     value: _angular_core.InputSignal<string>;
     /** Whether the trigger is disabled. */
     disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether the trigger is active. */
+    readonly active: _angular_core.Signal<boolean>;
+    /** Whether the trigger is expanded. */
+    readonly expanded: _angular_core.Signal<boolean>;
     /**
      * Whether this trigger is completely inaccessible.
      *
