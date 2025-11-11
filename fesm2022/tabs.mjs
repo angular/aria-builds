@@ -39,6 +39,10 @@ class Tabs {
       this._unorderedPanels.set(new Set(this._unorderedPanels()));
     }
   }
+  open(value) {
+    const tab = this.tabs()?.find(t => t.value() === value);
+    tab?.expansion.open();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -305,6 +309,9 @@ class Tab {
     tabpanel: this.tabpanel,
     value: this.value
   });
+  open() {
+    this._pattern.expansion.open();
+  }
   ngOnInit() {
     this._tabList.register(this);
   }

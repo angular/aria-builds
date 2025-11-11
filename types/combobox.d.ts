@@ -31,6 +31,10 @@ declare class Combobox<V> {
     /** The combobox ui pattern. */
     readonly _pattern: ComboboxPattern<any, V>;
     constructor();
+    /** Opens the combobox to the selected item. */
+    open(): void;
+    /** Closes the combobox. */
+    close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }

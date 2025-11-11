@@ -96,6 +96,72 @@
           ],
           "description": "Input element connected to the combobox, if any.",
           "jsdocTags": []
+        },
+        {
+          "name": "open",
+          "signatures": [
+            {
+              "name": "open",
+              "entryType": "function",
+              "description": "Opens the combobox to the selected item.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Opens the combobox to the selected item. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "open",
+            "description": "Opens the combobox to the selected item.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Opens the combobox to the selected item. */"
+          },
+          "entryType": "function",
+          "description": "Opens the combobox to the selected item.",
+          "jsdocTags": [],
+          "rawComment": "/** Opens the combobox to the selected item. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "close",
+          "signatures": [
+            {
+              "name": "close",
+              "entryType": "function",
+              "description": "Closes the combobox.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Closes the combobox. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "close",
+            "description": "Closes the combobox.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Closes the combobox. */"
+          },
+          "entryType": "function",
+          "description": "Closes the combobox.",
+          "jsdocTags": [],
+          "rawComment": "/** Closes the combobox. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -110,7 +176,7 @@
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
         "startLine": 33,
-        "endLine": 120
+        "endLine": 130
       }
     },
     {
@@ -155,8 +221,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 122,
-        "endLine": 164
+        "startLine": 132,
+        "endLine": 174
       }
     },
     {
@@ -171,8 +237,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 166,
-        "endLine": 171
+        "startLine": 176,
+        "endLine": 181
       }
     },
     {
@@ -217,8 +283,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 173,
-        "endLine": 188
+        "startLine": 183,
+        "endLine": 198
       }
     },
     {
@@ -292,8 +358,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 190,
-        "endLine": 237
+        "startLine": 200,
+        "endLine": 247
       }
     }
   ],
@@ -432,6 +498,14 @@
     ],
     [
       "Combobox.inputElement",
+      "@angular/aria/combobox"
+    ],
+    [
+      "Combobox.open",
+      "@angular/aria/combobox"
+    ],
+    [
+      "Combobox.close",
       "@angular/aria/combobox"
     ],
     [
