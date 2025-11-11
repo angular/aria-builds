@@ -17,10 +17,6 @@ declare class Combobox<V> {
     readonly popup: _angular_core.Signal<ComboboxPopup<V> | undefined>;
     /** The filter mode for the combobox. */
     filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
-    /** Whether the combobox is focused. */
-    readonly isFocused: WritableSignal<boolean>;
-    /** Whether the combobox has received focus yet. */
-    private _hasBeenFocused;
     /** Whether the combobox is disabled. */
     readonly disabled: _angular_core.InputSignal<boolean>;
     /** Whether the combobox is read-only. */

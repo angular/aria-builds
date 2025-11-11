@@ -42,47 +42,24 @@
           "isRequiredInput": false
         },
         {
-          "name": "hasBeenFocused",
+          "name": "expanded",
           "type": "any",
           "memberType": "property",
           "memberTags": [
             "readonly"
           ],
-          "description": "Whether the menu item has been focused.",
+          "description": "Whether the menu is expanded.",
           "jsdocTags": []
         },
         {
-          "name": "onFocusIn",
-          "signatures": [
-            {
-              "name": "onFocusIn",
-              "entryType": "function",
-              "description": "Marks the menu trigger as having been focused.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/** Marks the menu trigger as having been focused. */",
-              "returnType": "void"
-            }
+          "name": "hasPopup",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
           ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "onFocusIn",
-            "description": "Marks the menu trigger as having been focused.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Marks the menu trigger as having been focused. */"
-          },
-          "entryType": "function",
-          "description": "Marks the menu trigger as having been focused.",
-          "jsdocTags": [],
-          "rawComment": "/** Marks the menu trigger as having been focused. */",
-          "memberType": "method",
-          "memberTags": []
+          "description": "Whether the menu trigger has a popup.",
+          "jsdocTags": []
         }
       ],
       "generics": [
@@ -102,7 +79,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
         "startLine": 42,
-        "endLine": 88
+        "endLine": 86
       }
     },
     {
@@ -184,7 +161,9 @@
           "name": "isVisible",
           "type": "any",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "readonly"
+          ],
           "description": "Whether the menu is visible.",
           "jsdocTags": []
         },
@@ -316,8 +295,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 106,
-        "endLine": 244
+        "startLine": 104,
+        "endLine": 242
       }
     },
     {
@@ -424,8 +403,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 253,
-        "endLine": 323
+        "startLine": 251,
+        "endLine": 321
       }
     },
     {
@@ -521,47 +500,34 @@
           "isRequiredInput": false
         },
         {
-          "name": "hasBeenFocused",
+          "name": "isActive",
           "type": "any",
           "memberType": "property",
           "memberTags": [
             "readonly"
           ],
-          "description": "Whether the menu item has been focused.",
+          "description": "Whether the menu item is active.",
           "jsdocTags": []
         },
         {
-          "name": "onFocusIn",
-          "signatures": [
-            {
-              "name": "onFocusIn",
-              "entryType": "function",
-              "description": "Marks the menu item as having been focused.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/** Marks the menu item as having been focused. */",
-              "returnType": "void"
-            }
+          "name": "expanded",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
           ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "onFocusIn",
-            "description": "Marks the menu item as having been focused.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Marks the menu item as having been focused. */"
-          },
-          "entryType": "function",
-          "description": "Marks the menu item as having been focused.",
-          "jsdocTags": [],
-          "rawComment": "/** Marks the menu item as having been focused. */",
-          "memberType": "method",
-          "memberTags": []
+          "description": "Whether the menu is expanded.",
+          "jsdocTags": []
+        },
+        {
+          "name": "hasPopup",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the menu item has a popup.",
+          "jsdocTags": []
         }
       ],
       "generics": [
@@ -580,8 +546,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 330,
-        "endLine": 400
+        "startLine": 328,
+        "endLine": 399
       }
     },
     {
@@ -596,8 +562,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 403,
-        "endLine": 408
+        "startLine": 402,
+        "endLine": 407
       }
     }
   ],
@@ -727,11 +693,11 @@
       "@angular/aria/menu"
     ],
     [
-      "MenuTrigger.hasBeenFocused",
+      "MenuTrigger.expanded",
       "@angular/aria/menu"
     ],
     [
-      "MenuTrigger.onFocusIn",
+      "MenuTrigger.hasPopup",
       "@angular/aria/menu"
     ],
     [
@@ -851,11 +817,15 @@
       "@angular/aria/menu"
     ],
     [
-      "MenuItem.hasBeenFocused",
+      "MenuItem.isActive",
       "@angular/aria/menu"
     ],
     [
-      "MenuItem.onFocusIn",
+      "MenuItem.expanded",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuItem.hasPopup",
       "@angular/aria/menu"
     ],
     [

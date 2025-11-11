@@ -102,6 +102,16 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     readonly searchTerm: Signal<any>;
     /** The tree root. */
     readonly tree: Signal<Tree<V>>;
+    /** Whether the item is active. */
+    readonly active: Signal<boolean>;
+    /** Whether this item is currently expanded, returning null if not expandable. */
+    readonly expanded: Signal<boolean | null>;
+    /** The level of the current item in a tree. */
+    readonly level: Signal<number>;
+    /** Whether the item is selected. */
+    readonly selected: Signal<boolean | undefined>;
+    /** Whether this item is visible due to all of its parents being expanded. */
+    readonly visible: Signal<boolean>;
     /** The UI pattern for this item. */
     _pattern: TreeItemPattern<V>;
     constructor();

@@ -1404,6 +1404,7 @@ class MenuBarPattern {
 class MenuTriggerPattern {
   inputs;
   expanded = signal(false);
+  hasBeenFocused = signal(false);
   role = () => 'button';
   hasPopup = () => true;
   menu;
@@ -1432,6 +1433,9 @@ class MenuTriggerPattern {
     this.expanded() ? this.close() : this.open({
       first: true
     });
+  }
+  onFocusIn() {
+    this.hasBeenFocused.set(true);
   }
   onFocusOut(event) {
     const element = this.inputs.element();
@@ -1471,6 +1475,7 @@ class MenuItemPattern {
   searchTerm;
   element;
   isActive = computed(() => this.inputs.parent()?.inputs.activeItem() === this);
+  hasBeenFocused = signal(false);
   tabIndex = computed(() => {
     if (this.submenu() && this.submenu()?.inputs.activeItem()) {
       return -1;
@@ -1520,6 +1525,9 @@ class MenuItemPattern {
         parent._clearTimeouts();
       }
     }
+  }
+  onFocusIn() {
+    this.hasBeenFocused.set(true);
   }
 }
 

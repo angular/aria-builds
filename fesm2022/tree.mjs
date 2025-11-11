@@ -309,6 +309,21 @@ class TreeItem extends DeferredContentAware {
   }, ...(ngDevMode ? [{
     debugName: "tree"
   }] : []));
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
+  expanded = computed(() => this._pattern.expandable() ? this._pattern.expanded() : null, ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
+  level = computed(() => this._pattern.level(), ...(ngDevMode ? [{
+    debugName: "level"
+  }] : []));
+  selected = computed(() => this._pattern.selected(), ...(ngDevMode ? [{
+    debugName: "selected"
+  }] : []));
+  visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
+    debugName: "visible"
+  }] : []));
   _pattern;
   constructor() {
     super();
@@ -410,13 +425,13 @@ class TreeItem extends DeferredContentAware {
         "role": "treeitem"
       },
       properties: {
-        "attr.data-active": "_pattern.active()",
+        "attr.data-active": "active()",
         "id": "_pattern.id()",
-        "attr.aria-expanded": "_pattern.expandable() ? _pattern.expanded() : null",
-        "attr.aria-selected": "_pattern.selected()",
+        "attr.aria-expanded": "expanded()",
+        "attr.aria-selected": "selected()",
         "attr.aria-current": "_pattern.current()",
         "attr.aria-disabled": "_pattern.disabled()",
-        "attr.aria-level": "_pattern.level()",
+        "attr.aria-level": "level()",
         "attr.aria-setsize": "_pattern.setsize()",
         "attr.aria-posinset": "_pattern.posinset()",
         "attr.tabindex": "_pattern.tabIndex()"
@@ -440,14 +455,14 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngTreeItem',
       host: {
         'class': 'ng-treeitem',
-        '[attr.data-active]': '_pattern.active()',
+        '[attr.data-active]': 'active()',
         'role': 'treeitem',
         '[id]': '_pattern.id()',
-        '[attr.aria-expanded]': '_pattern.expandable() ? _pattern.expanded() : null',
-        '[attr.aria-selected]': '_pattern.selected()',
+        '[attr.aria-expanded]': 'expanded()',
+        '[attr.aria-selected]': 'selected()',
         '[attr.aria-current]': '_pattern.current()',
         '[attr.aria-disabled]': '_pattern.disabled()',
-        '[attr.aria-level]': '_pattern.level()',
+        '[attr.aria-level]': 'level()',
         '[attr.aria-setsize]': '_pattern.setsize()',
         '[attr.aria-posinset]': '_pattern.posinset()',
         '[attr.tabindex]': '_pattern.tabIndex()'
