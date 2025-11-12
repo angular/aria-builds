@@ -85,7 +85,7 @@ declare class Tree<V> {
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Whether the tree is in navigation mode. */
-    readonly nav: _angular_core.InputSignal<boolean>;
+    readonly nav: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /**
      * The `aria-current` type. It can be used in navigation trees to indicate the currently active item.
      * See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current for more details.

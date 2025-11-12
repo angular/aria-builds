@@ -55,13 +55,13 @@ declare class Combobox<V> {
     /** Whether the combobox is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the combobox is read-only. */
-    readonly readonly: _angular_core.InputSignal<boolean>;
+    readonly readonly: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The value of the first matching item in the popup. */
     readonly firstMatch: _angular_core.InputSignal<V | undefined>;
     /** Whether the combobox is expanded. */
     readonly expanded: _angular_core.Signal<boolean>;
     /** Whether the combobox popup should always be expanded, regardless of user interaction. */
-    readonly alwaysExpanded: _angular_core.InputSignal<boolean>;
+    readonly alwaysExpanded: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Input element connected to the combobox, if any. */
     readonly inputElement: _angular_core.Signal<HTMLInputElement | undefined>;
     /** The combobox ui pattern. */

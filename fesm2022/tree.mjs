@@ -65,8 +65,11 @@ class Tree {
   }] : []));
   textDirection = inject(Directionality).valueSignal;
   nav = input(false, ...(ngDevMode ? [{
-    debugName: "nav"
-  }] : []));
+    debugName: "nav",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   currentType = input('page', ...(ngDevMode ? [{
     debugName: "currentType"
   }] : []));
