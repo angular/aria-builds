@@ -57,7 +57,7 @@ class Tree {
   }] : [{
     transform: booleanAttribute
   }]));
-  typeaheadDelay = input(0.5, ...(ngDevMode ? [{
+  typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
   values = model([], ...(ngDevMode ? [{

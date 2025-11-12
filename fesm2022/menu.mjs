@@ -157,7 +157,7 @@ class Menu {
   }] : [{
     transform: booleanAttribute
   }]));
-  typeaheadDelay = input(0.5, ...(ngDevMode ? [{
+  typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
@@ -178,7 +178,7 @@ class Menu {
     debugName: "tabIndex"
   }] : []));
   onSelect = output();
-  expansionDelay = input(0.1, ...(ngDevMode ? [{
+  expansionDelay = input(100, ...(ngDevMode ? [{
     debugName: "expansionDelay"
   }] : []));
   constructor() {
@@ -369,7 +369,7 @@ class MenuBar {
   }] : [{
     transform: booleanAttribute
   }]));
-  typeaheadDelay = input(0.5, ...(ngDevMode ? [{
+  typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
   _pattern;

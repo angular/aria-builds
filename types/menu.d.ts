@@ -90,7 +90,7 @@ declare class Menu<V> {
     readonly id: _angular_core.InputSignal<string>;
     /** Whether the menu should wrap its items. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The delay in seconds before the typeahead buffer is cleared. */
+    /** The delay in milliseconds before the typeahead buffer is cleared. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
     /** Whether the menu is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
@@ -112,7 +112,7 @@ declare class Menu<V> {
     readonly tabIndex: Signal<0 | -1>;
     /** A callback function triggered when a menu item is selected. */
     onSelect: _angular_core.OutputEmitterRef<V>;
-    /** The delay in seconds before expanding sub-menus on hover. */
+    /** The delay in milliseconds before expanding sub-menus on hover. */
     readonly expansionDelay: _angular_core.InputSignal<number>;
     constructor();
     /** Closes the menu. */
@@ -164,7 +164,7 @@ declare class MenuBar<V> {
     readonly values: _angular_core.ModelSignal<V[]>;
     /** Whether the menu should wrap its items. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The delay in seconds before the typeahead buffer is cleared. */
+    /** The delay in milliseconds before the typeahead buffer is cleared. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
     /** The menu ui pattern instance. */
     readonly _pattern: MenuBarPattern<V>;
