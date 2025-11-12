@@ -21,13 +21,14 @@ declare class Combobox<V> {
     /** The filter mode for the combobox. */
     filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
     /** Whether the combobox is disabled. */
-    readonly disabled: _angular_core.InputSignal<boolean>;
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the combobox is read-only. */
     readonly readonly: _angular_core.InputSignal<boolean>;
     /** The value of the first matching item in the popup. */
     readonly firstMatch: _angular_core.InputSignal<V | undefined>;
     /** Whether the combobox is expanded. */
     readonly expanded: _angular_core.Signal<boolean>;
+    /** Whether the combobox popup is always expanded. */
     readonly alwaysExpanded: _angular_core.InputSignal<boolean>;
     /** Input element connected to the combobox, if any. */
     readonly inputElement: _angular_core.Signal<HTMLInputElement | undefined>;
@@ -38,6 +39,10 @@ declare class Combobox<V> {
     open(): void;
     /** Closes the combobox. */
     close(): void;
+    /** Expands the combobox popup. */
+    expand(): void;
+    /** Collapses the combobox popup. */
+    collapse(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }

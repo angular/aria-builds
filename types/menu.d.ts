@@ -25,6 +25,10 @@ declare class MenuTrigger<V> {
     readonly expanded: Signal<boolean>;
     /** Whether the menu trigger has a popup. */
     readonly hasPopup: Signal<boolean>;
+    /** Whether the menu trigger is disabled. */
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether the menu trigger is soft disabled. */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The menu trigger ui pattern instance. */
     _pattern: MenuTriggerPattern<V>;
     constructor();
@@ -33,7 +37,7 @@ declare class MenuTrigger<V> {
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuTrigger<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "button[ngMenuTrigger]", ["ngMenuTrigger"], { "menu": { "alias": "menu"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "button[ngMenuTrigger]", ["ngMenuTrigger"], { "menu": { "alias": "menu"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
  * A list of menu items.
@@ -69,9 +73,11 @@ declare class Menu<V> {
     /** The unique ID of the menu. */
     readonly id: _angular_core.InputSignal<string>;
     /** Whether the menu should wrap its items. */
-    readonly wrap: _angular_core.InputSignal<boolean>;
+    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The delay in seconds before the typeahead buffer is cleared. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
+    /** Whether the menu is disabled. */
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** A reference to the parent menu item or menu trigger. */
     readonly parent: _angular_core.WritableSignal<MenuTrigger<V> | MenuItem<V> | undefined>;
     /** The menu ui pattern instance. */
@@ -86,15 +92,17 @@ declare class Menu<V> {
     readonly items: () => MenuItemPattern<V>[];
     /** Whether the menu is visible. */
     readonly isVisible: Signal<boolean>;
+    /** The tab index of the menu. */
+    readonly tabIndex: Signal<0 | -1>;
     /** A callback function triggered when a menu item is selected. */
     onSelect: _angular_core.OutputEmitterRef<V>;
-    /** The delay in milliseconds before expanding sub-menus on hover. */
+    /** The delay in seconds before expanding sub-menus on hover. */
     readonly expansionDelay: _angular_core.InputSignal<number>;
     constructor();
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Menu<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "onSelect": "onSelect"; }, ["_allItems"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "onSelect": "onSelect"; }, ["_allItems"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 /**
  * A menu bar of menu items.
@@ -113,12 +121,16 @@ declare class MenuBar<V> {
     private readonly _elementRef;
     /** A reference to the menubar element. */
     readonly element: HTMLElement;
+    /** Whether the menubar is disabled. */
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether the menubar is soft disabled. */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The values of the menu. */
     readonly values: _angular_core.ModelSignal<V[]>;
     /** Whether the menu should wrap its items. */
-    readonly wrap: _angular_core.InputSignal<boolean>;
+    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The delay in seconds before the typeahead buffer is cleared. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
     /** The menu ui pattern instance. */
@@ -131,7 +143,7 @@ declare class MenuBar<V> {
     /** Closes the menubar. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuBar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "values": { "alias": "values"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; "onSelect": "onSelect"; }, ["_allItems"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; "onSelect": "onSelect"; }, ["_allItems"], never, true, never>;
 }
 /**
  * An item in a Menu.

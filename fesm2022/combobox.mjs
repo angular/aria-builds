@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, contentChild, input, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
+import { inject, ElementRef, contentChild, input, booleanAttribute, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { DeferredContentAware, ComboboxPattern, ComboboxDialogPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
@@ -21,8 +21,11 @@ class Combobox {
     debugName: "filterMode"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled"
-  }] : []));
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   readonly = input(false, ...(ngDevMode ? [{
     debugName: "readonly"
   }] : []));
@@ -66,6 +69,12 @@ class Combobox {
     });
   }
   close() {
+    this._pattern.close();
+  }
+  expand() {
+    this._pattern.open();
+  }
+  collapse() {
     this._pattern.close();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
@@ -223,6 +232,7 @@ class ComboboxInput {
       },
       properties: {
         "value": "value()",
+        "attr.aria-disabled": "combobox._pattern.disabled()",
         "attr.aria-expanded": "combobox._pattern.expanded()",
         "attr.aria-activedescendant": "combobox._pattern.activeDescendant()",
         "attr.aria-controls": "combobox._pattern.popupId()",
@@ -248,6 +258,7 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'combobox',
         '[value]': 'value()',
+        '[attr.aria-disabled]': 'combobox._pattern.disabled()',
         '[attr.aria-expanded]': 'combobox._pattern.expanded()',
         '[attr.aria-activedescendant]': 'combobox._pattern.activeDescendant()',
         '[attr.aria-controls]': 'combobox._pattern.popupId()',

@@ -6,6 +6,7 @@ export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern } f
 class ComboboxPattern {
   inputs;
   expanded = signal(false);
+  disabled = () => this.inputs.disabled();
   activeDescendant = computed(() => {
     const popupControls = this.inputs.popupControls();
     if (popupControls instanceof ComboboxDialogPattern) {
@@ -22,7 +23,7 @@ class ComboboxPattern {
   popupId = computed(() => this.inputs.popupControls()?.id() || null);
   autocomplete = computed(() => this.inputs.filterMode() === 'highlight' ? 'both' : 'list');
   hasPopup = computed(() => this.inputs.popupControls()?.role() || null);
-  readonly = computed(() => this.inputs.readonly() || null);
+  readonly = computed(() => this.inputs.readonly() || this.inputs.disabled() || null);
   listControls = () => {
     const popupControls = this.inputs.popupControls();
     if (popupControls instanceof ComboboxDialogPattern) {
@@ -1039,12 +1040,14 @@ class MenuPattern {
   inputs;
   id;
   role = () => 'menu';
+  disabled = () => this.inputs.disabled();
   isVisible = computed(() => this.inputs.parent() ? !!this.inputs.parent()?.expanded() : true);
   listBehavior;
   isFocused = signal(false);
   hasBeenFocused = signal(false);
   _openTimeout;
   _closeTimeout;
+  tabIndex = () => this.listBehavior.tabIndex();
   shouldFocus = computed(() => {
     const root = this.root();
     if (root instanceof MenuTriggerPattern) {
@@ -1085,13 +1088,14 @@ class MenuPattern {
     this.id = inputs.id;
     this.listBehavior = new List({
       ...inputs,
-      values: signal([]),
-      disabled: () => false
+      values: signal([])
     });
   }
   setDefaultState() {
     if (!this.inputs.parent()) {
-      this.inputs.activeItem.set(this.inputs.items()[0]);
+      this.listBehavior.goto(this.inputs.items()[0], {
+        focusElement: false
+      });
     }
   }
   onKeydown(event) {
@@ -1133,7 +1137,7 @@ class MenuPattern {
       this._closeTimeout = setTimeout(() => {
         item.close();
         this._closeTimeout = undefined;
-      }, this.inputs.expansionDelay());
+      }, this.inputs.expansionDelay() * 1000);
     }
   }
   _openItem(item) {
@@ -1141,7 +1145,7 @@ class MenuPattern {
     this._openTimeout = setTimeout(() => {
       item.open();
       this._openTimeout = undefined;
-    }, this.inputs.expansionDelay());
+    }, this.inputs.expansionDelay() * 1000);
   }
   onMouseOut(event) {
     this._clearOpenTimeout();
@@ -1303,6 +1307,7 @@ class MenuPattern {
 class MenuBarPattern {
   inputs;
   listBehavior;
+  tabIndex = () => this.listBehavior.tabIndex();
   _nextKey = computed(() => {
     return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
@@ -1313,6 +1318,7 @@ class MenuBarPattern {
   typeaheadRegexp = /^.$/;
   isFocused = signal(false);
   hasBeenFocused = signal(false);
+  disabled = () => this.inputs.disabled();
   keydownManager = computed(() => {
     return new KeyboardEventManager().on(this._nextKey, () => this.next()).on(this._previousKey, () => this.prev()).on('End', () => this.listBehavior.last()).on('Home', () => this.listBehavior.first()).on('Enter', () => this.inputs.activeItem()?.open({
       first: true
@@ -1326,10 +1332,7 @@ class MenuBarPattern {
   });
   constructor(inputs) {
     this.inputs = inputs;
-    this.listBehavior = new List({
-      ...inputs,
-      disabled: () => false
-    });
+    this.listBehavior = new List(inputs);
   }
   setDefaultState() {
     this.inputs.activeItem.set(this.inputs.items()[0]);
@@ -1412,6 +1415,7 @@ class MenuTriggerPattern {
   hasPopup = () => true;
   menu;
   tabIndex = computed(() => this.expanded() && this.menu()?.inputs.activeItem() ? -1 : 0);
+  disabled = () => this.inputs.disabled();
   keydownManager = computed(() => {
     return new KeyboardEventManager().on(' ', () => this.open({
       first: true
@@ -1430,12 +1434,16 @@ class MenuTriggerPattern {
     this.menu = this.inputs.menu;
   }
   onKeydown(event) {
-    this.keydownManager().handle(event);
+    if (!this.inputs.disabled()) {
+      this.keydownManager().handle(event);
+    }
   }
   onClick() {
-    this.expanded() ? this.close() : this.open({
-      first: true
-    });
+    if (!this.inputs.disabled()) {
+      this.expanded() ? this.close() : this.open({
+        first: true
+      });
+    }
   }
   onFocusIn() {
     this.hasBeenFocused.set(true);
@@ -1474,7 +1482,7 @@ class MenuItemPattern {
   inputs;
   value;
   id;
-  disabled;
+  disabled = () => this.inputs.parent()?.disabled() || this.inputs.disabled();
   searchTerm;
   element;
   isActive = computed(() => this.inputs.parent()?.inputs.activeItem() === this);
@@ -1498,12 +1506,14 @@ class MenuItemPattern {
     this.id = inputs.id;
     this.value = inputs.value;
     this.element = inputs.element;
-    this.disabled = inputs.disabled;
     this.submenu = this.inputs.submenu;
     this.searchTerm = inputs.searchTerm;
     this.selectable = computed(() => !this.submenu());
   }
   open(opts) {
+    if (this.disabled()) {
+      return;
+    }
     this._expanded.set(true);
     if (opts?.first) {
       this.submenu()?.first();
@@ -2098,29 +2108,30 @@ class TreePattern {
   children = computed(() => this.inputs.allItems().filter(item => item.level() === this.level() + 1));
   visibleItems = computed(() => this.inputs.allItems().filter(item => item.visible()));
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
+  isRtl = computed(() => this.inputs.textDirection() === 'rtl');
   prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
     }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+    return this.isRtl() ? 'ArrowRight' : 'ArrowLeft';
   });
   nextKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowDown';
     }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+    return this.isRtl() ? 'ArrowLeft' : 'ArrowRight';
   });
   collapseKey = computed(() => {
     if (this.inputs.orientation() === 'horizontal') {
       return 'ArrowUp';
     }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+    return this.isRtl() ? 'ArrowRight' : 'ArrowLeft';
   });
   expandKey = computed(() => {
     if (this.inputs.orientation() === 'horizontal') {
       return 'ArrowDown';
     }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+    return this.isRtl() ? 'ArrowLeft' : 'ArrowRight';
   });
   dynamicSpaceKey = computed(() => this.listBehavior.isTyping() ? '' : ' ');
   typeaheadRegexp = /^.$/;

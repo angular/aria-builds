@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, effect, Directive, contentChildren, signal, output, afterRenderEffect, untracked, model } from '@angular/core';
+import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, contentChildren, signal, output, afterRenderEffect, untracked, model } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { MenuTriggerPattern, DeferredContentAware, MenuPattern, MenuBarPattern, MenuItemPattern, DeferredContent } from '@angular/aria/private';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -18,10 +18,23 @@ class MenuTrigger {
   hasPopup = computed(() => this._pattern.hasPopup(), ...(ngDevMode ? [{
     debugName: "hasPopup"
   }] : []));
+  disabled = input(false, ...(ngDevMode ? [{
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  softDisabled = input(true, ...(ngDevMode ? [{
+    debugName: "softDisabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   _pattern = new MenuTriggerPattern({
     textDirection: this.textDirection,
     element: computed(() => this._elementRef.nativeElement),
-    menu: computed(() => this.menu()?._pattern)
+    menu: computed(() => this.menu()?._pattern),
+    disabled: () => this.disabled()
   });
   constructor() {
     effect(() => this.menu()?.parent.set(this));
@@ -55,6 +68,20 @@ class MenuTrigger {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
     },
     host: {
@@ -66,6 +93,8 @@ class MenuTrigger {
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
+        "attr.disabled": "!softDisabled() && _pattern.disabled() ? true : null",
+        "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-haspopup": "hasPopup()",
         "attr.aria-expanded": "expanded()",
         "attr.aria-controls": "_pattern.menu()?.id()"
@@ -89,6 +118,8 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'class': 'ng-menu-trigger',
         '[attr.tabindex]': '_pattern.tabIndex()',
+        '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
+        '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-haspopup]': 'hasPopup()',
         '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-controls]': '_pattern.menu()?.id()',
@@ -121,11 +152,20 @@ class Menu {
     debugName: "id"
   }] : []));
   wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap"
-  }] : []));
+    debugName: "wrap",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   typeaheadDelay = input(0.5, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
+  disabled = input(false, ...(ngDevMode ? [{
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   parent = signal(undefined, ...(ngDevMode ? [{
     debugName: "parent"
   }] : []));
@@ -134,8 +174,11 @@ class Menu {
   isVisible = computed(() => this._pattern.isVisible(), ...(ngDevMode ? [{
     debugName: "isVisible"
   }] : []));
+  tabIndex = computed(() => this._pattern.tabIndex(), ...(ngDevMode ? [{
+    debugName: "tabIndex"
+  }] : []));
   onSelect = output();
-  expansionDelay = input(150, ...(ngDevMode ? [{
+  expansionDelay = input(0.1, ...(ngDevMode ? [{
     debugName: "expansionDelay"
   }] : []));
   constructor() {
@@ -166,7 +209,7 @@ class Menu {
       }
     });
     afterRenderEffect(() => {
-      if (!this._pattern.hasBeenFocused()) {
+      if (!this._pattern.hasBeenFocused() && this._items().length) {
         untracked(() => this._pattern.setDefaultState());
       }
     });
@@ -210,6 +253,13 @@ class Menu {
         isRequired: false,
         transformFunction: null
       },
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       expansionDelay: {
         classPropertyName: "expansionDelay",
         publicName: "expansionDelay",
@@ -235,6 +285,8 @@ class Menu {
       },
       properties: {
         "attr.id": "_pattern.id()",
+        "attr.aria-disabled": "_pattern.disabled()",
+        "attr.tabindex": "tabIndex()",
         "attr.data-visible": "isVisible()"
       },
       classAttribute: "ng-menu"
@@ -267,6 +319,8 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'menu',
         'class': 'ng-menu',
         '[attr.id]': '_pattern.id()',
+        '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.tabindex]': 'tabIndex()',
         '[attr.data-visible]': 'isVisible()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(mouseover)': '_pattern.onMouseOver($event)',
@@ -293,13 +347,28 @@ class MenuBar {
   _items = () => this._allItems().filter(i => i.parent === this);
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
+  disabled = input(false, ...(ngDevMode ? [{
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  softDisabled = input(true, ...(ngDevMode ? [{
+    debugName: "softDisabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   textDirection = inject(Directionality).valueSignal;
   values = model([], ...(ngDevMode ? [{
     debugName: "values"
   }] : []));
   wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap"
-  }] : []));
+    debugName: "wrap",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   typeaheadDelay = input(0.5, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
@@ -347,6 +416,20 @@ class MenuBar {
     isStandalone: true,
     selector: "[ngMenuBar]",
     inputs: {
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       values: {
         classPropertyName: "values",
         publicName: "values",
@@ -384,6 +467,11 @@ class MenuBar {
         "focusin": "_pattern.onFocusIn()",
         "focusout": "_pattern.onFocusOut($event)"
       },
+      properties: {
+        "attr.disabled": "!softDisabled() && _pattern.disabled() ? true : null",
+        "attr.aria-disabled": "_pattern.disabled()",
+        "attr.tabindex": "_pattern.tabIndex()"
+      },
       classAttribute: "ng-menu-bar"
     },
     queries: [{
@@ -409,6 +497,9 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'menubar',
         'class': 'ng-menu-bar',
+        '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
+        '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(mouseover)': '_pattern.onMouseOver($event)',
         '(click)': '_pattern.onClick($event)',

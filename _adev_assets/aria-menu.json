@@ -62,6 +62,32 @@
           "jsdocTags": []
         },
         {
+          "name": "disabled",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Whether the menu trigger is disabled.",
+          "jsdocTags": [],
+          "inputAlias": "disabled",
+          "isRequiredInput": false
+        },
+        {
+          "name": "softDisabled",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Whether the menu trigger is soft disabled.",
+          "jsdocTags": [],
+          "inputAlias": "softDisabled",
+          "isRequiredInput": false
+        },
+        {
           "name": "open",
           "signatures": [
             {
@@ -149,8 +175,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 44,
-        "endLine": 98
+        "startLine": 45,
+        "endLine": 108
       }
     },
     {
@@ -209,6 +235,16 @@
           "jsdocTags": []
         },
         {
+          "name": "disabled",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the menu is disabled.",
+          "jsdocTags": []
+        },
+        {
           "name": "parent",
           "type": "any",
           "memberType": "property",
@@ -239,6 +275,16 @@
           "jsdocTags": []
         },
         {
+          "name": "tabIndex",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "The tab index of the menu.",
+          "jsdocTags": []
+        },
+        {
           "name": "onSelect",
           "type": "any",
           "memberType": "property",
@@ -253,7 +299,7 @@
           "memberTags": [
             "readonly"
           ],
-          "description": "The delay in milliseconds before expanding sub-menus on hover.",
+          "description": "The delay in seconds before expanding sub-menus on hover.",
           "jsdocTags": []
         },
         {
@@ -306,8 +352,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 118,
-        "endLine": 241
+        "startLine": 128,
+        "endLine": 259
       }
     },
     {
@@ -324,6 +370,32 @@
           ],
           "description": "A reference to the menubar element.",
           "jsdocTags": []
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Whether the menubar is disabled.",
+          "jsdocTags": [],
+          "inputAlias": "disabled",
+          "isRequiredInput": false
+        },
+        {
+          "name": "softDisabled",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Whether the menubar is soft disabled.",
+          "jsdocTags": [],
+          "inputAlias": "softDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "textDirection",
@@ -452,8 +524,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 252,
-        "endLine": 327
+        "startLine": 270,
+        "endLine": 354
       }
     },
     {
@@ -666,8 +738,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 336,
-        "endLine": 417
+        "startLine": 363,
+        "endLine": 444
       }
     },
     {
@@ -687,14 +759,18 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 424,
-        "endLine": 429
+        "startLine": 451,
+        "endLine": 456
       }
     }
   ],
   "symbols": [
     [
       "afterRenderEffect",
+      "@angular/core"
+    ],
+    [
+      "booleanAttribute",
       "@angular/core"
     ],
     [
@@ -826,6 +902,14 @@
       "@angular/aria/menu"
     ],
     [
+      "MenuTrigger.disabled",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuTrigger.softDisabled",
+      "@angular/aria/menu"
+    ],
+    [
       "MenuTrigger.open",
       "@angular/aria/menu"
     ],
@@ -858,6 +942,10 @@
       "@angular/aria/menu"
     ],
     [
+      "Menu.disabled",
+      "@angular/aria/menu"
+    ],
+    [
       "Menu.parent",
       "@angular/aria/menu"
     ],
@@ -867,6 +955,10 @@
     ],
     [
       "Menu.isVisible",
+      "@angular/aria/menu"
+    ],
+    [
+      "Menu.tabIndex",
       "@angular/aria/menu"
     ],
     [
@@ -887,6 +979,14 @@
     ],
     [
       "MenuBar.element",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuBar.disabled",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuBar.softDisabled",
       "@angular/aria/menu"
     ],
     [
