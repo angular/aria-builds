@@ -13,8 +13,8 @@ declare class AccordionPanel {
     private readonly _deferredContentAware;
     /** A global unique identifier for the panel. */
     private readonly _id;
-    /** A local unique identifier for the panel, used to match with its trigger's value. */
-    value: _angular_core.InputSignal<string>;
+    /** A local unique identifier for the panel, used to match with its trigger's `panelId`. */
+    panelId: _angular_core.InputSignal<string>;
     /** Whether the accordion panel is visible. True if the associated trigger is expanded. */
     readonly visible: _angular_core.Signal<boolean>;
     /** The parent accordion trigger pattern that controls this panel. This is set by AccordionGroup. */
@@ -29,7 +29,7 @@ declare class AccordionPanel {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 /**
  * Represents the trigger button for an accordion item. It controls the expansion
@@ -42,8 +42,8 @@ declare class AccordionTrigger {
     private readonly _elementRef;
     /** The parent AccordionGroup. */
     private readonly _accordionGroup;
-    /** A local unique identifier for the trigger, used to match with its panel's value. */
-    value: _angular_core.InputSignal<string>;
+    /** A local unique identifier for the trigger, used to match with its panel's `panelId`. */
+    panelId: _angular_core.InputSignal<string>;
     /** Whether the trigger is disabled. */
     disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the trigger is active. */
@@ -67,7 +67,7 @@ declare class AccordionTrigger {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionTrigger, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
  * Container for a group of accordion items. It manages the overall state and
@@ -86,8 +86,8 @@ declare class AccordionGroup {
     disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether multiple accordion items can be expanded simultaneously. */
     multiExpandable: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The values of the current selected/expanded accordions. */
-    value: _angular_core.ModelSignal<string[]>;
+    /** The ids of the current expanded accordion panels. */
+    expandedPanels: _angular_core.ModelSignal<string[]>;
     /** Whether to allow disabled items to receive focus. */
     softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether keyboard navigation should wrap around from the last item to the first, and vice-versa. */
@@ -100,7 +100,7 @@ declare class AccordionGroup {
     /** Collapses all accordion panels. */
     collapseAll(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionGroup, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_triggers", "_panels"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "expandedPanels": { "alias": "expandedPanels"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, { "expandedPanels": "expandedPanelsChange"; }, ["_triggers", "_panels"], never, true, never>;
 }
 /**
  * A structural directive that marks the `ng-template` to be used as the content

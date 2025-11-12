@@ -10,11 +10,11 @@
       "entryType": "undecorated_class",
       "members": [
         {
-          "name": "value",
+          "name": "panelId",
           "type": "any",
           "memberType": "property",
           "memberTags": [],
-          "description": "A local unique identifier for the panel, used to match with its trigger's value.",
+          "description": "A local unique identifier for the panel, used to match with its trigger's `panelId`.",
           "jsdocTags": []
         },
         {
@@ -154,15 +154,15 @@
       "entryType": "directive",
       "members": [
         {
-          "name": "value",
+          "name": "panelId",
           "type": "any",
           "memberType": "property",
           "memberTags": [
             "input"
           ],
-          "description": "A local unique identifier for the trigger, used to match with its panel's value.",
+          "description": "A local unique identifier for the trigger, used to match with its panel's `panelId`.",
           "jsdocTags": [],
-          "inputAlias": "value",
+          "inputAlias": "panelId",
           "isRequiredInput": true
         },
         {
@@ -373,18 +373,18 @@
           "isRequiredInput": false
         },
         {
-          "name": "value",
+          "name": "expandedPanels",
           "type": "any",
           "memberType": "property",
           "memberTags": [
             "input",
             "output"
           ],
-          "description": "The values of the current selected/expanded accordions.",
+          "description": "The ids of the current expanded accordion panels.",
           "jsdocTags": [],
-          "inputAlias": "value",
+          "inputAlias": "expandedPanels",
           "isRequiredInput": false,
-          "outputAlias": "valueChange"
+          "outputAlias": "expandedPanelsChange"
         },
         {
           "name": "softDisabled",
@@ -604,7 +604,7 @@
       "@angular/aria/accordion"
     ],
     [
-      "AccordionPanel.value",
+      "AccordionPanel.panelId",
       "@angular/aria/accordion"
     ],
     [
@@ -632,7 +632,7 @@
       "@angular/aria/accordion"
     ],
     [
-      "AccordionTrigger.value",
+      "AccordionTrigger.panelId",
       "@angular/aria/accordion"
     ],
     [
@@ -684,7 +684,7 @@
       "@angular/aria/accordion"
     ],
     [
-      "AccordionGroup.value",
+      "AccordionGroup.expandedPanels",
       "@angular/aria/accordion"
     ],
     [

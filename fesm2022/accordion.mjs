@@ -8,8 +8,8 @@ import { DeferredContentAware, AccordionPanelPattern, AccordionTriggerPattern, A
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);
   _id = inject(_IdGenerator).getId('accordion-trigger-', true);
-  value = input.required(...(ngDevMode ? [{
-    debugName: "value"
+  panelId = input.required(...(ngDevMode ? [{
+    debugName: "panelId"
   }] : []));
   visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
     debugName: "visible"
@@ -19,7 +19,7 @@ class AccordionPanel {
   }] : []));
   _pattern = new AccordionPanelPattern({
     id: () => this._id,
-    value: this.value,
+    panelId: this.panelId,
     accordionTrigger: () => this.accordionTrigger()
   });
   constructor() {
@@ -51,9 +51,9 @@ class AccordionPanel {
     isStandalone: true,
     selector: "[ngAccordionPanel]",
     inputs: {
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+      panelId: {
+        classPropertyName: "panelId",
+        publicName: "panelId",
         isSignal: true,
         isRequired: true,
         transformFunction: null
@@ -107,8 +107,8 @@ class AccordionTrigger {
   _id = inject(_IdGenerator).getId('ng-accordion-trigger-', true);
   _elementRef = inject(ElementRef);
   _accordionGroup = inject(AccordionGroup);
-  value = input.required(...(ngDevMode ? [{
-    debugName: "value"
+  panelId = input.required(...(ngDevMode ? [{
+    debugName: "panelId"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -130,7 +130,7 @@ class AccordionTrigger {
   }] : []));
   _pattern = new AccordionTriggerPattern({
     id: () => this._id,
-    value: this.value,
+    panelId: this.panelId,
     disabled: this.disabled,
     element: () => this._elementRef.nativeElement,
     accordionGroup: computed(() => this._accordionGroup._pattern),
@@ -160,9 +160,9 @@ class AccordionTrigger {
     isStandalone: true,
     selector: "[ngAccordionTrigger]",
     inputs: {
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+      panelId: {
+        classPropertyName: "panelId",
+        publicName: "panelId",
         isSignal: true,
         isRequired: true,
         transformFunction: null
@@ -253,8 +253,8 @@ class AccordionGroup {
   }] : [{
     transform: booleanAttribute
   }]));
-  value = model([], ...(ngDevMode ? [{
-    debugName: "value"
+  expandedPanels = model([], ...(ngDevMode ? [{
+    debugName: "expandedPanels"
   }] : []));
   softDisabled = input(true, ...(ngDevMode ? [{
     debugName: "softDisabled",
@@ -272,7 +272,7 @@ class AccordionGroup {
     ...this,
     activeItem: signal(undefined),
     items: computed(() => this._triggers().map(trigger => trigger._pattern)),
-    expandedIds: this.value,
+    expandedIds: this.expandedPanels,
     orientation: () => 'vertical',
     element: () => this._elementRef.nativeElement
   });
@@ -281,7 +281,7 @@ class AccordionGroup {
       const triggers = this._triggers();
       const panels = this._panels();
       for (const trigger of triggers) {
-        const panel = panels.find(p => p.value() === trigger.value());
+        const panel = panels.find(p => p.panelId() === trigger.panelId());
         trigger.accordionPanel.set(panel?._pattern);
         if (panel) {
           panel.accordionTrigger.set(trigger._pattern);
@@ -324,9 +324,9 @@ class AccordionGroup {
         isRequired: false,
         transformFunction: null
       },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+      expandedPanels: {
+        classPropertyName: "expandedPanels",
+        publicName: "expandedPanels",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -347,7 +347,7 @@ class AccordionGroup {
       }
     },
     outputs: {
-      value: "valueChange"
+      expandedPanels: "expandedPanelsChange"
     },
     host: {
       classAttribute: "ng-accordion-group"

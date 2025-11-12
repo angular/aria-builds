@@ -1950,10 +1950,10 @@ class AccordionTriggerPattern {
     this.inputs = inputs;
     this.id = inputs.id;
     this.element = inputs.element;
-    this.value = inputs.value;
+    this.panelId = inputs.panelId;
     this.expansionControl = new ExpansionControl({
       ...inputs,
-      expansionId: inputs.value,
+      expansionId: inputs.panelId,
       expandable: () => true,
       expansionManager: inputs.accordionGroup().expansionManager
     });
@@ -2011,7 +2011,7 @@ class AccordionPanelPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
-    this.value = inputs.value;
+    this.panelId = inputs.panelId;
     this.accordionTrigger = inputs.accordionTrigger;
     this.hidden = computed(() => inputs.accordionTrigger()?.expanded() === false);
   }

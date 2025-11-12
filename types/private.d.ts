@@ -1236,8 +1236,8 @@ declare class AccordionGroupPattern {
 }
 /** Inputs for the AccordionTriggerPattern. */
 type AccordionTriggerInputs = Omit<ListNavigationItem & ListFocusItem, 'index'> & Omit<ExpansionItem, 'expansionId' | 'expandable'> & {
-    /** A local unique identifier for the trigger. */
-    value: SignalLike<string>;
+    /** A local unique identifier for the trigger's corresponding panel. */
+    panelId: SignalLike<string>;
     /** The parent accordion group that controls this trigger. */
     accordionGroup: SignalLike<AccordionGroupPattern>;
     /** The accordion panel controlled by this trigger. */
@@ -1287,8 +1287,8 @@ declare class AccordionTriggerPattern {
 interface AccordionPanelInputs {
     /** A global unique identifier for the panel. */
     id: SignalLike<string>;
-    /** A local unique identifier for the panel, matching its trigger's value. */
-    value: SignalLike<string>;
+    /** A local unique identifier for the panel, matching its trigger's panelId. */
+    panelId: SignalLike<string>;
     /** The parent accordion trigger that controls this panel. */
     accordionTrigger: SignalLike<AccordionTriggerPattern | undefined>;
 }
