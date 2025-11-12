@@ -668,7 +668,7 @@ class ListTypeahead {
     this.timeout = setTimeout(() => {
       this._query.set('');
       this._startIndex.set(undefined);
-    }, this.inputs.typeaheadDelay() * 1000);
+    }, this.inputs.typeaheadDelay());
     return true;
   }
   _getItem() {
@@ -1137,7 +1137,7 @@ class MenuPattern {
       this._closeTimeout = setTimeout(() => {
         item.close();
         this._closeTimeout = undefined;
-      }, this.inputs.expansionDelay() * 1000);
+      }, this.inputs.expansionDelay());
     }
   }
   _openItem(item) {
@@ -1145,7 +1145,7 @@ class MenuPattern {
     this._openTimeout = setTimeout(() => {
       item.open();
       this._openTimeout = undefined;
-    }, this.inputs.expansionDelay() * 1000);
+    }, this.inputs.expansionDelay());
   }
   onMouseOut(event) {
     this._clearOpenTimeout();

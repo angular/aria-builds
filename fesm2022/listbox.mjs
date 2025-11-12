@@ -55,7 +55,7 @@ class Listbox {
   selectionMode = input('follow', ...(ngDevMode ? [{
     debugName: "selectionMode"
   }] : []));
-  typeaheadDelay = input(0.5, ...(ngDevMode ? [{
+  typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{

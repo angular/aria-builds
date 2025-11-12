@@ -231,7 +231,7 @@
           "memberTags": [
             "readonly"
           ],
-          "description": "The delay in seconds before the typeahead buffer is cleared.",
+          "description": "The delay in milliseconds before the typeahead buffer is cleared.",
           "jsdocTags": []
         },
         {
@@ -299,7 +299,7 @@
           "memberTags": [
             "readonly"
           ],
-          "description": "The delay in seconds before expanding sub-menus on hover.",
+          "description": "The delay in milliseconds before expanding sub-menus on hover.",
           "jsdocTags": []
         },
         {
@@ -443,7 +443,7 @@
             "readonly",
             "input"
           ],
-          "description": "The delay in seconds before the typeahead buffer is cleared.",
+          "description": "The delay in milliseconds before the typeahead buffer is cleared.",
           "jsdocTags": [],
           "inputAlias": "typeaheadDelay",
           "isRequiredInput": false
