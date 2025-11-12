@@ -326,7 +326,7 @@
           "jsdocTags": []
         },
         {
-          "name": "value",
+          "name": "values",
           "type": "any",
           "memberType": "property",
           "memberTags": [
@@ -334,11 +334,11 @@
             "input",
             "output"
           ],
-          "description": "The value of the menu.",
+          "description": "The values of the menu.",
           "jsdocTags": [],
-          "inputAlias": "value",
+          "inputAlias": "values",
           "isRequiredInput": false,
-          "outputAlias": "valueChange"
+          "outputAlias": "valuesChange"
         },
         {
           "name": "wrap",
@@ -869,7 +869,7 @@
       "@angular/aria/menu"
     ],
     [
-      "MenuBar.value",
+      "MenuBar.values",
       "@angular/aria/menu"
     ],
     [

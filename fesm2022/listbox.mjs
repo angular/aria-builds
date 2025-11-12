@@ -70,8 +70,8 @@ class Listbox {
   }] : [{
     transform: booleanAttribute
   }]));
-  value = model([], ...(ngDevMode ? [{
-    debugName: "value"
+  values = model([], ...(ngDevMode ? [{
+    debugName: "values"
   }] : []));
   _pattern;
   _hasFocused = signal(false, ...(ngDevMode ? [{
@@ -113,9 +113,9 @@ class Listbox {
     });
     afterRenderEffect(() => {
       const items = inputs.items();
-      const value = untracked(() => this.value());
-      if (items && value.some(v => !items.some(i => i.value() === v))) {
-        this.value.set(value.filter(v => items.some(i => i.value() === v)));
+      const values = untracked(() => this.values());
+      if (items && values.some(v => !items.some(i => i.value() === v))) {
+        this.values.set(values.filter(v => items.some(i => i.value() === v)));
       }
     });
   }
@@ -208,16 +208,16 @@ class Listbox {
         isRequired: false,
         transformFunction: null
       },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+      values: {
+        classPropertyName: "values",
+        publicName: "values",
         isSignal: true,
         isRequired: false,
         transformFunction: null
       }
     },
     outputs: {
-      value: "valueChange"
+      values: "valuesChange"
     },
     host: {
       attributes: {

@@ -108,7 +108,7 @@ declare class ListNavigation<T extends ListNavigationItem> {
     private _peek;
 }
 
-/** Represents an item in a collection, such as a listbox option, than can be selected. */
+/** Represents an item in a collection, such as a listbox option, that can be selected. */
 interface ListSelectionItem<V> extends ListFocusItem {
     /** The value of the item. */
     value: SignalLike<V>;
@@ -120,7 +120,7 @@ interface ListSelectionInputs<T extends ListSelectionItem<V>, V> extends ListFoc
     /** Whether multiple items in the list can be selected at once. */
     multi: SignalLike<boolean>;
     /** The current value of the list selection. */
-    value: WritableSignalLike<V[]>;
+    values: WritableSignalLike<V[]>;
     /** The selection strategy used by the list. */
     selectionMode: SignalLike<'follow' | 'explicit'>;
 }
@@ -665,7 +665,7 @@ interface MenuBarInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'disa
     textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuPattern class. */
-interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value' | 'disabled'> {
+interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'values' | 'disabled'> {
     /** The unique ID of the menu. */
     id: SignalLike<string>;
     /** The menu items contained in the menu. */
@@ -1164,7 +1164,7 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
 }
 
 /** Represents the required inputs for a toolbar. */
-type ToolbarInputs<V> = Omit<ListInputs<ToolbarWidgetPattern<V>, V>, 'multi' | 'typeaheadDelay' | 'value' | 'selectionMode' | 'focusMode'> & {
+type ToolbarInputs<V> = Omit<ListInputs<ToolbarWidgetPattern<V>, V>, 'multi' | 'typeaheadDelay' | 'values' | 'selectionMode' | 'focusMode'> & {
     /** A function that returns the toolbar item associated with a given element. */
     getItem: (e: Element) => ToolbarWidgetPattern<V> | undefined;
 };
@@ -1451,8 +1451,8 @@ declare class TreePattern<V> {
     selectionMode: SignalLike<'follow' | 'explicit'>;
     /** The delay in milliseconds to wait before clearing the typeahead buffer. */
     typeaheadDelay: SignalLike<number>;
-    /** The current value of the tree (the selected items). */
-    value: WritableSignalLike<V[]>;
+    /** The current selected items of the tree. */
+    values: WritableSignalLike<V[]>;
     constructor(inputs: TreeInputs<V>);
     /**
      * Sets the tree to it's default initial state.
