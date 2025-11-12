@@ -139,13 +139,18 @@
       ],
       "generics": [],
       "description": "Represents the content panel of an accordion item. It is controlled by an\nassociated `AccordionTrigger`.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * Represents the content panel of an accordion item. It is controlled by an\n * associated `AccordionTrigger`.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * Represents the content panel of an accordion item. It is controlled by an\n * associated `AccordionTrigger`.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 36,
-        "endLine": 98
+        "startLine": 38,
+        "endLine": 100
       }
     },
     {
@@ -319,8 +324,13 @@
       ],
       "generics": [],
       "description": "Represents the trigger button for an accordion item. It controls the expansion\nstate of an associated `AccordionPanel`.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * Represents the trigger button for an accordion item. It controls the expansion\n * state of an associated `AccordionPanel`.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * Represents the trigger button for an accordion item. It controls the expansion\n * state of an associated `AccordionPanel`.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "[ngAccordionTrigger]",
@@ -329,8 +339,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 104,
-        "endLine": 178
+        "startLine": 108,
+        "endLine": 182
       }
     },
     {
@@ -479,8 +489,13 @@
       ],
       "generics": [],
       "description": "Container for a group of accordion items. It manages the overall state and\ninteractions of the accordion, such as keyboard navigation and expansion mode.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * Container for a group of accordion items. It manages the overall state and\n * interactions of the accordion, such as keyboard navigation and expansion mode.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * Container for a group of accordion items. It manages the overall state and\n * interactions of the accordion, such as keyboard navigation and expansion mode.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "[ngAccordionGroup]",
@@ -489,8 +504,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 184,
-        "endLine": 257
+        "startLine": 190,
+        "endLine": 263
       }
     },
     {
@@ -500,13 +515,18 @@
       "members": [],
       "generics": [],
       "description": "A structural directive that marks the `ng-template` to be used as the content\nfor a `AccordionPanel`. This content can be lazily loaded.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * A structural directive that marks the `ng-template` to be used as the content\n * for a `AccordionPanel`. This content can be lazily loaded.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * A structural directive that marks the `ng-template` to be used as the content\n * for a `AccordionPanel`. This content can be lazily loaded.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 263,
-        "endLine": 267
+        "startLine": 271,
+        "endLine": 275
       }
     }
   ],

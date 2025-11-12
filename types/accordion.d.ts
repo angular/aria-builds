@@ -7,6 +7,8 @@ import { AccordionTriggerPattern, AccordionPanelPattern, AccordionGroupPattern }
 /**
  * Represents the content panel of an accordion item. It is controlled by an
  * associated `AccordionTrigger`.
+ *
+ * @developerPreview 21.0
  */
 declare class AccordionPanel {
     /** The DeferredContentAware host directive. */
@@ -34,6 +36,8 @@ declare class AccordionPanel {
 /**
  * Represents the trigger button for an accordion item. It controls the expansion
  * state of an associated `AccordionPanel`.
+ *
+ * @developerPreview 21.0
  */
 declare class AccordionTrigger {
     /** A global unique identifier for the trigger. */
@@ -72,6 +76,8 @@ declare class AccordionTrigger {
 /**
  * Container for a group of accordion items. It manages the overall state and
  * interactions of the accordion, such as keyboard navigation and expansion mode.
+ *
+ * @developerPreview 21.0
  */
 declare class AccordionGroup {
     /** A reference to the group element. */
@@ -105,6 +111,8 @@ declare class AccordionGroup {
 /**
  * A structural directive that marks the `ng-template` to be used as the content
  * for a `AccordionPanel`. This content can be lazily loaded.
+ *
+ * @developerPreview 21.0
  */
 declare class AccordionContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionContent, never>;

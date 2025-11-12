@@ -3,7 +3,11 @@ import { Signal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_grid-chunk.js';
 
-/** A directive that provides grid-based navigation and selection behavior. */
+/**
+ * A directive that provides grid-based navigation and selection behavior.
+ *
+ * @developerPreview 21.0
+ */
 declare class Grid {
     /** A reference to the host element. */
     private readonly _elementRef;
@@ -41,7 +45,11 @@ declare class Grid {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Grid, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "enableRangeSelection": { "alias": "enableRangeSelection"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
 }
-/** A directive that represents a row in a grid. */
+/**
+ * A directive that represents a row in a grid.
+ *
+ * @developerPreview 21.0
+ */
 declare class GridRow {
     /** A reference to the host element. */
     private readonly _elementRef;
@@ -64,7 +72,11 @@ declare class GridRow {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridRow, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridRow, "[ngGridRow]", ["ngGridRow"], { "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; }, {}, ["_cells"], never, true, never>;
 }
-/** A directive that represents a cell in a grid. */
+/**
+ * A directive that represents a cell in a grid.
+ *
+ * @developerPreview 21.0
+ */
 declare class GridCell {
     /** A reference to the host element. */
     private readonly _elementRef;
@@ -99,7 +111,11 @@ declare class GridCell {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCell, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widgets"], never, true, never>;
 }
-/** A directive that represents a widget inside a grid cell. */
+/**
+ * A directive that represents a widget inside a grid cell.
+ *
+ * @developerPreview 21.0
+ */
 declare class GridCellWidget {
     /** A reference to the host element. */
     private readonly _elementRef;

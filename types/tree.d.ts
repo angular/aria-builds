@@ -28,6 +28,8 @@ interface HasElement {
  *   <li ngTreeItem [value]="'leaf2'" [disabled]="true">Disabled Leaf Item 2</li>
  * </ul>
  * ```
+ *
+ * @developerPreview 21.0
  */
 declare class Tree<V> {
     /** A unique identifier for the tree. */
@@ -78,6 +80,8 @@ declare class Tree<V> {
 }
 /**
  * A selectable and expandable Tree Item in a Tree.
+ *
+ * @developerPreview 21.0
  */
 declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDestroy, HasElement {
     /** A reference to the tree item element. */
@@ -124,6 +128,8 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
 }
 /**
  * Contains children tree itmes.
+ *
+ * @developerPreview 21.0
  */
 declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     /** The DeferredContent host directive. */

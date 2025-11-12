@@ -16,6 +16,8 @@ import { ComboboxPopup } from './combobox.js';
  *   <li [value]="3" ngOption>Item 3</li>
  * </ul>
  * ```
+ *
+ * @developerPreview 21.0
  */
 declare class Listbox<V> {
     /** A unique identifier for the listbox. */
@@ -66,7 +68,11 @@ declare class Listbox<V> {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
-/** A selectable option in a Listbox. */
+/**
+ * A selectable option in a Listbox.
+ *
+ * @developerPreview 21.0
+ */
 declare class Option<V> {
     /** A reference to the option element. */
     private readonly _elementRef;

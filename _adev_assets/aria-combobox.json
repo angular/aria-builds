@@ -170,13 +170,18 @@
         }
       ],
       "description": "",
-      "jsdocTags": [],
-      "rawComment": "",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * @developerPreview 21.0\n */",
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 33,
-        "endLine": 130
+        "startLine": 36,
+        "endLine": 133
       }
     },
     {
@@ -211,8 +216,13 @@
       ],
       "generics": [],
       "description": "",
-      "jsdocTags": [],
-      "rawComment": "",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "input[ngComboboxInput]",
@@ -221,8 +231,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 132,
-        "endLine": 174
+        "startLine": 138,
+        "endLine": 180
       }
     },
     {
@@ -232,13 +242,18 @@
       "members": [],
       "generics": [],
       "description": "",
-      "jsdocTags": [],
-      "rawComment": "",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * @developerPreview 21.0\n */",
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 176,
-        "endLine": 181
+        "startLine": 185,
+        "endLine": 190
       }
     },
     {
@@ -273,8 +288,13 @@
         }
       ],
       "description": "",
-      "jsdocTags": [],
-      "rawComment": "",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "[ngComboboxPopup]",
@@ -283,8 +303,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 183,
-        "endLine": 198
+        "startLine": 195,
+        "endLine": 210
       }
     },
     {
@@ -348,8 +368,13 @@
       ],
       "generics": [],
       "description": "",
-      "jsdocTags": [],
-      "rawComment": "",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "dialog[ngComboboxDialog]",
@@ -358,8 +383,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 200,
-        "endLine": 247
+        "startLine": 215,
+        "endLine": 262
       }
     }
   ],
