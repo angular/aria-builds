@@ -31,6 +31,8 @@ interface HasElement {
  *      <ng-template ngTabContent>Tab content 3</ng-template>
  *   </div>
  * ```
+ *
+ * @developerPreview 21.0
  */
 declare class Tabs {
     /** The TabList nested inside of the container. */
@@ -52,6 +54,8 @@ declare class Tabs {
  * A TabList container.
  *
  * Controls a list of Tab(s).
+ *
+ * @developerPreview 21.0
  */
 declare class TabList implements OnInit, OnDestroy {
     /** A reference to the tab list element. */
@@ -93,7 +97,11 @@ declare class TabList implements OnInit, OnDestroy {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
 }
-/** A selectable tab in a TabList. */
+/**
+ * A selectable tab in a TabList.
+ *
+ * @developerPreview 21.0
+ */
 declare class Tab implements HasElement, OnInit, OnDestroy {
     /** A reference to the tab element. */
     private readonly _elementRef;
@@ -135,6 +143,8 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
  * will be applied to the tabpanel element to remove it from the accessibility tree and stop
  * all the keyboard and pointer interactions. Note that this does not visually hide the tabpenl
  * and a proper styling is required.
+ *
+ * @developerPreview 21.0
  */
 declare class TabPanel implements OnInit, OnDestroy {
     /** The DeferredContentAware host directive. */
@@ -159,6 +169,8 @@ declare class TabPanel implements OnInit, OnDestroy {
 }
 /**
  * A TabContent container for the lazy-loaded content.
+ *
+ * @developerPreview 21.0
  */
 declare class TabContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabContent, never>;

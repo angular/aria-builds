@@ -4,6 +4,9 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
 import { ComboboxPattern, ComboboxDialogPattern, ComboboxListboxControls, ComboboxTreeControls } from '@angular/aria/private';
 
+/**
+ * @developerPreview 21.0
+ */
 declare class Combobox<V> {
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     private readonly _directionality;
@@ -38,6 +41,9 @@ declare class Combobox<V> {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
+/**
+ * @developerPreview 21.0
+ */
 declare class ComboboxInput {
     /** The element that the combobox is attached to. */
     private readonly _elementRef;
@@ -49,10 +55,16 @@ declare class ComboboxInput {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxInput, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxInput, "input[ngComboboxInput]", ["ngComboboxInput"], { "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;
 }
+/**
+ * @developerPreview 21.0
+ */
 declare class ComboboxPopupContainer {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopupContainer, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopupContainer, "ng-template[ngComboboxPopupContainer]", ["ngComboboxPopupContainer"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
 }
+/**
+ * @developerPreview 21.0
+ */
 declare class ComboboxPopup<V> {
     /** The combobox that the popup belongs to. */
     readonly combobox: Combobox<V> | null;
@@ -61,6 +73,9 @@ declare class ComboboxPopup<V> {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup<any>, "[ngComboboxPopup]", ["ngComboboxPopup"], {}, {}, never, never, true, never>;
 }
+/**
+ * @developerPreview 21.0
+ */
 declare class ComboboxDialog {
     /** The dialog element. */
     readonly element: ElementRef<any>;

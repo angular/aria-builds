@@ -9,6 +9,8 @@ import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPa
  *
  * The menu trigger is used to open and close menus, and can be placed on menu items to connect
  * sub-menus.
+ *
+ * @developerPreview 21.0
  */
 declare class MenuTrigger<V> {
     /** A reference to the menu trigger element. */
@@ -48,6 +50,8 @@ declare class MenuTrigger<V> {
  *   <div ngMenuItem>Delete</div>
  * </div>
  * ```
+ *
+ * @developerPreview 21.0
  */
 declare class Menu<V> {
     /** The DeferredContentAware host directive. */
@@ -98,6 +102,8 @@ declare class Menu<V> {
  * Like the menu, a menubar is used to offer a list of menu item choices to users. However, a
  * menubar is used to display a persistent, top-level,
  * always-visible set of menu item choices.
+ *
+ * @developerPreview 21.0
  */
 declare class MenuBar<V> {
     /** The menu items contained in the menubar. */
@@ -131,6 +137,8 @@ declare class MenuBar<V> {
  * An item in a Menu.
  *
  * Menu items can be used in menus and menubars to represent a choice or action a user can take.
+ *
+ * @developerPreview 21.0
  */
 declare class MenuItem<V> {
     /** A reference to the menu item element. */
@@ -169,7 +177,11 @@ declare class MenuItem<V> {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuItem<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
 }
-/** Defers the rendering of the menu content. */
+/**
+ * Defers the rendering of the menu content.
+ *
+ * @developerPreview 21.0
+ */
 declare class MenuContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuContent, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuContent, "ng-template[ngMenuContent]", ["ngMenuContent"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;

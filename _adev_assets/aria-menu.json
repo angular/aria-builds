@@ -134,8 +134,13 @@
         }
       ],
       "description": "A trigger for a menu.\n\nThe menu trigger is used to open and close menus, and can be placed on menu items to connect\nsub-menus.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * A trigger for a menu.\n *\n * The menu trigger is used to open and close menus, and can be placed on menu items to connect\n * sub-menus.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * A trigger for a menu.\n *\n * The menu trigger is used to open and close menus, and can be placed on menu items to connect\n * sub-menus.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "button[ngMenuTrigger]",
@@ -144,8 +149,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 42,
-        "endLine": 96
+        "startLine": 44,
+        "endLine": 98
       }
     },
     {
@@ -291,13 +296,18 @@
         }
       ],
       "description": "A list of menu items.\n\nA menu is used to offer a list of menu item choices to users. Menus can be nested within other\nmenus to create sub-menus.\n\n```html\n<button ngMenuTrigger menu=\"menu\">Options</button>\n\n<div ngMenu #menu=\"ngMenu\">\n  <div ngMenuItem>Star</div>\n  <div ngMenuItem>Edit</div>\n  <div ngMenuItem>Delete</div>\n</div>\n```",
-      "jsdocTags": [],
-      "rawComment": "/**\n * A list of menu items.\n *\n * A menu is used to offer a list of menu item choices to users. Menus can be nested within other\n * menus to create sub-menus.\n *\n * ```html\n * <button ngMenuTrigger menu=\"menu\">Options</button>\n *\n * <div ngMenu #menu=\"ngMenu\">\n *   <div ngMenuItem>Star</div>\n *   <div ngMenuItem>Edit</div>\n *   <div ngMenuItem>Delete</div>\n * </div>\n * ```\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * A list of menu items.\n *\n * A menu is used to offer a list of menu item choices to users. Menus can be nested within other\n * menus to create sub-menus.\n *\n * ```html\n * <button ngMenuTrigger menu=\"menu\">Options</button>\n *\n * <div ngMenu #menu=\"ngMenu\">\n *   <div ngMenuItem>Star</div>\n *   <div ngMenuItem>Edit</div>\n *   <div ngMenuItem>Delete</div>\n * </div>\n * ```\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 114,
-        "endLine": 237
+        "startLine": 118,
+        "endLine": 241
       }
     },
     {
@@ -427,8 +437,13 @@
         }
       ],
       "description": "A menu bar of menu items.\n\nLike the menu, a menubar is used to offer a list of menu item choices to users. However, a\nmenubar is used to display a persistent, top-level,\nalways-visible set of menu item choices.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * A menu bar of menu items.\n *\n * Like the menu, a menubar is used to offer a list of menu item choices to users. However, a\n * menubar is used to display a persistent, top-level,\n * always-visible set of menu item choices.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * A menu bar of menu items.\n *\n * Like the menu, a menubar is used to offer a list of menu item choices to users. However, a\n * menubar is used to display a persistent, top-level,\n * always-visible set of menu item choices.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "[ngMenuBar]",
@@ -437,8 +452,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 246,
-        "endLine": 321
+        "startLine": 252,
+        "endLine": 327
       }
     },
     {
@@ -636,8 +651,13 @@
         }
       ],
       "description": "An item in a Menu.\n\nMenu items can be used in menus and menubars to represent a choice or action a user can take.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * An item in a Menu.\n *\n * Menu items can be used in menus and menubars to represent a choice or action a user can take.\n */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * An item in a Menu.\n *\n * Menu items can be used in menus and menubars to represent a choice or action a user can take.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "isStandalone": true,
       "selector": "[ngMenuItem]",
@@ -646,8 +666,8 @@
       ],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 328,
-        "endLine": 409
+        "startLine": 336,
+        "endLine": 417
       }
     },
     {
@@ -657,13 +677,18 @@
       "members": [],
       "generics": [],
       "description": "Defers the rendering of the menu content.",
-      "jsdocTags": [],
-      "rawComment": "/** Defers the rendering of the menu content. */",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * Defers the rendering of the menu content.\n *\n * @developerPreview 21.0\n */",
       "implements": [],
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
-        "startLine": 412,
-        "endLine": 417
+        "startLine": 424,
+        "endLine": 429
       }
     }
   ],
