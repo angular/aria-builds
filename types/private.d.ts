@@ -402,6 +402,8 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     readonly inputs: ComboboxInputs<T, V>;
     /** Whether the combobox is expanded. */
     expanded: _angular_core.WritableSignal<boolean>;
+    /** Whether the combobox is disabled. */
+    disabled: () => boolean;
     /** The ID of the active item in the combobox. */
     activeDescendant: _angular_core.Signal<string | null>;
     /** The currently highlighted item in the combobox. */
@@ -656,7 +658,7 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
 }
 
 /** The inputs for the MenuBarPattern class. */
-interface MenuBarInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'disabled'> {
+interface MenuBarInputs<V> extends ListInputs<MenuItemPattern<V>, V> {
     /** The menu items contained in the menu. */
     items: SignalLike<MenuItemPattern<V>[]>;
     /** Callback function triggered when a menu item is selected. */
@@ -665,7 +667,7 @@ interface MenuBarInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'disa
     textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuPattern class. */
-interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'values' | 'disabled'> {
+interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'values'> {
     /** The unique ID of the menu. */
     id: SignalLike<string>;
     /** The menu items contained in the menu. */
@@ -687,6 +689,8 @@ interface MenuTriggerInputs<V> {
     menu: SignalLike<MenuPattern<V> | undefined>;
     /** The text direction of the menu bar. */
     textDirection: SignalLike<'ltr' | 'rtl'>;
+    /** Whether the menu trigger is disabled. */
+    disabled: SignalLike<boolean>;
 }
 /** The inputs for the MenuItemPattern class. */
 interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
@@ -702,6 +706,8 @@ declare class MenuPattern<V> {
     id: SignalLike<string>;
     /** The role of the menu. */
     role: () => string;
+    /** Whether the menu is disabled. */
+    disabled: () => boolean;
     /** Whether the menu is visible. */
     isVisible: Signal<boolean>;
     /** Controls list behavior for the menu items. */
@@ -714,6 +720,8 @@ declare class MenuPattern<V> {
     _openTimeout: any;
     /** Timeout used to close sub-menus on hover out. */
     _closeTimeout: any;
+    /** The tab index of the menu. */
+    tabIndex: () => 0 | -1;
     /** Whether the menu should be focused on mouse over. */
     shouldFocus: Signal<boolean>;
     /** The key used to expand sub-menus. */
@@ -779,6 +787,8 @@ declare class MenuBarPattern<V> {
     readonly inputs: MenuBarInputs<V>;
     /** Controls list behavior for the menu items. */
     listBehavior: List<MenuItemPattern<V>, V>;
+    /** The tab index of the menu. */
+    tabIndex: () => 0 | -1;
     /** The key used to navigate to the next item. */
     private _nextKey;
     /** The key used to navigate to the previous item. */
@@ -791,6 +801,8 @@ declare class MenuBarPattern<V> {
     isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the menubar has been focused. */
     hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the menubar is disabled. */
+    disabled: () => boolean;
     /** Handles keyboard events for the menu. */
     keydownManager: Signal<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuBarInputs<V>);
@@ -832,6 +844,8 @@ declare class MenuTriggerPattern<V> {
     menu: SignalLike<MenuPattern<V> | undefined>;
     /** The tab index of the menu trigger. */
     tabIndex: Signal<-1 | 0>;
+    /** Whether the menu trigger is disabled. */
+    disabled: () => boolean;
     /** Handles keyboard events for the menu trigger. */
     keydownManager: Signal<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuTriggerInputs<V>);
@@ -861,7 +875,7 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** The unique ID of the menu item. */
     id: SignalLike<string>;
     /** Whether the menu item is disabled. */
-    disabled: SignalLike<boolean>;
+    disabled: () => boolean;
     /** The search term for the menu item. */
     searchTerm: SignalLike<string>;
     /** The element of the menu item. */
@@ -1409,6 +1423,8 @@ declare class TreePattern<V> {
     readonly visibleItems: _angular_core.Signal<TreeItemPattern<V>[]>;
     /** Whether the tree selection follows focus. */
     readonly followFocus: _angular_core.Signal<boolean>;
+    /** Whether the tree direction is RTL. */
+    readonly isRtl: _angular_core.Signal<boolean>;
     /** The key for navigating to the previous item. */
     readonly prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key for navigating to the next item. */

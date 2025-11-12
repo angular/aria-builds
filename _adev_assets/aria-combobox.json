@@ -84,7 +84,7 @@
           "memberTags": [
             "readonly"
           ],
-          "description": "",
+          "description": "Whether the combobox popup is always expanded.",
           "jsdocTags": []
         },
         {
@@ -162,6 +162,72 @@
           "rawComment": "/** Closes the combobox. */",
           "memberType": "method",
           "memberTags": []
+        },
+        {
+          "name": "expand",
+          "signatures": [
+            {
+              "name": "expand",
+              "entryType": "function",
+              "description": "Expands the combobox popup.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Expands the combobox popup. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "expand",
+            "description": "Expands the combobox popup.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Expands the combobox popup. */"
+          },
+          "entryType": "function",
+          "description": "Expands the combobox popup.",
+          "jsdocTags": [],
+          "rawComment": "/** Expands the combobox popup. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "collapse",
+          "signatures": [
+            {
+              "name": "collapse",
+              "entryType": "function",
+              "description": "Collapses the combobox popup.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Collapses the combobox popup. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "collapse",
+            "description": "Collapses the combobox popup.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Collapses the combobox popup. */"
+          },
+          "entryType": "function",
+          "description": "Collapses the combobox popup.",
+          "jsdocTags": [],
+          "rawComment": "/** Collapses the combobox popup. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [
@@ -180,8 +246,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 36,
-        "endLine": 133
+        "startLine": 37,
+        "endLine": 145
       }
     },
     {
@@ -231,8 +297,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 138,
-        "endLine": 180
+        "startLine": 150,
+        "endLine": 193
       }
     },
     {
@@ -252,8 +318,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 185,
-        "endLine": 190
+        "startLine": 198,
+        "endLine": 203
       }
     },
     {
@@ -303,8 +369,8 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 195,
-        "endLine": 210
+        "startLine": 208,
+        "endLine": 223
       }
     },
     {
@@ -383,14 +449,18 @@
       ],
       "source": {
         "filePath": "src/aria/combobox/combobox.ts",
-        "startLine": 215,
-        "endLine": 262
+        "startLine": 228,
+        "endLine": 275
       }
     }
   ],
   "symbols": [
     [
       "afterRenderEffect",
+      "@angular/core"
+    ],
+    [
+      "booleanAttribute",
       "@angular/core"
     ],
     [
@@ -531,6 +601,14 @@
     ],
     [
       "Combobox.close",
+      "@angular/aria/combobox"
+    ],
+    [
+      "Combobox.expand",
+      "@angular/aria/combobox"
+    ],
+    [
+      "Combobox.collapse",
       "@angular/aria/combobox"
     ],
     [
