@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, computed, ElementRef, signal, input, booleanAttribute, model, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
+import { inject, ElementRef, signal, input, computed, booleanAttribute, model, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
@@ -11,16 +11,18 @@ function sortDirectives(a, b) {
   return (a.element().compareDocumentPosition(b.element()) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
 class Tree {
-  _generatedId = inject(_IdGenerator).getId('ng-tree-', true);
-  id = computed(() => this._generatedId, ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
   _popup = inject(ComboboxPopup, {
     optional: true
   });
   _elementRef = inject(ElementRef);
   _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedItems"
+  }] : []));
+  id = input(inject(_IdGenerator).getId('ng-tree-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
+    debugName: "element"
   }] : []));
   orientation = input('vertical', ...(ngDevMode ? [{
     debugName: "orientation"
@@ -78,7 +80,6 @@ class Tree {
       id: this.id,
       allItems: computed(() => [...this._unorderedItems()].sort(sortDirectives).map(item => item._pattern)),
       activeItem: signal(undefined),
-      element: () => this._elementRef.nativeElement,
       combobox: () => this._popup?.combobox?._pattern
     };
     this._pattern = this._popup?.combobox ? new ComboboxTreePattern(inputs) : new TreePattern(inputs);
@@ -136,6 +137,13 @@ class Tree {
     isStandalone: true,
     selector: "[ngTree]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       orientation: {
         classPropertyName: "orientation",
         publicName: "orientation",
@@ -273,9 +281,11 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class TreeItem extends DeferredContentAware {
   _elementRef = inject(ElementRef);
-  _id = inject(_IdGenerator).getId('ng-tree-item-', true);
   _group = signal(undefined, ...(ngDevMode ? [{
     debugName: "_group"
+  }] : []));
+  id = input(inject(_IdGenerator).getId('ng-tree-item-', true), ...(ngDevMode ? [{
+    debugName: "id"
   }] : []));
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
@@ -295,6 +305,9 @@ class TreeItem extends DeferredContentAware {
   selectable = input(true, ...(ngDevMode ? [{
     debugName: "selectable"
   }] : []));
+  expanded = model(false, ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
   label = input(...(ngDevMode ? [undefined, {
     debugName: "label"
   }] : []));
@@ -312,9 +325,6 @@ class TreeItem extends DeferredContentAware {
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  expanded = computed(() => this._pattern.expandable() ? this._pattern.expanded() : null, ...(ngDevMode ? [{
-    debugName: "expanded"
-  }] : []));
   level = computed(() => this._pattern.level(), ...(ngDevMode ? [{
     debugName: "level"
   }] : []));
@@ -323,6 +333,9 @@ class TreeItem extends DeferredContentAware {
   }] : []));
   visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
     debugName: "visible"
+  }] : []));
+  _expanded = computed(() => this._pattern.expandable() ? this._pattern.expanded() : undefined, ...(ngDevMode ? [{
+    debugName: "_expanded"
   }] : []));
   _pattern;
   constructor() {
@@ -352,7 +365,6 @@ class TreeItem extends DeferredContentAware {
     }] : []));
     this._pattern = new TreeItemPattern({
       ...this,
-      id: () => this._id,
       tree: treePattern,
       parent: parentPattern,
       children: computed(() => this._group()?.children() ?? []),
@@ -384,6 +396,13 @@ class TreeItem extends DeferredContentAware {
     isStandalone: true,
     selector: "[ngTreeItem]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       value: {
         classPropertyName: "value",
         publicName: "value",
@@ -412,6 +431,13 @@ class TreeItem extends DeferredContentAware {
         isRequired: false,
         transformFunction: null
       },
+      expanded: {
+        classPropertyName: "expanded",
+        publicName: "expanded",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       label: {
         classPropertyName: "label",
         publicName: "label",
@@ -420,6 +446,9 @@ class TreeItem extends DeferredContentAware {
         transformFunction: null
       }
     },
+    outputs: {
+      expanded: "expandedChange"
+    },
     host: {
       attributes: {
         "role": "treeitem"
@@ -427,7 +456,7 @@ class TreeItem extends DeferredContentAware {
       properties: {
         "attr.data-active": "active()",
         "id": "_pattern.id()",
-        "attr.aria-expanded": "expanded()",
+        "attr.aria-expanded": "_expanded()",
         "attr.aria-selected": "selected()",
         "attr.aria-current": "_pattern.current()",
         "attr.aria-disabled": "_pattern.disabled()",
@@ -458,7 +487,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.data-active]': 'active()',
         'role': 'treeitem',
         '[id]': '_pattern.id()',
-        '[attr.aria-expanded]': 'expanded()',
+        '[attr.aria-expanded]': '_expanded()',
         '[attr.aria-selected]': 'selected()',
         '[attr.aria-current]': '_pattern.current()',
         '[attr.aria-disabled]': '_pattern.disabled()',

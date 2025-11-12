@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { Signal, OnDestroy } from '@angular/core';
+import { Signal, WritableSignal, OnDestroy } from '@angular/core';
 import { SignalLike, WritableSignalLike, KeyboardEventManager, PointerEventManager } from './_grid-chunk.js';
 export { GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern, convertGetterSetterToWritableSignalLike } from './_grid-chunk.js';
 
@@ -920,41 +920,15 @@ declare class MenuItemPattern<V> implements ListItem<V> {
 interface ExpansionItem {
     /** Whether the item is expandable. */
     expandable: SignalLike<boolean>;
-    /** Used to uniquely identify an expansion item. */
-    expansionId: SignalLike<string>;
+    /** Whether the item is expanded. */
+    expanded: WritableSignalLike<boolean>;
     /** Whether the expansion is disabled. */
     disabled: SignalLike<boolean>;
-}
-interface ExpansionControl extends ExpansionItem {
-}
-/**
- * Controls a single item's expansion state and interactions,
- * delegating actual state changes to an Expansion manager.
- */
-declare class ExpansionControl {
-    readonly inputs: ExpansionItem & {
-        expansionManager: ListExpansion;
-    };
-    /** Whether this specific item is currently expanded. Derived from the Expansion manager. */
-    readonly isExpanded: _angular_core.Signal<boolean>;
-    /** Whether this item can be expanded. */
-    readonly isExpandable: _angular_core.Signal<boolean>;
-    constructor(inputs: ExpansionItem & {
-        expansionManager: ListExpansion;
-    });
-    /** Requests the Expansion manager to open this item. */
-    open(): void;
-    /** Requests the Expansion manager to close this item. */
-    close(): void;
-    /** Requests the Expansion manager to toggle this item. */
-    toggle(): void;
 }
 /** Represents the required inputs for an expansion behavior. */
 interface ListExpansionInputs {
     /** Whether multiple items can be expanded at once. */
     multiExpandable: SignalLike<boolean>;
-    /** An array of ids of the currently expanded items. */
-    expandedIds: WritableSignalLike<string[]>;
     /** An array of expansion items. */
     items: SignalLike<ExpansionItem[]>;
     /** Whether all expansions are disabled. */
@@ -963,23 +937,19 @@ interface ListExpansionInputs {
 /** Manages the expansion state of a list of items. */
 declare class ListExpansion {
     readonly inputs: ListExpansionInputs;
-    /** A signal holding an array of ids of the currently expanded items. */
-    expandedIds: WritableSignalLike<string[]>;
     constructor(inputs: ListExpansionInputs);
     /** Opens the specified item. */
-    open(item: ExpansionItem): void;
+    open(item: ExpansionItem): boolean;
     /** Closes the specified item. */
-    close(item: ExpansionItem): void;
+    close(item: ExpansionItem): boolean;
     /** Toggles the expansion state of the specified item. */
-    toggle(item: ExpansionItem): void;
+    toggle(item: ExpansionItem): boolean;
     /** Opens all focusable items in the list. */
     openAll(): void;
     /** Closes all focusable items in the list. */
     closeAll(): void;
     /** Checks whether the specified item is expandable / collapsible. */
     isExpandable(item: ExpansionItem): boolean;
-    /** Checks whether the specified item is currently expanded. */
-    isExpanded(item: ExpansionItem): boolean;
 }
 
 /** Represents the required inputs for the label control. */
@@ -1005,37 +975,31 @@ declare class LabelControl {
 }
 
 /** The required inputs to tabs. */
-interface TabInputs extends Omit<ListItem<string>, 'searchTerm' | 'index' | 'selectable'>, Omit<ExpansionItem, 'expansionId' | 'expandable'> {
+interface TabInputs extends Omit<ListNavigationItem, 'index'>, Omit<ExpansionItem, 'expandable'> {
     /** The parent tablist that controls the tab. */
     tablist: SignalLike<TabListPattern>;
     /** The remote tabpanel controlled by the tab. */
     tabpanel: SignalLike<TabPanelPattern | undefined>;
+    /** The remote tabpanel unique identifier. */
+    value: SignalLike<string>;
 }
 /** A tab in a tablist. */
 declare class TabPattern {
     readonly inputs: TabInputs;
-    /** Controls expansion for this tab. */
-    readonly expansion: ExpansionControl;
     /** A global unique identifier for the tab. */
     readonly id: SignalLike<string>;
     /** The index of the tab. */
     readonly index: _angular_core.Signal<number>;
-    /** A local unique identifier for the tab. */
+    /** The remote tabpanel unique identifier. */
     readonly value: SignalLike<string>;
     /** Whether the tab is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The html element that should receive focus. */
-    readonly element: SignalLike<HTMLElement | undefined>;
-    /** Whether the tab is selectable. */
-    readonly selectable: () => boolean;
-    /** The text used by the typeahead search. */
-    readonly searchTerm: () => string;
-    /** Whether this tab has expandable content. */
-    readonly expandable: _angular_core.Signal<boolean>;
-    /** The unique identifier used by the expansion behavior. */
-    readonly expansionId: _angular_core.Signal<string>;
-    /** Whether the tab is expanded. */
-    readonly expanded: _angular_core.Signal<boolean>;
+    readonly element: SignalLike<HTMLElement>;
+    /** Whether this tab has expandable panel. */
+    readonly expandable: SignalLike<boolean>;
+    /** Whether the tab panel is expanded. */
+    readonly expanded: WritableSignalLike<boolean>;
     /** Whether the tab is active. */
     readonly active: _angular_core.Signal<boolean>;
     /** Whether the tab is selected. */
@@ -1045,11 +1009,16 @@ declare class TabPattern {
     /** The id of the tabpanel associated with the tab. */
     readonly controls: _angular_core.Signal<string | undefined>;
     constructor(inputs: TabInputs);
+    /** Opens the tab. */
+    open(): boolean;
 }
 /** The required inputs for the tabpanel. */
 interface TabPanelInputs extends LabelControlOptionalInputs {
+    /** A global unique identifier for the tabpanel. */
     id: SignalLike<string>;
+    /** The tab that controls this tabpanel. */
     tab: SignalLike<TabPattern | undefined>;
+    /** A local unique identifier for the tabpanel. */
     value: SignalLike<string>;
 }
 /** A tabpanel associated with a tab. */
@@ -1064,20 +1033,29 @@ declare class TabPanelPattern {
     /** Whether the tabpanel is hidden. */
     readonly hidden: _angular_core.Signal<boolean>;
     /** The tab index of this tabpanel. */
-    readonly tabIndex: _angular_core.Signal<0 | -1>;
+    readonly tabIndex: _angular_core.Signal<-1 | 0>;
     /** The aria-labelledby value for this tabpanel. */
     readonly labelledBy: _angular_core.Signal<string | undefined>;
     constructor(inputs: TabPanelInputs);
 }
 /** The required inputs for the tablist. */
-type TabListInputs = Omit<ListInputs<TabPattern, string>, 'multi' | 'typeaheadDelay'> & Omit<ListExpansionInputs, 'multiExpandable' | 'expandedIds' | 'items'>;
+interface TabListInputs extends Omit<ListNavigationInputs<TabPattern>, 'multi'>, Omit<ListExpansionInputs, 'multiExpandable' | 'items'> {
+    /** The selection strategy used by the tablist. */
+    selectionMode: SignalLike<'follow' | 'explicit'>;
+}
 /** Controls the state of a tablist. */
 declare class TabListPattern {
     readonly inputs: TabListInputs;
-    /** The list behavior for the tablist. */
-    readonly listBehavior: List<TabPattern, string>;
+    /** The list focus behavior for the tablist. */
+    readonly focusBehavior: ListFocus<TabPattern>;
+    /** The list navigation behavior for the tablist. */
+    readonly navigationBehavior: ListNavigation<TabPattern>;
     /** Controls expansion for the tablist. */
-    readonly expansionManager: ListExpansion;
+    readonly expansionBehavior: ListExpansion;
+    /** The currently active tab. */
+    readonly activeTab: SignalLike<TabPattern | undefined>;
+    /** The currently selected tab. */
+    readonly selectedTab: WritableSignal<TabPattern | undefined>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether the tablist is disabled. */
@@ -1110,6 +1088,12 @@ declare class TabListPattern {
     onKeydown(event: KeyboardEvent): void;
     /** The pointerdown event manager for the tablist. */
     onPointerdown(event: PointerEvent): void;
+    /** Opens the tab by given value. */
+    open(value: string): boolean;
+    /** Opens the given tab or the current active tab. */
+    open(tab?: TabPattern): boolean;
+    /** Executes a navigation operation and expand the active tab if needed. */
+    private _navigate;
     /** Returns the tab item associated with the given pointer event. */
     private _getItem;
 }
@@ -1234,53 +1218,20 @@ declare class ToolbarPattern<V> {
 }
 
 /** Inputs of the AccordionGroupPattern. */
-type AccordionGroupInputs = Omit<ListNavigationInputs<AccordionTriggerPattern> & ListFocusInputs<AccordionTriggerPattern> & Omit<ListExpansionInputs, 'items'>, 'focusMode'>;
-interface AccordionGroupPattern extends AccordionGroupInputs {
+interface AccordionGroupInputs extends Omit<ListNavigationInputs<AccordionTriggerPattern> & ListFocusInputs<AccordionTriggerPattern> & Omit<ListExpansionInputs, 'items'>, 'focusMode'> {
+    /** A function that returns the trigger associated with a given element. */
+    getItem: (e: Element | null | undefined) => AccordionTriggerPattern | undefined;
 }
 /** A pattern controls the nested Accordions. */
 declare class AccordionGroupPattern {
     readonly inputs: AccordionGroupInputs;
     /** Controls navigation for the group. */
-    navigation: ListNavigation<AccordionTriggerPattern>;
+    readonly navigationBehavior: ListNavigation<AccordionTriggerPattern>;
     /** Controls focus for the group. */
-    focusManager: ListFocus<AccordionTriggerPattern>;
+    readonly focusBehavior: ListFocus<AccordionTriggerPattern>;
     /** Controls expansion for the group. */
-    expansionManager: ListExpansion;
+    readonly expansionBehavior: ListExpansion;
     constructor(inputs: AccordionGroupInputs);
-}
-/** Inputs for the AccordionTriggerPattern. */
-type AccordionTriggerInputs = Omit<ListNavigationItem & ListFocusItem, 'index'> & Omit<ExpansionItem, 'expansionId' | 'expandable'> & {
-    /** A local unique identifier for the trigger's corresponding panel. */
-    panelId: SignalLike<string>;
-    /** The parent accordion group that controls this trigger. */
-    accordionGroup: SignalLike<AccordionGroupPattern>;
-    /** The accordion panel controlled by this trigger. */
-    accordionPanel: SignalLike<AccordionPanelPattern | undefined>;
-};
-interface AccordionTriggerPattern extends AccordionTriggerInputs {
-}
-/** A pattern controls the expansion state of an accordion. */
-declare class AccordionTriggerPattern {
-    readonly inputs: AccordionTriggerInputs;
-    /** Whether this tab has expandable content. */
-    expandable: SignalLike<boolean>;
-    /** The unique identifier used by the expansion behavior. */
-    expansionId: SignalLike<string>;
-    /** Whether an accordion is expanded. */
-    expanded: SignalLike<boolean>;
-    /** Controls the expansion state for the trigger. */
-    expansionControl: ExpansionControl;
-    /** Whether the trigger is active. */
-    active: _angular_core.Signal<boolean>;
-    /** Id of the accordion panel controlled by the trigger. */
-    controls: _angular_core.Signal<string | undefined>;
-    /** The tab index of the trigger. */
-    tabIndex: _angular_core.Signal<-1 | 0>;
-    /** Whether the trigger is disabled. Disabling an accordion group disables all the triggers. */
-    disabled: _angular_core.Signal<boolean>;
-    /** The index of the trigger within its accordion group. */
-    index: _angular_core.Signal<number>;
-    constructor(inputs: AccordionTriggerInputs);
     /** The key used to navigate to the previous accordion trigger. */
     prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key used to navigate to the next accordion trigger. */
@@ -1295,7 +1246,48 @@ declare class AccordionTriggerPattern {
     onPointerdown(event: PointerEvent): void;
     /** Handles focus events on the trigger. This ensures the tabbing changes the active index. */
     onFocus(event: FocusEvent): void;
-    private _getItem;
+    /** Toggles the expansion state of the active accordion item. */
+    toggle(): void;
+}
+/** Inputs for the AccordionTriggerPattern. */
+interface AccordionTriggerInputs extends Omit<ListNavigationItem & ListFocusItem, 'index'>, Omit<ExpansionItem, 'expandable'> {
+    /** A local unique identifier for the trigger's corresponding panel. */
+    panelId: SignalLike<string>;
+    /** The parent accordion group that controls this trigger. */
+    accordionGroup: SignalLike<AccordionGroupPattern>;
+    /** The accordion panel controlled by this trigger. */
+    accordionPanel: SignalLike<AccordionPanelPattern | undefined>;
+}
+/** A pattern controls the expansion state of an accordion. */
+declare class AccordionTriggerPattern implements ListNavigationItem, ListFocusItem, ExpansionItem {
+    readonly inputs: AccordionTriggerInputs;
+    /** A unique identifier for this trigger. */
+    readonly id: SignalLike<string>;
+    /** A reference to the trigger element. */
+    readonly element: SignalLike<HTMLElement>;
+    /** Whether this trigger has expandable panel. */
+    readonly expandable: SignalLike<boolean>;
+    /** Whether the corresponding panel is expanded. */
+    readonly expanded: WritableSignalLike<boolean>;
+    /** Whether the trigger is active. */
+    readonly active: _angular_core.Signal<boolean>;
+    /** Id of the accordion panel controlled by the trigger. */
+    readonly controls: _angular_core.Signal<string | undefined>;
+    /** The tabindex of the trigger. */
+    readonly tabIndex: _angular_core.Signal<-1 | 0>;
+    /** Whether the trigger is disabled. Disabling an accordion group disables all the triggers. */
+    readonly disabled: _angular_core.Signal<boolean>;
+    /** Whether the trigger is hard disabled.  */
+    readonly hardDisabled: _angular_core.Signal<boolean>;
+    /** The index of the trigger within its accordion group. */
+    readonly index: _angular_core.Signal<number>;
+    constructor(inputs: AccordionTriggerInputs);
+    /** Opens the accordion panel. */
+    open(): void;
+    /** Closes the accordion panel. */
+    close(): void;
+    /** Toggles the accordion panel. */
+    toggle(): void;
 }
 /** Represents the required inputs for the AccordionPanelPattern. */
 interface AccordionPanelInputs {
@@ -1306,18 +1298,20 @@ interface AccordionPanelInputs {
     /** The parent accordion trigger that controls this panel. */
     accordionTrigger: SignalLike<AccordionTriggerPattern | undefined>;
 }
-interface AccordionPanelPattern extends AccordionPanelInputs {
-}
 /** Represents an accordion panel. */
 declare class AccordionPanelPattern {
     readonly inputs: AccordionPanelInputs;
+    /** A global unique identifier for the panel. */
+    id: SignalLike<string>;
+    /** The parent accordion trigger that controls this panel. */
+    accordionTrigger: SignalLike<AccordionTriggerPattern | undefined>;
     /** Whether the accordion panel is hidden. True if the associated trigger is not expanded. */
     hidden: SignalLike<boolean>;
     constructor(inputs: AccordionPanelInputs);
 }
 
 /** Represents the required inputs for a tree item. */
-interface TreeItemInputs<V> extends Omit<ListItem<V>, 'index'> {
+interface TreeItemInputs<V> extends Omit<ListItem<V>, 'index'>, Omit<ExpansionItem, 'expandable'> {
     /** The parent item. */
     parent: SignalLike<TreeItemPattern<V> | TreePattern<V>>;
     /** Whether this item has children. Children can be lazily loaded. */
@@ -1337,7 +1331,7 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     /** The value of this item. */
     readonly value: SignalLike<V>;
     /** A reference to the item element. */
-    readonly element: SignalLike<HTMLElement | undefined>;
+    readonly element: SignalLike<HTMLElement>;
     /** Whether the item is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The text used by the typeahead search. */
@@ -1350,20 +1344,16 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     readonly children: SignalLike<TreeItemPattern<V>[]>;
     /** The position of this item among its siblings. */
     readonly index: _angular_core.Signal<number>;
-    /** The unique identifier used by the expansion behavior. */
-    readonly expansionId: SignalLike<string>;
     /** Controls expansion for child items. */
-    readonly expansionManager: ListExpansion;
-    /** Controls expansion for this item. */
-    readonly expansion: ExpansionControl;
+    readonly expansionBehavior: ListExpansion;
     /** Whether the item is expandable. It's expandable if children item exist. */
     readonly expandable: SignalLike<boolean>;
     /** Whether the item is selectable. */
     readonly selectable: SignalLike<boolean>;
+    /** Whether the item is expanded. */
+    readonly expanded: WritableSignalLike<boolean>;
     /** The level of the current item in a tree. */
     readonly level: SignalLike<number>;
-    /** Whether this item is currently expanded. */
-    readonly expanded: _angular_core.Signal<boolean>;
     /** Whether this item is visible. */
     readonly visible: SignalLike<boolean>;
     /** The number of items under the same parent at the same level. */
@@ -1398,15 +1388,13 @@ interface TreeInputs<V> extends Omit<ListInputs<TreeItemPattern<V>, V>, 'items'>
     /** The aria-current type. */
     currentType: SignalLike<'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'>;
 }
-interface TreePattern<V> extends TreeInputs<V> {
-}
 /** Controls the state and interactions of a tree view. */
-declare class TreePattern<V> {
+declare class TreePattern<V> implements TreeInputs<V> {
     readonly inputs: TreeInputs<V>;
     /** The list behavior for the tree. */
     readonly listBehavior: List<TreeItemPattern<V>, V>;
     /** Controls expansion for direct children of the tree root (top-level items). */
-    readonly expansionManager: ListExpansion;
+    readonly expansionBehavior: ListExpansion;
     /** The root level is 0. */
     readonly level: () => number;
     /** The root is always expanded. */
@@ -1442,33 +1430,37 @@ declare class TreePattern<V> {
     /** The pointerdown event manager for the tree. */
     pointerdown: _angular_core.Signal<PointerEventManager<PointerEvent>>;
     /** A unique identifier for the tree. */
-    id: SignalLike<string>;
+    readonly id: SignalLike<string>;
+    /** The host native element. */
+    readonly element: SignalLike<HTMLElement>;
     /** Whether the tree is in navigation mode. */
-    nav: SignalLike<boolean>;
+    readonly nav: SignalLike<boolean>;
     /** The aria-current type. */
-    currentType: SignalLike<'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'>;
+    readonly currentType: SignalLike<'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'>;
     /** All items in the tree, in document order (DFS-like, a flattened list). */
-    allItems: SignalLike<TreeItemPattern<V>[]>;
+    readonly allItems: SignalLike<TreeItemPattern<V>[]>;
+    /** The focus strategy used by the tree. */
+    readonly focusMode: SignalLike<'roving' | 'activedescendant'>;
     /** Whether the tree is disabled. */
-    disabled: SignalLike<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The currently active item in the tree. */
-    activeItem: WritableSignalLike<TreeItemPattern<V> | undefined>;
+    readonly activeItem: WritableSignalLike<TreeItemPattern<V> | undefined>;
     /** Whether disabled items should be focusable. */
-    softDisabled: SignalLike<boolean>;
+    readonly softDisabled: SignalLike<boolean>;
     /** Whether the focus should wrap when navigating past the first or last item. */
-    wrap: SignalLike<boolean>;
+    readonly wrap: SignalLike<boolean>;
     /** The orientation of the tree. */
-    orientation: SignalLike<'vertical' | 'horizontal'>;
+    readonly orientation: SignalLike<'vertical' | 'horizontal'>;
     /** The text direction of the tree. */
-    textDirection: SignalLike<'ltr' | 'rtl'>;
+    readonly textDirection: SignalLike<'ltr' | 'rtl'>;
     /** Whether multiple items can be selected at the same time. */
-    multi: SignalLike<boolean>;
+    readonly multi: SignalLike<boolean>;
     /** The selection mode of the tree. */
-    selectionMode: SignalLike<'follow' | 'explicit'>;
+    readonly selectionMode: SignalLike<'follow' | 'explicit'>;
     /** The delay in milliseconds to wait before clearing the typeahead buffer. */
-    typeaheadDelay: SignalLike<number>;
+    readonly typeaheadDelay: SignalLike<number>;
     /** The current selected items of the tree. */
-    values: WritableSignalLike<V[]>;
+    readonly values: WritableSignalLike<V[]>;
     constructor(inputs: TreeInputs<V>);
     /**
      * Sets the tree to it's default initial state.

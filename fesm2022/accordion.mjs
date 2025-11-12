@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, input, computed, signal, afterRenderEffect, Directive, ElementRef, booleanAttribute, contentChildren, model } from '@angular/core';
+import { inject, input, computed, signal, afterRenderEffect, Directive, ElementRef, booleanAttribute, model, contentChildren } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
@@ -28,13 +28,13 @@ class AccordionPanel {
     });
   }
   expand() {
-    this.accordionTrigger()?.expansionControl.open();
+    this.accordionTrigger()?.open();
   }
   collapse() {
-    this.accordionTrigger()?.expansionControl.close();
+    this.accordionTrigger()?.close();
   }
   toggle() {
-    this.accordionTrigger()?.expansionControl.toggle();
+    this.accordionTrigger()?.toggle();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -104,9 +104,14 @@ i0.ɵɵngDeclareClassMetadata({
   ctorParameters: () => []
 });
 class AccordionTrigger {
-  _id = inject(_IdGenerator).getId('ng-accordion-trigger-', true);
   _elementRef = inject(ElementRef);
   _accordionGroup = inject(AccordionGroup);
+  id = input(inject(_IdGenerator).getId('ng-accordion-trigger-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
+    debugName: "element"
+  }] : []));
   panelId = input.required(...(ngDevMode ? [{
     debugName: "panelId"
   }] : []));
@@ -116,34 +121,28 @@ class AccordionTrigger {
   }] : [{
     transform: booleanAttribute
   }]));
+  expanded = model(false, ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
-    debugName: "expanded"
-  }] : []));
-  hardDisabled = computed(() => this._pattern.disabled() && this._pattern.tabIndex() < 0, ...(ngDevMode ? [{
-    debugName: "hardDisabled"
-  }] : []));
-  accordionPanel = signal(undefined, ...(ngDevMode ? [{
-    debugName: "accordionPanel"
+  _accordionPanel = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_accordionPanel"
   }] : []));
   _pattern = new AccordionTriggerPattern({
-    id: () => this._id,
-    panelId: this.panelId,
-    disabled: this.disabled,
-    element: () => this._elementRef.nativeElement,
+    ...this,
     accordionGroup: computed(() => this._accordionGroup._pattern),
-    accordionPanel: this.accordionPanel
+    accordionPanel: this._accordionPanel
   });
   expand() {
-    this._pattern.expansionControl.open();
+    this._pattern.open();
   }
   collapse() {
-    this._pattern.expansionControl.close();
+    this._pattern.close();
   }
   toggle() {
-    this._pattern.expansionControl.toggle();
+    this._pattern.toggle();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -160,6 +159,13 @@ class AccordionTrigger {
     isStandalone: true,
     selector: "[ngAccordionTrigger]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       panelId: {
         classPropertyName: "panelId",
         publicName: "panelId",
@@ -173,16 +179,21 @@ class AccordionTrigger {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      expanded: {
+        classPropertyName: "expanded",
+        publicName: "expanded",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
+    },
+    outputs: {
+      expanded: "expandedChange"
     },
     host: {
       attributes: {
         "role": "button"
-      },
-      listeners: {
-        "keydown": "_pattern.onKeydown($event)",
-        "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "_pattern.onFocus($event)"
       },
       properties: {
         "attr.data-active": "active()",
@@ -190,7 +201,7 @@ class AccordionTrigger {
         "attr.aria-expanded": "expanded()",
         "attr.aria-controls": "_pattern.controls()",
         "attr.aria-disabled": "_pattern.disabled()",
-        "attr.disabled": "hardDisabled() ? true : null",
+        "attr.disabled": "_pattern.hardDisabled() ? true : null",
         "attr.tabindex": "_pattern.tabIndex()"
       },
       classAttribute: "ng-accordion-trigger"
@@ -217,11 +228,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-controls]': '_pattern.controls()',
         '[attr.aria-disabled]': '_pattern.disabled()',
-        '[attr.disabled]': 'hardDisabled() ? true : null',
-        '[attr.tabindex]': '_pattern.tabIndex()',
-        '(keydown)': '_pattern.onKeydown($event)',
-        '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': '_pattern.onFocus($event)'
+        '[attr.disabled]': '_pattern.hardDisabled() ? true : null',
+        '[attr.tabindex]': '_pattern.tabIndex()'
       }
     }]
   }]
@@ -234,12 +242,18 @@ class AccordionGroup {
   }] : [{
     descendants: true
   }]));
+  _triggerPatterns = computed(() => this._triggers().map(t => t._pattern), ...(ngDevMode ? [{
+    debugName: "_triggerPatterns"
+  }] : []));
   _panels = contentChildren(AccordionPanel, ...(ngDevMode ? [{
     debugName: "_panels",
     descendants: true
   }] : [{
     descendants: true
   }]));
+  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
+    debugName: "element"
+  }] : []));
   textDirection = inject(Directionality).valueSignal;
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -253,9 +267,6 @@ class AccordionGroup {
   }] : [{
     transform: booleanAttribute
   }]));
-  expandedPanels = model([], ...(ngDevMode ? [{
-    debugName: "expandedPanels"
-  }] : []));
   softDisabled = input(true, ...(ngDevMode ? [{
     debugName: "softDisabled",
     transform: booleanAttribute
@@ -271,10 +282,9 @@ class AccordionGroup {
   _pattern = new AccordionGroupPattern({
     ...this,
     activeItem: signal(undefined),
-    items: computed(() => this._triggers().map(trigger => trigger._pattern)),
-    expandedIds: this.expandedPanels,
+    items: this._triggerPatterns,
     orientation: () => 'vertical',
-    element: () => this._elementRef.nativeElement
+    getItem: e => this._getItem(e)
   });
   constructor() {
     afterRenderEffect(() => {
@@ -282,7 +292,7 @@ class AccordionGroup {
       const panels = this._panels();
       for (const trigger of triggers) {
         const panel = panels.find(p => p.panelId() === trigger.panelId());
-        trigger.accordionPanel.set(panel?._pattern);
+        trigger._accordionPanel.set(panel?._pattern);
         if (panel) {
           panel.accordionTrigger.set(trigger._pattern);
         }
@@ -290,10 +300,21 @@ class AccordionGroup {
     });
   }
   expandAll() {
-    this._pattern.expansionManager.openAll();
+    this._pattern.expansionBehavior.openAll();
   }
   collapseAll() {
-    this._pattern.expansionManager.closeAll();
+    this._pattern.expansionBehavior.closeAll();
+  }
+  _getItem(element) {
+    let target = element;
+    while (target) {
+      const pattern = this._triggerPatterns().find(t => t.element() === target);
+      if (pattern) {
+        return pattern;
+      }
+      target = target.parentElement?.closest('[ngAccordionTrigger]');
+    }
+    return undefined;
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -324,13 +345,6 @@ class AccordionGroup {
         isRequired: false,
         transformFunction: null
       },
-      expandedPanels: {
-        classPropertyName: "expandedPanels",
-        publicName: "expandedPanels",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
       softDisabled: {
         classPropertyName: "softDisabled",
         publicName: "softDisabled",
@@ -346,10 +360,12 @@ class AccordionGroup {
         transformFunction: null
       }
     },
-    outputs: {
-      expandedPanels: "expandedPanelsChange"
-    },
     host: {
+      listeners: {
+        "keydown": "_pattern.onKeydown($event)",
+        "pointerdown": "_pattern.onPointerdown($event)",
+        "focusin": "_pattern.onFocus($event)"
+      },
       classAttribute: "ng-accordion-group"
     },
     queries: [{
@@ -378,7 +394,10 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngAccordionGroup]',
       exportAs: 'ngAccordionGroup',
       host: {
-        'class': 'ng-accordion-group'
+        'class': 'ng-accordion-group',
+        '(keydown)': '_pattern.onKeydown($event)',
+        '(pointerdown)': '_pattern.onPointerdown($event)',
+        '(focusin)': '_pattern.onFocus($event)'
       }
     }]
   }],

@@ -30,7 +30,7 @@ declare class AccordionPanel {
     /** A global unique identifier for the panel. */
     private readonly _id;
     /** A local unique identifier for the panel, used to match with its trigger's `panelId`. */
-    panelId: _angular_core.InputSignal<string>;
+    readonly panelId: _angular_core.InputSignal<string>;
     /** Whether the accordion panel is visible. True if the associated trigger is expanded. */
     readonly visible: _angular_core.Signal<boolean>;
     /** The parent accordion trigger pattern that controls this panel. This is set by AccordionGroup. */
@@ -65,24 +65,24 @@ declare class AccordionPanel {
  * @developerPreview 21.0
  */
 declare class AccordionTrigger {
-    /** A global unique identifier for the trigger. */
-    private readonly _id;
     /** A reference to the trigger element. */
     private readonly _elementRef;
     /** The parent AccordionGroup. */
     private readonly _accordionGroup;
+    /** A unique identifier for the widget. */
+    readonly id: _angular_core.InputSignal<string>;
+    /** The host native element. */
+    readonly element: _angular_core.Signal<any>;
     /** A local unique identifier for the trigger, used to match with its panel's `panelId`. */
-    panelId: _angular_core.InputSignal<string>;
+    readonly panelId: _angular_core.InputSignal<string>;
     /** Whether the trigger is disabled. */
-    disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether the corresponding panel is expanded. */
+    readonly expanded: _angular_core.ModelSignal<boolean>;
     /** Whether the trigger is active. */
     readonly active: _angular_core.Signal<boolean>;
-    /** Whether the trigger is expanded. */
-    readonly expanded: _angular_core.Signal<boolean>;
-    /** Whether this trigger is inaccessible via keyboard navigation. */
-    readonly hardDisabled: _angular_core.Signal<boolean>;
     /** The accordion panel pattern controlled by this trigger. This is set by AccordionGroup. */
-    readonly accordionPanel: WritableSignal<AccordionPanelPattern | undefined>;
+    readonly _accordionPanel: WritableSignal<AccordionPanelPattern | undefined>;
     /** The UI pattern instance for this trigger. */
     readonly _pattern: AccordionTriggerPattern;
     /** Expands this item. */
@@ -92,7 +92,7 @@ declare class AccordionTrigger {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionTrigger, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; }, never, never, true, never>;
 }
 /**
  * A container for a group of accordion items. It manages the overall state and
@@ -133,24 +133,26 @@ declare class AccordionGroup {
     /** A reference to the group element. */
     private readonly _elementRef;
     /** The AccordionTriggers nested inside this group. */
-    protected readonly _triggers: _angular_core.Signal<readonly AccordionTrigger[]>;
+    private readonly _triggers;
+    /** The AccordionTrigger patterns nested inside this group. */
+    private readonly _triggerPatterns;
     /** The AccordionPanels nested inside this group. */
-    protected readonly _panels: _angular_core.Signal<readonly AccordionPanel[]>;
+    private readonly _panels;
+    /** The host native element. */
+    readonly element: _angular_core.Signal<any>;
     /** The text direction (ltr or rtl). */
     readonly textDirection: WritableSignal<_angular_cdk_bidi.Direction>;
     /** Whether the entire accordion group is disabled. */
-    disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether multiple accordion items can be expanded simultaneously. */
-    multiExpandable: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The ids of the currently expanded accordion panels. */
-    expandedPanels: _angular_core.ModelSignal<string[]>;
+    readonly multiExpandable: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /**
      * Whether to allow disabled items to receive focus. When `true`, disabled items are
      * focusable but not interactive. When `false`, disabled items are skipped during navigation.
      */
-    softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether keyboard navigation should wrap around from the last item to the first, and vice-versa. */
-    wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The UI pattern instance for this accordion group. */
     readonly _pattern: AccordionGroupPattern;
     constructor();
@@ -158,8 +160,10 @@ declare class AccordionGroup {
     expandAll(): void;
     /** Collapses all accordion panels. */
     collapseAll(): void;
+    /** Gets the trigger pattern for a given element. */
+    private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionGroup, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "expandedPanels": { "alias": "expandedPanels"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, { "expandedPanels": "expandedPanelsChange"; }, ["_triggers", "_panels"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, {}, ["_triggers", "_panels"], never, true, never>;
 }
 /**
  * A structural directive that provides a mechanism for lazily rendering the content for an
