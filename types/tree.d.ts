@@ -9,24 +9,35 @@ interface HasElement {
     element: Signal<HTMLElement>;
 }
 /**
- * A Tree container.
- *
- * Transforms nested lists into an accessible, ARIA-compliant tree structure.
+ * A container that transforms nested lists into an accessible, ARIA-compliant tree structure.
+ * It manages the overall state of the tree, including selection, expansion, and keyboard
+ * navigation.
  *
  * ```html
- * <ul ngTree [(values)]="selectedItems" [multi]="true">
- *   <li ngTreeItem [value]="'leaf1'">Leaf Item 1</li>
- *   <li ngTreeItem [value]="'parent1'">
- *     Parent Item 1
- *     <ul ngTreeItemGroup [value]="'parent1'">
- *       <ng-template ngTreeItemGroupContent>
- *         <li ngTreeItem [value]="'child1.1'">Child Item 1.1</li>
- *         <li ngTreeItem [value]="'child1.2'">Child Item 1.2</li>
- *       </ng-template>
- *     </ul>
- *   </li>
- *   <li ngTreeItem [value]="'leaf2'" [disabled]="true">Disabled Leaf Item 2</li>
+ * <ul ngTree [(value)]="selectedItems" [multi]="true">
+ *   <ng-template
+ *     [ngTemplateOutlet]="treeNodes"
+ *     [ngTemplateOutletContext]="{nodes: treeData, parent: tree}"
+ *   />
  * </ul>
+ *
+ * <ng-template #treeNodes let-nodes="nodes" let-parent="parent">
+ *   @for (node of nodes; track node.name) {
+ *     <li ngTreeItem [parent]="parent" [value]="node.name" [label]="node.name">
+ *       {{ node.name }}
+ *       @if (node.children) {
+ *         <ul role="group">
+ *           <ng-template ngTreeItemGroup [ownedBy]="treeItem" #group="ngTreeItemGroup">
+ *             <ng-template
+ *               [ngTemplateOutlet]="treeNodes"
+ *               [ngTemplateOutletContext]="{nodes: node.children, parent: group}"
+ *             />
+ *           </ng-template>
+ *         </ul>
+ *       }
+ *     </li>
+ *   }
+ * </ng-template>
  * ```
  *
  * @developerPreview 21.0
@@ -48,27 +59,41 @@ declare class Tree<V> {
     readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the tree is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The selection strategy used by the tree. */
+    /**
+     * The selection strategy used by the tree.
+     * - `explicit`: Items are selected explicitly by the user (e.g., via click or spacebar).
+     * - `follow`: The focused item is automatically selected.
+     */
     readonly selectionMode: _angular_core.InputSignal<"explicit" | "follow">;
-    /** The focus strategy used by the tree. */
+    /**
+     * The focus strategy used by the tree.
+     * - `roving`: Focus is moved to the active item using `tabindex`.
+     * - `activedescendant`: Focus remains on the tree container, and `aria-activedescendant` is used to indicate the active item.
+     */
     readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
     /** Whether navigation wraps. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Whether to allow disabled items to receive focus. */
+    /**
+     * Whether to allow disabled items to receive focus. When `true`, disabled items are
+     * focusable but not interactive. When `false`, disabled items are skipped during navigation.
+     */
     readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Typeahead delay. */
+    /** The delay in seconds before the typeahead search is reset. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
-    /** Selected item values. */
+    /** The values of the currently selected items. */
     readonly values: _angular_core.ModelSignal<V[]>;
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Whether the tree is in navigation mode. */
     readonly nav: _angular_core.InputSignal<boolean>;
-    /** The aria-current type. */
+    /**
+     * The `aria-current` type. It can be used in navigation trees to indicate the currently active item.
+     * See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current for more details.
+     */
     readonly currentType: _angular_core.InputSignal<"page" | "step" | "location" | "date" | "time" | "true" | "false">;
     /** The UI pattern for the tree. */
     readonly _pattern: TreePattern<V>;
-    /** Whether the tree has received focus yet. */
+    /** Whether the tree has received focus since it was rendered. */
     private _hasFocused;
     constructor();
     onFocus(): void;
@@ -79,7 +104,17 @@ declare class Tree<V> {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 /**
- * A selectable and expandable Tree Item in a Tree.
+ * A selectable and expandable item in an `ngTree`.
+ *
+ * The `ngTreeItem` directive represents an individual node within an `ngTree`. It can be
+ * selected, expanded (if it has children), and disabled. The `parent` input establishes
+ * the hierarchical relationship within the tree.
+ *
+ * ```html
+ * <li ngTreeItem [parent]="parentTreeOrGroup" value="item-id" label="Item Label">
+ *   Item Label
+ * </li>
+ * ```
  *
  * @developerPreview 21.0
  */
@@ -127,7 +162,22 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItem<any>, "[ngTreeItem]", ["ngTreeItem"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; "parent": { "alias": "parent"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
- * Contains children tree itmes.
+ * Group that contains children tree items.
+ *
+ * The `ngTreeItemGroup` structural directive should be applied to an `ng-template` that
+ * wraps the child `ngTreeItem` elements. It is used to define a group of children for an
+ * expandable `ngTreeItem`. The `ownedBy` input links the group to its parent `ngTreeItem`.
+ *
+ * ```html
+ * <li ngTreeItem [value]="'parent-id'">
+ *   Parent Item
+ *   <ul role="group">
+ *     <ng-template ngTreeItemGroup [ownedBy]="parentTreeItemRef">
+ *       <li ngTreeItem [value]="'child-id'">Child Item</li>
+ *     </ng-template>
+ *   </ul>
+ * </li>
+ * ```
  *
  * @developerPreview 21.0
  */

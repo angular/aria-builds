@@ -5,6 +5,33 @@ import * as i1 from '@angular/aria/private';
 import { ComboboxPattern, ComboboxDialogPattern, ComboboxListboxControls, ComboboxTreeControls } from '@angular/aria/private';
 
 /**
+ * The container element that wraps a combobox input and popup, and orchestrates its behavior.
+ *
+ * The `ngCombobox` directive is the main entry point for creating a combobox and customizing its
+ * behavior. It coordinates the interactions between the `ngComboboxInput` and the popup, which
+ * is defined by a `ng-template` with the `ngComboboxPopupContainer` directive. If using the
+ * `CdkOverlay`, the `cdkConnectedOverlay` directive takes the place of `ngComboboxPopupContainer`.
+ *
+ * ```html
+ * <div ngCombobox filterMode="highlight">
+ *   <input
+ *     ngComboboxInput
+ *     placeholder="Search for a state..."
+ *     [(value)]="searchString"
+ *   />
+ *
+ *   <ng-template ngComboboxPopupContainer>
+ *     <div ngListbox [(value)]="selectedValue">
+ *       @for (option of filteredOptions(); track option) {
+ *         <div ngOption [value]="option" [label]="option">
+ *           <span>{{option}}</span>
+ *         </div>
+ *       }
+ *     </div>
+ *   </ng-template>
+ * </div>
+ * ```
+ *
  * @developerPreview 21.0
  */
 declare class Combobox<V> {
@@ -18,7 +45,12 @@ declare class Combobox<V> {
     private readonly _deferredContentAware;
     /** The combobox popup. */
     readonly popup: _angular_core.Signal<ComboboxPopup<V> | undefined>;
-    /** The filter mode for the combobox. */
+    /**
+     * The filter mode for the combobox.
+     * - `manual`: The consumer is responsible for filtering the options.
+     * - `auto-select`: The combobox automatically selects the first matching option.
+     * - `highlight`: The combobox highlights matching text in the options without changing selection.
+     */
     filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
     /** Whether the combobox is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
@@ -28,7 +60,7 @@ declare class Combobox<V> {
     readonly firstMatch: _angular_core.InputSignal<V | undefined>;
     /** Whether the combobox is expanded. */
     readonly expanded: _angular_core.Signal<boolean>;
-    /** Whether the combobox popup is always expanded. */
+    /** Whether the combobox popup should always be expanded, regardless of user interaction. */
     readonly alwaysExpanded: _angular_core.InputSignal<boolean>;
     /** Input element connected to the combobox, if any. */
     readonly inputElement: _angular_core.Signal<HTMLInputElement | undefined>;
@@ -47,6 +79,21 @@ declare class Combobox<V> {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 /**
+ * An input that is part of a combobox. It is responsible for displaying the
+ * current value and handling user input for filtering and selection.
+ *
+ * This directive should be applied to an `<input>` element within an `ngCombobox`
+ * container. It automatically handles keyboard interactions, such as opening the
+ * popup and navigating through the options.
+ *
+ * ```html
+ * <input
+ *   ngComboboxInput
+ *   placeholder="Search..."
+ *   [(value)]="searchString"
+ * />
+ * ```
+ *
  * @developerPreview 21.0
  */
 declare class ComboboxInput {
@@ -61,6 +108,33 @@ declare class ComboboxInput {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxInput, "input[ngComboboxInput]", ["ngComboboxInput"], { "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;
 }
 /**
+ * A structural directive that marks the `ng-template` to be used as the popup
+ * for a combobox. This content is conditionally rendered.
+ *
+ * The content of the popup can be a `ngListbox`, `ngTree`, or `role="dialog"`, allowing for
+ * flexible and complex combobox implementations. The consumer is responsible for
+ * implementing the filtering logic based on the `ngComboboxInput`'s value.
+ *
+ * ```html
+ * <ng-template ngComboboxPopupContainer>
+ *   <div ngListbox [(value)]="selectedValue">
+ *     <!-- ... options ... -->
+ *   </div>
+ * </ng-template>
+ * ```
+ *
+ * When using CdkOverlay, this directive can be replaced by `cdkConnectedOverlay`.
+ *
+ * ```html
+ * <ng-template
+ *     [cdkConnectedOverlay]="{origin: inputElement, usePopover: 'inline' matchWidth: true}"
+ *     [cdkConnectedOverlayOpen]="combobox.expanded()">
+ *   <div ngListbox [(value)]="selectedValue">
+ *     <!-- ... options ... -->
+ *   </div>
+ * </ng-template>
+ * ```
+ *
  * @developerPreview 21.0
  */
 declare class ComboboxPopupContainer {
@@ -68,17 +142,36 @@ declare class ComboboxPopupContainer {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopupContainer, "ng-template[ngComboboxPopupContainer]", ["ngComboboxPopupContainer"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 /**
+ * Identifies an element as a popup for an `ngCombobox`.
+ *
+ * This directive acts as a bridge, allowing the `ngCombobox` to discover and interact
+ * with the underlying control (e.g., `ngListbox`, `ngTree`, or `ngComboboxDialog`) that
+ * manages the options. It's primarily used as a host directive and is responsible for
+ * exposing the popup's control pattern to the parent combobox.
+ *
  * @developerPreview 21.0
  */
 declare class ComboboxPopup<V> {
     /** The combobox that the popup belongs to. */
     readonly combobox: Combobox<V> | null;
-    /** The controls the popup exposes to the combobox. */
+    /** The popup controls exposed to the combobox. */
     readonly controls: WritableSignal<ComboboxDialogPattern | ComboboxListboxControls<any, V> | ComboboxTreeControls<any, V> | undefined>;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup<any>, "[ngComboboxPopup]", ["ngComboboxPopup"], {}, {}, never, never, true, never>;
 }
 /**
+ * Integrates a native `<dialog>` element with the combobox, allowing for
+ * a modal or non-modal popup experience. It handles the opening and closing of the dialog
+ * based on the combobox's expanded state.
+ *
+ * ```html
+ * <ng-template ngComboboxPopupContainer>
+ *   <dialog ngComboboxDialog class="example-dialog">
+ *     <!-- ... dialog content ... -->
+ *   </dialog>
+ * </ng-template>
+ * ```
+ *
  * @developerPreview 21.0
  */
 declare class ComboboxDialog {
