@@ -4,7 +4,23 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_grid-chunk.js';
 
 /**
- * A directive that provides grid-based navigation and selection behavior.
+ * The container for a grid. It provides keyboard navigation and focus management for the grid's
+ * rows and cells. It manages the overall behavior of the grid, including focus
+ * wrapping, selection, and disabled states.
+ *
+ * ```html
+ * <table ngGrid [multi]="true" [enableSelection]="true">
+ *   @for (row of gridData; track row) {
+ *     <tr ngGridRow>
+ *       @for (cell of row; track cell) {
+ *         <td ngGridCell [disabled]="cell.disabled">
+ *           {{cell.value}}
+ *         </td>
+ *       }
+ *     </tr>
+ *   }
+ * </table>
+ * ```
  *
  * @developerPreview 21.0
  */
@@ -23,17 +39,38 @@ declare class Grid {
     readonly enableSelection: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the grid is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Whether to allow disabled items to receive focus. */
+    /**
+     * Whether to allow disabled items to receive focus. When `true`, disabled items are
+     * focusable but not interactive. When `false`, disabled items are skipped during navigation.
+     */
     readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The focus strategy used by the grid. */
+    /**
+     * The focus strategy used by the grid.
+     * - `roving`: Focus is moved to the active cell using `tabindex`.
+     * - `activedescendant`: Focus remains on the grid container, and `aria-activedescendant` is used to indicate the active cell.
+     */
     readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
-    /** The wrapping behavior for keyboard navigation along the row axis. */
+    /**
+     * The wrapping behavior for keyboard navigation along the row axis.
+     * - `continuous`: Navigation wraps from the last row to the first, and vice-versa.
+     * - `loop`: Navigation wraps within the current row.
+     * - `nowrap`: Navigation stops at the first/last item in the row.
+     */
     readonly rowWrap: _angular_core.InputSignal<"continuous" | "loop" | "nowrap">;
-    /** The wrapping behavior for keyboard navigation along the column axis. */
+    /**
+     * The wrapping behavior for keyboard navigation along the column axis.
+     * - `continuous`: Navigation wraps from the last column to the first, and vice-versa.
+     * - `loop`: Navigation wraps within the current column.
+     * - `nowrap`: Navigation stops at the first/last item in the column.
+     */
     readonly colWrap: _angular_core.InputSignal<"continuous" | "loop" | "nowrap">;
     /** Whether multiple cells in the grid can be selected. */
     readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The selection strategy used by the grid. */
+    /**
+     * The selection strategy used by the grid.
+     * - `follow`: The focused cell is automatically selected.
+     * - `explicit`: Cells are selected explicitly by the user (e.g., via click or spacebar).
+     */
     readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
     /** Whether enable range selections (with modifier keys or dragging). */
     readonly enableRangeSelection: _angular_core.InputSignalWithTransform<boolean, unknown>;
@@ -46,7 +83,13 @@ declare class Grid {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "enableRangeSelection": { "alias": "enableRangeSelection"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
 }
 /**
- * A directive that represents a row in a grid.
+ * Represents a row within a grid. It is a container for `ngGridCell` directives.
+ *
+ * ```html
+ * <tr ngGridRow>
+ *   <!-- ... cells ... -->
+ * </tr>
+ * ```
  *
  * @developerPreview 21.0
  */
@@ -73,7 +116,15 @@ declare class GridRow {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridRow, "[ngGridRow]", ["ngGridRow"], { "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; }, {}, ["_cells"], never, true, never>;
 }
 /**
- * A directive that represents a cell in a grid.
+ * Represents a cell within a grid row. It is the primary focusable element
+ * within the grid. It can be disabled and can have its selection state managed
+ * through the `selected` input.
+ *
+ * ```html
+ * <td ngGridCell [disabled]="isDisabled" [(selected)]="isSelected">
+ *   Cell Content
+ * </td>
+ * ```
  *
  * @developerPreview 21.0
  */
@@ -112,7 +163,18 @@ declare class GridCell {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widgets"], never, true, never>;
 }
 /**
- * A directive that represents a widget inside a grid cell.
+ * Represents an interactive element inside a `GridCell`. It allows for pausing grid navigation to
+ * interact with the widget.
+ *
+ * When the user interacts with the widget (e.g., by typing in an input or opening a menu), grid
+ * navigation is temporarily suspended to allow the widget to handle keyboard
+ * events.
+ *
+ * ```html
+ * <td ngGridCell>
+ *   <button ngGridCellWidget>Click Me</button>
+ * </td>
+ * ```
  *
  * @developerPreview 21.0
  */
