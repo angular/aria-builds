@@ -10,22 +10,6 @@
       "entryType": "directive",
       "members": [
         {
-          "name": "tabs",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "The Tab UIPattern of the child Tabs.",
-          "jsdocTags": []
-        },
-        {
-          "name": "unorderedTabpanels",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "The TabPanel UIPattern of the child TabPanels.",
-          "jsdocTags": []
-        },
-        {
           "name": "register",
           "signatures": [
             {
@@ -122,55 +106,6 @@
           "rawComment": "",
           "memberType": "method",
           "memberTags": []
-        },
-        {
-          "name": "open",
-          "signatures": [
-            {
-              "name": "open",
-              "entryType": "function",
-              "description": "Opens the tab panel with the specified value.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [
-                {
-                  "name": "value",
-                  "description": "",
-                  "type": "string",
-                  "isOptional": false,
-                  "isRestParam": false
-                }
-              ],
-              "rawComment": "/** Opens the tab panel with the specified value. */",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [
-              {
-                "name": "value",
-                "description": "",
-                "type": "string",
-                "isOptional": false,
-                "isRestParam": false
-              }
-            ],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "open",
-            "description": "Opens the tab panel with the specified value.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Opens the tab panel with the specified value. */"
-          },
-          "entryType": "function",
-          "description": "Opens the tab panel with the specified value.",
-          "jsdocTags": [],
-          "rawComment": "/** Opens the tab panel with the specified value. */",
-          "memberType": "method",
-          "memberTags": []
         }
       ],
       "generics": [],
@@ -190,8 +125,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 76,
-        "endLine": 126
+        "startLine": 75,
+        "endLine": 118
       }
     },
     {
@@ -207,16 +142,6 @@
             "readonly"
           ],
           "description": "Text direction.",
-          "jsdocTags": []
-        },
-        {
-          "name": "tabs",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "The Tab UIPatterns of the child Tabs.",
           "jsdocTags": []
         },
         {
@@ -285,6 +210,21 @@
           "isRequiredInput": false
         },
         {
+          "name": "selectedTab",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input",
+            "output"
+          ],
+          "description": "The current selected tab.",
+          "jsdocTags": [],
+          "inputAlias": "selectedTab",
+          "isRequiredInput": false,
+          "outputAlias": "selectedTabChange"
+        },
+        {
           "name": "disabled",
           "type": "any",
           "memberType": "property",
@@ -296,21 +236,6 @@
           "jsdocTags": [],
           "inputAlias": "disabled",
           "isRequiredInput": false
-        },
-        {
-          "name": "selectedTab",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "input",
-            "output"
-          ],
-          "description": "The currently selected tab.",
-          "jsdocTags": [],
-          "inputAlias": "selectedTab",
-          "isRequiredInput": false,
-          "outputAlias": "selectedTabChange"
         },
         {
           "name": "onFocus",
@@ -508,6 +433,55 @@
           "rawComment": "",
           "memberType": "method",
           "memberTags": []
+        },
+        {
+          "name": "open",
+          "signatures": [
+            {
+              "name": "open",
+              "entryType": "function",
+              "description": "Opens the tab panel with the specified value.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [
+                {
+                  "name": "value",
+                  "description": "",
+                  "type": "string",
+                  "isOptional": false,
+                  "isRestParam": false
+                }
+              ],
+              "rawComment": "/** Opens the tab panel with the specified value. */",
+              "returnType": "boolean"
+            }
+          ],
+          "implementation": {
+            "params": [
+              {
+                "name": "value",
+                "description": "",
+                "type": "string",
+                "isOptional": false,
+                "isRestParam": false
+              }
+            ],
+            "isNewType": false,
+            "returnType": "boolean",
+            "generics": [],
+            "name": "open",
+            "description": "Opens the tab panel with the specified value.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Opens the tab panel with the specified value. */"
+          },
+          "entryType": "function",
+          "description": "Opens the tab panel with the specified value.",
+          "jsdocTags": [],
+          "rawComment": "/** Opens the tab panel with the specified value. */",
+          "memberType": "method",
+          "memberTags": []
         }
       ],
       "generics": [],
@@ -530,8 +504,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 144,
-        "endLine": 257
+        "startLine": 136,
+        "endLine": 260
       }
     },
     {
@@ -539,6 +513,19 @@
       "isAbstract": false,
       "entryType": "directive",
       "members": [
+        {
+          "name": "id",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "A unique identifier for the widget.",
+          "jsdocTags": [],
+          "inputAlias": "id",
+          "isRequiredInput": false
+        },
         {
           "name": "element",
           "type": "any",
@@ -590,7 +577,7 @@
             "readonly",
             "input"
           ],
-          "description": "A local unique identifier for the tab.",
+          "description": "The remote tabpanel unique identifier.",
           "jsdocTags": [],
           "inputAlias": "value",
           "isRequiredInput": true
@@ -603,16 +590,6 @@
             "readonly"
           ],
           "description": "Whether the tab is active.",
-          "jsdocTags": []
-        },
-        {
-          "name": "expanded",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Whether the tab is expanded.",
           "jsdocTags": []
         },
         {
@@ -746,8 +723,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 273,
-        "endLine": 347
+        "startLine": 276,
+        "endLine": 346
       }
     },
     {
@@ -867,8 +844,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 366,
-        "endLine": 421
+        "startLine": 365,
+        "endLine": 422
       }
     },
     {
@@ -888,8 +865,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 440,
-        "endLine": 445
+        "startLine": 441,
+        "endLine": 446
       }
     }
   ],
@@ -928,10 +905,6 @@
     ],
     [
       "model",
-      "@angular/core"
-    ],
-    [
-      "linkedSignal",
       "@angular/core"
     ],
     [
@@ -999,14 +972,6 @@
       "@angular/aria/tabs"
     ],
     [
-      "Tabs.tabs",
-      "@angular/aria/tabs"
-    ],
-    [
-      "Tabs.unorderedTabpanels",
-      "@angular/aria/tabs"
-    ],
-    [
       "Tabs.register",
       "@angular/aria/tabs"
     ],
@@ -1015,19 +980,11 @@
       "@angular/aria/tabs"
     ],
     [
-      "Tabs.open",
-      "@angular/aria/tabs"
-    ],
-    [
       "TabList",
       "@angular/aria/tabs"
     ],
     [
       "TabList.textDirection",
-      "@angular/aria/tabs"
-    ],
-    [
-      "TabList.tabs",
       "@angular/aria/tabs"
     ],
     [
@@ -1051,11 +1008,11 @@
       "@angular/aria/tabs"
     ],
     [
-      "TabList.disabled",
+      "TabList.selectedTab",
       "@angular/aria/tabs"
     ],
     [
-      "TabList.selectedTab",
+      "TabList.disabled",
       "@angular/aria/tabs"
     ],
     [
@@ -1079,7 +1036,15 @@
       "@angular/aria/tabs"
     ],
     [
+      "TabList.open",
+      "@angular/aria/tabs"
+    ],
+    [
       "Tab",
+      "@angular/aria/tabs"
+    ],
+    [
+      "Tab.id",
       "@angular/aria/tabs"
     ],
     [
@@ -1104,10 +1069,6 @@
     ],
     [
       "Tab.active",
-      "@angular/aria/tabs"
-    ],
-    [
-      "Tab.expanded",
       "@angular/aria/tabs"
     ],
     [

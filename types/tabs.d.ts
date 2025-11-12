@@ -42,13 +42,11 @@ declare class Tabs {
     /** The TabPanels nested inside of the container. */
     private readonly _unorderedPanels;
     /** The Tab UIPattern of the child Tabs. */
-    tabs: Signal<TabPattern[] | undefined>;
+    readonly _tabPatterns: Signal<TabPattern[] | undefined>;
     /** The TabPanel UIPattern of the child TabPanels. */
-    unorderedTabpanels: Signal<TabPanelPattern[]>;
+    readonly _unorderedTabpanelPatterns: Signal<TabPanelPattern[]>;
     register(child: TabList | TabPanel): void;
     deregister(child: TabList | TabPanel): void;
-    /** Opens the tab panel with the specified value. */
-    open(value: string): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
 }
@@ -75,12 +73,10 @@ declare class TabList implements OnInit, OnDestroy {
     private readonly _tabs;
     /** The Tabs nested inside of the TabList. */
     private readonly _unorderedTabs;
-    /** The internal tab selection state. */
-    private readonly _selection;
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The Tab UIPatterns of the child Tabs. */
-    readonly tabs: Signal<TabPattern[]>;
+    readonly _tabPatterns: Signal<TabPattern[]>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether focus should wrap when navigating. */
@@ -102,10 +98,10 @@ declare class TabList implements OnInit, OnDestroy {
      * - `explicit`: Tabs are selected explicitly by the user (e.g., via click or spacebar).
      */
     readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    /** The current selected tab. */
+    readonly selectedTab: _angular_core.ModelSignal<string | undefined>;
     /** Whether the tablist is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The currently selected tab. */
-    readonly selectedTab: _angular_core.ModelSignal<string | undefined>;
     /** The TabList UIPattern. */
     readonly _pattern: TabListPattern;
     /** Whether the tree has received focus yet. */
@@ -116,8 +112,10 @@ declare class TabList implements OnInit, OnDestroy {
     ngOnDestroy(): void;
     register(child: Tab): void;
     deregister(child: Tab): void;
+    /** Opens the tab panel with the specified value. */
+    open(value: string): boolean;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
 }
 /**
  * A selectable tab in a TabList.
@@ -140,8 +138,8 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     private readonly _tabs;
     /** The parent TabList. */
     private readonly _tabList;
-    /** A global unique identifier for the tab. */
-    private readonly _id;
+    /** A unique identifier for the widget. */
+    readonly id: _angular_core.InputSignal<string>;
     /** The host native element. */
     readonly element: Signal<any>;
     /** The parent TabList UIPattern. */
@@ -150,12 +148,10 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     readonly tabpanel: Signal<TabPanelPattern | undefined>;
     /** Whether a tab is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** A local unique identifier for the tab. */
+    /** The remote tabpanel unique identifier. */
     readonly value: _angular_core.InputSignal<string>;
     /** Whether the tab is active. */
     readonly active: Signal<boolean>;
-    /** Whether the tab is expanded. */
-    readonly expanded: Signal<boolean>;
     /** Whether the tab is selected. */
     readonly selected: Signal<boolean>;
     /** The Tab UIPattern. */
@@ -165,7 +161,7 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tab, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tab, "[ngTab]", ["ngTab"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tab, "[ngTab]", ["ngTab"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 /**
  * A TabPanel container for the resources of layered content associated with a tab.

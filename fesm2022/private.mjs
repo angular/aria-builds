@@ -1551,48 +1551,27 @@ function convertGetterSetterToWritableSignalLike(getter, setter) {
   });
 }
 
-class ExpansionControl {
-  inputs;
-  isExpanded = computed(() => this.inputs.expansionManager.isExpanded(this));
-  isExpandable = computed(() => this.inputs.expansionManager.isExpandable(this));
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.expansionId = inputs.expansionId;
-    this.expandable = inputs.expandable;
-    this.disabled = inputs.disabled;
-  }
-  open() {
-    this.inputs.expansionManager.open(this);
-  }
-  close() {
-    this.inputs.expansionManager.close(this);
-  }
-  toggle() {
-    this.inputs.expansionManager.toggle(this);
-  }
-}
 class ListExpansion {
   inputs;
-  expandedIds;
   constructor(inputs) {
     this.inputs = inputs;
-    this.expandedIds = inputs.expandedIds;
   }
   open(item) {
-    if (!this.isExpandable(item)) return;
-    if (this.isExpanded(item)) return;
+    if (!this.isExpandable(item)) return false;
+    if (item.expanded()) return false;
     if (!this.inputs.multiExpandable()) {
       this.closeAll();
     }
-    this.expandedIds.update(ids => ids.concat(item.expansionId()));
+    item.expanded.set(true);
+    return true;
   }
   close(item) {
-    if (this.isExpandable(item)) {
-      this.expandedIds.update(ids => ids.filter(id => id !== item.expansionId()));
-    }
+    if (!this.isExpandable(item)) return false;
+    item.expanded.set(false);
+    return true;
   }
   toggle(item) {
-    this.expandedIds().includes(item.expansionId()) ? this.close(item) : this.open(item);
+    return item.expanded() ? this.close(item) : this.open(item);
   }
   openAll() {
     if (this.inputs.multiExpandable()) {
@@ -1608,9 +1587,6 @@ class ListExpansion {
   }
   isExpandable(item) {
     return !this.inputs.disabled() && !item.disabled() && item.expandable();
-  }
-  isExpanded(item) {
-    return this.expandedIds().includes(item.expansionId());
   }
 }
 
@@ -1636,47 +1612,35 @@ class LabelControl {
 
 class TabPattern {
   inputs;
-  expansion;
-  id;
+  id = () => this.inputs.id();
   index = computed(() => this.inputs.tablist().inputs.items().indexOf(this));
-  value;
-  disabled;
-  element;
-  selectable = () => true;
-  searchTerm = () => '';
-  expandable = computed(() => this.expansion.expandable());
-  expansionId = computed(() => this.expansion.expansionId());
-  expanded = computed(() => this.expansion.isExpanded());
+  value = () => this.inputs.value();
+  disabled = () => this.inputs.disabled();
+  element = () => this.inputs.element();
+  expandable = () => true;
+  expanded;
   active = computed(() => this.inputs.tablist().inputs.activeItem() === this);
-  selected = computed(() => !!this.inputs.tablist().inputs.values().includes(this.value()));
-  tabIndex = computed(() => this.inputs.tablist().listBehavior.getItemTabindex(this));
+  selected = computed(() => this.inputs.tablist().selectedTab() === this);
+  tabIndex = computed(() => this.inputs.tablist().focusBehavior.getItemTabIndex(this));
   controls = computed(() => this.inputs.tabpanel()?.id());
   constructor(inputs) {
     this.inputs = inputs;
-    this.id = inputs.id;
-    this.value = inputs.value;
-    this.disabled = inputs.disabled;
-    this.element = inputs.element;
-    this.expansion = new ExpansionControl({
-      ...inputs,
-      expansionId: inputs.value,
-      expandable: () => true,
-      expansionManager: inputs.tablist().expansionManager
-    });
+    this.expanded = inputs.expanded;
+  }
+  open() {
+    return this.inputs.tablist().open(this);
   }
 }
 class TabPanelPattern {
   inputs;
-  id;
-  value;
+  id = () => this.inputs.id();
+  value = () => this.inputs.value();
   labelManager;
   hidden = computed(() => this.inputs.tab()?.expanded() === false);
   tabIndex = computed(() => this.hidden() ? -1 : 0);
   labelledBy = computed(() => this.labelManager.labelledBy().length > 0 ? this.labelManager.labelledBy().join(' ') : undefined);
   constructor(inputs) {
     this.inputs = inputs;
-    this.id = inputs.id;
-    this.value = inputs.value;
     this.labelManager = new LabelControl({
       ...inputs,
       defaultLabelledBy: computed(() => this.inputs.tab() ? [this.inputs.tab().id()] : [])
@@ -1685,12 +1649,15 @@ class TabPanelPattern {
 }
 class TabListPattern {
   inputs;
-  listBehavior;
-  expansionManager;
-  orientation;
-  disabled;
-  tabIndex = computed(() => this.listBehavior.tabIndex());
-  activeDescendant = computed(() => this.listBehavior.activeDescendant());
+  focusBehavior;
+  navigationBehavior;
+  expansionBehavior;
+  activeTab = () => this.inputs.activeItem();
+  selectedTab = signal(undefined);
+  orientation = () => this.inputs.orientation();
+  disabled = () => this.inputs.disabled();
+  tabIndex = computed(() => this.focusBehavior.getListTabIndex());
+  activeDescendant = computed(() => this.focusBehavior.getActiveDescendant());
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
   prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
@@ -1705,40 +1672,27 @@ class TabListPattern {
     return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
   keydown = computed(() => {
-    return new KeyboardEventManager().on(this.prevKey, () => this.listBehavior.prev({
-      select: this.followFocus()
-    })).on(this.nextKey, () => this.listBehavior.next({
-      select: this.followFocus()
-    })).on('Home', () => this.listBehavior.first({
-      select: this.followFocus()
-    })).on('End', () => this.listBehavior.last({
-      select: this.followFocus()
-    })).on(' ', () => this.listBehavior.select()).on('Enter', () => this.listBehavior.select());
+    return new KeyboardEventManager().on(this.prevKey, () => this._navigate(() => this.navigationBehavior.prev(), this.followFocus())).on(this.nextKey, () => this._navigate(() => this.navigationBehavior.next(), this.followFocus())).on('Home', () => this._navigate(() => this.navigationBehavior.first(), this.followFocus())).on('End', () => this._navigate(() => this.navigationBehavior.last(), this.followFocus())).on(' ', () => this.open()).on('Enter', () => this.open());
   });
   pointerdown = computed(() => {
-    return new PointerEventManager().on(e => this.listBehavior.goto(this._getItem(e), {
-      select: true
-    }));
+    return new PointerEventManager().on(e => this._navigate(() => this.navigationBehavior.goto(this._getItem(e)), true));
   });
   constructor(inputs) {
     this.inputs = inputs;
-    this.disabled = inputs.disabled;
-    this.orientation = inputs.orientation;
-    this.listBehavior = new List({
+    this.focusBehavior = new ListFocus(inputs);
+    this.navigationBehavior = new ListNavigation({
       ...inputs,
-      multi: () => false,
-      typeaheadDelay: () => 0
+      focusManager: this.focusBehavior
     });
-    this.expansionManager = new ListExpansion({
+    this.expansionBehavior = new ListExpansion({
       ...inputs,
-      multiExpandable: () => false,
-      expandedIds: this.inputs.values
+      multiExpandable: () => false
     });
   }
   setDefaultState() {
     let firstItem;
     for (const item of this.inputs.items()) {
-      if (!this.listBehavior.isFocusable(item)) continue;
+      if (!this.focusBehavior.isFocusable(item)) continue;
       if (firstItem === undefined) {
         firstItem = item;
       }
@@ -1759,6 +1713,24 @@ class TabListPattern {
   onPointerdown(event) {
     if (!this.disabled()) {
       this.pointerdown().handle(event);
+    }
+  }
+  open(tab) {
+    tab ??= this.activeTab();
+    if (typeof tab === 'string') {
+      tab = this.inputs.items().find(t => t.value() === tab);
+    }
+    if (tab === undefined) return false;
+    const success = this.expansionBehavior.open(tab);
+    if (success) {
+      this.selectedTab.set(tab);
+    }
+    return success;
+  }
+  _navigate(op, shouldExpand = false) {
+    const success = op();
+    if (success && shouldExpand) {
+      this.open();
     }
   }
   _getItem(e) {
@@ -1917,82 +1889,45 @@ class ToolbarWidgetGroupPattern {
 const focusMode = () => 'roving';
 class AccordionGroupPattern {
   inputs;
-  navigation;
-  focusManager;
-  expansionManager;
+  navigationBehavior;
+  focusBehavior;
+  expansionBehavior;
   constructor(inputs) {
     this.inputs = inputs;
-    this.wrap = inputs.wrap;
-    this.orientation = inputs.orientation;
-    this.textDirection = inputs.textDirection;
-    this.activeItem = inputs.activeItem;
-    this.disabled = inputs.disabled;
-    this.multiExpandable = inputs.multiExpandable;
-    this.items = inputs.items;
-    this.expandedIds = inputs.expandedIds;
-    this.softDisabled = inputs.softDisabled;
-    this.focusManager = new ListFocus({
+    this.focusBehavior = new ListFocus({
       ...inputs,
       focusMode
     });
-    this.navigation = new ListNavigation({
+    this.navigationBehavior = new ListNavigation({
       ...inputs,
       focusMode,
-      focusManager: this.focusManager
+      focusManager: this.focusBehavior
     });
-    this.expansionManager = new ListExpansion({
+    this.expansionBehavior = new ListExpansion({
       ...inputs
     });
   }
-}
-class AccordionTriggerPattern {
-  inputs;
-  expandable;
-  expansionId;
-  expanded;
-  expansionControl;
-  active = computed(() => this.inputs.accordionGroup().activeItem() === this);
-  controls = computed(() => this.inputs.accordionPanel()?.id());
-  tabIndex = computed(() => this.inputs.accordionGroup().focusManager.isFocusable(this) ? 0 : -1);
-  disabled = computed(() => this.inputs.disabled() || this.inputs.accordionGroup().disabled());
-  index = computed(() => this.inputs.accordionGroup().items().indexOf(this));
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.id = inputs.id;
-    this.element = inputs.element;
-    this.panelId = inputs.panelId;
-    this.expansionControl = new ExpansionControl({
-      ...inputs,
-      expansionId: inputs.panelId,
-      expandable: () => true,
-      expansionManager: inputs.accordionGroup().expansionManager
-    });
-    this.expandable = this.expansionControl.isExpandable;
-    this.expansionId = this.expansionControl.expansionId;
-    this.expanded = this.expansionControl.isExpanded;
-  }
   prevKey = computed(() => {
-    if (this.inputs.accordionGroup().orientation() === 'vertical') {
+    if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
     }
-    return this.inputs.accordionGroup().textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
   });
   nextKey = computed(() => {
-    if (this.inputs.accordionGroup().orientation() === 'vertical') {
+    if (this.inputs.orientation() === 'vertical') {
       return 'ArrowDown';
     }
-    return this.inputs.accordionGroup().textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
   keydown = computed(() => {
-    return new KeyboardEventManager().on(this.prevKey, () => this.inputs.accordionGroup().navigation.prev()).on(this.nextKey, () => this.inputs.accordionGroup().navigation.next()).on('Home', () => this.inputs.accordionGroup().navigation.first()).on('End', () => this.inputs.accordionGroup().navigation.last()).on(' ', () => this.expansionControl.toggle()).on('Enter', () => this.expansionControl.toggle());
+    return new KeyboardEventManager().on(this.prevKey, () => this.navigationBehavior.prev()).on(this.nextKey, () => this.navigationBehavior.next()).on('Home', () => this.navigationBehavior.first()).on('End', () => this.navigationBehavior.last()).on(' ', () => this.toggle()).on('Enter', () => this.toggle());
   });
   pointerdown = computed(() => {
     return new PointerEventManager().on(e => {
-      const item = this._getItem(e);
-      if (item) {
-        this.inputs.accordionGroup().navigation.goto(item);
-        this.expansionControl.toggle();
-      }
+      const item = this.inputs.getItem(e.target);
+      if (!item) return;
+      this.navigationBehavior.goto(item);
+      this.expansionBehavior.toggle(item);
     });
   });
   onKeydown(event) {
@@ -2002,26 +1937,51 @@ class AccordionTriggerPattern {
     this.pointerdown().handle(event);
   }
   onFocus(event) {
-    const item = this._getItem(event);
-    if (item && this.inputs.accordionGroup().focusManager.isFocusable(item)) {
-      this.inputs.accordionGroup().focusManager.focus(item);
-    }
+    const item = this.inputs.getItem(event.target);
+    if (!item) return;
+    if (!this.focusBehavior.isFocusable(item)) return;
+    this.focusBehavior.focus(item);
   }
-  _getItem(e) {
-    if (!(e.target instanceof HTMLElement)) {
-      return;
-    }
-    const element = e.target.closest('[role="button"]');
-    return this.inputs.accordionGroup().items().find(i => i.element() === element);
+  toggle() {
+    const activeItem = this.inputs.activeItem();
+    if (activeItem === undefined) return;
+    this.expansionBehavior.toggle(activeItem);
+  }
+}
+class AccordionTriggerPattern {
+  inputs;
+  id = () => this.inputs.id();
+  element = () => this.inputs.element();
+  expandable = () => true;
+  expanded;
+  active = computed(() => this.inputs.accordionGroup().inputs.activeItem() === this);
+  controls = computed(() => this.inputs.accordionPanel()?.inputs.id());
+  tabIndex = computed(() => this.inputs.accordionGroup().focusBehavior.isFocusable(this) ? 0 : -1);
+  disabled = computed(() => this.inputs.disabled() || this.inputs.accordionGroup().inputs.disabled());
+  hardDisabled = computed(() => this.disabled() && !this.inputs.accordionGroup().inputs.softDisabled());
+  index = computed(() => this.inputs.accordionGroup().inputs.items().indexOf(this));
+  constructor(inputs) {
+    this.inputs = inputs;
+    this.expanded = inputs.expanded;
+  }
+  open() {
+    this.inputs.accordionGroup().expansionBehavior.open(this);
+  }
+  close() {
+    this.inputs.accordionGroup().expansionBehavior.close(this);
+  }
+  toggle() {
+    this.inputs.accordionGroup().expansionBehavior.toggle(this);
   }
 }
 class AccordionPanelPattern {
   inputs;
+  id;
+  accordionTrigger;
   hidden;
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
-    this.panelId = inputs.panelId;
     this.accordionTrigger = inputs.accordionTrigger;
     this.hidden = computed(() => inputs.accordionTrigger()?.expanded() === false);
   }
@@ -2029,22 +1989,20 @@ class AccordionPanelPattern {
 
 class TreeItemPattern {
   inputs;
-  id;
-  value;
-  element;
-  disabled;
-  searchTerm;
-  tree;
-  parent;
-  children;
+  id = () => this.inputs.id();
+  value = () => this.inputs.value();
+  element = () => this.inputs.element();
+  disabled = () => this.inputs.disabled();
+  searchTerm = () => this.inputs.searchTerm();
+  tree = () => this.inputs.tree();
+  parent = () => this.inputs.parent();
+  children = () => this.inputs.children();
   index = computed(() => this.tree().visibleItems().indexOf(this));
-  expansionId;
-  expansionManager;
-  expansion;
-  expandable;
-  selectable;
+  expansionBehavior;
+  expandable = () => this.inputs.hasChildren();
+  selectable = () => this.inputs.selectable();
+  expanded;
   level = computed(() => this.parent().level() + 1);
-  expanded = computed(() => this.expansion.isExpanded());
   visible = computed(() => this.parent().expanded() && this.parent().visible());
   setsize = computed(() => this.parent().children().length);
   posinset = computed(() => this.parent().children().indexOf(this) + 1);
@@ -2070,27 +2028,10 @@ class TreeItemPattern {
   });
   constructor(inputs) {
     this.inputs = inputs;
-    this.id = inputs.id;
-    this.value = inputs.value;
-    this.element = inputs.element;
-    this.disabled = inputs.disabled;
-    this.searchTerm = inputs.searchTerm;
-    this.expansionId = inputs.id;
-    this.tree = inputs.tree;
-    this.parent = inputs.parent;
-    this.children = inputs.children;
-    this.expandable = inputs.hasChildren;
-    this.selectable = inputs.selectable;
-    this.expansion = new ExpansionControl({
-      ...inputs,
-      expandable: this.expandable,
-      expansionId: this.expansionId,
-      expansionManager: this.parent().expansionManager
-    });
-    this.expansionManager = new ListExpansion({
+    this.expanded = inputs.expanded;
+    this.expansionBehavior = new ListExpansion({
       ...inputs,
       multiExpandable: () => true,
-      expandedIds: signal([]),
       items: this.children,
       disabled: computed(() => this.tree()?.disabled() ?? false)
     });
@@ -2099,7 +2040,7 @@ class TreeItemPattern {
 class TreePattern {
   inputs;
   listBehavior;
-  expansionManager;
+  expansionBehavior;
   level = () => 0;
   expanded = () => true;
   visible = () => true;
@@ -2217,45 +2158,33 @@ class TreePattern {
     }
     return manager;
   });
-  id;
-  nav;
-  currentType;
-  allItems;
-  disabled;
-  activeItem = signal(undefined);
-  softDisabled;
-  wrap;
-  orientation;
-  textDirection;
-  multi;
-  selectionMode;
-  typeaheadDelay;
+  id = () => this.inputs.id();
+  element = () => this.inputs.element();
+  nav = () => this.inputs.nav();
+  currentType = () => this.inputs.currentType();
+  allItems = () => this.inputs.allItems();
+  focusMode = () => this.inputs.focusMode();
+  disabled = () => this.inputs.disabled();
+  activeItem;
+  softDisabled = () => this.inputs.softDisabled();
+  wrap = () => this.inputs.wrap();
+  orientation = () => this.inputs.orientation();
+  textDirection = () => this.textDirection();
+  multi = computed(() => this.nav() ? false : this.inputs.multi());
+  selectionMode = () => this.inputs.selectionMode();
+  typeaheadDelay = () => this.inputs.typeaheadDelay();
   values;
   constructor(inputs) {
     this.inputs = inputs;
-    this.id = inputs.id;
-    this.nav = inputs.nav;
-    this.currentType = inputs.currentType;
-    this.allItems = inputs.allItems;
-    this.focusMode = inputs.focusMode;
-    this.disabled = inputs.disabled;
     this.activeItem = inputs.activeItem;
-    this.softDisabled = inputs.softDisabled;
-    this.wrap = inputs.wrap;
-    this.orientation = inputs.orientation;
-    this.textDirection = inputs.textDirection;
-    this.multi = computed(() => this.nav() ? false : this.inputs.multi());
-    this.selectionMode = inputs.selectionMode;
-    this.typeaheadDelay = inputs.typeaheadDelay;
     this.values = inputs.values;
     this.listBehavior = new List({
       ...inputs,
       items: this.visibleItems,
       multi: this.multi
     });
-    this.expansionManager = new ListExpansion({
+    this.expansionBehavior = new ListExpansion({
       multiExpandable: () => true,
-      expandedIds: signal([]),
       items: this.children,
       disabled: this.disabled
     });
@@ -2300,14 +2229,14 @@ class TreePattern {
     if (item.expanded()) {
       this.collapse();
     } else {
-      item.expansion.open();
+      this.expansionBehavior.open(item);
     }
   }
   expand(opts) {
     const item = this.activeItem();
     if (!item || !this.listBehavior.isFocusable(item)) return;
     if (item.expandable() && !item.expanded()) {
-      item.expansion.open();
+      this.expansionBehavior.open(item);
     } else if (item.expanded() && item.children().some(item => this.listBehavior.isFocusable(item))) {
       this.listBehavior.next(opts);
     }
@@ -2315,13 +2244,13 @@ class TreePattern {
   expandSiblings(item) {
     item ??= this.activeItem();
     const siblings = item?.parent()?.children();
-    siblings?.forEach(item => item.expansion.open());
+    siblings?.forEach(item => this.expansionBehavior.open(item));
   }
   collapse(opts) {
     const item = this.activeItem();
     if (!item || !this.listBehavior.isFocusable(item)) return;
     if (item.expandable() && item.expanded()) {
-      item.expansion.close();
+      this.expansionBehavior.close(item);
     } else if (item.parent() && item.parent() !== this) {
       const parentItem = item.parent();
       if (parentItem instanceof TreeItemPattern && this.listBehavior.isFocusable(parentItem)) {
@@ -2375,8 +2304,8 @@ class ComboboxTreePattern extends TreePattern {
   isItemExpandable(item = this.inputs.activeItem()) {
     return item ? item.expandable() : false;
   }
-  expandAll = () => this.items().forEach(item => item.expansion.open());
-  collapseAll = () => this.items().forEach(item => item.expansion.close());
+  expandAll = () => this.items().forEach(item => this.expansionBehavior.open(item));
+  collapseAll = () => this.items().forEach(item => item.expansionBehavior.close(item));
   isItemSelectable = (item = this.inputs.activeItem()) => {
     return item ? item.selectable() : false;
   };

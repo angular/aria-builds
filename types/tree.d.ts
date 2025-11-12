@@ -43,16 +43,16 @@ interface HasElement {
  * @developerPreview 21.0
  */
 declare class Tree<V> {
-    /** A unique identifier for the tree. */
-    private readonly _generatedId;
-    /** A unique identifier for the tree. */
-    protected id: Signal<string>;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
     /** A reference to the tree element. */
     private readonly _elementRef;
     /** All TreeItem instances within this tree. */
     private readonly _unorderedItems;
+    /** A unique identifier for the tree. */
+    readonly id: _angular_core.InputSignal<string>;
+    /** The host native element. */
+    readonly element: Signal<any>;
     /** Orientation of the tree. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multi-selection is allowed. */
@@ -101,7 +101,7 @@ declare class Tree<V> {
     unregister(child: TreeItem<V>): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tree<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 /**
  * A selectable and expandable item in an `ngTree`.
@@ -121,10 +121,10 @@ declare class Tree<V> {
 declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDestroy, HasElement {
     /** A reference to the tree item element. */
     private readonly _elementRef;
-    /** A unique identifier for the tree item. */
-    private readonly _id;
     /** The owned tree item group. */
     private readonly _group;
+    /** A unique identifier for the tree item. */
+    readonly id: _angular_core.InputSignal<string>;
     /** The host native element. */
     readonly element: Signal<any>;
     /** The value of the tree item. */
@@ -135,6 +135,8 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the tree item is selectable. */
     readonly selectable: _angular_core.InputSignal<boolean>;
+    /** Whether the tree item is expanded. */
+    readonly expanded: _angular_core.ModelSignal<boolean>;
     /** Optional label for typeahead. Defaults to the element's textContent. */
     readonly label: _angular_core.InputSignal<string | undefined>;
     /** Search term for typeahead. */
@@ -143,14 +145,14 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     readonly tree: Signal<Tree<V>>;
     /** Whether the item is active. */
     readonly active: Signal<boolean>;
-    /** Whether this item is currently expanded, returning null if not expandable. */
-    readonly expanded: Signal<boolean | null>;
     /** The level of the current item in a tree. */
     readonly level: Signal<number>;
     /** Whether the item is selected. */
     readonly selected: Signal<boolean | undefined>;
     /** Whether this item is visible due to all of its parents being expanded. */
     readonly visible: Signal<boolean>;
+    /** Whether the tree is expanded. Use this value for aria-expanded. */
+    protected readonly _expanded: Signal<boolean | undefined>;
     /** The UI pattern for this item. */
     _pattern: TreeItemPattern<V>;
     constructor();
@@ -159,7 +161,7 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     register(group: TreeItemGroup<V>): void;
     unregister(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItem<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItem<any>, "[ngTreeItem]", ["ngTreeItem"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; "parent": { "alias": "parent"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItem<any>, "[ngTreeItem]", ["ngTreeItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "parent": { "alias": "parent"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; }, never, never, true, never>;
 }
 /**
  * Group that contains children tree items.

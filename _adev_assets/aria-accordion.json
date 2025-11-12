@@ -13,7 +13,9 @@
           "name": "panelId",
           "type": "any",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "readonly"
+          ],
           "description": "A local unique identifier for the panel, used to match with its trigger's `panelId`.",
           "jsdocTags": []
         },
@@ -159,10 +161,34 @@
       "entryType": "directive",
       "members": [
         {
+          "name": "id",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "A unique identifier for the widget.",
+          "jsdocTags": [],
+          "inputAlias": "id",
+          "isRequiredInput": false
+        },
+        {
+          "name": "element",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "The host native element.",
+          "jsdocTags": []
+        },
+        {
           "name": "panelId",
           "type": "any",
           "memberType": "property",
           "memberTags": [
+            "readonly",
             "input"
           ],
           "description": "A local unique identifier for the trigger, used to match with its panel's `panelId`.",
@@ -175,12 +201,28 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
+            "readonly",
             "input"
           ],
           "description": "Whether the trigger is disabled.",
           "jsdocTags": [],
           "inputAlias": "disabled",
           "isRequiredInput": false
+        },
+        {
+          "name": "expanded",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input",
+            "output"
+          ],
+          "description": "Whether the corresponding panel is expanded.",
+          "jsdocTags": [],
+          "inputAlias": "expanded",
+          "isRequiredInput": false,
+          "outputAlias": "expandedChange"
         },
         {
           "name": "active",
@@ -190,36 +232,6 @@
             "readonly"
           ],
           "description": "Whether the trigger is active.",
-          "jsdocTags": []
-        },
-        {
-          "name": "expanded",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Whether the trigger is expanded.",
-          "jsdocTags": []
-        },
-        {
-          "name": "hardDisabled",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Whether this trigger is inaccessible via keyboard navigation.",
-          "jsdocTags": []
-        },
-        {
-          "name": "accordionPanel",
-          "type": "WritableSignal<any>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "The accordion panel pattern controlled by this trigger. This is set by AccordionGroup.",
           "jsdocTags": []
         },
         {
@@ -340,7 +352,7 @@
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
         "startLine": 133,
-        "endLine": 204
+        "endLine": 197
       }
     },
     {
@@ -348,6 +360,16 @@
       "isAbstract": false,
       "entryType": "directive",
       "members": [
+        {
+          "name": "element",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "The host native element.",
+          "jsdocTags": []
+        },
         {
           "name": "textDirection",
           "type": "any",
@@ -363,6 +385,7 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
+            "readonly",
             "input"
           ],
           "description": "Whether the entire accordion group is disabled.",
@@ -375,6 +398,7 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
+            "readonly",
             "input"
           ],
           "description": "Whether multiple accordion items can be expanded simultaneously.",
@@ -383,24 +407,11 @@
           "isRequiredInput": false
         },
         {
-          "name": "expandedPanels",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "input",
-            "output"
-          ],
-          "description": "The ids of the currently expanded accordion panels.",
-          "jsdocTags": [],
-          "inputAlias": "expandedPanels",
-          "isRequiredInput": false,
-          "outputAlias": "expandedPanelsChange"
-        },
-        {
           "name": "softDisabled",
           "type": "any",
           "memberType": "property",
           "memberTags": [
+            "readonly",
             "input"
           ],
           "description": "Whether to allow disabled items to receive focus. When `true`, disabled items are\nfocusable but not interactive. When `false`, disabled items are skipped during navigation.",
@@ -413,6 +424,7 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
+            "readonly",
             "input"
           ],
           "description": "Whether keyboard navigation should wrap around from the last item to the first, and vice-versa.",
@@ -504,8 +516,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 241,
-        "endLine": 317
+        "startLine": 234,
+        "endLine": 329
       }
     },
     {
@@ -525,8 +537,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 337,
-        "endLine": 341
+        "startLine": 349,
+        "endLine": 353
       }
     }
   ],
@@ -652,6 +664,14 @@
       "@angular/aria/accordion"
     ],
     [
+      "AccordionTrigger.id",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionTrigger.element",
+      "@angular/aria/accordion"
+    ],
+    [
       "AccordionTrigger.panelId",
       "@angular/aria/accordion"
     ],
@@ -660,19 +680,11 @@
       "@angular/aria/accordion"
     ],
     [
-      "AccordionTrigger.active",
-      "@angular/aria/accordion"
-    ],
-    [
       "AccordionTrigger.expanded",
       "@angular/aria/accordion"
     ],
     [
-      "AccordionTrigger.hardDisabled",
-      "@angular/aria/accordion"
-    ],
-    [
-      "AccordionTrigger.accordionPanel",
+      "AccordionTrigger.active",
       "@angular/aria/accordion"
     ],
     [
@@ -692,6 +704,10 @@
       "@angular/aria/accordion"
     ],
     [
+      "AccordionGroup.element",
+      "@angular/aria/accordion"
+    ],
+    [
       "AccordionGroup.textDirection",
       "@angular/aria/accordion"
     ],
@@ -701,10 +717,6 @@
     ],
     [
       "AccordionGroup.multiExpandable",
-      "@angular/aria/accordion"
-    ],
-    [
-      "AccordionGroup.expandedPanels",
       "@angular/aria/accordion"
     ],
     [

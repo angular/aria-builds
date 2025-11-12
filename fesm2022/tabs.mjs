@@ -1,7 +1,7 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i0 from '@angular/core';
-import { signal, computed, Directive, inject, ElementRef, linkedSignal, input, booleanAttribute, model, afterRenderEffect } from '@angular/core';
+import { signal, computed, Directive, inject, ElementRef, input, booleanAttribute, model, afterRenderEffect } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { TabListPattern, TabPattern, DeferredContentAware, TabPanelPattern, DeferredContent } from '@angular/aria/private';
 
@@ -15,11 +15,11 @@ class Tabs {
   _unorderedPanels = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedPanels"
   }] : []));
-  tabs = computed(() => this._tablist()?.tabs(), ...(ngDevMode ? [{
-    debugName: "tabs"
+  _tabPatterns = computed(() => this._tablist()?._tabPatterns(), ...(ngDevMode ? [{
+    debugName: "_tabPatterns"
   }] : []));
-  unorderedTabpanels = computed(() => [...this._unorderedPanels()].map(tabpanel => tabpanel._pattern), ...(ngDevMode ? [{
-    debugName: "unorderedTabpanels"
+  _unorderedTabpanelPatterns = computed(() => [...this._unorderedPanels()].map(tabpanel => tabpanel._pattern), ...(ngDevMode ? [{
+    debugName: "_unorderedTabpanelPatterns"
   }] : []));
   register(child) {
     if (child instanceof TabList) {
@@ -38,10 +38,6 @@ class Tabs {
       this._unorderedPanels().delete(child);
       this._unorderedPanels.set(new Set(this._unorderedPanels()));
     }
-  }
-  open(value) {
-    const tab = this.tabs()?.find(t => t.value() === value);
-    tab?.expansion.open();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -86,10 +82,9 @@ class TabList {
   _unorderedTabs = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedTabs"
   }] : []));
-  _selection = linkedSignal(() => this.selectedTab() ? [this.selectedTab()] : []);
   textDirection = inject(Directionality).valueSignal;
-  tabs = computed(() => [...this._unorderedTabs()].sort(sortDirectives).map(tab => tab._pattern), ...(ngDevMode ? [{
-    debugName: "tabs"
+  _tabPatterns = computed(() => [...this._unorderedTabs()].sort(sortDirectives).map(tab => tab._pattern), ...(ngDevMode ? [{
+    debugName: "_tabPatterns"
   }] : []));
   orientation = input('horizontal', ...(ngDevMode ? [{
     debugName: "orientation"
@@ -112,19 +107,18 @@ class TabList {
   selectionMode = input('follow', ...(ngDevMode ? [{
     debugName: "selectionMode"
   }] : []));
+  selectedTab = model(...(ngDevMode ? [undefined, {
+    debugName: "selectedTab"
+  }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
   }]));
-  selectedTab = model(...(ngDevMode ? [undefined, {
-    debugName: "selectedTab"
-  }] : []));
   _pattern = new TabListPattern({
     ...this,
-    items: this.tabs,
-    values: this._selection,
+    items: this._tabPatterns,
     activeItem: signal(undefined),
     element: () => this._elementRef.nativeElement
   });
@@ -132,10 +126,21 @@ class TabList {
     debugName: "_hasFocused"
   }] : []));
   constructor() {
-    afterRenderEffect(() => this.selectedTab.set(this._selection()[0]));
     afterRenderEffect(() => {
       if (!this._hasFocused()) {
         this._pattern.setDefaultState();
+      }
+    });
+    afterRenderEffect(() => {
+      const tab = this._pattern.selectedTab();
+      if (tab) {
+        this.selectedTab.set(tab.value());
+      }
+    });
+    afterRenderEffect(() => {
+      const value = this.selectedTab();
+      if (value) {
+        this._pattern.open(value);
       }
     });
   }
@@ -155,6 +160,9 @@ class TabList {
   deregister(child) {
     this._unorderedTabs().delete(child);
     this._unorderedTabs.set(new Set(this._unorderedTabs()));
+  }
+  open(value) {
+    return this._pattern.open(value);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -206,16 +214,16 @@ class TabList {
         isRequired: false,
         transformFunction: null
       },
-      disabled: {
-        classPropertyName: "disabled",
-        publicName: "disabled",
+      selectedTab: {
+        classPropertyName: "selectedTab",
+        publicName: "selectedTab",
         isSignal: true,
         isRequired: false,
         transformFunction: null
       },
-      selectedTab: {
-        classPropertyName: "selectedTab",
-        publicName: "selectedTab",
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -274,14 +282,16 @@ class Tab {
   _elementRef = inject(ElementRef);
   _tabs = inject(Tabs);
   _tabList = inject(TabList);
-  _id = inject(_IdGenerator).getId('ng-tab-');
+  id = input(inject(_IdGenerator).getId('ng-tab-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));
   tablist = computed(() => this._tabList._pattern, ...(ngDevMode ? [{
     debugName: "tablist"
   }] : []));
-  tabpanel = computed(() => this._tabs.unorderedTabpanels().find(tabpanel => tabpanel.value() === this.value()), ...(ngDevMode ? [{
+  tabpanel = computed(() => this._tabs._unorderedTabpanelPatterns().find(tabpanel => tabpanel.value() === this.value()), ...(ngDevMode ? [{
     debugName: "tabpanel"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
@@ -296,21 +306,17 @@ class Tab {
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
-    debugName: "expanded"
-  }] : []));
   selected = computed(() => this._pattern.selected(), ...(ngDevMode ? [{
     debugName: "selected"
   }] : []));
   _pattern = new TabPattern({
     ...this,
-    id: () => this._id,
     tablist: this.tablist,
     tabpanel: this.tabpanel,
-    value: this.value
+    expanded: signal(false)
   });
   open() {
-    this._pattern.expansion.open();
+    this._pattern.open();
   }
   ngOnInit() {
     this._tabList.register(this);
@@ -333,6 +339,13 @@ class Tab {
     isStandalone: true,
     selector: "[ngTab]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
@@ -393,7 +406,7 @@ class TabPanel {
   _deferredContentAware = inject(DeferredContentAware);
   _Tabs = inject(Tabs);
   _id = inject(_IdGenerator).getId('ng-tabpanel-', true);
-  tab = computed(() => this._Tabs.tabs()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
+  tab = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
     debugName: "tab"
   }] : []));
   value = input.required(...(ngDevMode ? [{

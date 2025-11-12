@@ -14,9 +14,19 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
-            "protected"
+            "readonly"
           ],
           "description": "A unique identifier for the tree.",
+          "jsdocTags": []
+        },
+        {
+          "name": "element",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "The host native element.",
           "jsdocTags": []
         },
         {
@@ -345,7 +355,7 @@
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
         "startLine": 83,
-        "endLine": 240
+        "endLine": 238
       }
     },
     {
@@ -353,6 +363,19 @@
       "isAbstract": false,
       "entryType": "directive",
       "members": [
+        {
+          "name": "id",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "A unique identifier for the tree item.",
+          "jsdocTags": [],
+          "inputAlias": "id",
+          "isRequiredInput": false
+        },
         {
           "name": "element",
           "type": "any",
@@ -416,6 +439,21 @@
           "isRequiredInput": false
         },
         {
+          "name": "expanded",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input",
+            "output"
+          ],
+          "description": "Whether the tree item is expanded.",
+          "jsdocTags": [],
+          "inputAlias": "expanded",
+          "isRequiredInput": false,
+          "outputAlias": "expandedChange"
+        },
+        {
           "name": "label",
           "type": "any",
           "memberType": "property",
@@ -456,16 +494,6 @@
             "readonly"
           ],
           "description": "Whether the item is active.",
-          "jsdocTags": []
-        },
-        {
-          "name": "expanded",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Whether this item is currently expanded, returning null if not expandable.",
           "jsdocTags": []
         },
         {
@@ -673,7 +701,7 @@
       ],
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
-        "startLine": 257,
+        "startLine": 255,
         "endLine": 382
       }
     },
@@ -997,6 +1025,10 @@
       "@angular/aria/tree"
     ],
     [
+      "Tree.element",
+      "@angular/aria/tree"
+    ],
+    [
       "Tree.orientation",
       "@angular/aria/tree"
     ],
@@ -1065,6 +1097,10 @@
       "@angular/aria/tree"
     ],
     [
+      "TreeItem.id",
+      "@angular/aria/tree"
+    ],
+    [
       "TreeItem.element",
       "@angular/aria/tree"
     ],
@@ -1085,6 +1121,10 @@
       "@angular/aria/tree"
     ],
     [
+      "TreeItem.expanded",
+      "@angular/aria/tree"
+    ],
+    [
       "TreeItem.label",
       "@angular/aria/tree"
     ],
@@ -1098,10 +1138,6 @@
     ],
     [
       "TreeItem.active",
-      "@angular/aria/tree"
-    ],
-    [
-      "TreeItem.expanded",
       "@angular/aria/tree"
     ],
     [
