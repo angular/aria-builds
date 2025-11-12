@@ -124,7 +124,7 @@ class TabList {
   _pattern = new TabListPattern({
     ...this,
     items: this.tabs,
-    value: this._selection,
+    values: this._selection,
     activeItem: signal(undefined),
     element: () => this._elementRef.nativeElement
   });

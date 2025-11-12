@@ -112,7 +112,7 @@
           "jsdocTags": []
         },
         {
-          "name": "value",
+          "name": "values",
           "type": "any",
           "memberType": "property",
           "memberTags": [],
@@ -493,7 +493,7 @@
       "@angular/aria/listbox"
     ],
     [
-      "Listbox.value",
+      "Listbox.values",
       "@angular/aria/listbox"
     ],
     [

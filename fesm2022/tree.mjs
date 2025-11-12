@@ -58,8 +58,8 @@ class Tree {
   typeaheadDelay = input(0.5, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
-  value = model([], ...(ngDevMode ? [{
-    debugName: "value"
+  values = model([], ...(ngDevMode ? [{
+    debugName: "values"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
   nav = input(false, ...(ngDevMode ? [{
@@ -99,9 +99,9 @@ class Tree {
     });
     afterRenderEffect(() => {
       const items = inputs.allItems();
-      const value = untracked(() => this.value());
-      if (items && value.some(v => !items.some(i => i.value() === v))) {
-        this.value.set(value.filter(v => items.some(i => i.value() === v)));
+      const values = untracked(() => this.values());
+      if (items && values.some(v => !items.some(i => i.value() === v))) {
+        this.values.set(values.filter(v => items.some(i => i.value() === v)));
       }
     });
   }
@@ -192,9 +192,9 @@ class Tree {
         isRequired: false,
         transformFunction: null
       },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+      values: {
+        classPropertyName: "values",
+        publicName: "values",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -215,7 +215,7 @@ class Tree {
       }
     },
     outputs: {
-      value: "valueChange"
+      values: "valuesChange"
     },
     host: {
       attributes: {

@@ -523,7 +523,7 @@ class ListSelection {
   inputs;
   rangeStartIndex = signal(0);
   rangeEndIndex = signal(0);
-  selectedItems = computed(() => this.inputs.items().filter(item => this.inputs.value().includes(item.value())));
+  selectedItems = computed(() => this.inputs.items().filter(item => this.inputs.values().includes(item.value())));
   constructor(inputs) {
     this.inputs = inputs;
   }
@@ -531,7 +531,7 @@ class ListSelection {
     anchor: true
   }) {
     item = item ?? this.inputs.focusManager.inputs.activeItem();
-    if (!item || item.disabled() || !item.selectable() || this.inputs.value().includes(item.value())) {
+    if (!item || item.disabled() || !item.selectable() || this.inputs.values().includes(item.value())) {
       return;
     }
     if (!this.inputs.multi()) {
@@ -541,24 +541,24 @@ class ListSelection {
     if (opts.anchor) {
       this.beginRangeSelection(index);
     }
-    this.inputs.value.update(values => values.concat(item.value()));
+    this.inputs.values.update(values => values.concat(item.value()));
   }
   deselect(item) {
     item = item ?? this.inputs.focusManager.inputs.activeItem();
     if (item && !item.disabled() && item.selectable()) {
-      this.inputs.value.update(values => values.filter(value => value !== item.value()));
+      this.inputs.values.update(values => values.filter(value => value !== item.value()));
     }
   }
   toggle(item) {
     item = item ?? this.inputs.focusManager.inputs.activeItem();
     if (item) {
-      this.inputs.value().includes(item.value()) ? this.deselect(item) : this.select(item);
+      this.inputs.values().includes(item.value()) ? this.deselect(item) : this.select(item);
     }
   }
   toggleOne() {
     const item = this.inputs.focusManager.inputs.activeItem();
     if (item) {
-      this.inputs.value().includes(item.value()) ? this.deselect() : this.selectOne();
+      this.inputs.values().includes(item.value()) ? this.deselect() : this.selectOne();
     }
   }
   selectAll() {
@@ -573,14 +573,14 @@ class ListSelection {
     this.beginRangeSelection();
   }
   deselectAll() {
-    for (const value of this.inputs.value()) {
+    for (const value of this.inputs.values()) {
       const item = this.inputs.items().find(i => i.value() === value);
-      item ? this.deselect(item) : this.inputs.value.update(values => values.filter(v => v !== value));
+      item ? this.deselect(item) : this.inputs.values.update(values => values.filter(v => v !== value));
     }
   }
   toggleAll() {
     const selectableValues = this.inputs.items().filter(i => !i.disabled() && i.selectable()).map(i => i.value());
-    selectableValues.every(i => this.inputs.value().includes(i)) ? this.deselectAll() : this.selectAll();
+    selectableValues.every(i => this.inputs.values().includes(i)) ? this.deselectAll() : this.selectAll();
   }
   selectOne() {
     const item = this.inputs.focusManager.inputs.activeItem();
@@ -588,7 +588,7 @@ class ListSelection {
       return;
     }
     this.deselectAll();
-    if (this.inputs.value().length > 0 && !this.inputs.multi()) {
+    if (this.inputs.values().length > 0 && !this.inputs.multi()) {
       return;
     }
     this.select();
@@ -925,8 +925,8 @@ class ListboxPattern {
   }
   validate() {
     const violations = [];
-    if (!this.inputs.multi() && this.inputs.value().length > 1) {
-      violations.push(`A single-select listbox should not have multiple selected options. Selected options: ${this.inputs.value().join(', ')}`);
+    if (!this.inputs.multi() && this.inputs.values().length > 1) {
+      violations.push(`A single-select listbox should not have multiple selected options. Selected options: ${this.inputs.values().join(', ')}`);
     }
     return violations;
   }
@@ -971,7 +971,7 @@ class OptionPattern {
   value;
   index = computed(() => this.listbox()?.inputs.items().indexOf(this) ?? -1);
   active = computed(() => this.listbox()?.inputs.activeItem() === this);
-  selected = computed(() => this.listbox()?.inputs.value().includes(this.value()));
+  selected = computed(() => this.listbox()?.inputs.values().includes(this.value()));
   selectable = () => true;
   disabled;
   searchTerm;
@@ -1024,7 +1024,7 @@ class ComboboxListboxPattern extends ListboxPattern {
   getItem = e => this._getItem(e);
   getSelectedItems = () => {
     const items = [];
-    for (const value of this.inputs.value()) {
+    for (const value of this.inputs.values()) {
       const item = this.items().find(i => i.value() === value);
       if (item) {
         items.push(item);
@@ -1032,7 +1032,7 @@ class ComboboxListboxPattern extends ListboxPattern {
     }
     return items;
   };
-  setValue = value => this.inputs.value.set(value ? [value] : []);
+  setValue = value => this.inputs.values.set(value ? [value] : []);
 }
 
 class MenuPattern {
@@ -1085,7 +1085,7 @@ class MenuPattern {
     this.id = inputs.id;
     this.listBehavior = new List({
       ...inputs,
-      value: signal([]),
+      values: signal([]),
       disabled: () => false
     });
   }
@@ -1638,7 +1638,7 @@ class TabPattern {
   expansionId = computed(() => this.expansion.expansionId());
   expanded = computed(() => this.expansion.isExpanded());
   active = computed(() => this.inputs.tablist().inputs.activeItem() === this);
-  selected = computed(() => !!this.inputs.tablist().inputs.value().includes(this.value()));
+  selected = computed(() => !!this.inputs.tablist().inputs.values().includes(this.value()));
   tabIndex = computed(() => this.inputs.tablist().listBehavior.getItemTabindex(this));
   controls = computed(() => this.inputs.tabpanel()?.id());
   constructor(inputs) {
@@ -1722,7 +1722,7 @@ class TabListPattern {
     this.expansionManager = new ListExpansion({
       ...inputs,
       multiExpandable: () => false,
-      expandedIds: this.inputs.value
+      expandedIds: this.inputs.values
     });
   }
   setDefaultState() {
@@ -1844,7 +1844,7 @@ class ToolbarPattern {
       multi: () => true,
       focusMode: () => 'roving',
       selectionMode: () => 'explicit',
-      value: signal([]),
+      values: signal([]),
       typeaheadDelay: () => 0
     });
   }
@@ -1883,7 +1883,7 @@ class ToolbarWidgetPattern {
   value = () => this.inputs.value();
   selectable = () => true;
   index = computed(() => this.toolbar().inputs.items().indexOf(this) ?? -1);
-  selected = computed(() => this.toolbar().listBehavior.inputs.value().includes(this.value()));
+  selected = computed(() => this.toolbar().listBehavior.inputs.values().includes(this.value()));
   active = computed(() => this.toolbar().activeItem() === this);
   constructor(inputs) {
     this.inputs = inputs;
@@ -2047,7 +2047,7 @@ class TreeItemPattern {
     if (!this.selectable()) {
       return undefined;
     }
-    return this.tree().value().includes(this.value());
+    return this.tree().values().includes(this.value());
   });
   current = computed(() => {
     if (!this.tree().nav()) {
@@ -2056,7 +2056,7 @@ class TreeItemPattern {
     if (!this.selectable()) {
       return undefined;
     }
-    return this.tree().value().includes(this.value()) ? this.tree().currentType() : undefined;
+    return this.tree().values().includes(this.value()) ? this.tree().currentType() : undefined;
   });
   constructor(inputs) {
     this.inputs = inputs;
@@ -2219,7 +2219,7 @@ class TreePattern {
   multi;
   selectionMode;
   typeaheadDelay;
-  value;
+  values;
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
@@ -2236,7 +2236,7 @@ class TreePattern {
     this.multi = computed(() => this.nav() ? false : this.inputs.multi());
     this.selectionMode = inputs.selectionMode;
     this.typeaheadDelay = inputs.typeaheadDelay;
-    this.value = inputs.value;
+    this.values = inputs.values;
     this.listBehavior = new List({
       ...inputs,
       items: this.visibleItems,
@@ -2358,7 +2358,7 @@ class ComboboxTreePattern extends TreePattern {
   clearSelection = () => this.listBehavior.deselectAll();
   getItem = e => this._getItem(e);
   getSelectedItems = () => this.inputs.allItems().filter(item => item.selected());
-  setValue = value => this.inputs.value.set(value ? [value] : []);
+  setValue = value => this.inputs.values.set(value ? [value] : []);
   expandItem = () => this.expand();
   collapseItem = () => this.collapse();
   isItemExpandable(item = this.inputs.activeItem()) {

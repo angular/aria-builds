@@ -294,8 +294,8 @@ class MenuBar {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   textDirection = inject(Directionality).valueSignal;
-  value = model([], ...(ngDevMode ? [{
-    debugName: "value"
+  values = model([], ...(ngDevMode ? [{
+    debugName: "values"
   }] : []));
   wrap = input(true, ...(ngDevMode ? [{
     debugName: "wrap"
@@ -347,9 +347,9 @@ class MenuBar {
     isStandalone: true,
     selector: "[ngMenuBar]",
     inputs: {
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+      values: {
+        classPropertyName: "values",
+        publicName: "values",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -370,7 +370,7 @@ class MenuBar {
       }
     },
     outputs: {
-      value: "valueChange",
+      values: "valuesChange",
       onSelect: "onSelect"
     },
     host: {
