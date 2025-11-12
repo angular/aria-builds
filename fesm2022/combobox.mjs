@@ -27,8 +27,11 @@ class Combobox {
     transform: booleanAttribute
   }]));
   readonly = input(false, ...(ngDevMode ? [{
-    debugName: "readonly"
-  }] : []));
+    debugName: "readonly",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   firstMatch = input(undefined, ...(ngDevMode ? [{
     debugName: "firstMatch"
   }] : []));
@@ -36,8 +39,11 @@ class Combobox {
     debugName: "expanded"
   }] : []));
   alwaysExpanded = input(false, ...(ngDevMode ? [{
-    debugName: "alwaysExpanded"
-  }] : []));
+    debugName: "alwaysExpanded",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
   inputElement = computed(() => this._pattern.inputs.inputEl(), ...(ngDevMode ? [{
     debugName: "inputElement"
   }] : []));
