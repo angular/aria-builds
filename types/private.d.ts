@@ -327,13 +327,13 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     treeControls: () => ComboboxTreeControls<T, V> | null;
     /** The keydown event manager for the combobox. */
     keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
-    /** The pointerup event manager for the combobox. */
-    pointerup: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    /** The click event manager for the combobox. */
+    click: _angular_core.Signal<PointerEventManager<PointerEvent>>;
     constructor(inputs: ComboboxInputs<T, V>);
     /** Handles keydown events for the combobox. */
     onKeydown(event: KeyboardEvent): void;
-    /** Handles pointerup events for the combobox. */
-    onPointerup(event: PointerEvent): void;
+    /** Handles click events for the combobox. */
+    onClick(event: MouseEvent): void;
     /** Handles input events for the combobox. */
     onInput(event: Event): void;
     /** Handles focus in events for the combobox. */
