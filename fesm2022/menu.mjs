@@ -169,8 +169,8 @@ class Menu {
   }] : []));
   _pattern;
   items = () => this._items().map(i => i._pattern);
-  isVisible = computed(() => this._pattern.isVisible(), ...(ngDevMode ? [{
-    debugName: "isVisible"
+  visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
+    debugName: "visible"
   }] : []));
   tabIndex = computed(() => this._pattern.tabIndex(), ...(ngDevMode ? [{
     debugName: "tabIndex"
@@ -197,11 +197,11 @@ class Menu {
       if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
         this._deferredContentAware?.contentVisible.set(true);
       } else {
-        this._deferredContentAware?.contentVisible.set(this._pattern.isVisible() || !!this.parent()?._pattern.hasBeenFocused());
+        this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenFocused());
       }
     });
     afterRenderEffect(() => {
-      if (this._pattern.isVisible()) {
+      if (this._pattern.visible()) {
         const activeItem = untracked(() => this._pattern.inputs.activeItem());
         this._pattern.listBehavior.goto(activeItem);
       }
@@ -285,7 +285,7 @@ class Menu {
         "attr.id": "_pattern.id()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.tabindex": "tabIndex()",
-        "attr.data-visible": "isVisible()"
+        "attr.data-visible": "visible()"
       }
     },
     queries: [{
@@ -317,7 +317,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.id]': '_pattern.id()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.tabindex]': 'tabIndex()',
-        '[attr.data-visible]': 'isVisible()',
+        '[attr.data-visible]': 'visible()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(mouseover)': '_pattern.onMouseOver($event)',
         '(mouseout)': '_pattern.onMouseOut($event)',
@@ -529,8 +529,8 @@ class MenuItem {
   submenu = input(undefined, ...(ngDevMode ? [{
     debugName: "submenu"
   }] : []));
-  isActive = computed(() => this._pattern.isActive(), ...(ngDevMode ? [{
-    debugName: "isActive"
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
   }] : []));
   expanded = computed(() => this._pattern.expanded(), ...(ngDevMode ? [{
     debugName: "expanded"
@@ -621,7 +621,7 @@ class MenuItem {
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
-        "attr.data-active": "isActive()",
+        "attr.data-active": "active()",
         "attr.aria-haspopup": "hasPopup()",
         "attr.aria-expanded": "expanded()",
         "attr.aria-disabled": "_pattern.disabled()",
@@ -646,7 +646,7 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'menuitem',
         '(focusin)': '_pattern.onFocusIn()',
         '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.data-active]': 'isActive()',
+        '[attr.data-active]': 'active()',
         '[attr.aria-haspopup]': 'hasPopup()',
         '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-disabled]': '_pattern.disabled()',

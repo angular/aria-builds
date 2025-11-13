@@ -934,7 +934,7 @@ class MenuPattern {
   id;
   role = () => 'menu';
   disabled = () => this.inputs.disabled();
-  isVisible = computed(() => this.inputs.parent() ? !!this.inputs.parent()?.expanded() : true);
+  visible = computed(() => this.inputs.parent() ? !!this.inputs.parent()?.expanded() : true);
   listBehavior;
   isFocused = signal(false);
   hasBeenFocused = signal(false);
@@ -995,7 +995,7 @@ class MenuPattern {
     this.keydownManager().handle(event);
   }
   onMouseOver(event) {
-    if (!this.isVisible()) {
+    if (!this.visible()) {
       return;
     }
     const item = this.inputs.items().find(i => i.element()?.contains(event.target));
@@ -1090,7 +1090,7 @@ class MenuPattern {
         return;
       }
     }
-    if (this.isVisible() && !parentEl?.contains(relatedTarget) && !this.inputs.element()?.contains(relatedTarget)) {
+    if (this.visible() && !parentEl?.contains(relatedTarget) && !this.inputs.element()?.contains(relatedTarget)) {
       this.isFocused.set(false);
       this.inputs.parent()?.close();
     }
@@ -1378,7 +1378,7 @@ class MenuItemPattern {
   disabled = () => this.inputs.parent()?.disabled() || this.inputs.disabled();
   searchTerm;
   element;
-  isActive = computed(() => this.inputs.parent()?.inputs.activeItem() === this);
+  active = computed(() => this.inputs.parent()?.inputs.activeItem() === this);
   hasBeenFocused = signal(false);
   tabIndex = computed(() => {
     if (this.submenu() && this.submenu()?.inputs.activeItem()) {

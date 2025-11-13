@@ -107,7 +107,7 @@ declare class Menu<V> {
      */
     readonly items: () => MenuItemPattern<V>[];
     /** Whether the menu is visible. */
-    readonly isVisible: Signal<boolean>;
+    readonly visible: Signal<boolean>;
     /** The tab index of the menu. */
     readonly tabIndex: Signal<0 | -1>;
     /** A callback function triggered when a menu item is selected. */
@@ -214,7 +214,7 @@ declare class MenuItem<V> {
     /** The submenu associated with the menu item. */
     readonly submenu: _angular_core.InputSignal<Menu<V> | undefined>;
     /** Whether the menu item is active. */
-    readonly isActive: Signal<boolean>;
+    readonly active: Signal<boolean>;
     /** Whether the menu is expanded. */
     readonly expanded: Signal<boolean | null>;
     /** Whether the menu item has a popup. */
