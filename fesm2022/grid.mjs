@@ -307,6 +307,9 @@ i0.ɵɵngDeclareClassMetadata({
 class GridCell {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
   _widgets = contentChildren(GridCellWidget, ...(ngDevMode ? [{
     debugName: "_widgets",
     descendants: true
@@ -492,7 +495,7 @@ class GridCell {
         "attr.id": "_pattern.id()",
         "attr.rowspan": "_pattern.rowSpan()",
         "attr.colspan": "_pattern.colSpan()",
-        "attr.data-active": "_pattern.active()",
+        "attr.data-active": "active()",
         "attr.data-anchor": "_pattern.anchor()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-rowspan": "_pattern.rowSpan()",
@@ -530,7 +533,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.id]': '_pattern.id()',
         '[attr.rowspan]': '_pattern.rowSpan()',
         '[attr.colspan]': '_pattern.colSpan()',
-        '[attr.data-active]': '_pattern.active()',
+        '[attr.data-active]': 'active()',
         '[attr.data-anchor]': '_pattern.anchor()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-rowspan]': '_pattern.rowSpan()',
@@ -547,6 +550,9 @@ i0.ɵɵngDeclareClassMetadata({
 class GridCellWidget {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
   _cell = inject(GridCell);
   id = input(inject(_IdGenerator).getId('ng-grid-cell-widget-', true), ...(ngDevMode ? [{
     debugName: "id"
@@ -662,7 +668,7 @@ class GridCellWidget {
     },
     host: {
       properties: {
-        "attr.data-active": "_pattern.active()",
+        "attr.data-active": "active()",
         "attr.data-active-control": "isActivated() ? \"widget\" : \"cell\"",
         "tabindex": "_tabIndex()"
       },
@@ -684,7 +690,7 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngGridCellWidget',
       host: {
         'class': 'grid-cell-widget',
-        '[attr.data-active]': '_pattern.active()',
+        '[attr.data-active]': 'active()',
         '[attr.data-active-control]': 'isActivated() ? "widget" : "cell"',
         '[tabindex]': '_tabIndex()'
       }

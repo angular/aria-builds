@@ -252,6 +252,16 @@
           "jsdocTags": []
         },
         {
+          "name": "active",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the cell is currently active (focused).",
+          "jsdocTags": []
+        },
+        {
           "name": "textDirection",
           "type": "any",
           "memberType": "property",
@@ -438,7 +448,7 @@
       "source": {
         "filePath": "src/aria/grid/grid.ts",
         "startLine": 230,
-        "endLine": 342
+        "endLine": 345
       }
     },
     {
@@ -454,6 +464,16 @@
             "readonly"
           ],
           "description": "A reference to the host element.",
+          "jsdocTags": []
+        },
+        {
+          "name": "active",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the widget is currently active (focused).",
           "jsdocTags": []
         },
         {
@@ -637,8 +657,8 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 360,
-        "endLine": 452
+        "startLine": 363,
+        "endLine": 458
       }
     }
   ],
@@ -784,6 +804,10 @@
       "@angular/aria/grid"
     ],
     [
+      "GridCell.active",
+      "@angular/aria/grid"
+    ],
+    [
       "GridCell.textDirection",
       "@angular/aria/grid"
     ],
@@ -841,6 +865,10 @@
     ],
     [
       "GridCellWidget.element",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.active",
       "@angular/aria/grid"
     ],
     [

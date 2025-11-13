@@ -285,6 +285,14 @@
           "jsdocTags": []
         },
         {
+          "name": "active",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Whether the option is currently active (focused).",
+          "jsdocTags": []
+        },
+        {
           "name": "id",
           "type": "any",
           "memberType": "property",
@@ -386,7 +394,7 @@
       "source": {
         "filePath": "/src/aria/listbox/listbox.ts",
         "startLine": 226,
-        "endLine": 280
+        "endLine": 283
       }
     }
   ],
@@ -545,6 +553,10 @@
     ],
     [
       "Option.element",
+      "@angular/aria/listbox"
+    ],
+    [
+      "Option.active",
       "@angular/aria/listbox"
     ],
     [
