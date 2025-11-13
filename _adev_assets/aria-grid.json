@@ -173,7 +173,7 @@
       "source": {
         "filePath": "src/aria/grid/grid.ts",
         "startLine": 47,
-        "endLine": 161
+        "endLine": 163
       }
     },
     {
@@ -200,19 +200,6 @@
           ],
           "description": "The host native element.",
           "jsdocTags": []
-        },
-        {
-          "name": "role",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "input"
-          ],
-          "description": "The ARIA role for the row.",
-          "jsdocTags": [],
-          "inputAlias": "role",
-          "isRequiredInput": false
         },
         {
           "name": "rowIndex",
@@ -245,7 +232,7 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 174,
+        "startLine": 176,
         "endLine": 214
       }
     },
@@ -254,6 +241,29 @@
       "isAbstract": false,
       "entryType": "directive",
       "members": [
+        {
+          "name": "textDirection",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Text direction.",
+          "jsdocTags": []
+        },
+        {
+          "name": "id",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "A unique identifier for the cell.",
+          "jsdocTags": [],
+          "inputAlias": "id",
+          "isRequiredInput": false
+        },
         {
           "name": "element",
           "type": "any",
@@ -369,6 +379,45 @@
           "jsdocTags": [],
           "inputAlias": "selectable",
           "isRequiredInput": false
+        },
+        {
+          "name": "orientation",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Orientation of the widgets in the cell.",
+          "jsdocTags": [],
+          "inputAlias": "orientation",
+          "isRequiredInput": false
+        },
+        {
+          "name": "wrap",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Whether widgets navigation wraps.",
+          "jsdocTags": [],
+          "inputAlias": "wrap",
+          "isRequiredInput": false
+        },
+        {
+          "name": "tabindex",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "The tabindex override.",
+          "jsdocTags": [],
+          "inputAlias": "tabindex",
+          "isRequiredInput": false
         }
       ],
       "generics": [],
@@ -389,7 +438,7 @@
       "source": {
         "filePath": "src/aria/grid/grid.ts",
         "startLine": 229,
-        "endLine": 302
+        "endLine": 340
       }
     },
     {
@@ -408,32 +457,114 @@
           "jsdocTags": []
         },
         {
-          "name": "activate",
+          "name": "id",
           "type": "any",
           "memberType": "property",
           "memberTags": [
             "readonly",
-            "input",
-            "output"
+            "input"
           ],
-          "description": "Whether the widget is activated and the grid navigation should be paused.",
+          "description": "A unique identifier for the widget.",
           "jsdocTags": [],
-          "inputAlias": "activate",
-          "isRequiredInput": false,
-          "outputAlias": "activateChange"
+          "inputAlias": "id",
+          "isRequiredInput": false
         },
         {
-          "name": "focus",
+          "name": "widgetType",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "The type of widget, which determines how it is activated.",
+          "jsdocTags": [],
+          "inputAlias": "widgetType",
+          "isRequiredInput": false
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "Whether the widget is disabled.",
+          "jsdocTags": [],
+          "inputAlias": "disabled",
+          "isRequiredInput": false
+        },
+        {
+          "name": "focusTarget",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "The target that will receive focus instead of the widget.",
+          "jsdocTags": [],
+          "inputAlias": "focusTarget",
+          "isRequiredInput": false
+        },
+        {
+          "name": "onActivate",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the widget is activated.",
+          "jsdocTags": [],
+          "outputAlias": "onActivate"
+        },
+        {
+          "name": "onDeactivate",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the widget is deactivated.",
+          "jsdocTags": [],
+          "outputAlias": "onDeactivate"
+        },
+        {
+          "name": "tabindex",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "The tabindex override.",
+          "jsdocTags": [],
+          "inputAlias": "tabindex",
+          "isRequiredInput": false
+        },
+        {
+          "name": "isActivated",
+          "type": "Signal<boolean>",
+          "memberType": "getter",
+          "memberTags": [],
+          "description": "Whether the widget is activated.",
+          "jsdocTags": []
+        },
+        {
+          "name": "activate",
           "signatures": [
             {
-              "name": "focus",
+              "name": "activate",
               "entryType": "function",
-              "description": "Focuses the widget.",
+              "description": "Activates the widget.",
               "generics": [],
               "isNewType": false,
               "jsdocTags": [],
               "params": [],
-              "rawComment": "/** Focuses the widget. */",
+              "rawComment": "/** Activates the widget. */",
               "returnType": "void"
             }
           ],
@@ -442,16 +573,49 @@
             "isNewType": false,
             "returnType": "void",
             "generics": [],
-            "name": "focus",
-            "description": "Focuses the widget.",
+            "name": "activate",
+            "description": "Activates the widget.",
             "entryType": "function",
             "jsdocTags": [],
-            "rawComment": "/** Focuses the widget. */"
+            "rawComment": "/** Activates the widget. */"
           },
           "entryType": "function",
-          "description": "Focuses the widget.",
+          "description": "Activates the widget.",
           "jsdocTags": [],
-          "rawComment": "/** Focuses the widget. */",
+          "rawComment": "/** Activates the widget. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "deactivate",
+          "signatures": [
+            {
+              "name": "deactivate",
+              "entryType": "function",
+              "description": "Deactivates the widget.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Deactivates the widget. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "deactivate",
+            "description": "Deactivates the widget.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Deactivates the widget. */"
+          },
+          "entryType": "function",
+          "description": "Deactivates the widget.",
+          "jsdocTags": [],
+          "rawComment": "/** Deactivates the widget. */",
           "memberType": "method",
           "memberTags": []
         }
@@ -473,8 +637,8 @@
       ],
       "source": {
         "filePath": "src/aria/grid/grid.ts",
-        "startLine": 320,
-        "endLine": 352
+        "startLine": 358,
+        "endLine": 449
       }
     }
   ],
@@ -496,10 +660,6 @@
       "@angular/core"
     ],
     [
-      "contentChild",
-      "@angular/core"
-    ],
-    [
       "contentChildren",
       "@angular/core"
     ],
@@ -517,6 +677,10 @@
     ],
     [
       "input",
+      "@angular/core"
+    ],
+    [
+      "output",
       "@angular/core"
     ],
     [
@@ -608,15 +772,19 @@
       "@angular/aria/grid"
     ],
     [
-      "GridRow.role",
-      "@angular/aria/grid"
-    ],
-    [
       "GridRow.rowIndex",
       "@angular/aria/grid"
     ],
     [
       "GridCell",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCell.textDirection",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCell.id",
       "@angular/aria/grid"
     ],
     [
@@ -656,6 +824,18 @@
       "@angular/aria/grid"
     ],
     [
+      "GridCell.orientation",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCell.wrap",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCell.tabindex",
+      "@angular/aria/grid"
+    ],
+    [
       "GridCellWidget",
       "@angular/aria/grid"
     ],
@@ -664,11 +844,43 @@
       "@angular/aria/grid"
     ],
     [
+      "GridCellWidget.id",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.widgetType",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.disabled",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.focusTarget",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.onActivate",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.onDeactivate",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.tabindex",
+      "@angular/aria/grid"
+    ],
+    [
+      "GridCellWidget.isActivated",
+      "@angular/aria/grid"
+    ],
+    [
       "GridCellWidget.activate",
       "@angular/aria/grid"
     ],
     [
-      "GridCellWidget.focus",
+      "GridCellWidget.deactivate",
       "@angular/aria/grid"
     ]
   ]
