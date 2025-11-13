@@ -7,8 +7,8 @@ import { Directionality } from '@angular/cdk/bidi';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);
-  textDirection = inject(Directionality).valueSignal;
   element = this._elementRef.nativeElement;
+  textDirection = inject(Directionality).valueSignal;
   menu = input(undefined, ...(ngDevMode ? [{
     debugName: "menu"
   }] : []));

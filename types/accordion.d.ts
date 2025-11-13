@@ -67,12 +67,12 @@ declare class AccordionPanel {
 declare class AccordionTrigger {
     /** A reference to the trigger element. */
     private readonly _elementRef;
+    /** A reference to the trigger element. */
+    readonly element: HTMLElement;
     /** The parent AccordionGroup. */
     private readonly _accordionGroup;
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The host native element. */
-    readonly element: _angular_core.Signal<any>;
     /** A local unique identifier for the trigger, used to match with its panel's `panelId`. */
     readonly panelId: _angular_core.InputSignal<string>;
     /** Whether the trigger is disabled. */
@@ -132,14 +132,14 @@ declare class AccordionTrigger {
 declare class AccordionGroup {
     /** A reference to the group element. */
     private readonly _elementRef;
+    /** A reference to the group element. */
+    readonly element: HTMLElement;
     /** The AccordionTriggers nested inside this group. */
     private readonly _triggers;
     /** The AccordionTrigger patterns nested inside this group. */
     private readonly _triggerPatterns;
     /** The AccordionPanels nested inside this group. */
     private readonly _panels;
-    /** The host native element. */
-    readonly element: _angular_core.Signal<any>;
     /** The text direction (ltr or rtl). */
     readonly textDirection: WritableSignal<_angular_cdk_bidi.Direction>;
     /** Whether the entire accordion group is disabled. */

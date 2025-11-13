@@ -1,11 +1,11 @@
-import * as _angular_core from '@angular/core';
-import { Signal, OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
+import * as _angular_core from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { TabPattern, TabPanelPattern, TabListPattern } from '@angular/aria/private';
 
 interface HasElement {
-    element: Signal<HTMLElement>;
+    element: HTMLElement;
 }
 /**
  * A Tabs container.
@@ -37,14 +37,18 @@ interface HasElement {
  * @developerPreview 21.0
  */
 declare class Tabs {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The TabList nested inside of the container. */
     private readonly _tablist;
     /** The TabPanels nested inside of the container. */
     private readonly _unorderedPanels;
     /** The Tab UIPattern of the child Tabs. */
-    readonly _tabPatterns: Signal<TabPattern[] | undefined>;
+    readonly _tabPatterns: _angular_core.Signal<TabPattern[] | undefined>;
     /** The TabPanel UIPattern of the child TabPanels. */
-    readonly _unorderedTabpanelPatterns: Signal<TabPanelPattern[]>;
+    readonly _unorderedTabpanelPatterns: _angular_core.Signal<TabPanelPattern[]>;
     register(child: TabList | TabPanel): void;
     deregister(child: TabList | TabPanel): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
@@ -67,8 +71,10 @@ declare class Tabs {
  * @developerPreview 21.0
  */
 declare class TabList implements OnInit, OnDestroy {
-    /** A reference to the tab list element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The parent Tabs. */
     private readonly _tabs;
     /** The Tabs nested inside of the TabList. */
@@ -76,7 +82,7 @@ declare class TabList implements OnInit, OnDestroy {
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The Tab UIPatterns of the child Tabs. */
-    readonly _tabPatterns: Signal<TabPattern[]>;
+    readonly _tabPatterns: _angular_core.Signal<TabPattern[]>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether focus should wrap when navigating. */
@@ -132,28 +138,28 @@ declare class TabList implements OnInit, OnDestroy {
  * @developerPreview 21.0
  */
 declare class Tab implements HasElement, OnInit, OnDestroy {
-    /** A reference to the tab element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The parent Tabs. */
     private readonly _tabs;
     /** The parent TabList. */
     private readonly _tabList;
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** The parent TabList UIPattern. */
-    readonly tablist: Signal<TabListPattern>;
+    readonly tablist: _angular_core.Signal<TabListPattern>;
     /** The TabPanel UIPattern associated with the tab */
-    readonly tabpanel: Signal<TabPanelPattern | undefined>;
+    readonly tabpanel: _angular_core.Signal<TabPanelPattern | undefined>;
     /** Whether a tab is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The remote tabpanel unique identifier. */
     readonly value: _angular_core.InputSignal<string>;
     /** Whether the tab is active. */
-    readonly active: Signal<boolean>;
+    readonly active: _angular_core.Signal<boolean>;
     /** Whether the tab is selected. */
-    readonly selected: Signal<boolean>;
+    readonly selected: _angular_core.Signal<boolean>;
     /** The Tab UIPattern. */
     readonly _pattern: TabPattern;
     /** Opens this tab panel. */
@@ -181,6 +187,10 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
  * @developerPreview 21.0
  */
 declare class TabPanel implements OnInit, OnDestroy {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The DeferredContentAware host directive. */
     private readonly _deferredContentAware;
     /** The parent Tabs. */
@@ -188,11 +198,11 @@ declare class TabPanel implements OnInit, OnDestroy {
     /** A global unique identifier for the tab. */
     readonly id: _angular_core.InputSignal<string>;
     /** The Tab UIPattern associated with the tabpanel */
-    readonly tab: Signal<TabPattern | undefined>;
+    readonly tab: _angular_core.Signal<TabPattern | undefined>;
     /** A local unique identifier for the tabpanel. */
     readonly value: _angular_core.InputSignal<string>;
     /** Whether the tab panel is visible. */
-    readonly visible: Signal<boolean>;
+    readonly visible: _angular_core.Signal<boolean>;
     /** The TabPanel UIPattern. */
     readonly _pattern: TabPanelPattern;
     constructor();

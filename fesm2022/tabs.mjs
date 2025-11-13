@@ -1,14 +1,16 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i0 from '@angular/core';
-import { signal, computed, Directive, inject, ElementRef, input, booleanAttribute, model, afterRenderEffect } from '@angular/core';
+import { inject, ElementRef, signal, computed, Directive, input, booleanAttribute, model, afterRenderEffect } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { TabListPattern, TabPattern, DeferredContentAware, TabPanelPattern, DeferredContent } from '@angular/aria/private';
 
 function sortDirectives(a, b) {
-  return (a.element().compareDocumentPosition(b.element()) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
+  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
 class Tabs {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _tablist = signal(undefined, ...(ngDevMode ? [{
     debugName: "_tablist"
   }] : []));
@@ -72,6 +74,7 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class TabList {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _tabs = inject(Tabs);
   _unorderedTabs = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedTabs"
@@ -272,13 +275,11 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class Tab {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _tabs = inject(Tabs);
   _tabList = inject(TabList);
   id = input(inject(_IdGenerator).getId('ng-tab-', true), ...(ngDevMode ? [{
     debugName: "id"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   tablist = computed(() => this._tabList._pattern, ...(ngDevMode ? [{
     debugName: "tablist"
@@ -305,7 +306,8 @@ class Tab {
     ...this,
     tablist: this.tablist,
     tabpanel: this.tabpanel,
-    expanded: signal(false)
+    expanded: signal(false),
+    element: () => this.element
   });
   open() {
     this._pattern.open();
@@ -393,6 +395,8 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 class TabPanel {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _deferredContentAware = inject(DeferredContentAware);
   _Tabs = inject(Tabs);
   id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{

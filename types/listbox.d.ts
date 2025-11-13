@@ -27,8 +27,10 @@ declare class Listbox<V> {
     readonly id: _angular_core.InputSignal<string>;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
-    /** A reference to the listbox element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     private readonly _directionality;
     /** The Options nested inside of the Listbox. */
@@ -96,18 +98,18 @@ declare class Listbox<V> {
  * @developerPreview 21.0
  */
 declare class Option<V> {
-    /** A reference to the option element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The parent Listbox. */
     private readonly _listbox;
     /** A unique identifier for the option. */
     readonly id: _angular_core.InputSignal<string>;
     /** The text used by the typeahead search. */
-    protected searchTerm: _angular_core.Signal<any>;
+    protected searchTerm: _angular_core.Signal<string>;
     /** The parent Listbox UIPattern. */
     protected listbox: _angular_core.Signal<ListboxPattern<any>>;
-    /** A reference to the option element to be focused on navigation. */
-    protected element: _angular_core.Signal<any>;
     /** The value of the option. */
     value: _angular_core.InputSignal<V>;
     /** Whether an item is disabled. */

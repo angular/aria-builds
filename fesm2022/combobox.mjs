@@ -11,6 +11,7 @@ class Combobox {
     initialValue: this._directionality.value
   });
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _deferredContentAware = inject(DeferredContentAware, {
     optional: true
   });
@@ -189,6 +190,7 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class ComboboxInput {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   combobox = inject(Combobox);
   value = model('', ...(ngDevMode ? [{
     debugName: "value"
@@ -351,7 +353,8 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 class ComboboxDialog {
-  element = inject(ElementRef);
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   combobox = inject(Combobox);
   _popup = inject(ComboboxPopup, {
     optional: true
@@ -360,15 +363,15 @@ class ComboboxDialog {
   constructor() {
     this._pattern = new ComboboxDialogPattern({
       id: () => '',
-      element: () => this.element.nativeElement,
+      element: () => this._elementRef.nativeElement,
       combobox: this.combobox._pattern
     });
     if (this._popup) {
       this._popup.controls.set(this._pattern);
     }
     afterRenderEffect(() => {
-      if (this.element) {
-        this.combobox._pattern.expanded() ? this.element.nativeElement.showModal() : this.element.nativeElement.close();
+      if (this._elementRef) {
+        this.combobox._pattern.expanded() ? this._elementRef.nativeElement.showModal() : this._elementRef.nativeElement.close();
       }
     });
   }

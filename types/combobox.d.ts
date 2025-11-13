@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { WritableSignal, ElementRef } from '@angular/core';
+import { WritableSignal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
 import { ComboboxPattern, ComboboxDialogPattern, ComboboxListboxControls, ComboboxTreeControls } from '@angular/aria/private';
@@ -41,6 +41,8 @@ declare class Combobox<V> {
     protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
     /** The element that the combobox is attached to. */
     private readonly _elementRef;
+    /** A reference to the combobox element. */
+    readonly element: HTMLElement;
     /** The DeferredContentAware host directive. */
     private readonly _deferredContentAware;
     /** The combobox popup. */
@@ -99,6 +101,8 @@ declare class Combobox<V> {
 declare class ComboboxInput {
     /** The element that the combobox is attached to. */
     private readonly _elementRef;
+    /** A reference to the input element. */
+    readonly element: HTMLElement;
     /** The combobox that the input belongs to. */
     readonly combobox: Combobox<any>;
     /** The value of the input. */
@@ -176,7 +180,9 @@ declare class ComboboxPopup<V> {
  */
 declare class ComboboxDialog {
     /** The dialog element. */
-    readonly element: ElementRef<any>;
+    private readonly _elementRef;
+    /** A reference to the dialog element. */
+    readonly element: HTMLElement;
     /** The combobox that the dialog belongs to. */
     readonly combobox: Combobox<any>;
     /** A reference to the parent combobox popup, if one exists. */

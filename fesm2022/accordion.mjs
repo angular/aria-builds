@@ -112,12 +112,10 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class AccordionTrigger {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _accordionGroup = inject(AccordionGroup);
   id = input(inject(_IdGenerator).getId('ng-accordion-trigger-', true), ...(ngDevMode ? [{
     debugName: "id"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   panelId = input.required(...(ngDevMode ? [{
     debugName: "panelId"
@@ -140,7 +138,8 @@ class AccordionTrigger {
   _pattern = new AccordionTriggerPattern({
     ...this,
     accordionGroup: computed(() => this._accordionGroup._pattern),
-    accordionPanel: this._accordionPanel
+    accordionPanel: this._accordionPanel,
+    element: () => this.element
   });
   expand() {
     this._pattern.open();
@@ -241,6 +240,7 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class AccordionGroup {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _triggers = contentChildren(AccordionTrigger, ...(ngDevMode ? [{
     debugName: "_triggers",
     descendants: true
@@ -256,9 +256,6 @@ class AccordionGroup {
   }] : [{
     descendants: true
   }]));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
-  }] : []));
   textDirection = inject(Directionality).valueSignal;
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -289,7 +286,8 @@ class AccordionGroup {
     activeItem: signal(undefined),
     items: this._triggerPatterns,
     orientation: () => 'vertical',
-    getItem: e => this._getItem(e)
+    getItem: e => this._getItem(e),
+    element: () => this.element
   });
   constructor() {
     afterRenderEffect(() => {
