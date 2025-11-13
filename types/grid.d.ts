@@ -27,14 +27,14 @@ import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } f
 declare class Grid {
     /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The rows that make up the grid. */
     private readonly _rows;
     /** The UI patterns for the rows in the grid. */
     private readonly _rowPatterns;
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** Whether selection is enabled for the grid. */
     readonly enableSelection: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the grid is disabled. */
@@ -96,6 +96,8 @@ declare class Grid {
 declare class GridRow {
     /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The cells that make up this row. */
     private readonly _cells;
     /** The UI patterns for the cells in this row. */
@@ -104,8 +106,6 @@ declare class GridRow {
     private readonly _grid;
     /** The parent grid UI pattern. */
     readonly grid: Signal<GridPattern>;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** The index of this row within the grid. */
     readonly rowIndex: _angular_core.InputSignal<number | undefined>;
     /** The UI pattern for the grid row. */
@@ -129,6 +129,8 @@ declare class GridRow {
 declare class GridCell {
     /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The widgets contained within this cell, if any. */
     private readonly _widgets;
     /** The UI pattern for the widget in this cell. */
@@ -139,8 +141,6 @@ declare class GridCell {
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** A unique identifier for the cell. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** The ARIA role for the cell. */
     readonly role: _angular_core.InputSignal<"gridcell" | "columnheader" | "rowheader">;
     /** The number of rows the cell should span. */
@@ -195,10 +195,10 @@ declare class GridCell {
 declare class GridCellWidget {
     /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The parent cell. */
     private readonly _cell;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The type of widget, which determines how it is activated. */

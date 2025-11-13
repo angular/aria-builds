@@ -1,12 +1,12 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
-import { Signal, OnInit, OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy, Signal } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { TreePattern, DeferredContentAware, TreeItemPattern } from '@angular/aria/private';
 import { ComboboxPopup } from './combobox.js';
 
 interface HasElement {
-    element: Signal<HTMLElement>;
+    element: HTMLElement;
 }
 /**
  * A container that transforms nested lists into an accessible, ARIA-compliant tree structure.
@@ -43,16 +43,16 @@ interface HasElement {
  * @developerPreview 21.0
  */
 declare class Tree<V> {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
-    /** A reference to the tree element. */
-    private readonly _elementRef;
     /** All TreeItem instances within this tree. */
     private readonly _unorderedItems;
     /** A unique identifier for the tree. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** Orientation of the tree. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multi-selection is allowed. */
@@ -119,14 +119,14 @@ declare class Tree<V> {
  * @developerPreview 21.0
  */
 declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDestroy, HasElement {
-    /** A reference to the tree item element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The owned tree item group. */
     private readonly _group;
     /** A unique identifier for the tree item. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The host native element. */
-    readonly element: Signal<any>;
     /** The value of the tree item. */
     readonly value: _angular_core.InputSignal<V>;
     /** The parent tree root or tree item group. */
@@ -140,7 +140,7 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     /** Optional label for typeahead. Defaults to the element's textContent. */
     readonly label: _angular_core.InputSignal<string | undefined>;
     /** Search term for typeahead. */
-    readonly searchTerm: Signal<any>;
+    readonly searchTerm: Signal<string>;
     /** The tree root. */
     readonly tree: Signal<Tree<V>>;
     /** Whether the item is active. */
@@ -184,6 +184,10 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
  * @developerPreview 21.0
  */
 declare class TreeItemGroup<V> implements OnInit, OnDestroy {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The DeferredContent host directive. */
     private readonly _deferredContent;
     /** All groupable items that are descendants of the group. */

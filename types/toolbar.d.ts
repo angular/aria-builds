@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { Signal, OnInit, OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { ToolbarWidgetPattern, ToolbarPattern, SignalLike, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 
@@ -24,14 +24,16 @@ import { ToolbarWidgetPattern, ToolbarPattern, SignalLike, ToolbarWidgetGroupPat
  * @developerPreview 21.0
  */
 declare class Toolbar<V> {
-    /** A reference to the toolbar element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The TabList nested inside of the container. */
     private readonly _widgets;
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Sorted UIPatterns of the child widgets */
-    readonly items: Signal<ToolbarWidgetPattern<V>[]>;
+    readonly items: _angular_core.Signal<ToolbarWidgetPattern<V>[]>;
     /** Whether the toolbar is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /**
@@ -72,26 +74,26 @@ declare class Toolbar<V> {
  * @developerPreview 21.0
  */
 declare class ToolbarWidget<V> implements OnInit, OnDestroy {
-    /** A reference to the widget element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The parent Toolbar. */
     private readonly _toolbar;
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The parent Toolbar UIPattern. */
-    readonly toolbar: Signal<ToolbarPattern<any>>;
-    /** A reference to the widget element to be focused on navigation. */
-    readonly element: Signal<any>;
+    readonly toolbar: _angular_core.Signal<ToolbarPattern<any>>;
     /** Whether the widget is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the widget is 'hard' disabled, which is different from `aria-disabled`. A hard disabled widget cannot receive focus. */
-    readonly hardDisabled: Signal<boolean>;
+    readonly hardDisabled: _angular_core.Signal<boolean>;
     /** The optional ToolbarWidgetGroup this widget belongs to. */
     readonly _group: ToolbarWidgetGroup<any> | null;
     /** The value associated with the widget. */
     readonly value: _angular_core.InputSignal<V>;
     /** Whether the widget is currently active (focused). */
-    readonly active: Signal<boolean>;
+    readonly active: _angular_core.Signal<boolean>;
     /** Whether the widget is selected (only relevant in a selection group). */
     readonly selected: () => boolean;
     readonly group: SignalLike<ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V> | undefined>;
@@ -109,12 +111,16 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
  * @developerPreview 21.0
  */
 declare class ToolbarWidgetGroup<V> {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The parent Toolbar. */
     private readonly _toolbar;
     /** The list of child widgets within the group. */
     private readonly _widgets;
     /** The parent Toolbar UIPattern. */
-    readonly toolbar: Signal<ToolbarPattern<any> | undefined>;
+    readonly toolbar: _angular_core.Signal<ToolbarPattern<any> | undefined>;
     /** Whether the widget group is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The list of toolbar items within the group. */

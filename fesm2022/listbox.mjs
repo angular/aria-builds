@@ -14,6 +14,7 @@ class Listbox {
     optional: true
   });
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _directionality = inject(Directionality);
   _options = contentChildren(Option, ...(ngDevMode ? [{
     debugName: "_options",
@@ -287,18 +288,16 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class Option {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _listbox = inject(Listbox);
   id = input(inject(_IdGenerator).getId('ng-option-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  searchTerm = computed(() => this.label() ?? this.element().textContent, ...(ngDevMode ? [{
+  searchTerm = computed(() => this.label() ?? this.element.textContent, ...(ngDevMode ? [{
     debugName: "searchTerm"
   }] : []));
   listbox = computed(() => this._listbox._pattern, ...(ngDevMode ? [{
     debugName: "listbox"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
@@ -320,7 +319,7 @@ class Option {
     id: this.id,
     value: this.value,
     listbox: this.listbox,
-    element: this.element,
+    element: () => this.element,
     searchTerm: this.searchTerm
   });
   static ɵfac = i0.ɵɵngDeclareFactory({

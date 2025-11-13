@@ -6,6 +6,7 @@ import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } f
 
 class Grid {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _rows = contentChildren(GridRow, ...(ngDevMode ? [{
     debugName: "_rows",
     descendants: true
@@ -16,9 +17,6 @@ class Grid {
     debugName: "_rowPatterns"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
-  }] : []));
   enableSelection = input(false, ...(ngDevMode ? [{
     debugName: "enableSelection",
     transform: booleanAttribute
@@ -64,7 +62,8 @@ class Grid {
   _pattern = new GridPattern({
     ...this,
     rows: this._rowPatterns,
-    getCell: e => this._getCell(e)
+    getCell: e => this._getCell(e),
+    element: () => this.element
   });
   constructor() {
     afterRenderEffect(() => this._pattern.setDefaultStateEffect());
@@ -224,6 +223,7 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class GridRow {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _cells = contentChildren(GridCell, ...(ngDevMode ? [{
     debugName: "_cells",
     descendants: true
@@ -236,9 +236,6 @@ class GridRow {
   _grid = inject(Grid);
   grid = computed(() => this._grid._pattern, ...(ngDevMode ? [{
     debugName: "grid"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   rowIndex = input(...(ngDevMode ? [undefined, {
     debugName: "rowIndex"
@@ -309,6 +306,7 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class GridCell {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _widgets = contentChildren(GridCellWidget, ...(ngDevMode ? [{
     debugName: "_widgets",
     descendants: true
@@ -322,9 +320,6 @@ class GridCell {
   textDirection = inject(Directionality).valueSignal;
   id = input(inject(_IdGenerator).getId('ng-grid-cell-', true), ...(ngDevMode ? [{
     debugName: "id"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   role = input('gridcell', ...(ngDevMode ? [{
     debugName: "role"
@@ -373,7 +368,8 @@ class GridCell {
     grid: this._row.grid,
     row: () => this._row._pattern,
     widgets: this._widgetPatterns,
-    getWidget: e => this._getWidget(e)
+    getWidget: e => this._getWidget(e),
+    element: () => this.element
   });
   constructor() {}
   _getWidget(element) {
@@ -550,10 +546,8 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class GridCellWidget {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _cell = inject(GridCell);
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
-  }] : []));
   id = input(inject(_IdGenerator).getId('ng-grid-cell-widget-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -579,6 +573,7 @@ class GridCellWidget {
   }] : []));
   _pattern = new GridCellWidgetPattern({
     ...this,
+    element: () => this.element,
     cell: () => this._cell._pattern,
     focusTarget: computed(() => {
       if (this.focusTarget() instanceof ElementRef) {

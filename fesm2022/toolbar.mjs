@@ -5,10 +5,11 @@ import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
 
 function sortDirectives(a, b) {
-  return (a.element().compareDocumentPosition(b.element()) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
+  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
 class Toolbar {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _widgets = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_widgets"
   }] : []));
@@ -172,15 +173,13 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class ToolbarWidget {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _toolbar = inject(Toolbar);
   id = input(inject(_IdGenerator).getId('ng-toolbar-widget-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
   toolbar = computed(() => this._toolbar._pattern, ...(ngDevMode ? [{
     debugName: "toolbar"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -206,7 +205,7 @@ class ToolbarWidget {
     ...this,
     id: this.id,
     value: this.value,
-    element: this.element
+    element: () => this.element
   });
   ngOnInit() {
     this._toolbar.register(this);
@@ -287,6 +286,8 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 class ToolbarWidgetGroup {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _toolbar = inject(Toolbar, {
     optional: true
   });

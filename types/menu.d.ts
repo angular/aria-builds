@@ -23,12 +23,12 @@ import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPa
  * @developerPreview 21.0
  */
 declare class MenuTrigger<V> {
-    /** A reference to the menu trigger element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
-    /** A reference to the menu element. */
-    readonly element: HTMLButtonElement;
     /** The menu associated with the trigger. */
     menu: _angular_core.InputSignal<Menu<V> | undefined>;
     /** Whether the menu is expanded. */
@@ -80,9 +80,9 @@ declare class Menu<V> {
     readonly _allItems: Signal<readonly MenuItem<V>[]>;
     /** The menu items that are direct children of this menu. */
     readonly _items: Signal<MenuItem<V>[]>;
-    /** A reference to the menu element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
-    /** A reference to the menu element. */
+    /** A reference to the host element. */
     readonly element: HTMLElement;
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
@@ -150,9 +150,9 @@ declare class MenuBar<V> {
     /** The menu items contained in the menubar. */
     readonly _allItems: Signal<readonly MenuItem<V>[]>;
     readonly _items: SignalLike<MenuItem<V>[]>;
-    /** A reference to the menu element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
-    /** A reference to the menubar element. */
+    /** A reference to the host element. */
     readonly element: HTMLElement;
     /** Whether the menubar is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
@@ -193,9 +193,9 @@ declare class MenuBar<V> {
  * @developerPreview 21.0
  */
 declare class MenuItem<V> {
-    /** A reference to the menu item element. */
+    /** A reference to the host element. */
     private readonly _elementRef;
-    /** A reference to the menu element. */
+    /** A reference to the host element. */
     readonly element: HTMLElement;
     /** The unique ID of the menu item. */
     readonly id: _angular_core.InputSignal<string>;

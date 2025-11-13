@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, input, computed, booleanAttribute, model, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
+import { inject, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
@@ -8,21 +8,19 @@ import { ComboboxPopup } from './combobox.mjs';
 import '@angular/core/rxjs-interop';
 
 function sortDirectives(a, b) {
-  return (a.element().compareDocumentPosition(b.element()) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
+  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
 class Tree {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _popup = inject(ComboboxPopup, {
     optional: true
   });
-  _elementRef = inject(ElementRef);
   _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedItems"
   }] : []));
   id = input(inject(_IdGenerator).getId('ng-tree-', true), ...(ngDevMode ? [{
     debugName: "id"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   orientation = input('vertical', ...(ngDevMode ? [{
     debugName: "orientation"
@@ -83,7 +81,8 @@ class Tree {
       id: this.id,
       allItems: computed(() => [...this._unorderedItems()].sort(sortDirectives).map(item => item._pattern)),
       activeItem: signal(undefined),
-      combobox: () => this._popup?.combobox?._pattern
+      combobox: () => this._popup?.combobox?._pattern,
+      element: () => this.element
     };
     this._pattern = this._popup?.combobox ? new ComboboxTreePattern(inputs) : new TreePattern(inputs);
     if (this._popup?.combobox) {
@@ -282,14 +281,12 @@ i0.ɵɵngDeclareClassMetadata({
 });
 class TreeItem extends DeferredContentAware {
   _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _group = signal(undefined, ...(ngDevMode ? [{
     debugName: "_group"
   }] : []));
   id = input(inject(_IdGenerator).getId('ng-tree-item-', true), ...(ngDevMode ? [{
     debugName: "id"
-  }] : []));
-  element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
-    debugName: "element"
   }] : []));
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
@@ -312,7 +309,7 @@ class TreeItem extends DeferredContentAware {
   label = input(...(ngDevMode ? [undefined, {
     debugName: "label"
   }] : []));
-  searchTerm = computed(() => this.label() ?? this.element().textContent, ...(ngDevMode ? [{
+  searchTerm = computed(() => this.label() ?? this.element.textContent, ...(ngDevMode ? [{
     debugName: "searchTerm"
   }] : []));
   tree = computed(() => {
@@ -369,7 +366,8 @@ class TreeItem extends DeferredContentAware {
       tree: treePattern,
       parent: parentPattern,
       children: computed(() => this._group()?.children() ?? []),
-      hasChildren: computed(() => !!this._group())
+      hasChildren: computed(() => !!this._group()),
+      element: () => this.element
     });
   }
   ngOnDestroy() {
@@ -500,6 +498,8 @@ i0.ɵɵngDeclareClassMetadata({
   ctorParameters: () => []
 });
 class TreeItemGroup {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _deferredContent = inject(DeferredContent);
   _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedItems"
