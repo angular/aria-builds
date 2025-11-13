@@ -106,7 +106,7 @@ class ComboboxPattern {
     }
     return manager;
   });
-  pointerup = computed(() => new PointerEventManager().on(e => {
+  click = computed(() => new PointerEventManager().on(e => {
     if (e.target === this.inputs.inputEl()) {
       if (this.readonly()) {
         this.expanded() ? this.close() : this.open({
@@ -144,9 +144,9 @@ class ComboboxPattern {
       this.keydown().handle(event);
     }
   }
-  onPointerup(event) {
+  onClick(event) {
     if (!this.inputs.disabled()) {
-      this.pointerup().handle(event);
+      this.click().handle(event);
     }
   }
   onInput(event) {
@@ -265,6 +265,11 @@ class ComboboxPattern {
     }
     if (popupControls instanceof ComboboxDialogPattern) {
       this.expanded.set(false);
+      return;
+    }
+    if (this.readonly()) {
+      this.expanded.set(false);
+      popupControls?.unfocus();
       return;
     }
     if (!opts?.reset) {
