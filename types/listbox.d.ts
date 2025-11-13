@@ -24,9 +24,7 @@ import { ComboboxPopup } from './combobox.js';
  */
 declare class Listbox<V> {
     /** A unique identifier for the listbox. */
-    private readonly _generatedId;
-    /** A unique identifier for the listbox. */
-    protected id: _angular_core.Signal<string>;
+    readonly id: _angular_core.InputSignal<string>;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
     /** A reference to the listbox element. */
@@ -80,7 +78,7 @@ declare class Listbox<V> {
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 /**
  * A selectable option in an `ngListbox`.
@@ -103,9 +101,7 @@ declare class Option<V> {
     /** The parent Listbox. */
     private readonly _listbox;
     /** A unique identifier for the option. */
-    private readonly _generatedId;
-    /** A unique identifier for the option. */
-    protected id: _angular_core.Signal<string>;
+    readonly id: _angular_core.InputSignal<string>;
     /** The text used by the typeahead search. */
     protected searchTerm: _angular_core.Signal<any>;
     /** The parent Listbox UIPattern. */
@@ -123,7 +119,7 @@ declare class Option<V> {
     /** The Option UIPattern. */
     readonly _pattern: OptionPattern<V>;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Option<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Option<any>, "[ngOption]", ["ngOption"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Option<any>, "[ngOption]", ["ngOption"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 export { Listbox, Option };

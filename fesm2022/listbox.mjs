@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, computed, ElementRef, contentChildren, input, booleanAttribute, model, signal, afterRenderEffect, untracked, Directive } from '@angular/core';
+import { input, inject, ElementRef, contentChildren, computed, booleanAttribute, model, signal, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { ComboboxListboxPattern, ListboxPattern, OptionPattern } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -7,8 +7,7 @@ import { _IdGenerator } from '@angular/cdk/a11y';
 import { ComboboxPopup } from './combobox.mjs';
 
 class Listbox {
-  _generatedId = inject(_IdGenerator).getId('ng-listbox-', true);
-  id = computed(() => this._generatedId, ...(ngDevMode ? [{
+  id = input(inject(_IdGenerator).getId('ng-listbox-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
   _popup = inject(ComboboxPopup, {
@@ -145,6 +144,13 @@ class Listbox {
     isStandalone: true,
     selector: "[ngListbox]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       orientation: {
         classPropertyName: "orientation",
         publicName: "orientation",
@@ -236,8 +242,7 @@ class Listbox {
         "attr.aria-orientation": "_pattern.orientation()",
         "attr.aria-multiselectable": "_pattern.multi()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()"
-      },
-      classAttribute: "ng-listbox"
+      }
     },
     queries: [{
       propertyName: "_options",
@@ -264,7 +269,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngListbox',
       host: {
         'role': 'listbox',
-        'class': 'ng-listbox',
         '[attr.id]': 'id()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-readonly]': '_pattern.readonly()',
@@ -284,8 +288,7 @@ i0.ɵɵngDeclareClassMetadata({
 class Option {
   _elementRef = inject(ElementRef);
   _listbox = inject(Listbox);
-  _generatedId = inject(_IdGenerator).getId('ng-option-', true);
-  id = computed(() => this._generatedId, ...(ngDevMode ? [{
+  id = input(inject(_IdGenerator).getId('ng-option-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
   searchTerm = computed(() => this.label() ?? this.element().textContent, ...(ngDevMode ? [{
@@ -335,6 +338,13 @@ class Option {
     isStandalone: true,
     selector: "[ngOption]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       value: {
         classPropertyName: "value",
         publicName: "value",
@@ -367,8 +377,7 @@ class Option {
         "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-selected": "_pattern.selected()",
         "attr.aria-disabled": "_pattern.disabled()"
-      },
-      classAttribute: "ng-option"
+      }
     },
     exportAs: ["ngOption"],
     ngImport: i0
@@ -386,7 +395,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngOption',
       host: {
         'role': 'option',
-        'class': 'ng-option',
         '[attr.data-active]': '_pattern.active()',
         '[attr.id]': '_pattern.id()',
         '[attr.tabindex]': '_pattern.tabIndex()',

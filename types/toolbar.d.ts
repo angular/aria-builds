@@ -77,8 +77,6 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     /** The parent Toolbar. */
     private readonly _toolbar;
     /** A unique identifier for the widget. */
-    private readonly _generatedId;
-    /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The parent Toolbar UIPattern. */
     readonly toolbar: Signal<ToolbarPattern<any>>;

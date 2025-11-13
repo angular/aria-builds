@@ -28,7 +28,7 @@ declare class AccordionPanel {
     /** The DeferredContentAware host directive. */
     private readonly _deferredContentAware;
     /** A global unique identifier for the panel. */
-    private readonly _id;
+    readonly id: _angular_core.InputSignal<string>;
     /** A local unique identifier for the panel, used to match with its trigger's `panelId`. */
     readonly panelId: _angular_core.InputSignal<string>;
     /** Whether the accordion panel is visible. True if the associated trigger is expanded. */
@@ -45,7 +45,7 @@ declare class AccordionPanel {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 /**
  * The trigger that toggles the visibility of its associated `ngAccordionPanel`.

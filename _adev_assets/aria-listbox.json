@@ -14,7 +14,7 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
-            "protected"
+            "readonly"
           ],
           "description": "A unique identifier for the listbox.",
           "jsdocTags": []
@@ -256,7 +256,7 @@
       "source": {
         "filePath": "/src/aria/listbox/listbox.ts",
         "startLine": 47,
-        "endLine": 211
+        "endLine": 206
       }
     },
     {
@@ -269,10 +269,13 @@
           "type": "any",
           "memberType": "property",
           "memberTags": [
-            "protected"
+            "readonly",
+            "input"
           ],
           "description": "A unique identifier for the option.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "id",
+          "isRequiredInput": false
         },
         {
           "name": "searchTerm",
@@ -372,8 +375,8 @@
       ],
       "source": {
         "filePath": "/src/aria/listbox/listbox.ts",
-        "startLine": 228,
-        "endLine": 287
+        "startLine": 223,
+        "endLine": 277
       }
     }
   ],

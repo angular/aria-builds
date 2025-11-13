@@ -53,9 +53,6 @@ class Tabs {
     type: Tabs,
     isStandalone: true,
     selector: "[ngTabs]",
-    host: {
-      classAttribute: "ng-tabs"
-    },
     exportAs: ["ngTabs"],
     ngImport: i0
   });
@@ -69,10 +66,7 @@ i0.ɵɵngDeclareClassMetadata({
     type: Directive,
     args: [{
       selector: '[ngTabs]',
-      exportAs: 'ngTabs',
-      host: {
-        'class': 'ng-tabs'
-      }
+      exportAs: 'ngTabs'
     }]
   }]
 });
@@ -246,8 +240,7 @@ class TabList {
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-orientation": "_pattern.orientation()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()"
-      },
-      classAttribute: "ng-tablist"
+      }
     },
     exportAs: ["ngTabList"],
     ngImport: i0
@@ -265,7 +258,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngTabList',
       host: {
         'role': 'tablist',
-        'class': 'ng-tablist',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-orientation]': '_pattern.orientation()',
@@ -372,8 +364,7 @@ class Tab {
         "attr.aria-selected": "selected()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-controls": "_pattern.controls()"
-      },
-      classAttribute: "ng-tab"
+      }
     },
     exportAs: ["ngTab"],
     ngImport: i0
@@ -391,7 +382,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngTab',
       host: {
         'role': 'tab',
-        'class': 'ng-tab',
         '[attr.data-active]': 'active()',
         '[attr.id]': '_pattern.id()',
         '[attr.tabindex]': '_pattern.tabIndex()',
@@ -405,7 +395,9 @@ i0.ɵɵngDeclareClassMetadata({
 class TabPanel {
   _deferredContentAware = inject(DeferredContentAware);
   _Tabs = inject(Tabs);
-  _id = inject(_IdGenerator).getId('ng-tabpanel-', true);
+  id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
   tab = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
     debugName: "tab"
   }] : []));
@@ -416,9 +408,7 @@ class TabPanel {
     debugName: "visible"
   }] : []));
   _pattern = new TabPanelPattern({
-    ...this,
-    id: () => this._id,
-    tab: this.tab
+    ...this
   });
   constructor() {
     afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
@@ -444,6 +434,13 @@ class TabPanel {
     isStandalone: true,
     selector: "[ngTabPanel]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       value: {
         classPropertyName: "value",
         publicName: "value",
@@ -461,8 +458,7 @@ class TabPanel {
         "attr.tabindex": "_pattern.tabIndex()",
         "attr.inert": "!visible() ? true : null",
         "attr.aria-labelledby": "_pattern.labelledBy()"
-      },
-      classAttribute: "ng-tabpanel"
+      }
     },
     exportAs: ["ngTabPanel"],
     hostDirectives: [{
@@ -484,7 +480,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngTabPanel',
       host: {
         'role': 'tabpanel',
-        'class': 'ng-tabpanel',
         '[attr.id]': '_pattern.id()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.inert]': '!visible() ? true : null',

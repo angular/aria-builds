@@ -98,8 +98,7 @@ class MenuTrigger {
         "attr.aria-haspopup": "hasPopup()",
         "attr.aria-expanded": "expanded()",
         "attr.aria-controls": "_pattern.menu()?.id()"
-      },
-      classAttribute: "ng-menu-trigger"
+      }
     },
     exportAs: ["ngMenuTrigger"],
     ngImport: i0
@@ -116,7 +115,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: 'button[ngMenuTrigger]',
       exportAs: 'ngMenuTrigger',
       host: {
-        'class': 'ng-menu-trigger',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
         '[attr.aria-disabled]': '_pattern.disabled()',
@@ -288,8 +286,7 @@ class Menu {
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.tabindex": "tabIndex()",
         "attr.data-visible": "isVisible()"
-      },
-      classAttribute: "ng-menu"
+      }
     },
     queries: [{
       propertyName: "_allItems",
@@ -317,7 +314,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngMenu',
       host: {
         'role': 'menu',
-        'class': 'ng-menu',
         '[attr.id]': '_pattern.id()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.tabindex]': 'tabIndex()',
@@ -471,8 +467,7 @@ class MenuBar {
         "attr.disabled": "!softDisabled() && _pattern.disabled() ? true : null",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.tabindex": "_pattern.tabIndex()"
-      },
-      classAttribute: "ng-menu-bar"
+      }
     },
     queries: [{
       propertyName: "_allItems",
@@ -496,7 +491,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngMenuBar',
       host: {
         'role': 'menubar',
-        'class': 'ng-menu-bar',
         '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.tabindex]': '_pattern.tabIndex()',
@@ -632,8 +626,7 @@ class MenuItem {
         "attr.aria-expanded": "expanded()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-controls": "_pattern.submenu()?.id()"
-      },
-      classAttribute: "ng-menu-item"
+      }
     },
     exportAs: ["ngMenuItem"],
     ngImport: i0
@@ -651,7 +644,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngMenuItem',
       host: {
         'role': 'menuitem',
-        'class': 'ng-menu-item',
         '(focusin)': '_pattern.onFocusIn()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.data-active]': 'isActive()',

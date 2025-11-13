@@ -7,7 +7,9 @@ import { DeferredContentAware, AccordionPanelPattern, AccordionTriggerPattern, A
 
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);
-  _id = inject(_IdGenerator).getId('accordion-trigger-', true);
+  id = input(inject(_IdGenerator).getId('ng-accordion-panel-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
   panelId = input.required(...(ngDevMode ? [{
     debugName: "panelId"
   }] : []));
@@ -18,7 +20,7 @@ class AccordionPanel {
     debugName: "accordionTrigger"
   }] : []));
   _pattern = new AccordionPanelPattern({
-    id: () => this._id,
+    id: this.id,
     panelId: this.panelId,
     accordionTrigger: () => this.accordionTrigger()
   });
@@ -51,6 +53,13 @@ class AccordionPanel {
     isStandalone: true,
     selector: "[ngAccordionPanel]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       panelId: {
         classPropertyName: "panelId",
         publicName: "panelId",
@@ -67,8 +76,7 @@ class AccordionPanel {
         "attr.id": "_pattern.id()",
         "attr.aria-labelledby": "_pattern.accordionTrigger()?.id()",
         "attr.inert": "!visible() ? true : null"
-      },
-      classAttribute: "ng-accordion-panel"
+      }
     },
     exportAs: ["ngAccordionPanel"],
     hostDirectives: [{
@@ -93,7 +101,6 @@ i0.ɵɵngDeclareClassMetadata({
         inputs: ['preserveContent']
       }],
       host: {
-        'class': 'ng-accordion-panel',
         'role': 'region',
         '[attr.id]': '_pattern.id()',
         '[attr.aria-labelledby]': '_pattern.accordionTrigger()?.id()',
@@ -203,8 +210,7 @@ class AccordionTrigger {
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.disabled": "_pattern.hardDisabled() ? true : null",
         "attr.tabindex": "_pattern.tabIndex()"
-      },
-      classAttribute: "ng-accordion-trigger"
+      }
     },
     exportAs: ["ngAccordionTrigger"],
     ngImport: i0
@@ -221,7 +227,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngAccordionTrigger]',
       exportAs: 'ngAccordionTrigger',
       host: {
-        'class': 'ng-accordion-trigger',
         '[attr.data-active]': 'active()',
         'role': 'button',
         '[id]': '_pattern.id()',
@@ -365,8 +370,7 @@ class AccordionGroup {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
         "focusin": "_pattern.onFocus($event)"
-      },
-      classAttribute: "ng-accordion-group"
+      }
     },
     queries: [{
       propertyName: "_triggers",
@@ -394,7 +398,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngAccordionGroup]',
       exportAs: 'ngAccordionGroup',
       host: {
-        'class': 'ng-accordion-group',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': '_pattern.onFocus($event)'

@@ -554,7 +554,7 @@ class GridCellWidget {
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));
-  id = input(inject(_IdGenerator).getId('ng-grid-cell-', true), ...(ngDevMode ? [{
+  id = input(inject(_IdGenerator).getId('ng-grid-cell-widget-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
   widgetType = input('simple', ...(ngDevMode ? [{

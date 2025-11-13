@@ -244,8 +244,7 @@ class Tree {
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()",
         "tabindex": "_pattern.tabIndex()"
-      },
-      classAttribute: "ng-tree"
+      }
     },
     exportAs: ["ngTree"],
     hostDirectives: [{
@@ -265,7 +264,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngTree]',
       exportAs: 'ngTree',
       host: {
-        'class': 'ng-tree',
         'role': 'tree',
         '[attr.id]': 'id()',
         '[attr.aria-orientation]': '_pattern.orientation()',
@@ -467,8 +465,7 @@ class TreeItem extends DeferredContentAware {
         "attr.aria-setsize": "_pattern.setsize()",
         "attr.aria-posinset": "_pattern.posinset()",
         "attr.tabindex": "_pattern.tabIndex()"
-      },
-      classAttribute: "ng-treeitem"
+      }
     },
     exportAs: ["ngTreeItem"],
     usesInheritance: true,
@@ -486,7 +483,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngTreeItem]',
       exportAs: 'ngTreeItem',
       host: {
-        'class': 'ng-treeitem',
         '[attr.data-active]': 'active()',
         'role': 'treeitem',
         '[id]': '_pattern.id()',
