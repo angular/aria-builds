@@ -368,7 +368,8 @@ class TreeItem extends DeferredContentAware {
       parent: parentPattern,
       children: computed(() => this._group()?.children() ?? []),
       hasChildren: computed(() => !!this._group()),
-      element: () => this.element
+      element: () => this.element,
+      searchTerm: () => this.searchTerm() ?? ''
     });
   }
   ngOnDestroy() {
