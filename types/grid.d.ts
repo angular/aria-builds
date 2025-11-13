@@ -131,6 +131,8 @@ declare class GridCell {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
+    /** Whether the cell is currently active (focused). */
+    readonly active: Signal<boolean>;
     /** The widgets contained within this cell, if any. */
     private readonly _widgets;
     /** The UI pattern for the widget in this cell. */
@@ -197,6 +199,8 @@ declare class GridCellWidget {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
+    /** Whether the widget is currently active (focused). */
+    readonly active: Signal<boolean>;
     /** The parent cell. */
     private readonly _cell;
     /** A unique identifier for the widget. */

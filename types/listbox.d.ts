@@ -102,6 +102,8 @@ declare class Option<V> {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
+    /** Whether the option is currently active (focused). */
+    active: _angular_core.Signal<boolean>;
     /** The parent Listbox. */
     private readonly _listbox;
     /** A unique identifier for the option. */

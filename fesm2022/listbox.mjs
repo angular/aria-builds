@@ -289,6 +289,9 @@ i0.ɵɵngDeclareClassMetadata({
 class Option {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
   _listbox = inject(Listbox);
   id = input(inject(_IdGenerator).getId('ng-option-', true), ...(ngDevMode ? [{
     debugName: "id"
@@ -371,7 +374,7 @@ class Option {
         "role": "option"
       },
       properties: {
-        "attr.data-active": "_pattern.active()",
+        "attr.data-active": "active()",
         "attr.id": "_pattern.id()",
         "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-selected": "_pattern.selected()",
@@ -394,7 +397,7 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngOption',
       host: {
         'role': 'option',
-        '[attr.data-active]': '_pattern.active()',
+        '[attr.data-active]': 'active()',
         '[attr.id]': '_pattern.id()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-selected]': '_pattern.selected()',
