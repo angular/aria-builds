@@ -355,7 +355,7 @@
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
         "startLine": 83,
-        "endLine": 238
+        "endLine": 240
       }
     },
     {
@@ -701,8 +701,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
-        "startLine": 255,
-        "endLine": 382
+        "startLine": 257,
+        "endLine": 384
       }
     },
     {
@@ -924,8 +924,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tree/tree.ts",
-        "startLine": 404,
-        "endLine": 448
+        "startLine": 406,
+        "endLine": 450
       }
     }
   ],
