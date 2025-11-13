@@ -265,7 +265,7 @@
           "jsdocTags": []
         },
         {
-          "name": "isVisible",
+          "name": "visible",
           "type": "any",
           "memberType": "property",
           "memberTags": [
@@ -621,7 +621,7 @@
           "isRequiredInput": false
         },
         {
-          "name": "isActive",
+          "name": "active",
           "type": "any",
           "memberType": "property",
           "memberTags": [
@@ -954,7 +954,7 @@
       "@angular/aria/menu"
     ],
     [
-      "Menu.isVisible",
+      "Menu.visible",
       "@angular/aria/menu"
     ],
     [
@@ -1050,7 +1050,7 @@
       "@angular/aria/menu"
     ],
     [
-      "MenuItem.isActive",
+      "MenuItem.active",
       "@angular/aria/menu"
     ],
     [

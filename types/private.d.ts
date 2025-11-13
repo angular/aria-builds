@@ -604,7 +604,7 @@ declare class MenuPattern<V> {
     /** Whether the menu is disabled. */
     disabled: () => boolean;
     /** Whether the menu is visible. */
-    isVisible: Signal<boolean>;
+    visible: Signal<boolean>;
     /** Controls list behavior for the menu items. */
     listBehavior: List<MenuItemPattern<V>, V>;
     /** Whether the menu or any of its child elements are currently focused. */
@@ -776,7 +776,7 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** The element of the menu item. */
     element: SignalLike<HTMLElement | undefined>;
     /** Whether the menu item is active. */
-    isActive: Signal<boolean>;
+    active: Signal<boolean>;
     /** Whether the menu item has received focus. */
     hasBeenFocused: _angular_core.WritableSignal<boolean>;
     /** The tab index of the menu item. */
