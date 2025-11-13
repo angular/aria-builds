@@ -101,6 +101,7 @@ class Tree {
       }
     });
     afterRenderEffect(() => {
+      if (!(this._pattern instanceof ComboboxTreePattern)) return;
       const items = inputs.allItems();
       const values = untracked(() => this.values());
       if (items && values.some(v => !items.some(i => i.value() === v))) {
