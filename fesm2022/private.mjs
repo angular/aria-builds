@@ -323,7 +323,9 @@ class ComboboxPattern {
     }
     if (nav?.selected) {
       const selectedItem = popupControls?.items().find(i => popupControls?.getSelectedItems().includes(i));
-      selectedItem ? popupControls?.focus(selectedItem) : this.first();
+      if (selectedItem) {
+        popupControls?.focus(selectedItem);
+      }
     }
   }
   next() {

@@ -323,7 +323,7 @@ class Option {
     value: this.value,
     listbox: this.listbox,
     element: () => this.element,
-    searchTerm: this.searchTerm
+    searchTerm: () => this.searchTerm() ?? ''
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
