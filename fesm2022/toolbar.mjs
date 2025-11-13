@@ -79,7 +79,7 @@ class Toolbar {
     }
   }
   _getItem(element) {
-    const widgetTarget = element.closest('.ng-toolbar-widget');
+    const widgetTarget = element.closest('[ngToolbarWidget]');
     return this.items().find(widget => widget.element() === widgetTarget);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
@@ -140,8 +140,7 @@ class Toolbar {
         "attr.tabindex": "_pattern.tabIndex()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-orientation": "_pattern.orientation()"
-      },
-      classAttribute: "ng-toolbar"
+      }
     },
     exportAs: ["ngToolbar"],
     ngImport: i0
@@ -159,7 +158,6 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngToolbar',
       host: {
         'role': 'toolbar',
-        'class': 'ng-toolbar',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-orientation]': '_pattern.orientation()',
@@ -175,8 +173,7 @@ i0.ɵɵngDeclareClassMetadata({
 class ToolbarWidget {
   _elementRef = inject(ElementRef);
   _toolbar = inject(Toolbar);
-  _generatedId = inject(_IdGenerator).getId('ng-toolbar-widget-', true);
-  id = input(this._generatedId, ...(ngDevMode ? [{
+  id = input(inject(_IdGenerator).getId('ng-toolbar-widget-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
   toolbar = computed(() => this._toolbar._pattern, ...(ngDevMode ? [{
@@ -262,8 +259,7 @@ class ToolbarWidget {
         "attr.disabled": "hardDisabled() ? true : null",
         "attr.aria-disabled": "_pattern.disabled()",
         "id": "_pattern.id()"
-      },
-      classAttribute: "ng-toolbar-widget"
+      }
     },
     exportAs: ["ngToolbarWidget"],
     ngImport: i0
@@ -280,7 +276,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngToolbarWidget]',
       exportAs: 'ngToolbarWidget',
       host: {
-        'class': 'ng-toolbar-widget',
         '[attr.data-active]': 'active()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.inert]': 'hardDisabled() ? true : null',
@@ -348,11 +343,6 @@ class ToolbarWidgetGroup {
         transformFunction: null
       }
     },
-    host: {
-      properties: {
-        "class.ng-toolbar-widget-group": "!!toolbar()"
-      }
-    },
     queries: [{
       propertyName: "_widgets",
       predicate: ToolbarWidget,
@@ -372,10 +362,7 @@ i0.ɵɵngDeclareClassMetadata({
     type: Directive,
     args: [{
       selector: '[ngToolbarWidgetGroup]',
-      exportAs: 'ngToolbarWidgetGroup',
-      host: {
-        '[class.ng-toolbar-widget-group]': '!!toolbar()'
-      }
+      exportAs: 'ngToolbarWidgetGroup'
     }]
   }]
 });

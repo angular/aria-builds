@@ -10,6 +10,16 @@
       "entryType": "undecorated_class",
       "members": [
         {
+          "name": "id",
+          "type": "any",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "A global unique identifier for the panel.",
+          "jsdocTags": []
+        },
+        {
           "name": "panelId",
           "type": "any",
           "memberType": "property",
@@ -152,7 +162,7 @@
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
         "startLine": 52,
-        "endLine": 114
+        "endLine": 113
       }
     },
     {
@@ -351,8 +361,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 133,
-        "endLine": 197
+        "startLine": 132,
+        "endLine": 195
       }
     },
     {
@@ -516,8 +526,8 @@
       ],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 234,
-        "endLine": 329
+        "startLine": 232,
+        "endLine": 326
       }
     },
     {
@@ -537,8 +547,8 @@
       "implements": [],
       "source": {
         "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 349,
-        "endLine": 353
+        "startLine": 346,
+        "endLine": 350
       }
     }
   ],
@@ -633,6 +643,10 @@
     ],
     [
       "AccordionPanel",
+      "@angular/aria/accordion"
+    ],
+    [
+      "AccordionPanel.id",
       "@angular/aria/accordion"
     ],
     [

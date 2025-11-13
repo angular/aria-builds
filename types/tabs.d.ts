@@ -186,7 +186,7 @@ declare class TabPanel implements OnInit, OnDestroy {
     /** The parent Tabs. */
     private readonly _Tabs;
     /** A global unique identifier for the tab. */
-    private readonly _id;
+    readonly id: _angular_core.InputSignal<string>;
     /** The Tab UIPattern associated with the tabpanel */
     readonly tab: Signal<TabPattern | undefined>;
     /** A local unique identifier for the tabpanel. */
@@ -199,7 +199,7 @@ declare class TabPanel implements OnInit, OnDestroy {
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 /**
  * A TabContent container for the lazy-loaded content.
