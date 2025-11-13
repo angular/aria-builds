@@ -1,4 +1,4 @@
-import { computed, signal, linkedSignal } from '@angular/core';
+import { signal, computed, linkedSignal, untracked } from '@angular/core';
 
 var Modifier;
 (function (Modifier) {
@@ -132,6 +132,118 @@ class PointerEventManager extends EventManager {
   }
 }
 
+class ListFocus {
+  inputs;
+  prevActiveItem = signal(undefined);
+  prevActiveIndex = computed(() => {
+    return this.prevActiveItem() ? this.inputs.items().indexOf(this.prevActiveItem()) : -1;
+  });
+  activeIndex = computed(() => {
+    return this.inputs.activeItem() ? this.inputs.items().indexOf(this.inputs.activeItem()) : -1;
+  });
+  constructor(inputs) {
+    this.inputs = inputs;
+  }
+  isListDisabled() {
+    return this.inputs.disabled() || this.inputs.items().every(i => i.disabled());
+  }
+  getActiveDescendant() {
+    if (this.isListDisabled()) {
+      return undefined;
+    }
+    if (this.inputs.focusMode() === 'roving') {
+      return undefined;
+    }
+    return this.inputs.activeItem()?.id() ?? undefined;
+  }
+  getListTabIndex() {
+    if (this.isListDisabled()) {
+      return 0;
+    }
+    return this.inputs.focusMode() === 'activedescendant' ? 0 : -1;
+  }
+  getItemTabIndex(item) {
+    if (this.isListDisabled()) {
+      return -1;
+    }
+    if (this.inputs.focusMode() === 'activedescendant') {
+      return -1;
+    }
+    return this.inputs.activeItem() === item ? 0 : -1;
+  }
+  focus(item, opts) {
+    if (this.isListDisabled() || !this.isFocusable(item)) {
+      return false;
+    }
+    this.prevActiveItem.set(this.inputs.activeItem());
+    this.inputs.activeItem.set(item);
+    if (opts?.focusElement || opts?.focusElement === undefined) {
+      this.inputs.focusMode() === 'roving' ? item.element()?.focus() : this.inputs.element()?.focus();
+    }
+    return true;
+  }
+  isFocusable(item) {
+    return !item.disabled() || this.inputs.softDisabled();
+  }
+}
+
+class ListNavigation {
+  inputs;
+  constructor(inputs) {
+    this.inputs = inputs;
+  }
+  goto(item, opts) {
+    return item ? this.inputs.focusManager.focus(item, opts) : false;
+  }
+  next(opts) {
+    return this._advance(1, opts);
+  }
+  peekNext() {
+    return this._peek(1);
+  }
+  prev(opts) {
+    return this._advance(-1, opts);
+  }
+  peekPrev() {
+    return this._peek(-1);
+  }
+  first(opts) {
+    const item = this.peekFirst();
+    return item ? this.goto(item, opts) : false;
+  }
+  last(opts) {
+    const item = this.peekLast();
+    return item ? this.goto(item, opts) : false;
+  }
+  peekFirst(items = this.inputs.items()) {
+    return items.find(i => this.inputs.focusManager.isFocusable(i));
+  }
+  peekLast(items = this.inputs.items()) {
+    for (let i = items.length - 1; i >= 0; i--) {
+      if (this.inputs.focusManager.isFocusable(items[i])) {
+        return items[i];
+      }
+    }
+    return;
+  }
+  _advance(delta, opts) {
+    const item = this._peek(delta);
+    return item ? this.goto(item, opts) : false;
+  }
+  _peek(delta) {
+    const items = this.inputs.items();
+    const itemCount = items.length;
+    const startIndex = this.inputs.focusManager.activeIndex();
+    const step = i => this.inputs.wrap() ? (i + delta + itemCount) % itemCount : i + delta;
+    for (let i = step(startIndex); i !== startIndex && i < itemCount && i >= 0; i = step(i)) {
+      if (this.inputs.focusManager.isFocusable(items[i])) {
+        return items[i];
+      }
+    }
+    return;
+  }
+}
+
 class GridData {
   inputs;
   cells;
@@ -224,6 +336,9 @@ class GridData {
     this.inputs = inputs;
     this.cells = this.inputs.cells;
   }
+  hasCell(cell) {
+    return this._coordsMap().has(cell);
+  }
   getCell(rowCol) {
     return this._cellMap().get(`${rowCol.row}:${rowCol.col}`);
   }
@@ -294,7 +409,7 @@ class GridFocus {
     return this.activeCell() === cell ? 0 : -1;
   }
   isFocusable(cell) {
-    return !cell.disabled() || this.inputs.softDisabled();
+    return this.inputs.grid.hasCell(cell) && (!cell.disabled() || this.inputs.softDisabled());
   }
   focusCell(cell) {
     if (this.gridDisabled()) {
@@ -395,11 +510,13 @@ class GridNavigation {
     };
     for (let step = 0; step < this._maxSteps(); step++) {
       const isWrapping = nextCoords.col + colDelta < 0 || nextCoords.col + colDelta >= maxColCount || nextCoords.row + rowDelta < 0 || nextCoords.row + rowDelta >= maxRowCount;
-      if (wrap === 'nowrap' && isWrapping) return;
+      if (wrap === 'nowrap' && isWrapping) return undefined;
       if (wrap === 'continuous') {
         const generalDelta = delta.row ?? delta.col;
         const rowStep = isWrapping ? generalDelta : rowDelta;
         const colStep = isWrapping ? generalDelta : colDelta;
+        const bothWrapping = nextCoords.row + rowStep >= maxRowCount && nextCoords.col + colStep >= maxColCount || nextCoords.row + rowStep < 0 && nextCoords.col + colStep < 0;
+        if (bothWrapping) return undefined;
         nextCoords = {
           row: (nextCoords.row + rowStep + maxRowCount) % maxRowCount,
           col: (nextCoords.col + colStep + maxColCount) % maxColCount
@@ -720,7 +837,7 @@ class GridPattern {
   activeDescendant = computed(() => this.gridBehavior.activeDescendant());
   activeCell = computed(() => this.gridBehavior.focusBehavior.activeCell());
   anchorCell = computed(() => this.inputs.enableSelection() && this.inputs.multi() ? this.gridBehavior.selectionAnchorCell() : undefined);
-  pauseNavigation = computed(() => this.gridBehavior.data.cells().flat().reduce((res, c) => res || c.widgetActivated(), false));
+  pauseNavigation = computed(() => this.gridBehavior.data.cells().flat().reduce((res, c) => res || c.isActivated(), false));
   isFocused = signal(false);
   hasBeenFocused = signal(false);
   dragging = signal(false);
@@ -736,7 +853,7 @@ class GridPattern {
     };
     manager.on('ArrowUp', () => this.gridBehavior.up(opts)).on('ArrowDown', () => this.gridBehavior.down(opts)).on(this.prevColKey(), () => this.gridBehavior.left(opts)).on(this.nextColKey(), () => this.gridBehavior.right(opts)).on('Home', () => this.gridBehavior.firstInRow(opts)).on('End', () => this.gridBehavior.lastInRow(opts)).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first(opts)).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last(opts));
     if (this.inputs.enableSelection() && this.inputs.selectionMode() === 'explicit') {
-      manager.on('Enter', () => this.inputs.multi() ? this.gridBehavior.toggle() : this.gridBehavior.toggleOne()).on(' ', () => this.inputs.multi() ? this.gridBehavior.toggle() : this.gridBehavior.toggleOne());
+      manager.on(/Enter| /, () => this.inputs.multi() ? this.gridBehavior.toggle() : this.gridBehavior.toggleOne());
     }
     if (this.inputs.enableSelection() && this.inputs.enableRangeSelection()) {
       manager.on(Modifier.Shift, 'ArrowUp', () => this.gridBehavior.up({
@@ -823,6 +940,7 @@ class GridPattern {
   });
   _maybeDeletion = signal(false);
   _deletion = signal(false);
+  _stateStale = signal(false);
   constructor(inputs) {
     this.inputs = inputs;
     this.gridBehavior = new Grid({
@@ -831,42 +949,49 @@ class GridPattern {
     });
   }
   onKeydown(event) {
-    if (!this.disabled()) {
-      this.keydown().handle(event);
-    }
+    if (this.disabled()) return;
+    this.activeCell()?.onKeydown(event);
+    this.keydown().handle(event);
   }
   onPointerdown(event) {
-    if (!this.disabled()) {
-      this.pointerdown().handle(event);
-    }
+    if (this.disabled()) return;
+    this.pointerdown().handle(event);
   }
   onPointermove(event) {
-    if (this.disabled()) return;
-    if (!this.inputs.enableSelection()) return;
-    if (!this.inputs.enableRangeSelection()) return;
-    if (!this.dragging()) return;
+    if (this.disabled() || !this.inputs.enableSelection() || !this.inputs.enableRangeSelection() || !this.dragging()) {
+      return;
+    }
     const cell = this.inputs.getCell(event.target);
-    if (!cell) return;
-    this.gridBehavior.gotoCell(cell, {
-      anchor: true
-    });
+    if (cell !== undefined) {
+      this.gridBehavior.gotoCell(cell, {
+        anchor: true
+      });
+    }
   }
   onPointerup(event) {
-    if (!this.disabled()) {
-      this.pointerup().handle(event);
-    }
+    if (this.disabled()) return;
+    this.pointerup().handle(event);
   }
-  onFocusIn() {
+  onFocusIn(event) {
     this.isFocused.set(true);
     this.hasBeenFocused.set(true);
+    if (this.dragging()) return;
+    const cell = this.inputs.getCell(event.target);
+    if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
+    cell.onFocusIn(event);
+    if (cell !== this.activeCell()) {
+      this.gridBehavior.gotoCell(cell);
+    }
   }
   onFocusOut(event) {
-    const parentEl = this.inputs.element();
-    const targetEl = event.relatedTarget;
-    if (targetEl === null) {
+    const blurTarget = event.target;
+    const cell = this.inputs.getCell(blurTarget);
+    cell?.onFocusOut(event);
+    const focusTarget = event.relatedTarget;
+    if (this.inputs.element().contains(focusTarget)) return;
+    if (focusTarget === null) {
       this._maybeDeletion.set(true);
     }
-    if (parentEl.contains(targetEl)) return;
     this.isFocused.set(false);
   }
   setDefaultStateEffect() {
@@ -875,21 +1000,48 @@ class GridPattern {
   }
   resetStateEffect() {
     const hasReset = this.gridBehavior.resetState();
-    if (hasReset && this._maybeDeletion()) {
-      this._deletion.set(true);
+    if (hasReset) {
+      if (this._maybeDeletion()) {
+        this._deletion.set(true);
+      } else {
+        this._stateStale.set(true);
+      }
     }
     this._maybeDeletion.set(false);
   }
+  resetFocusEffect() {
+    const stateStale = this._stateStale();
+    if (!stateStale) return;
+    const isFocused = untracked(() => this.isFocused());
+    const isRoving = untracked(() => this.inputs.focusMode() === 'roving');
+    const activeCell = untracked(() => this.activeCell());
+    if (isRoving && activeCell !== undefined && isFocused) {
+      if (!activeCell.isFocused()) {
+        activeCell.focus();
+      }
+    }
+    this._stateStale.set(false);
+  }
+  restoreFocusEffect() {
+    const deletion = this._deletion();
+    if (!deletion) return;
+    const isRoving = untracked(() => this.inputs.focusMode() === 'roving');
+    const activeCell = untracked(() => this.activeCell());
+    if (isRoving && activeCell !== undefined) {
+      if (!activeCell.isFocused()) {
+        activeCell.focus();
+      }
+    }
+    this._deletion.set(false);
+  }
   focusEffect() {
     const activeCell = this.activeCell();
-    const hasFocus = this.isFocused();
-    const deletion = this._deletion();
-    const isRoving = this.inputs.focusMode() === 'roving';
-    if (activeCell !== undefined && isRoving && (hasFocus || deletion)) {
-      activeCell.element().focus();
-      if (deletion) {
-        this._deletion.set(false);
-      }
+    const gridFocused = untracked(() => this.isFocused());
+    if (activeCell === undefined || !gridFocused) return;
+    const isRoving = untracked(() => this.inputs.focusMode() === 'roving');
+    const cellFocused = untracked(() => activeCell.isFocused());
+    if (isRoving && !cellFocused) {
+      activeCell.focus();
     }
   }
 }
@@ -905,45 +1057,224 @@ class GridRowPattern {
 
 class GridCellPattern {
   inputs;
-  id;
-  disabled;
+  id = () => this.inputs.id();
+  element = () => this.inputs.element();
+  isFocused = signal(false);
   selected;
-  selectable;
-  rowSpan;
-  colSpan;
+  selectable = () => this.inputs.selectable();
+  disabled = () => this.inputs.disabled();
+  rowSpan = () => this.inputs.rowSpan();
+  colSpan = () => this.inputs.colSpan();
+  active = computed(() => this.inputs.grid().activeCell() === this);
+  anchor = computed(() => this.inputs.grid().anchorCell() === this ? true : undefined);
   ariaSelected = computed(() => this.inputs.grid().inputs.enableSelection() && this.selectable() ? this.selected() : undefined);
   ariaRowIndex = computed(() => this.inputs.row().rowIndex() ?? this.inputs.rowIndex() ?? this.inputs.grid().gridBehavior.rowIndex(this));
   ariaColIndex = computed(() => this.inputs.colIndex() ?? this.inputs.grid().gridBehavior.colIndex(this));
-  element = computed(() => this.inputs.widget()?.element() ?? this.inputs.element());
-  active = computed(() => this.inputs.grid().activeCell() === this);
-  anchor = computed(() => this.inputs.grid().anchorCell() === this ? true : undefined);
   _tabIndex = computed(() => this.inputs.grid().gridBehavior.cellTabIndex(this));
-  tabIndex = computed(() => this.inputs.widget() !== undefined ? -1 : this._tabIndex());
-  widgetActivated = computed(() => this.inputs.widget()?.inputs.activate() ?? false);
+  tabIndex = computed(() => {
+    if (this.singleWidgetMode() || this.navigationActivated()) {
+      return -1;
+    }
+    return this._tabIndex();
+  });
+  singleWidgetMode = computed(() => this.inputs.widgets().length === 1);
+  multiWidgetMode = computed(() => this.inputs.widgets().length > 1);
+  navigationDisabled = computed(() => !this.multiWidgetMode() || !this.active() || this.inputs.disabled());
+  focusBehavior;
+  navigationBehavior;
+  activeWidget = linkedSignal(() => this.inputs.widgets().length > 0 ? this.inputs.widgets()[0] : undefined);
+  navigationActivated = signal(false);
+  widgetActivated = computed(() => this.inputs.widgets().some(w => w.isActivated()));
+  isActivated = computed(() => this.navigationActivated() || this.widgetActivated());
+  prevKey = computed(() => {
+    if (this.inputs.orientation() === 'vertical') {
+      return 'ArrowUp';
+    }
+    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+  });
+  nextKey = computed(() => {
+    if (this.inputs.orientation() === 'vertical') {
+      return 'ArrowDown';
+    }
+    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+  });
+  keydown = computed(() => {
+    const manager = new KeyboardEventManager();
+    if (!this.navigationActivated()) {
+      manager.on('Enter', () => this.startNavigation());
+      return manager;
+    }
+    manager.on('Escape', () => this.stopNavigation()).on(this.prevKey(), () => this._advance(() => this.navigationBehavior.prev({
+      focusElement: false
+    }))).on(this.nextKey(), () => this._advance(() => this.navigationBehavior.next({
+      focusElement: false
+    }))).on('Home', () => this._advance(() => this.navigationBehavior.next({
+      focusElement: false
+    }))).on('End', () => this._advance(() => this.navigationBehavior.next({
+      focusElement: false
+    })));
+    return manager;
+  });
   constructor(inputs) {
     this.inputs = inputs;
-    this.id = inputs.id;
-    this.disabled = inputs.disabled;
-    this.rowSpan = inputs.rowSpan;
-    this.colSpan = inputs.colSpan;
     this.selected = inputs.selected;
-    this.selectable = inputs.selectable;
+    const listNavigationInputs = {
+      ...inputs,
+      items: inputs.widgets,
+      activeItem: this.activeWidget,
+      disabled: this.navigationDisabled,
+      focusMode: () => 'roving',
+      softDisabled: () => true
+    };
+    this.focusBehavior = new ListFocus(listNavigationInputs);
+    this.navigationBehavior = new ListNavigation({
+      ...listNavigationInputs,
+      focusManager: this.focusBehavior
+    });
+  }
+  onKeydown(event) {
+    if (this.disabled() || this.inputs.widgets().length === 0) return;
+    if (this.singleWidgetMode()) {
+      this.activeWidget().onKeydown(event);
+      return;
+    }
+    if (!this.navigationActivated()) {
+      this.keydown().handle(event);
+      return;
+    }
+    const widgetActivated = this.widgetActivated();
+    this.activeWidget().onKeydown(event);
+    if (!widgetActivated) {
+      this.keydown().handle(event);
+    }
+  }
+  onFocusIn(event) {
+    this.isFocused.set(true);
+    const focusTarget = event.target;
+    const widget = this.inputs.getWidget(focusTarget);
+    if (!widget) return;
+    widget.onFocusIn(event);
+    if (widget !== this.activeWidget()) {
+      this.navigationBehavior.goto(widget, {
+        focusElement: false
+      });
+    }
+    if (this.multiWidgetMode()) {
+      this.navigationActivated.set(true);
+    }
+  }
+  onFocusOut(event) {
+    const blurTarget = event.target;
+    const widget = this.inputs.getWidget(blurTarget);
+    widget?.onFocusOut(event);
+    const focusTarget = event.relatedTarget;
+    if (this.element().contains(focusTarget)) return;
+    this.isFocused.set(false);
+    this.navigationActivated.set(false);
+  }
+  focus() {
+    if (this.singleWidgetMode()) {
+      this.activeWidget()?.focus();
+    } else {
+      this.element().focus();
+    }
   }
   widgetTabIndex() {
-    return this._tabIndex();
+    if (this.singleWidgetMode()) {
+      return this._tabIndex();
+    }
+    return this.navigationActivated() ? 0 : -1;
+  }
+  startNavigation() {
+    if (this.navigationActivated()) return;
+    this.navigationActivated.set(true);
+    this.navigationBehavior.first();
+  }
+  stopNavigation() {
+    if (!this.navigationActivated()) return;
+    this.navigationActivated.set(false);
+    this.element().focus();
+  }
+  _advance(op) {
+    const success = op();
+    if (success) {
+      this.activeWidget()?.focus();
+    }
   }
 }
 
 class GridCellWidgetPattern {
   inputs;
-  element;
+  id = () => this.inputs.id();
+  element = () => this.inputs.element();
+  widgetHost = computed(() => this.inputs.focusTarget() ?? this.element());
+  index = computed(() => this.inputs.cell().inputs.widgets().indexOf(this));
+  disabled = computed(() => this.inputs.disabled() || this.inputs.cell().disabled());
   tabIndex = computed(() => this.inputs.cell().widgetTabIndex());
-  active = computed(() => this.inputs.cell().active());
+  active = computed(() => this.inputs.cell().activeWidget() === this);
+  isActivated = signal(false);
+  lastActivateEvent = signal(undefined);
+  lastDeactivateEvent = signal(undefined);
+  keydown = computed(() => {
+    const manager = new KeyboardEventManager();
+    if (this.inputs.widgetType() === 'simple') {
+      return manager;
+    }
+    if (this.isActivated()) {
+      manager.on('Escape', e => {
+        this.deactivate(e);
+        this.focus();
+      });
+      if (this.inputs.widgetType() === 'editable') {
+        manager.on('Enter', e => {
+          this.deactivate(e);
+          this.focus();
+        });
+      }
+      return manager;
+    }
+    manager.on('Enter', e => this.activate(e));
+    if (this.inputs.widgetType() === 'editable') {
+      manager.on([Modifier.Shift, Modifier.None], /^[a-zA-Z0-9]$/, e => this.activate(e), {
+        preventDefault: false
+      });
+    }
+    return manager;
+  });
   constructor(inputs) {
     this.inputs = inputs;
-    this.element = inputs.element;
+  }
+  onKeydown(event) {
+    if (this.disabled()) return;
+    this.keydown().handle(event);
+  }
+  onFocusIn(event) {
+    if (this.inputs.widgetType() === 'simple') return;
+    const focusTarget = event.target;
+    if (this.widgetHost().contains(focusTarget) && this.widgetHost() !== focusTarget) {
+      this.activate(event);
+    }
+  }
+  onFocusOut(event) {
+    const focusTarget = event.relatedTarget;
+    if (this.widgetHost().contains(focusTarget)) return;
+    this.deactivate(event);
+  }
+  focus() {
+    this.widgetHost().focus();
+  }
+  activate(event) {
+    if (this.isActivated()) return;
+    if (this.inputs.widgetType() === 'simple') return;
+    this.isActivated.set(true);
+    this.lastActivateEvent.set(event);
+  }
+  deactivate(event) {
+    if (!this.isActivated()) return;
+    this.isActivated.set(false);
+    this.lastDeactivateEvent.set(event);
   }
 }
 
-export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, KeyboardEventManager, Modifier, PointerEventManager };
+export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, KeyboardEventManager, ListFocus, ListNavigation, Modifier, PointerEventManager };
 //# sourceMappingURL=_widget-chunk.mjs.map

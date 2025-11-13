@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { Signal } from '@angular/core';
+import { Signal, ElementRef } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_grid-chunk.js';
 
@@ -106,14 +106,12 @@ declare class GridRow {
     readonly grid: Signal<GridPattern>;
     /** The host native element. */
     readonly element: Signal<any>;
-    /** The ARIA role for the row. */
-    readonly role: _angular_core.InputSignal<"row" | "rowheader">;
     /** The index of this row within the grid. */
     readonly rowIndex: _angular_core.InputSignal<number | undefined>;
     /** The UI pattern for the grid row. */
     readonly _pattern: GridRowPattern;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridRow, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridRow, "[ngGridRow]", ["ngGridRow"], { "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; }, {}, ["_cells"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridRow, "[ngGridRow]", ["ngGridRow"], { "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; }, {}, ["_cells"], never, true, never>;
 }
 /**
  * Represents a cell within a grid row. It is the primary focusable element
@@ -131,18 +129,20 @@ declare class GridRow {
 declare class GridCell {
     /** A reference to the host element. */
     private readonly _elementRef;
-    /** The widget contained within this cell, if any. */
+    /** The widgets contained within this cell, if any. */
     private readonly _widgets;
     /** The UI pattern for the widget in this cell. */
-    private readonly _widgetPattern;
+    private readonly _widgetPatterns;
     /** The parent row. */
     private readonly _row;
+    /** Text direction. */
+    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** A unique identifier for the cell. */
-    private readonly _id;
+    readonly id: _angular_core.InputSignal<string>;
     /** The host native element. */
     readonly element: Signal<any>;
     /** The ARIA role for the cell. */
-    readonly role: _angular_core.InputSignal<"gridcell" | "columnheader">;
+    readonly role: _angular_core.InputSignal<"gridcell" | "columnheader" | "rowheader">;
     /** The number of rows the cell should span. */
     readonly rowSpan: _angular_core.InputSignal<number>;
     /** The number of columns the cell should span. */
@@ -157,10 +157,24 @@ declare class GridCell {
     readonly selected: _angular_core.ModelSignal<boolean>;
     /** Whether the cell is selectable. */
     readonly selectable: _angular_core.InputSignal<boolean>;
+    /** Orientation of the widgets in the cell. */
+    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    /** Whether widgets navigation wraps. */
+    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The tabindex override. */
+    readonly tabindex: _angular_core.InputSignal<number | undefined>;
+    /**
+     * The tabindex value set to the element.
+     * If a focus target exists then return -1. Unless an override.
+     */
+    protected readonly _tabIndex: Signal<number>;
     /** The UI pattern for the grid cell. */
     readonly _pattern: GridCellPattern;
+    constructor();
+    /** Gets the cell widget pattern for a given element. */
+    private _getWidget;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCell, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widgets"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widgets"], never, true, never>;
 }
 /**
  * Represents an interactive element inside a `GridCell`. It allows for pausing grid navigation to
@@ -185,14 +199,36 @@ declare class GridCellWidget {
     private readonly _cell;
     /** The host native element. */
     readonly element: Signal<any>;
-    /** Whether the widget is activated and the grid navigation should be paused. */
-    readonly activate: _angular_core.ModelSignal<boolean>;
+    /** A unique identifier for the widget. */
+    readonly id: _angular_core.InputSignal<string>;
+    /** The type of widget, which determines how it is activated. */
+    readonly widgetType: _angular_core.InputSignal<"simple" | "complex" | "editable">;
+    /** Whether the widget is disabled. */
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The target that will receive focus instead of the widget. */
+    readonly focusTarget: _angular_core.InputSignal<ElementRef<any> | HTMLElement | undefined>;
+    /** Emits when the widget is activated. */
+    readonly onActivate: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
+    /** Emits when the widget is deactivated. */
+    readonly onDeactivate: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
+    /** The tabindex override. */
+    readonly tabindex: _angular_core.InputSignal<number | undefined>;
+    /**
+     * The tabindex value set to the element.
+     * If a focus target exists then return -1. Unless an override.
+     */
+    protected readonly _tabIndex: Signal<number>;
     /** The UI pattern for the grid cell widget. */
     readonly _pattern: GridCellWidgetPattern;
-    /** Focuses the widget. */
-    focus(): void;
+    /** Whether the widget is activated. */
+    get isActivated(): Signal<boolean>;
+    constructor();
+    /** Activates the widget. */
+    activate(): void;
+    /** Deactivates the widget. */
+    deactivate(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCellWidget, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCellWidget, "[ngGridCellWidget]", ["ngGridCellWidget"], { "activate": { "alias": "activate"; "required": false; "isSignal": true; }; }, { "activate": "activateChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCellWidget, "[ngGridCellWidget]", ["ngGridCellWidget"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "widgetType": { "alias": "widgetType"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "focusTarget": { "alias": "focusTarget"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "onActivate": "onActivate"; "onDeactivate": "onDeactivate"; }, never, never, true, never>;
 }
 
 export { Grid, GridCell, GridCellWidget, GridRow };

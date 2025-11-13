@@ -1,6 +1,6 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import * as i0 from '@angular/core';
-import { inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, contentChild, model } from '@angular/core';
+import { inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, model, output } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_widget-chunk.mjs';
 
@@ -69,20 +69,23 @@ class Grid {
   constructor() {
     afterRenderEffect(() => this._pattern.setDefaultStateEffect());
     afterRenderEffect(() => this._pattern.resetStateEffect());
+    afterRenderEffect(() => this._pattern.resetFocusEffect());
+    afterRenderEffect(() => this._pattern.restoreFocusEffect());
     afterRenderEffect(() => this._pattern.focusEffect());
   }
   _getCell(element) {
-    const cellElement = element.closest('[ngGridCell]');
-    if (cellElement === undefined) return;
-    const widgetElement = element.closest('[ngGridCellWidget]');
-    for (const row of this._rowPatterns()) {
-      for (const cell of row.inputs.cells()) {
-        if (cell.element() === cellElement || widgetElement !== undefined && cell.element() === widgetElement) {
-          return cell;
+    let target = element;
+    while (target) {
+      for (const row of this._rowPatterns()) {
+        for (const cell of row.inputs.cells()) {
+          if (cell.element() === target) {
+            return cell;
+          }
         }
       }
+      target = target.parentElement?.closest('[ngGridCell]');
     }
-    return;
+    return undefined;
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -172,7 +175,7 @@ class Grid {
         "pointerdown": "_pattern.onPointerdown($event)",
         "pointermove": "_pattern.onPointermove($event)",
         "pointerup": "_pattern.onPointerup($event)",
-        "focusin": "_pattern.onFocusIn()",
+        "focusin": "_pattern.onFocusIn($event)",
         "focusout": "_pattern.onFocusOut($event)"
       },
       properties: {
@@ -212,7 +215,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(pointermove)': '_pattern.onPointermove($event)',
         '(pointerup)': '_pattern.onPointerup($event)',
-        '(focusin)': '_pattern.onFocusIn()',
+        '(focusin)': '_pattern.onFocusIn($event)',
         '(focusout)': '_pattern.onFocusOut($event)'
       }
     }]
@@ -237,9 +240,6 @@ class GridRow {
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));
-  role = input('row', ...(ngDevMode ? [{
-    debugName: "role"
-  }] : []));
   rowIndex = input(...(ngDevMode ? [undefined, {
     debugName: "rowIndex"
   }] : []));
@@ -262,13 +262,6 @@ class GridRow {
     isStandalone: true,
     selector: "[ngGridRow]",
     inputs: {
-      role: {
-        classPropertyName: "role",
-        publicName: "role",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
       rowIndex: {
         classPropertyName: "rowIndex",
         publicName: "rowIndex",
@@ -278,8 +271,11 @@ class GridRow {
       }
     },
     host: {
+      attributes: {
+        "role": "row"
+      },
       properties: {
-        "attr.role": "role()"
+        "attr.aria-rowindex": "_pattern.rowIndex()"
       },
       classAttribute: "grid-row"
     },
@@ -305,21 +301,28 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngGridRow',
       host: {
         'class': 'grid-row',
-        '[attr.role]': 'role()'
+        'role': 'row',
+        '[attr.aria-rowindex]': '_pattern.rowIndex()'
       }
     }]
   }]
 });
 class GridCell {
   _elementRef = inject(ElementRef);
-  _widgets = contentChild(GridCellWidget, ...(ngDevMode ? [{
-    debugName: "_widgets"
-  }] : []));
-  _widgetPattern = computed(() => this._widgets()?._pattern, ...(ngDevMode ? [{
-    debugName: "_widgetPattern"
+  _widgets = contentChildren(GridCellWidget, ...(ngDevMode ? [{
+    debugName: "_widgets",
+    descendants: true
+  }] : [{
+    descendants: true
+  }]));
+  _widgetPatterns = computed(() => this._widgets().map(w => w._pattern), ...(ngDevMode ? [{
+    debugName: "_widgetPatterns"
   }] : []));
   _row = inject(GridRow);
-  _id = inject(_IdGenerator).getId('ng-grid-cell-', true);
+  textDirection = inject(Directionality).valueSignal;
+  id = input(inject(_IdGenerator).getId('ng-grid-cell-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));
@@ -350,13 +353,40 @@ class GridCell {
   selectable = input(true, ...(ngDevMode ? [{
     debugName: "selectable"
   }] : []));
+  orientation = input('horizontal', ...(ngDevMode ? [{
+    debugName: "orientation"
+  }] : []));
+  wrap = input(true, ...(ngDevMode ? [{
+    debugName: "wrap",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  tabindex = input(...(ngDevMode ? [undefined, {
+    debugName: "tabindex"
+  }] : []));
+  _tabIndex = computed(() => this.tabindex() ?? this._pattern.tabIndex(), ...(ngDevMode ? [{
+    debugName: "_tabIndex"
+  }] : []));
   _pattern = new GridCellPattern({
     ...this,
-    id: () => this._id,
     grid: this._row.grid,
     row: () => this._row._pattern,
-    widget: this._widgetPattern
+    widgets: this._widgetPatterns,
+    getWidget: e => this._getWidget(e)
   });
+  constructor() {}
+  _getWidget(element) {
+    let target = element;
+    while (target) {
+      const pattern = this._widgetPatterns().find(w => w.element() === target);
+      if (pattern) {
+        return pattern;
+      }
+      target = target.parentElement?.closest('[ngGridCellWidget]');
+    }
+    return undefined;
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
@@ -372,6 +402,13 @@ class GridCell {
     isStandalone: true,
     selector: "[ngGridCell]",
     inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       role: {
         classPropertyName: "role",
         publicName: "role",
@@ -427,6 +464,27 @@ class GridCell {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      orientation: {
+        classPropertyName: "orientation",
+        publicName: "orientation",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      wrap: {
+        classPropertyName: "wrap",
+        publicName: "wrap",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      tabindex: {
+        classPropertyName: "tabindex",
+        publicName: "tabindex",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
     },
     outputs: {
@@ -446,13 +504,12 @@ class GridCell {
         "attr.aria-rowindex": "_pattern.ariaRowIndex()",
         "attr.aria-colindex": "_pattern.ariaColIndex()",
         "attr.aria-selected": "_pattern.ariaSelected()",
-        "tabindex": "_pattern.tabIndex()"
+        "tabindex": "_tabIndex()"
       },
       classAttribute: "grid-cell"
     },
     queries: [{
       propertyName: "_widgets",
-      first: true,
       predicate: GridCellWidget,
       descendants: true,
       isSignal: true
@@ -485,10 +542,11 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-rowindex]': '_pattern.ariaRowIndex()',
         '[attr.aria-colindex]': '_pattern.ariaColIndex()',
         '[attr.aria-selected]': '_pattern.ariaSelected()',
-        '[tabindex]': '_pattern.tabIndex()'
+        '[tabindex]': '_tabIndex()'
       }
     }]
-  }]
+  }],
+  ctorParameters: () => []
 });
 class GridCellWidget {
   _elementRef = inject(ElementRef);
@@ -496,15 +554,61 @@ class GridCellWidget {
   element = computed(() => this._elementRef.nativeElement, ...(ngDevMode ? [{
     debugName: "element"
   }] : []));
-  activate = model(false, ...(ngDevMode ? [{
-    debugName: "activate"
+  id = input(inject(_IdGenerator).getId('ng-grid-cell-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  widgetType = input('simple', ...(ngDevMode ? [{
+    debugName: "widgetType"
+  }] : []));
+  disabled = input(false, ...(ngDevMode ? [{
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  focusTarget = input(...(ngDevMode ? [undefined, {
+    debugName: "focusTarget"
+  }] : []));
+  onActivate = output();
+  onDeactivate = output();
+  tabindex = input(...(ngDevMode ? [undefined, {
+    debugName: "tabindex"
+  }] : []));
+  _tabIndex = computed(() => this.tabindex() ?? (this.focusTarget() ? -1 : this._pattern.tabIndex()), ...(ngDevMode ? [{
+    debugName: "_tabIndex"
   }] : []));
   _pattern = new GridCellWidgetPattern({
     ...this,
-    cell: () => this._cell._pattern
+    cell: () => this._cell._pattern,
+    focusTarget: computed(() => {
+      if (this.focusTarget() instanceof ElementRef) {
+        return this.focusTarget().nativeElement;
+      }
+      return this.focusTarget();
+    })
   });
-  focus() {
-    this.element().focus();
+  get isActivated() {
+    return this._pattern.isActivated.asReadonly();
+  }
+  constructor() {
+    afterRenderEffect(() => {
+      const activateEvent = this._pattern.lastActivateEvent();
+      if (activateEvent) {
+        this.onActivate.emit(activateEvent);
+      }
+    });
+    afterRenderEffect(() => {
+      const deactivateEvent = this._pattern.lastDeactivateEvent();
+      if (deactivateEvent) {
+        this.onDeactivate.emit(deactivateEvent);
+      }
+    });
+  }
+  activate() {
+    this._pattern.activate();
+  }
+  deactivate() {
+    this._pattern.deactivate();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -521,21 +625,51 @@ class GridCellWidget {
     isStandalone: true,
     selector: "[ngGridCellWidget]",
     inputs: {
-      activate: {
-        classPropertyName: "activate",
-        publicName: "activate",
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      widgetType: {
+        classPropertyName: "widgetType",
+        publicName: "widgetType",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      focusTarget: {
+        classPropertyName: "focusTarget",
+        publicName: "focusTarget",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      tabindex: {
+        classPropertyName: "tabindex",
+        publicName: "tabindex",
         isSignal: true,
         isRequired: false,
         transformFunction: null
       }
     },
     outputs: {
-      activate: "activateChange"
+      onActivate: "onActivate",
+      onDeactivate: "onDeactivate"
     },
     host: {
       properties: {
         "attr.data-active": "_pattern.active()",
-        "tabindex": "_pattern.tabIndex()"
+        "attr.data-active-control": "isActivated() ? \"widget\" : \"cell\"",
+        "tabindex": "_tabIndex()"
       },
       classAttribute: "grid-cell-widget"
     },
@@ -556,10 +690,12 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'class': 'grid-cell-widget',
         '[attr.data-active]': '_pattern.active()',
-        '[tabindex]': '_pattern.tabIndex()'
+        '[attr.data-active-control]': 'isActivated() ? "widget" : "cell"',
+        '[tabindex]': '_tabIndex()'
       }
     }]
-  }]
+  }],
+  ctorParameters: () => []
 });
 
 export { Grid, GridCell, GridCellWidget, GridRow };

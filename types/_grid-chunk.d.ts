@@ -1,4 +1,5 @@
 import * as _angular_core from '@angular/core';
+import { WritableSignal, Signal } from '@angular/core';
 
 /**
  * Options that are applicable to all event handlers.
@@ -103,6 +104,111 @@ declare class PointerEventManager<T extends PointerEvent> extends EventManager<T
     _isMatch(event: PointerEvent, button: MouseButton, modifiers: ModifierInputs): boolean;
 }
 
+/** Represents an item in a collection, such as a listbox option, than may receive focus. */
+interface ListFocusItem {
+    /** A unique identifier for the item. */
+    id: SignalLike<string>;
+    /** The html element that should receive focus. */
+    element: SignalLike<HTMLElement | undefined>;
+    /** Whether an item is disabled. */
+    disabled: SignalLike<boolean>;
+    /** The index of the item in the list. */
+    index: SignalLike<number>;
+}
+/** Represents the required inputs for a collection that contains focusable items. */
+interface ListFocusInputs<T extends ListFocusItem> {
+    /** The focus strategy used by the list. */
+    focusMode: SignalLike<'roving' | 'activedescendant'>;
+    /** Whether the list is disabled. */
+    disabled: SignalLike<boolean>;
+    /** The items in the list. */
+    items: SignalLike<T[]>;
+    /** The active item. */
+    activeItem: WritableSignalLike<T | undefined>;
+    /** Whether disabled items in the list should be focusable. */
+    softDisabled: SignalLike<boolean>;
+    element: SignalLike<HTMLElement | undefined>;
+}
+/** Controls focus for a list of items. */
+declare class ListFocus<T extends ListFocusItem> {
+    readonly inputs: ListFocusInputs<T>;
+    /** The last item that was active. */
+    prevActiveItem: _angular_core.WritableSignal<T | undefined>;
+    /** The index of the last item that was active. */
+    prevActiveIndex: _angular_core.Signal<number>;
+    /** The current active index in the list. */
+    activeIndex: _angular_core.Signal<number>;
+    constructor(inputs: ListFocusInputs<T>);
+    /** Whether the list is in a disabled state. */
+    isListDisabled(): boolean;
+    /** The id of the current active item. */
+    getActiveDescendant(): string | undefined;
+    /** The tab index for the list. */
+    getListTabIndex(): -1 | 0;
+    /** Returns the tab index for the given item. */
+    getItemTabIndex(item: T): -1 | 0;
+    /** Moves focus to the given item if it is focusable. */
+    focus(item: T, opts?: {
+        focusElement?: boolean;
+    }): boolean;
+    /** Returns true if the given item can be navigated to. */
+    isFocusable(item: T): boolean;
+}
+
+/** Represents an item in a collection, such as a listbox option, than can be navigated to. */
+interface ListNavigationItem extends ListFocusItem {
+}
+/** Represents the required inputs for a collection that has navigable items. */
+interface ListNavigationInputs<T extends ListNavigationItem> extends ListFocusInputs<T> {
+    /** Whether focus should wrap when navigating. */
+    wrap: SignalLike<boolean>;
+    /** Whether the list is vertically or horizontally oriented. */
+    orientation: SignalLike<'vertical' | 'horizontal'>;
+    /** The direction that text is read based on the users locale. */
+    textDirection: SignalLike<'rtl' | 'ltr'>;
+}
+/** Controls navigation for a list of items. */
+declare class ListNavigation<T extends ListNavigationItem> {
+    readonly inputs: ListNavigationInputs<T> & {
+        focusManager: ListFocus<T>;
+    };
+    constructor(inputs: ListNavigationInputs<T> & {
+        focusManager: ListFocus<T>;
+    });
+    /** Navigates to the given item. */
+    goto(item?: T, opts?: {
+        focusElement?: boolean;
+    }): boolean;
+    /** Navigates to the next item in the list. */
+    next(opts?: {
+        focusElement?: boolean;
+    }): boolean;
+    /** Peeks the next item in the list. */
+    peekNext(): T | undefined;
+    /** Navigates to the previous item in the list. */
+    prev(opts?: {
+        focusElement?: boolean;
+    }): boolean;
+    /** Peeks the previous item in the list. */
+    peekPrev(): T | undefined;
+    /** Navigates to the first item in the list. */
+    first(opts?: {
+        focusElement?: boolean;
+    }): boolean;
+    /** Navigates to the last item in the list. */
+    last(opts?: {
+        focusElement?: boolean;
+    }): boolean;
+    /** Gets the first focusable item from the given list of items. */
+    peekFirst(items?: T[]): T | undefined;
+    /** Gets the last focusable item from the given list of items. */
+    peekLast(items?: T[]): T | undefined;
+    /** Advances to the next or previous focusable item in the list based on the given delta. */
+    private _advance;
+    /** Peeks the next or previous focusable item in the list based on the given delta. */
+    private _peek;
+}
+
 /** Represents coordinates in a grid. */
 interface RowCol {
     /** The row index. */
@@ -140,6 +246,8 @@ declare class GridData<T extends BaseGridCell> {
     /** A map from a column index to the number of rows in that column. */
     private readonly _rowCountByCol;
     constructor(inputs: GridDataInputs<T>);
+    /** Whether the cell exists. */
+    hasCell(cell: T): boolean;
     /** Gets the cell at the given coordinates. */
     getCell(rowCol: RowCol): T | undefined;
     /** Gets the primary coordinates of the given cell. */
@@ -179,9 +287,9 @@ interface GridFocusDeps<T extends GridFocusCell> {
 declare class GridFocus<T extends GridFocusCell> {
     readonly inputs: GridFocusInputs & GridFocusDeps<T>;
     /** The current active cell. */
-    readonly activeCell: _angular_core.WritableSignal<T | undefined>;
+    readonly activeCell: WritableSignal<T | undefined>;
     /** The current active cell coordinates. */
-    readonly activeCoords: _angular_core.WritableSignal<RowCol>;
+    readonly activeCoords: WritableSignal<RowCol>;
     /** Whether the grid active state is empty (no active cell or coordinates). */
     readonly stateEmpty: _angular_core.Signal<boolean>;
     /**
@@ -434,78 +542,145 @@ declare class Grid<T extends GridCell> {
 }
 
 /** The inputs for the `GridCellWidgetPattern`. */
-interface GridCellWidgetInputs {
+interface GridCellWidgetInputs extends Omit<ListNavigationItem, 'index'> {
     /** The `GridCellPattern` that this widget belongs to. */
     cell: SignalLike<GridCellPattern>;
     /** The html element that should receive focus. */
     element: SignalLike<HTMLElement>;
-    /**
-     * Whether the widget is activated, which pauses grid navigation to allow interaction
-     * with the widget.
-     */
-    activate: WritableSignalLike<boolean>;
+    /** The type of widget, which determines how it is activated. */
+    widgetType: SignalLike<'simple' | 'complex' | 'editable'>;
+    /** The element that will receive focus when the widget is activated. */
+    focusTarget: SignalLike<HTMLElement | undefined>;
 }
 /** The UI pattern for a widget inside a grid cell. */
-declare class GridCellWidgetPattern {
+declare class GridCellWidgetPattern implements ListNavigationItem {
     readonly inputs: GridCellWidgetInputs;
+    /** A unique identifier for the widget. */
+    readonly id: SignalLike<string>;
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement>;
-    /** The `tab index` for the widget. */
-    readonly tabIndex: SignalLike<-1 | 0>;
-    /** Whether the widget is in an active state (i.e. its containing cell is active). */
-    readonly active: SignalLike<boolean>;
+    /** The element that should receive focus. */
+    readonly widgetHost: Signal<HTMLElement>;
+    /** The index of the widget within the cell. */
+    readonly index: Signal<number>;
+    /** Whether the widget is disabled. */
+    readonly disabled: Signal<boolean>;
+    /** The tab index for the widget. */
+    readonly tabIndex: Signal<-1 | 0>;
+    /** Whether the widget is the active item in the widget list. */
+    readonly active: Signal<boolean>;
+    /** Whether the widget is currently activated. */
+    readonly isActivated: WritableSignal<boolean>;
+    /** The last event that caused the widget to be activated. */
+    readonly lastActivateEvent: WritableSignal<KeyboardEvent | FocusEvent | undefined>;
+    /** The last event that caused the widget to be deactivated. */
+    readonly lastDeactivateEvent: WritableSignal<KeyboardEvent | FocusEvent | undefined>;
+    /** The keyboard event manager for the widget. */
+    readonly keydown: Signal<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: GridCellWidgetInputs);
+    /** Handles keydown events for the widget. */
+    onKeydown(event: KeyboardEvent): void;
+    /** Handles focusin events for the widget. */
+    onFocusIn(event: FocusEvent): void;
+    /** Handles focusout events for the widget. */
+    onFocusOut(event: FocusEvent): void;
+    /** Focuses the widget's host element. */
+    focus(): void;
+    /** Activates the widget. */
+    activate(event?: KeyboardEvent | FocusEvent): void;
+    /** Deactivates the widget and restores focus to the widget's host element. */
+    deactivate(event?: KeyboardEvent | FocusEvent): void;
 }
 
 /** The inputs for the `GridCellPattern`. */
-interface GridCellInputs extends GridCell {
+interface GridCellInputs extends GridCell, Omit<ListNavigationInputs<GridCellWidgetPattern>, 'focusMode' | 'items' | 'activeItem' | 'softDisabled' | 'element'> {
     /** The `GridPattern` that this cell belongs to. */
     grid: SignalLike<GridPattern>;
     /** The `GridRowPattern` that this cell belongs to. */
     row: SignalLike<GridRowPattern>;
-    /** The widget pattern contained within this cell, if any. */
-    widget: SignalLike<GridCellWidgetPattern | undefined>;
+    /** The widget patterns contained within this cell, if any. */
+    widgets: SignalLike<GridCellWidgetPattern[]>;
     /** The index of this cell's row within the grid. */
     rowIndex: SignalLike<number | undefined>;
     /** The index of this cell's column within the grid. */
     colIndex: SignalLike<number | undefined>;
+    /** A function that returns the cell widget associated with a given element. */
+    getWidget: (e: Element | null) => GridCellWidgetPattern | undefined;
 }
 /** The UI pattern for a grid cell. */
 declare class GridCellPattern implements GridCell {
     readonly inputs: GridCellInputs;
     /** A unique identifier for the cell. */
     readonly id: SignalLike<string>;
-    /** Whether a cell is disabled. */
-    readonly disabled: SignalLike<boolean>;
+    /** The html element that should receive focus. */
+    readonly element: SignalLike<HTMLElement>;
+    /** Whether the cell has focus. */
+    readonly isFocused: WritableSignal<boolean>;
     /** Whether the cell is selected. */
     readonly selected: WritableSignalLike<boolean>;
     /** Whether the cell is selectable. */
     readonly selectable: SignalLike<boolean>;
+    /** Whether a cell is disabled. */
+    readonly disabled: SignalLike<boolean>;
     /** The number of rows the cell should span. */
     readonly rowSpan: SignalLike<number>;
     /** The number of columns the cell should span. */
     readonly colSpan: SignalLike<number>;
-    /** The `aria-selected` attribute for the cell. */
-    readonly ariaSelected: _angular_core.Signal<boolean | undefined>;
-    /** The `aria-rowindex` attribute for the cell. */
-    readonly ariaRowIndex: _angular_core.Signal<number | undefined>;
-    /** The `aria-colindex` attribute for the cell. */
-    readonly ariaColIndex: _angular_core.Signal<number | undefined>;
-    /** The html element that should receive focus. */
-    readonly element: SignalLike<HTMLElement>;
     /** Whether the cell is active. */
-    readonly active: _angular_core.Signal<boolean>;
+    readonly active: SignalLike<boolean>;
     /** Whether the cell is a selection anchor. */
     readonly anchor: SignalLike<true | undefined>;
+    /** The `aria-selected` attribute for the cell. */
+    readonly ariaSelected: SignalLike<boolean | undefined>;
+    /** The `aria-rowindex` attribute for the cell. */
+    readonly ariaRowIndex: SignalLike<number | undefined>;
+    /** The `aria-colindex` attribute for the cell. */
+    readonly ariaColIndex: SignalLike<number | undefined>;
     /** The internal tab index calculation for the cell. */
     private readonly _tabIndex;
     /** The tab index for the cell. If the cell contains a widget, the cell's tab index is -1. */
     readonly tabIndex: SignalLike<-1 | 0>;
-    /** Whether the widget within the cell is activated. */
+    /** Whether the cell contains a single widget. */
+    readonly singleWidgetMode: SignalLike<boolean>;
+    /** Whether the cell contains multiple widgets. */
+    readonly multiWidgetMode: SignalLike<boolean>;
+    /** Whether navigation between widgets is disabled. */
+    readonly navigationDisabled: SignalLike<boolean>;
+    /** The focus behavior for the widgets in the cell. */
+    readonly focusBehavior: ListFocus<GridCellWidgetPattern>;
+    /** The navigation behavior for the widgets in the cell. */
+    readonly navigationBehavior: ListNavigation<GridCellWidgetPattern>;
+    /** The currently active widget in the cell. */
+    readonly activeWidget: WritableSignalLike<GridCellWidgetPattern | undefined>;
+    /** Whether navigation between widgets is activated. */
+    readonly navigationActivated: WritableSignalLike<boolean>;
+    /** Whether any widget within the cell is activated. */
     readonly widgetActivated: SignalLike<boolean>;
+    /** Whether the cell or widget inside the cell is activated. */
+    readonly isActivated: SignalLike<boolean>;
+    /** The key used to navigate to the previous widget. */
+    readonly prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    /** The key used to navigate to the next widget. */
+    readonly nextKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    /** The keyboard event manager for the cell. */
+    readonly keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: GridCellInputs);
+    /** Handles keydown events for the cell. */
+    onKeydown(event: KeyboardEvent): void;
+    /** Handles focusin events for the cell. */
+    onFocusIn(event: FocusEvent): void;
+    /** Handles focusout events for the cell. */
+    onFocusOut(event: FocusEvent): void;
+    /** Focuses the cell or the active widget. */
+    focus(): void;
     /** Gets the tab index for the widget within the cell. */
     widgetTabIndex(): -1 | 0;
+    /** Starts navigation between widgets. */
+    startNavigation(): void;
+    /** Stops navigation between widgets and restores focus to the cell. */
+    stopNavigation(): void;
+    /** Executes a navigation operation and focuses the new active widget. */
+    private _advance;
 }
 
 /** The inputs for the `GridRowPattern`. */
@@ -542,7 +717,7 @@ interface GridInputs extends Omit<GridInputs$1<GridCellPattern>, 'cells'> {
     /** Whether enable range selection. */
     enableRangeSelection: SignalLike<boolean>;
     /** A function that returns the grid cell associated with a given element. */
-    getCell: (e: Element) => GridCellPattern | undefined;
+    getCell: (e: Element | null) => GridCellPattern | undefined;
 }
 /** The UI pattern for a grid, handling keyboard navigation, focus, and selection. */
 declare class GridPattern {
@@ -561,8 +736,8 @@ declare class GridPattern {
     readonly activeCell: _angular_core.Signal<GridCellPattern | undefined>;
     /** The current selection anchor cell. */
     readonly anchorCell: SignalLike<GridCellPattern | undefined>;
-    /** Whether to pause grid navigation. */
-    readonly pauseNavigation: _angular_core.Signal<boolean>;
+    /** Whether to pause grid navigation and give the keyboard control to cell or widget. */
+    readonly pauseNavigation: SignalLike<boolean>;
     /** Whether the focus is in the grid. */
     readonly isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the grid has been focused once. */
@@ -583,6 +758,8 @@ declare class GridPattern {
     private readonly _maybeDeletion;
     /** Indicates the losing focus is certainly caused by row/cell deletion. */
     private readonly _deletion;
+    /** Whether the grid state is stale and needs to be reconciled. */
+    private readonly _stateStale;
     constructor(inputs: GridInputs);
     /** Handles keydown events on the grid. */
     onKeydown(event: KeyboardEvent): void;
@@ -593,16 +770,20 @@ declare class GridPattern {
     /** Handles pointerup events on the grid. */
     onPointerup(event: PointerEvent): void;
     /** Handles focusin events on the grid. */
-    onFocusIn(): void;
+    onFocusIn(event: FocusEvent): void;
     /** Handles focusout events on the grid. */
     onFocusOut(event: FocusEvent): void;
     /** Sets the default active state of the grid before receiving focus the first time. */
     setDefaultStateEffect(): void;
     /** Resets the active state of the grid if it is empty or stale. */
     resetStateEffect(): void;
-    /** Focuses on the active cell element. */
+    /** Resets the focus to the active cell element or grid element. */
+    resetFocusEffect(): void;
+    /** Restore focus when a deletion happened. */
+    restoreFocusEffect(): void;
+    /** Sets focus when active cell changed. */
     focusEffect(): void;
 }
 
-export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, KeyboardEventManager, PointerEventManager, convertGetterSetterToWritableSignalLike };
-export type { GridCellInputs, GridCellWidgetInputs, GridInputs, GridRowInputs, SignalLike, WritableSignalLike };
+export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, KeyboardEventManager, ListFocus, ListNavigation, PointerEventManager, convertGetterSetterToWritableSignalLike };
+export type { GridCellInputs, GridCellWidgetInputs, GridInputs, GridRowInputs, ListFocusInputs, ListFocusItem, ListNavigationInputs, ListNavigationItem, SignalLike, WritableSignalLike };
