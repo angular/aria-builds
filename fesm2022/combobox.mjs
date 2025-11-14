@@ -78,12 +78,6 @@ class Combobox {
   close() {
     this._pattern.close();
   }
-  expand() {
-    this._pattern.open();
-  }
-  collapse() {
-    this._pattern.close();
-  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",
