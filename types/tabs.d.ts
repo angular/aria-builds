@@ -49,8 +49,8 @@ declare class Tabs {
     readonly _tabPatterns: _angular_core.Signal<TabPattern[] | undefined>;
     /** The TabPanel UIPattern of the child TabPanels. */
     readonly _unorderedTabpanelPatterns: _angular_core.Signal<TabPanelPattern[]>;
-    register(child: TabList | TabPanel): void;
-    deregister(child: TabList | TabPanel): void;
+    _register(child: TabList | TabPanel): void;
+    _unregister(child: TabList | TabPanel): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
 }
@@ -113,11 +113,11 @@ declare class TabList implements OnInit, OnDestroy {
     /** Whether the tree has received focus yet. */
     private _hasFocused;
     constructor();
-    onFocus(): void;
+    _onFocus(): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    register(child: Tab): void;
-    deregister(child: Tab): void;
+    _register(child: Tab): void;
+    _unregister(child: Tab): void;
     /** Opens the tab panel with the specified value. */
     open(value: string): boolean;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
@@ -149,9 +149,9 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The parent TabList UIPattern. */
-    readonly tablist: _angular_core.Signal<TabListPattern>;
+    private readonly _tablistPattern;
     /** The TabPanel UIPattern associated with the tab */
-    readonly tabpanel: _angular_core.Signal<TabPanelPattern | undefined>;
+    private readonly _tabpanelPattern;
     /** Whether a tab is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The remote tabpanel unique identifier. */
@@ -198,7 +198,7 @@ declare class TabPanel implements OnInit, OnDestroy {
     /** A global unique identifier for the tab. */
     readonly id: _angular_core.InputSignal<string>;
     /** The Tab UIPattern associated with the tabpanel */
-    readonly tab: _angular_core.Signal<TabPattern | undefined>;
+    private readonly _tabPattern;
     /** A local unique identifier for the tabpanel. */
     readonly value: _angular_core.InputSignal<string>;
     /** Whether the tab panel is visible. */

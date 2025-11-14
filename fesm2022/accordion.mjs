@@ -16,13 +16,13 @@ class AccordionPanel {
   visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
     debugName: "visible"
   }] : []));
-  accordionTrigger = signal(undefined, ...(ngDevMode ? [{
-    debugName: "accordionTrigger"
+  _accordionTriggerPattern = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_accordionTriggerPattern"
   }] : []));
   _pattern = new AccordionPanelPattern({
     id: this.id,
     panelId: this.panelId,
-    accordionTrigger: () => this.accordionTrigger()
+    accordionTrigger: () => this._accordionTriggerPattern()
   });
   constructor() {
     afterRenderEffect(() => {
@@ -30,13 +30,13 @@ class AccordionPanel {
     });
   }
   expand() {
-    this.accordionTrigger()?.open();
+    this._accordionTriggerPattern()?.open();
   }
   collapse() {
-    this.accordionTrigger()?.close();
+    this._accordionTriggerPattern()?.close();
   }
   toggle() {
-    this.accordionTrigger()?.toggle();
+    this._accordionTriggerPattern()?.toggle();
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -132,13 +132,13 @@ class AccordionTrigger {
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  _accordionPanel = signal(undefined, ...(ngDevMode ? [{
-    debugName: "_accordionPanel"
+  _accordionPanelPattern = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_accordionPanelPattern"
   }] : []));
   _pattern = new AccordionTriggerPattern({
     ...this,
     accordionGroup: computed(() => this._accordionGroup._pattern),
-    accordionPanel: this._accordionPanel,
+    accordionPanel: this._accordionPanelPattern,
     element: () => this.element
   });
   expand() {
@@ -295,9 +295,9 @@ class AccordionGroup {
       const panels = this._panels();
       for (const trigger of triggers) {
         const panel = panels.find(p => p.panelId() === trigger.panelId());
-        trigger._accordionPanel.set(panel?._pattern);
+        trigger._accordionPanelPattern.set(panel?._pattern);
         if (panel) {
-          panel.accordionTrigger.set(trigger._pattern);
+          panel._accordionTriggerPattern.set(trigger._pattern);
         }
       }
     });

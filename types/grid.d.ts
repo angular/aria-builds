@@ -105,7 +105,7 @@ declare class GridRow {
     /** The parent grid. */
     private readonly _grid;
     /** The parent grid UI pattern. */
-    readonly grid: Signal<GridPattern>;
+    readonly _gridPattern: Signal<GridPattern>;
     /** The index of this row within the grid. */
     readonly rowIndex: _angular_core.InputSignal<number | undefined>;
     /** The UI pattern for the grid row. */

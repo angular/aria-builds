@@ -23,7 +23,7 @@ class Tabs {
   _unorderedTabpanelPatterns = computed(() => [...this._unorderedPanels()].map(tabpanel => tabpanel._pattern), ...(ngDevMode ? [{
     debugName: "_unorderedTabpanelPatterns"
   }] : []));
-  register(child) {
+  _register(child) {
     if (child instanceof TabList) {
       this._tablist.set(child);
     }
@@ -32,7 +32,7 @@ class Tabs {
       this._unorderedPanels.set(new Set(this._unorderedPanels()));
     }
   }
-  deregister(child) {
+  _unregister(child) {
     if (child instanceof TabList) {
       this._tablist.set(undefined);
     }
@@ -141,20 +141,20 @@ class TabList {
       }
     });
   }
-  onFocus() {
+  _onFocus() {
     this._hasFocused.set(true);
   }
   ngOnInit() {
-    this._tabs.register(this);
+    this._tabs._register(this);
   }
   ngOnDestroy() {
-    this._tabs.deregister(this);
+    this._tabs._unregister(this);
   }
-  register(child) {
+  _register(child) {
     this._unorderedTabs().add(child);
     this._unorderedTabs.set(new Set(this._unorderedTabs()));
   }
-  deregister(child) {
+  _unregister(child) {
     this._unorderedTabs().delete(child);
     this._unorderedTabs.set(new Set(this._unorderedTabs()));
   }
@@ -236,7 +236,7 @@ class TabList {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "onFocus()"
+        "focusin": "_onFocus()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
@@ -267,7 +267,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': 'onFocus()'
+        '(focusin)': '_onFocus()'
       }
     }]
   }],
@@ -281,11 +281,11 @@ class Tab {
   id = input(inject(_IdGenerator).getId('ng-tab-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  tablist = computed(() => this._tabList._pattern, ...(ngDevMode ? [{
-    debugName: "tablist"
+  _tablistPattern = computed(() => this._tabList._pattern, ...(ngDevMode ? [{
+    debugName: "_tablistPattern"
   }] : []));
-  tabpanel = computed(() => this._tabs._unorderedTabpanelPatterns().find(tabpanel => tabpanel.value() === this.value()), ...(ngDevMode ? [{
-    debugName: "tabpanel"
+  _tabpanelPattern = computed(() => this._tabs._unorderedTabpanelPatterns().find(tabpanel => tabpanel.value() === this.value()), ...(ngDevMode ? [{
+    debugName: "_tabpanelPattern"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -304,8 +304,8 @@ class Tab {
   }] : []));
   _pattern = new TabPattern({
     ...this,
-    tablist: this.tablist,
-    tabpanel: this.tabpanel,
+    tablist: this._tablistPattern,
+    tabpanel: this._tabpanelPattern,
     expanded: signal(false),
     element: () => this.element
   });
@@ -313,10 +313,10 @@ class Tab {
     this._pattern.open();
   }
   ngOnInit() {
-    this._tabList.register(this);
+    this._tabList._register(this);
   }
   ngOnDestroy() {
-    this._tabList.deregister(this);
+    this._tabList._unregister(this);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -402,8 +402,8 @@ class TabPanel {
   id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  tab = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
-    debugName: "tab"
+  _tabPattern = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
+    debugName: "_tabPattern"
   }] : []));
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
@@ -412,16 +412,17 @@ class TabPanel {
     debugName: "visible"
   }] : []));
   _pattern = new TabPanelPattern({
-    ...this
+    ...this,
+    tab: this._tabPattern
   });
   constructor() {
     afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
   }
   ngOnInit() {
-    this._Tabs.register(this);
+    this._Tabs._register(this);
   }
   ngOnDestroy() {
-    this._Tabs.deregister(this);
+    this._Tabs._unregister(this);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

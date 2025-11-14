@@ -1,7 +1,7 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { ToolbarWidgetPattern, ToolbarPattern, SignalLike, ToolbarWidgetGroupPattern } from '@angular/aria/private';
+import { ToolbarWidgetPattern, ToolbarPattern, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 
 /**
  * A toolbar widget container for a group of interactive widgets, such as
@@ -33,7 +33,7 @@ declare class Toolbar<V> {
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Sorted UIPatterns of the child widgets */
-    readonly items: _angular_core.Signal<ToolbarWidgetPattern<V>[]>;
+    readonly _itemPatterns: _angular_core.Signal<ToolbarWidgetPattern<V>[]>;
     /** Whether the toolbar is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /**
@@ -50,9 +50,9 @@ declare class Toolbar<V> {
     /** Whether the toolbar has received focus yet. */
     private _hasBeenFocused;
     constructor();
-    onFocus(): void;
-    register(widget: ToolbarWidget<V>): void;
-    unregister(widget: ToolbarWidget<V>): void;
+    _onFocus(): void;
+    _register(widget: ToolbarWidget<V>): void;
+    _unregister(widget: ToolbarWidget<V>): void;
     /** Finds the toolbar item associated with a given element. */
     private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Toolbar<any>, never>;
@@ -83,7 +83,7 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The parent Toolbar UIPattern. */
-    readonly toolbar: _angular_core.Signal<ToolbarPattern<any>>;
+    readonly _toolbarPattern: _angular_core.Signal<ToolbarPattern<any>>;
     /** Whether the widget is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the widget is 'hard' disabled, which is different from `aria-disabled`. A hard disabled widget cannot receive focus. */
@@ -96,7 +96,7 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     readonly active: _angular_core.Signal<boolean>;
     /** Whether the widget is selected (only relevant in a selection group). */
     readonly selected: () => boolean;
-    readonly group: SignalLike<ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V> | undefined>;
+    private readonly _groupPattern;
     /** The ToolbarWidget UIPattern. */
     readonly _pattern: ToolbarWidgetPattern<V>;
     ngOnInit(): void;
@@ -120,11 +120,11 @@ declare class ToolbarWidgetGroup<V> {
     /** The list of child widgets within the group. */
     private readonly _widgets;
     /** The parent Toolbar UIPattern. */
-    readonly toolbar: _angular_core.Signal<ToolbarPattern<any> | undefined>;
+    private readonly _toolbarPattern;
     /** Whether the widget group is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The list of toolbar items within the group. */
-    readonly items: () => ToolbarWidgetPattern<any>[];
+    private readonly _itemPatterns;
     /** Whether the group allows multiple widgets to be selected. */
     readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The ToolbarWidgetGroup UIPattern. */

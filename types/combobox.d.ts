@@ -159,7 +159,7 @@ declare class ComboboxPopup<V> {
     /** The combobox that the popup belongs to. */
     readonly combobox: Combobox<V> | null;
     /** The popup controls exposed to the combobox. */
-    readonly controls: WritableSignal<ComboboxDialogPattern | ComboboxListboxControls<any, V> | ComboboxTreeControls<any, V> | undefined>;
+    readonly _controls: WritableSignal<ComboboxDialogPattern | ComboboxListboxControls<any, V> | ComboboxTreeControls<any, V> | undefined>;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup<any>, "[ngComboboxPopup]", ["ngComboboxPopup"], {}, {}, never, never, true, never>;
 }

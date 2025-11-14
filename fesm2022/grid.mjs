@@ -234,15 +234,16 @@ class GridRow {
     debugName: "_cellPatterns"
   }] : []));
   _grid = inject(Grid);
-  grid = computed(() => this._grid._pattern, ...(ngDevMode ? [{
-    debugName: "grid"
+  _gridPattern = computed(() => this._grid._pattern, ...(ngDevMode ? [{
+    debugName: "_gridPattern"
   }] : []));
   rowIndex = input(...(ngDevMode ? [undefined, {
     debugName: "rowIndex"
   }] : []));
   _pattern = new GridRowPattern({
     ...this,
-    cells: this._cellPatterns
+    cells: this._cellPatterns,
+    grid: this._gridPattern
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -368,7 +369,7 @@ class GridCell {
   }] : []));
   _pattern = new GridCellPattern({
     ...this,
-    grid: this._row.grid,
+    grid: this._row._gridPattern,
     row: () => this._row._pattern,
     widgets: this._widgetPatterns,
     getWidget: e => this._getWidget(e),

@@ -168,7 +168,7 @@ class Menu {
     debugName: "parent"
   }] : []));
   _pattern;
-  items = () => this._items().map(i => i._pattern);
+  _itemPatterns = () => this._items().map(i => i._pattern);
   visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
     debugName: "visible"
   }] : []));
@@ -183,6 +183,7 @@ class Menu {
     this._pattern = new MenuPattern({
       ...this,
       parent: computed(() => this.parent()?._pattern),
+      items: this._itemPatterns,
       multi: () => false,
       softDisabled: () => true,
       focusMode: () => 'roving',
@@ -369,13 +370,14 @@ class MenuBar {
     debugName: "typeaheadDelay"
   }] : []));
   _pattern;
-  items = signal([], ...(ngDevMode ? [{
-    debugName: "items"
+  _itemPatterns = signal([], ...(ngDevMode ? [{
+    debugName: "_itemPatterns"
   }] : []));
   onSelect = output();
   constructor() {
     this._pattern = new MenuBarPattern({
       ...this,
+      items: this._itemPatterns,
       multi: () => false,
       softDisabled: () => true,
       focusMode: () => 'roving',
@@ -386,7 +388,7 @@ class MenuBar {
       element: computed(() => this._elementRef.nativeElement)
     });
     afterRenderEffect(() => {
-      this.items.set(this._items().map(i => i._pattern));
+      this._itemPatterns.set(this._items().map(i => i._pattern));
     });
     afterRenderEffect(() => {
       if (!this._pattern.hasBeenFocused()) {

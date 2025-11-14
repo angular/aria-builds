@@ -89,7 +89,7 @@ class Listbox {
     };
     this._pattern = this._popup?.combobox ? new ComboboxListboxPattern(inputs) : new ListboxPattern(inputs);
     if (this._popup) {
-      this._popup.controls.set(this._pattern);
+      this._popup._controls.set(this._pattern);
     }
     afterRenderEffect(() => {
       if (typeof ngDevMode === 'undefined' || ngDevMode) {
@@ -119,7 +119,7 @@ class Listbox {
       }
     });
   }
-  onFocus() {
+  _onFocus() {
     this._hasFocused.set(true);
   }
   scrollActiveItemIntoView(options = {
@@ -233,7 +233,7 @@ class Listbox {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "onFocus()"
+        "focusin": "_onFocus()"
       },
       properties: {
         "attr.id": "id()",
@@ -279,7 +279,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': 'onFocus()'
+        '(focusin)': '_onFocus()'
       },
       hostDirectives: [ComboboxPopup]
     }]
@@ -299,8 +299,8 @@ class Option {
   searchTerm = computed(() => this.label() ?? this.element.textContent, ...(ngDevMode ? [{
     debugName: "searchTerm"
   }] : []));
-  listbox = computed(() => this._listbox._pattern, ...(ngDevMode ? [{
-    debugName: "listbox"
+  _listboxPattern = computed(() => this._listbox._pattern, ...(ngDevMode ? [{
+    debugName: "_listboxPattern"
   }] : []));
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
@@ -321,7 +321,7 @@ class Option {
     ...this,
     id: this.id,
     value: this.value,
-    listbox: this.listbox,
+    listbox: this._listboxPattern,
     element: () => this.element,
     searchTerm: () => this.searchTerm() ?? ''
   });

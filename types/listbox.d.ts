@@ -75,7 +75,7 @@ declare class Listbox<V> {
     /** Whether the listbox has received focus yet. */
     private _hasFocused;
     constructor();
-    onFocus(): void;
+    _onFocus(): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;
@@ -111,7 +111,7 @@ declare class Option<V> {
     /** The text used by the typeahead search. */
     protected searchTerm: _angular_core.Signal<string>;
     /** The parent Listbox UIPattern. */
-    protected listbox: _angular_core.Signal<ListboxPattern<any>>;
+    private readonly _listboxPattern;
     /** The value of the option. */
     value: _angular_core.InputSignal<V>;
     /** Whether an item is disabled. */

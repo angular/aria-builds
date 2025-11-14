@@ -2,7 +2,7 @@ import * as _angular_core from '@angular/core';
 import { Signal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
-import { MenuTriggerPattern, MenuPattern, MenuItemPattern, SignalLike, MenuBarPattern } from '@angular/aria/private';
+import { MenuTriggerPattern, MenuPattern, SignalLike, MenuBarPattern, MenuItemPattern } from '@angular/aria/private';
 
 /**
  * A trigger for a menu.
@@ -105,7 +105,7 @@ declare class Menu<V> {
      * sometimes the items array is empty. The bug can be reproduced by switching this to use a
      * computed and then quickly opening and closing menus in the dev app.
      */
-    readonly items: () => MenuItemPattern<V>[];
+    private readonly _itemPatterns;
     /** Whether the menu is visible. */
     readonly visible: Signal<boolean>;
     /** The tab index of the menu. */
@@ -169,7 +169,7 @@ declare class MenuBar<V> {
     /** The menu ui pattern instance. */
     readonly _pattern: MenuBarPattern<V>;
     /** The menu items as a writable signal. */
-    readonly items: _angular_core.WritableSignal<MenuItemPattern<V>[]>;
+    private readonly _itemPatterns;
     /** A callback function triggered when a menu item is selected. */
     onSelect: _angular_core.OutputEmitterRef<V>;
     constructor();
