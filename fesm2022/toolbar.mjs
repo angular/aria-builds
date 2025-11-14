@@ -81,8 +81,7 @@ class Toolbar {
     }
   }
   _getItem(element) {
-    const widgetTarget = element.closest('[ngToolbarWidget]');
-    return this._itemPatterns().find(widget => widget.element() === widgetTarget);
+    return this._itemPatterns().find(item => item.element()?.contains(element));
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
