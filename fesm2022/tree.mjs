@@ -109,14 +109,14 @@ class Tree {
       }
     });
   }
-  onFocus() {
+  _onFocus() {
     this._hasFocused.set(true);
   }
-  register(child) {
+  _register(child) {
     this._unorderedItems().add(child);
     this._unorderedItems.set(new Set(this._unorderedItems()));
   }
-  unregister(child) {
+  _unregister(child) {
     this._unorderedItems().delete(child);
     this._unorderedItems.set(new Set(this._unorderedItems()));
   }
@@ -235,7 +235,7 @@ class Tree {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "onFocus()"
+        "focusin": "_onFocus()"
       },
       properties: {
         "attr.id": "id()",
@@ -273,7 +273,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[tabindex]': '_pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': 'onFocus()'
+        '(focusin)': '_onFocus()'
       },
       hostDirectives: [ComboboxPopup]
     }]
@@ -349,8 +349,8 @@ class TreeItem extends DeferredContentAware {
     });
   }
   ngOnInit() {
-    this.parent().register(this);
-    this.tree().register(this);
+    this.parent()._register(this);
+    this.tree()._register(this);
     const treePattern = computed(() => this.tree()._pattern, ...(ngDevMode ? [{
       debugName: "treePattern"
     }] : []));
@@ -373,13 +373,13 @@ class TreeItem extends DeferredContentAware {
     });
   }
   ngOnDestroy() {
-    this.parent().unregister(this);
-    this.tree().unregister(this);
+    this.parent()._unregister(this);
+    this.tree()._unregister(this);
   }
-  register(group) {
+  _register(group) {
     this._group.set(group);
   }
-  unregister() {
+  _unregister() {
     this._group.set(undefined);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
@@ -514,16 +514,16 @@ class TreeItemGroup {
   }] : []));
   ngOnInit() {
     this._deferredContent.deferredContentAware.set(this.ownedBy());
-    this.ownedBy().register(this);
+    this.ownedBy()._register(this);
   }
   ngOnDestroy() {
-    this.ownedBy().unregister();
+    this.ownedBy()._unregister();
   }
-  register(child) {
+  _register(child) {
     this._unorderedItems().add(child);
     this._unorderedItems.set(new Set(this._unorderedItems()));
   }
-  unregister(child) {
+  _unregister(child) {
     this._unorderedItems().delete(child);
     this._unorderedItems.set(new Set(this._unorderedItems()));
   }

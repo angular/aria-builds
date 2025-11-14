@@ -119,7 +119,7 @@ class Listbox {
       }
     });
   }
-  onFocus() {
+  _onFocus() {
     this._hasFocused.set(true);
   }
   scrollActiveItemIntoView(options = {
@@ -233,7 +233,7 @@ class Listbox {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "onFocus()"
+        "focusin": "_onFocus()"
       },
       properties: {
         "attr.id": "id()",
@@ -279,7 +279,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': 'onFocus()'
+        '(focusin)': '_onFocus()'
       },
       hostDirectives: [ComboboxPopup]
     }]

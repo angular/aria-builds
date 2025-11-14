@@ -96,9 +96,9 @@ declare class Tree<V> {
     /** Whether the tree has received focus since it was rendered. */
     private _hasFocused;
     constructor();
-    onFocus(): void;
-    register(child: TreeItem<V>): void;
-    unregister(child: TreeItem<V>): void;
+    _onFocus(): void;
+    _register(child: TreeItem<V>): void;
+    _unregister(child: TreeItem<V>): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tree<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
@@ -158,8 +158,8 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     constructor();
     ngOnInit(): void;
     ngOnDestroy(): void;
-    register(group: TreeItemGroup<V>): void;
-    unregister(): void;
+    _register(group: TreeItemGroup<V>): void;
+    _unregister(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItem<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItem<any>, "[ngTreeItem]", ["ngTreeItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "parent": { "alias": "parent"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; }, never, never, true, never>;
 }
@@ -198,8 +198,8 @@ declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     readonly ownedBy: _angular_core.InputSignal<TreeItem<V>>;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    register(child: TreeItem<V>): void;
-    unregister(child: TreeItem<V>): void;
+    _register(child: TreeItem<V>): void;
+    _unregister(child: TreeItem<V>): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItemGroup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItemGroup<any>, "ng-template[ngTreeItemGroup]", ["ngTreeItemGroup"], { "ownedBy": { "alias": "ownedBy"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
 }

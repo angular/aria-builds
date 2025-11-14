@@ -63,17 +63,17 @@ class Toolbar {
       }
     });
   }
-  onFocus() {
+  _onFocus() {
     this._hasBeenFocused.set(true);
   }
-  register(widget) {
+  _register(widget) {
     const widgets = this._widgets();
     if (!widgets.has(widget)) {
       widgets.add(widget);
       this._widgets.set(new Set(widgets));
     }
   }
-  unregister(widget) {
+  _unregister(widget) {
     const widgets = this._widgets();
     if (widgets.delete(widget)) {
       this._widgets.set(new Set(widgets));
@@ -135,7 +135,7 @@ class Toolbar {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "onFocus()"
+        "focusin": "_onFocus()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
@@ -165,7 +165,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': 'onFocus()'
+        '(focusin)': '_onFocus()'
       }
     }]
   }],
@@ -208,10 +208,10 @@ class ToolbarWidget {
     element: () => this.element
   });
   ngOnInit() {
-    this._toolbar.register(this);
+    this._toolbar._register(this);
   }
   ngOnDestroy() {
-    this._toolbar.unregister(this);
+    this._toolbar._unregister(this);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

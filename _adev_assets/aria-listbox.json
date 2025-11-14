@@ -130,39 +130,6 @@
           "jsdocTags": []
         },
         {
-          "name": "onFocus",
-          "signatures": [
-            {
-              "name": "onFocus",
-              "entryType": "function",
-              "description": "",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "onFocus",
-            "description": "",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": ""
-          },
-          "entryType": "function",
-          "description": "",
-          "jsdocTags": [],
-          "rawComment": "",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
           "name": "scrollActiveItemIntoView",
           "signatures": [
             {
@@ -533,10 +500,6 @@
     ],
     [
       "Listbox.values",
-      "@angular/aria/listbox"
-    ],
-    [
-      "Listbox.onFocus",
       "@angular/aria/listbox"
     ],
     [

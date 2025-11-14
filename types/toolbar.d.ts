@@ -50,9 +50,9 @@ declare class Toolbar<V> {
     /** Whether the toolbar has received focus yet. */
     private _hasBeenFocused;
     constructor();
-    onFocus(): void;
-    register(widget: ToolbarWidget<V>): void;
-    unregister(widget: ToolbarWidget<V>): void;
+    _onFocus(): void;
+    _register(widget: ToolbarWidget<V>): void;
+    _unregister(widget: ToolbarWidget<V>): void;
     /** Finds the toolbar item associated with a given element. */
     private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Toolbar<any>, never>;

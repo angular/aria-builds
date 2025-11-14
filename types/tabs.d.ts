@@ -49,8 +49,8 @@ declare class Tabs {
     readonly _tabPatterns: _angular_core.Signal<TabPattern[] | undefined>;
     /** The TabPanel UIPattern of the child TabPanels. */
     readonly _unorderedTabpanelPatterns: _angular_core.Signal<TabPanelPattern[]>;
-    register(child: TabList | TabPanel): void;
-    deregister(child: TabList | TabPanel): void;
+    _register(child: TabList | TabPanel): void;
+    _unregister(child: TabList | TabPanel): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
 }
@@ -113,11 +113,11 @@ declare class TabList implements OnInit, OnDestroy {
     /** Whether the tree has received focus yet. */
     private _hasFocused;
     constructor();
-    onFocus(): void;
+    _onFocus(): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    register(child: Tab): void;
-    deregister(child: Tab): void;
+    _register(child: Tab): void;
+    _unregister(child: Tab): void;
     /** Opens the tab panel with the specified value. */
     open(value: string): boolean;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
