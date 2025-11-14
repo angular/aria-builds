@@ -149,9 +149,9 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The parent TabList UIPattern. */
-    readonly tablist: _angular_core.Signal<TabListPattern>;
+    private readonly _tablistPattern;
     /** The TabPanel UIPattern associated with the tab */
-    readonly tabpanel: _angular_core.Signal<TabPanelPattern | undefined>;
+    private readonly _tabpanelPattern;
     /** Whether a tab is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The remote tabpanel unique identifier. */
@@ -198,7 +198,7 @@ declare class TabPanel implements OnInit, OnDestroy {
     /** A global unique identifier for the tab. */
     readonly id: _angular_core.InputSignal<string>;
     /** The Tab UIPattern associated with the tabpanel */
-    readonly tab: _angular_core.Signal<TabPattern | undefined>;
+    private readonly _tabPattern;
     /** A local unique identifier for the tabpanel. */
     readonly value: _angular_core.InputSignal<string>;
     /** Whether the tab panel is visible. */

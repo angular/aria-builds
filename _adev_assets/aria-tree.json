@@ -508,16 +508,6 @@
           "jsdocTags": []
         },
         {
-          "name": "children",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Child items within this group.",
-          "jsdocTags": []
-        },
-        {
           "name": "ownedBy",
           "type": "any",
           "memberType": "property",
@@ -853,10 +843,6 @@
     ],
     [
       "TreeItemGroup.element",
-      "@angular/aria/tree"
-    ],
-    [
-      "TreeItemGroup.children",
       "@angular/aria/tree"
     ],
     [

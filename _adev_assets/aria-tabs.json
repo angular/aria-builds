@@ -328,26 +328,6 @@
           "isRequiredInput": false
         },
         {
-          "name": "tablist",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "The parent TabList UIPattern.",
-          "jsdocTags": []
-        },
-        {
-          "name": "tabpanel",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "The TabPanel UIPattern associated with the tab",
-          "jsdocTags": []
-        },
-        {
           "name": "disabled",
           "type": "any",
           "memberType": "property",
@@ -544,16 +524,6 @@
           "jsdocTags": []
         },
         {
-          "name": "tab",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "The Tab UIPattern associated with the tabpanel",
-          "jsdocTags": []
-        },
-        {
           "name": "value",
           "type": "any",
           "memberType": "property",
@@ -656,7 +626,7 @@
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
         "startLine": 369,
-        "endLine": 429
+        "endLine": 430
       }
     },
     {
@@ -676,8 +646,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 448,
-        "endLine": 453
+        "startLine": 449,
+        "endLine": 454
       }
     }
   ],
@@ -847,14 +817,6 @@
       "@angular/aria/tabs"
     ],
     [
-      "Tab.tablist",
-      "@angular/aria/tabs"
-    ],
-    [
-      "Tab.tabpanel",
-      "@angular/aria/tabs"
-    ],
-    [
       "Tab.disabled",
       "@angular/aria/tabs"
     ],
@@ -892,10 +854,6 @@
     ],
     [
       "TabPanel.id",
-      "@angular/aria/tabs"
-    ],
-    [
-      "TabPanel.tab",
       "@angular/aria/tabs"
     ],
     [

@@ -56,7 +56,7 @@ class Combobox {
     inputValue: signal(''),
     inputEl: signal(undefined),
     containerEl: () => this._elementRef.nativeElement,
-    popupControls: () => this.popup()?.controls()
+    popupControls: () => this.popup()?._controls()
   });
   constructor() {
     afterRenderEffect(() => {
@@ -198,7 +198,7 @@ class ComboboxInput {
   constructor() {
     this.combobox._pattern.inputs.inputEl.set(this._elementRef.nativeElement);
     this.combobox._pattern.inputs.inputValue = this.value;
-    const controls = this.combobox.popup()?.controls();
+    const controls = this.combobox.popup()?._controls();
     if (controls instanceof ComboboxDialogPattern) {
       return;
     }
@@ -318,8 +318,8 @@ class ComboboxPopup {
   combobox = inject(Combobox, {
     optional: true
   });
-  controls = signal(undefined, ...(ngDevMode ? [{
-    debugName: "controls"
+  _controls = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_controls"
   }] : []));
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -367,7 +367,7 @@ class ComboboxDialog {
       combobox: this.combobox._pattern
     });
     if (this._popup) {
-      this._popup.controls.set(this._pattern);
+      this._popup._controls.set(this._pattern);
     }
     afterRenderEffect(() => {
       if (this._elementRef) {

@@ -86,7 +86,7 @@ class Tree {
     };
     this._pattern = this._popup?.combobox ? new ComboboxTreePattern(inputs) : new TreePattern(inputs);
     if (this._popup?.combobox) {
-      this._popup?.controls?.set(this._pattern);
+      this._popup?._controls?.set(this._pattern);
     }
     afterRenderEffect(() => {
       if (!this._hasFocused()) {
@@ -366,7 +366,7 @@ class TreeItem extends DeferredContentAware {
       ...this,
       tree: treePattern,
       parent: parentPattern,
-      children: computed(() => this._group()?.children() ?? []),
+      children: computed(() => this._group()?._childPatterns() ?? []),
       hasChildren: computed(() => !!this._group()),
       element: () => this.element,
       searchTerm: () => this.searchTerm() ?? ''
@@ -506,8 +506,8 @@ class TreeItemGroup {
   _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedItems"
   }] : []));
-  children = computed(() => [...this._unorderedItems()].sort(sortDirectives).map(c => c._pattern), ...(ngDevMode ? [{
-    debugName: "children"
+  _childPatterns = computed(() => [...this._unorderedItems()].sort(sortDirectives).map(c => c._pattern), ...(ngDevMode ? [{
+    debugName: "_childPatterns"
   }] : []));
   ownedBy = input.required(...(ngDevMode ? [{
     debugName: "ownedBy"

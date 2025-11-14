@@ -14,8 +14,8 @@ class Toolbar {
     debugName: "_widgets"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
-  items = computed(() => [...this._widgets()].sort(sortDirectives).map(widget => widget._pattern), ...(ngDevMode ? [{
-    debugName: "items"
+  _itemPatterns = computed(() => [...this._widgets()].sort(sortDirectives).map(widget => widget._pattern), ...(ngDevMode ? [{
+    debugName: "_itemPatterns"
   }] : []));
   orientation = input('horizontal', ...(ngDevMode ? [{
     debugName: "orientation"
@@ -40,6 +40,7 @@ class Toolbar {
   }]));
   _pattern = new ToolbarPattern({
     ...this,
+    items: this._itemPatterns,
     activeItem: signal(undefined),
     textDirection: this.textDirection,
     element: () => this._elementRef.nativeElement,
@@ -81,7 +82,7 @@ class Toolbar {
   }
   _getItem(element) {
     const widgetTarget = element.closest('[ngToolbarWidget]');
-    return this.items().find(widget => widget.element() === widgetTarget);
+    return this._itemPatterns().find(widget => widget.element() === widgetTarget);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -178,8 +179,8 @@ class ToolbarWidget {
   id = input(inject(_IdGenerator).getId('ng-toolbar-widget-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  toolbar = computed(() => this._toolbar._pattern, ...(ngDevMode ? [{
-    debugName: "toolbar"
+  _toolbarPattern = computed(() => this._toolbar._pattern, ...(ngDevMode ? [{
+    debugName: "_toolbarPattern"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -200,9 +201,11 @@ class ToolbarWidget {
     debugName: "active"
   }] : []));
   selected = () => this._pattern.selected();
-  group = () => this._group?._pattern;
+  _groupPattern = () => this._group?._pattern;
   _pattern = new ToolbarWidgetPattern({
     ...this,
+    group: this._groupPattern,
+    toolbar: this._toolbarPattern,
     id: this.id,
     value: this.value,
     element: () => this.element
@@ -297,8 +300,8 @@ class ToolbarWidgetGroup {
   }] : [{
     descendants: true
   }]));
-  toolbar = computed(() => this._toolbar?._pattern, ...(ngDevMode ? [{
-    debugName: "toolbar"
+  _toolbarPattern = computed(() => this._toolbar?._pattern, ...(ngDevMode ? [{
+    debugName: "_toolbarPattern"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -306,14 +309,18 @@ class ToolbarWidgetGroup {
   }] : [{
     transform: booleanAttribute
   }]));
-  items = () => this._widgets().map(w => w._pattern);
+  _itemPatterns = () => this._widgets().map(w => w._pattern);
   multi = input(false, ...(ngDevMode ? [{
     debugName: "multi",
     transform: booleanAttribute
   }] : [{
     transform: booleanAttribute
   }]));
-  _pattern = new ToolbarWidgetGroupPattern(this);
+  _pattern = new ToolbarWidgetGroupPattern({
+    ...this,
+    items: this._itemPatterns,
+    toolbar: this._toolbarPattern
+  });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "20.2.0-next.2",

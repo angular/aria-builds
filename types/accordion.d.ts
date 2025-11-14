@@ -34,7 +34,7 @@ declare class AccordionPanel {
     /** Whether the accordion panel is visible. True if the associated trigger is expanded. */
     readonly visible: _angular_core.Signal<boolean>;
     /** The parent accordion trigger pattern that controls this panel. This is set by AccordionGroup. */
-    readonly accordionTrigger: WritableSignal<AccordionTriggerPattern | undefined>;
+    readonly _accordionTriggerPattern: WritableSignal<AccordionTriggerPattern | undefined>;
     /** The UI pattern instance for this panel. */
     readonly _pattern: AccordionPanelPattern;
     constructor();
@@ -82,7 +82,7 @@ declare class AccordionTrigger {
     /** Whether the trigger is active. */
     readonly active: _angular_core.Signal<boolean>;
     /** The accordion panel pattern controlled by this trigger. This is set by AccordionGroup. */
-    readonly _accordionPanel: WritableSignal<AccordionPanelPattern | undefined>;
+    readonly _accordionPanelPattern: WritableSignal<AccordionPanelPattern | undefined>;
     /** The UI pattern instance for this trigger. */
     readonly _pattern: AccordionTriggerPattern;
     /** Expands this item. */

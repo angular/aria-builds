@@ -281,11 +281,11 @@ class Tab {
   id = input(inject(_IdGenerator).getId('ng-tab-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  tablist = computed(() => this._tabList._pattern, ...(ngDevMode ? [{
-    debugName: "tablist"
+  _tablistPattern = computed(() => this._tabList._pattern, ...(ngDevMode ? [{
+    debugName: "_tablistPattern"
   }] : []));
-  tabpanel = computed(() => this._tabs._unorderedTabpanelPatterns().find(tabpanel => tabpanel.value() === this.value()), ...(ngDevMode ? [{
-    debugName: "tabpanel"
+  _tabpanelPattern = computed(() => this._tabs._unorderedTabpanelPatterns().find(tabpanel => tabpanel.value() === this.value()), ...(ngDevMode ? [{
+    debugName: "_tabpanelPattern"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
     debugName: "disabled",
@@ -304,8 +304,8 @@ class Tab {
   }] : []));
   _pattern = new TabPattern({
     ...this,
-    tablist: this.tablist,
-    tabpanel: this.tabpanel,
+    tablist: this._tablistPattern,
+    tabpanel: this._tabpanelPattern,
     expanded: signal(false),
     element: () => this.element
   });
@@ -402,8 +402,8 @@ class TabPanel {
   id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  tab = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
-    debugName: "tab"
+  _tabPattern = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
+    debugName: "_tabPattern"
   }] : []));
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
@@ -412,7 +412,8 @@ class TabPanel {
     debugName: "visible"
   }] : []));
   _pattern = new TabPanelPattern({
-    ...this
+    ...this,
+    tab: this._tabPattern
   });
   constructor() {
     afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));

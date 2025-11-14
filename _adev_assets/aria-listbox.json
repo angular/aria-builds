@@ -283,16 +283,6 @@
           "jsdocTags": []
         },
         {
-          "name": "listbox",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [
-            "protected"
-          ],
-          "description": "The parent Listbox UIPattern.",
-          "jsdocTags": []
-        },
-        {
           "name": "value",
           "type": "any",
           "memberType": "property",
@@ -528,10 +518,6 @@
     ],
     [
       "Option.searchTerm",
-      "@angular/aria/listbox"
-    ],
-    [
-      "Option.listbox",
       "@angular/aria/listbox"
     ],
     [

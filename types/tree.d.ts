@@ -193,7 +193,7 @@ declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     /** All groupable items that are descendants of the group. */
     private readonly _unorderedItems;
     /** Child items within this group. */
-    readonly children: Signal<TreeItemPattern<V>[]>;
+    readonly _childPatterns: Signal<TreeItemPattern<V>[]>;
     /** Tree item that owns the group. */
     readonly ownedBy: _angular_core.InputSignal<TreeItem<V>>;
     ngOnInit(): void;
