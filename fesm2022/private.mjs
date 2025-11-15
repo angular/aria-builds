@@ -1721,7 +1721,6 @@ class ToolbarPattern {
       multi: () => true,
       focusMode: () => 'roving',
       selectionMode: () => 'explicit',
-      values: signal([]),
       typeaheadDelay: () => 0
     });
   }
