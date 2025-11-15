@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, computed, input, booleanAttribute, afterRenderEffect, Directive, contentChildren } from '@angular/core';
+import { inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, contentChildren } from '@angular/core';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -38,13 +38,17 @@ class Toolbar {
   }] : [{
     transform: booleanAttribute
   }]));
+  values = model([], ...(ngDevMode ? [{
+    debugName: "values"
+  }] : []));
   _pattern = new ToolbarPattern({
     ...this,
     items: this._itemPatterns,
     activeItem: signal(undefined),
     textDirection: this.textDirection,
     element: () => this._elementRef.nativeElement,
-    getItem: e => this._getItem(e)
+    getItem: e => this._getItem(e),
+    values: this.values
   });
   _hasBeenFocused = signal(false, ...(ngDevMode ? [{
     debugName: "_hasBeenFocused"
@@ -125,7 +129,17 @@ class Toolbar {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      values: {
+        classPropertyName: "values",
+        publicName: "values",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
+    },
+    outputs: {
+      values: "valuesChange"
     },
     host: {
       attributes: {

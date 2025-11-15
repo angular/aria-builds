@@ -1057,7 +1057,7 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
 }
 
 /** Represents the required inputs for a toolbar. */
-type ToolbarInputs<V> = Omit<ListInputs<ToolbarWidgetPattern<V>, V>, 'multi' | 'typeaheadDelay' | 'values' | 'selectionMode' | 'focusMode'> & {
+type ToolbarInputs<V> = Omit<ListInputs<ToolbarWidgetPattern<V>, V>, 'multi' | 'typeaheadDelay' | 'selectionMode' | 'focusMode'> & {
     /** A function that returns the toolbar item associated with a given element. */
     getItem: (e: Element) => ToolbarWidgetPattern<V> | undefined;
 };

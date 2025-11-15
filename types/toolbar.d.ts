@@ -45,6 +45,8 @@ declare class Toolbar<V> {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether focus should wrap when navigating. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The values of the selected widgets within the toolbar. */
+    readonly values: _angular_core.ModelSignal<V[]>;
     /** The toolbar UIPattern. */
     readonly _pattern: ToolbarPattern<V>;
     /** Whether the toolbar has received focus yet. */
@@ -56,7 +58,7 @@ declare class Toolbar<V> {
     /** Finds the toolbar item associated with a given element. */
     private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Toolbar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Toolbar<any>, "[ngToolbar]", ["ngToolbar"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Toolbar<any>, "[ngToolbar]", ["ngToolbar"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, never>;
 }
 /**
  * A widget within a toolbar.
