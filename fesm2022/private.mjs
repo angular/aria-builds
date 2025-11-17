@@ -290,11 +290,12 @@ class ComboboxPattern {
         inputEl.value = '';
       }
     } else if (this.expanded()) {
-      this.close();
+      this.expanded.set(false);
       const selectedItem = popupControls?.getSelectedItems()?.[0];
       if (selectedItem?.searchTerm() !== this.inputs.inputValue()) {
         popupControls?.clearSelection();
       }
+      return;
     }
     this.close();
     if (!this.readonly()) {
