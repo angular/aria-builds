@@ -181,8 +181,7 @@ class Grid {
         "tabindex": "_pattern.tabIndex()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()"
-      },
-      classAttribute: "grid"
+      }
     },
     queries: [{
       propertyName: "_rows",
@@ -205,7 +204,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngGrid]',
       exportAs: 'ngGrid',
       host: {
-        'class': 'grid',
         'role': 'grid',
         '[tabindex]': '_pattern.tabIndex()',
         '[attr.aria-disabled]': '_pattern.disabled()',
@@ -274,8 +272,7 @@ class GridRow {
       },
       properties: {
         "attr.aria-rowindex": "_pattern.rowIndex()"
-      },
-      classAttribute: "grid-row"
+      }
     },
     queries: [{
       propertyName: "_cells",
@@ -298,7 +295,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngGridRow]',
       exportAs: 'ngGridRow',
       host: {
-        'class': 'grid-row',
         'role': 'row',
         '[attr.aria-rowindex]': '_pattern.rowIndex()'
       }
@@ -505,8 +501,7 @@ class GridCell {
         "attr.aria-colindex": "_pattern.ariaColIndex()",
         "attr.aria-selected": "_pattern.ariaSelected()",
         "tabindex": "_tabIndex()"
-      },
-      classAttribute: "grid-cell"
+      }
     },
     queries: [{
       propertyName: "_widgets",
@@ -529,7 +524,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngGridCell]',
       exportAs: 'ngGridCell',
       host: {
-        'class': 'grid-cell',
         '[attr.role]': 'role()',
         '[attr.id]': '_pattern.id()',
         '[attr.rowspan]': '_pattern.rowSpan()',
@@ -672,8 +666,7 @@ class GridCellWidget {
         "attr.data-active": "active()",
         "attr.data-active-control": "isActivated() ? \"widget\" : \"cell\"",
         "tabindex": "_tabIndex()"
-      },
-      classAttribute: "grid-cell-widget"
+      }
     },
     exportAs: ["ngGridCellWidget"],
     ngImport: i0
@@ -690,7 +683,6 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngGridCellWidget]',
       exportAs: 'ngGridCellWidget',
       host: {
-        'class': 'grid-cell-widget',
         '[attr.data-active]': 'active()',
         '[attr.data-active-control]': 'isActivated() ? "widget" : "cell"',
         '[tabindex]': '_tabIndex()'
