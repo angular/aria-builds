@@ -49,7 +49,7 @@ class MenuTrigger {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: MenuTrigger,
     deps: [],
@@ -57,7 +57,7 @@ class MenuTrigger {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: MenuTrigger,
     isStandalone: true,
     selector: "button[ngMenuTrigger]",
@@ -106,7 +106,7 @@ class MenuTrigger {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: MenuTrigger,
   decorators: [{
@@ -128,7 +128,33 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    menu: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "menu",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }]
+  }
 });
 class Menu {
   _deferredContentAware = inject(DeferredContentAware, {
@@ -218,7 +244,7 @@ class Menu {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Menu,
     deps: [],
@@ -226,7 +252,7 @@ class Menu {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Menu,
     isStandalone: true,
     selector: "[ngMenu]",
@@ -305,7 +331,7 @@ class Menu {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Menu,
   decorators: [{
@@ -332,7 +358,62 @@ i0.ɵɵngDeclareClassMetadata({
       }]
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    _allItems: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => MenuItem), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    typeaheadDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    onSelect: [{
+      type: i0.Output,
+      args: ["onSelect"]
+    }],
+    expansionDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "expansionDelay",
+        required: false
+      }]
+    }]
+  }
 });
 class MenuBar {
   _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
@@ -401,7 +482,7 @@ class MenuBar {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: MenuBar,
     deps: [],
@@ -409,7 +490,7 @@ class MenuBar {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: MenuBar,
     isStandalone: true,
     selector: "[ngMenuBar]",
@@ -483,7 +564,7 @@ class MenuBar {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: MenuBar,
   decorators: [{
@@ -504,7 +585,65 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    _allItems: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => MenuItem), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    values: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "values",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["valuesChange"]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    typeaheadDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    onSelect: [{
+      type: i0.Output,
+      args: ["onSelect"]
+    }]
+  }
 });
 class MenuItem {
   _elementRef = inject(ElementRef);
@@ -562,7 +701,7 @@ class MenuItem {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: MenuItem,
     deps: [],
@@ -570,7 +709,7 @@ class MenuItem {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: MenuItem,
     isStandalone: true,
     selector: "[ngMenuItem]",
@@ -636,7 +775,7 @@ class MenuItem {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: MenuItem,
   decorators: [{
@@ -656,12 +795,57 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    searchTerm: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "searchTerm",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["searchTermChange"]
+    }],
+    submenu: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "submenu",
+        required: false
+      }]
+    }]
+  }
 });
 class MenuContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: MenuContent,
     deps: [],
@@ -669,7 +853,7 @@ class MenuContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: MenuContent,
     isStandalone: true,
     selector: "ng-template[ngMenuContent]",
@@ -682,7 +866,7 @@ class MenuContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: MenuContent,
   decorators: [{

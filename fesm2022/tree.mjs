@@ -127,7 +127,7 @@ class Tree {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Tree,
     deps: [],
@@ -135,7 +135,7 @@ class Tree {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Tree,
     isStandalone: true,
     selector: "[ngTree]",
@@ -255,7 +255,7 @@ class Tree {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Tree,
   decorators: [{
@@ -278,7 +278,108 @@ i0.ɵɵngDeclareClassMetadata({
       hostDirectives: [ComboboxPopup]
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    orientation: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "orientation",
+        required: false
+      }]
+    }],
+    multi: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "multi",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    selectionMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectionMode",
+        required: false
+      }]
+    }],
+    focusMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "focusMode",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    typeaheadDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    values: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "values",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["valuesChange"]
+    }],
+    nav: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "nav",
+        required: false
+      }]
+    }],
+    currentType: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "currentType",
+        required: false
+      }]
+    }]
+  }
 });
 class TreeItem extends DeferredContentAware {
   _elementRef = inject(ElementRef);
@@ -384,7 +485,7 @@ class TreeItem extends DeferredContentAware {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: TreeItem,
     deps: [],
@@ -392,7 +493,7 @@ class TreeItem extends DeferredContentAware {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: TreeItem,
     isStandalone: true,
     selector: "[ngTreeItem]",
@@ -474,7 +575,7 @@ class TreeItem extends DeferredContentAware {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: TreeItem,
   decorators: [{
@@ -497,7 +598,68 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }],
+    parent: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "parent",
+        required: true
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    selectable: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectable",
+        required: false
+      }]
+    }],
+    expanded: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "expanded",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["expandedChange"]
+    }],
+    label: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "label",
+        required: false
+      }]
+    }]
+  }
 });
 class TreeItemGroup {
   _elementRef = inject(ElementRef);
@@ -529,7 +691,7 @@ class TreeItemGroup {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: TreeItemGroup,
     deps: [],
@@ -537,7 +699,7 @@ class TreeItemGroup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: TreeItemGroup,
     isStandalone: true,
     selector: "ng-template[ngTreeItemGroup]",
@@ -559,7 +721,7 @@ class TreeItemGroup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: TreeItemGroup,
   decorators: [{
@@ -569,7 +731,17 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngTreeItemGroup',
       hostDirectives: [DeferredContent]
     }]
-  }]
+  }],
+  propDecorators: {
+    ownedBy: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "ownedBy",
+        required: true
+      }]
+    }]
+  }
 });
 
 export { Tree, TreeItem, TreeItemGroup };

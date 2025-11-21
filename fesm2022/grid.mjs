@@ -88,7 +88,7 @@ class Grid {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Grid,
     deps: [],
@@ -96,7 +96,7 @@ class Grid {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Grid,
     isStandalone: true,
     selector: "[ngGrid]",
@@ -195,7 +195,7 @@ class Grid {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Grid,
   decorators: [{
@@ -217,7 +217,90 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    _rows: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => GridRow), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    enableSelection: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "enableSelection",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    focusMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "focusMode",
+        required: false
+      }]
+    }],
+    rowWrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "rowWrap",
+        required: false
+      }]
+    }],
+    colWrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "colWrap",
+        required: false
+      }]
+    }],
+    multi: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "multi",
+        required: false
+      }]
+    }],
+    selectionMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectionMode",
+        required: false
+      }]
+    }],
+    enableRangeSelection: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "enableRangeSelection",
+        required: false
+      }]
+    }]
+  }
 });
 class GridRow {
   _elementRef = inject(ElementRef);
@@ -245,7 +328,7 @@ class GridRow {
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: GridRow,
     deps: [],
@@ -253,7 +336,7 @@ class GridRow {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: GridRow,
     isStandalone: true,
     selector: "[ngGridRow]",
@@ -286,7 +369,7 @@ class GridRow {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: GridRow,
   decorators: [{
@@ -299,7 +382,26 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-rowindex]': '_pattern.rowIndex()'
       }
     }]
-  }]
+  }],
+  propDecorators: {
+    _cells: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => GridCell), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    rowIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "rowIndex",
+        required: false
+      }]
+    }]
+  }
 });
 class GridCell {
   _elementRef = inject(ElementRef);
@@ -385,7 +487,7 @@ class GridCell {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: GridCell,
     deps: [],
@@ -393,7 +495,7 @@ class GridCell {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: GridCell,
     isStandalone: true,
     selector: "[ngGridCell]",
@@ -515,7 +617,7 @@ class GridCell {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: GridCell,
   decorators: [{
@@ -540,7 +642,117 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    _widgets: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => GridCellWidget), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    role: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "role",
+        required: false
+      }]
+    }],
+    rowSpan: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "rowSpan",
+        required: false
+      }]
+    }],
+    colSpan: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "colSpan",
+        required: false
+      }]
+    }],
+    rowIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "rowIndex",
+        required: false
+      }]
+    }],
+    colIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "colIndex",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    selected: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selected",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["selectedChange"]
+    }],
+    selectable: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectable",
+        required: false
+      }]
+    }],
+    orientation: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "orientation",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    tabindex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "tabindex",
+        required: false
+      }]
+    }]
+  }
 });
 class GridCellWidget {
   _elementRef = inject(ElementRef);
@@ -608,7 +820,7 @@ class GridCellWidget {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: GridCellWidget,
     deps: [],
@@ -616,7 +828,7 @@ class GridCellWidget {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: GridCellWidget,
     isStandalone: true,
     selector: "[ngGridCellWidget]",
@@ -674,7 +886,7 @@ class GridCellWidget {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: GridCellWidget,
   decorators: [{
@@ -689,7 +901,57 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    widgetType: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "widgetType",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    focusTarget: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "focusTarget",
+        required: false
+      }]
+    }],
+    onActivate: [{
+      type: i0.Output,
+      args: ["onActivate"]
+    }],
+    onDeactivate: [{
+      type: i0.Output,
+      args: ["onDeactivate"]
+    }],
+    tabindex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "tabindex",
+        required: false
+      }]
+    }]
+  }
 });
 
 export { Grid, GridCell, GridCellWidget, GridRow };
