@@ -43,7 +43,7 @@ class Tabs {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Tabs,
     deps: [],
@@ -51,7 +51,7 @@ class Tabs {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Tabs,
     isStandalone: true,
     selector: "[ngTabs]",
@@ -61,7 +61,7 @@ class Tabs {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Tabs,
   decorators: [{
@@ -163,7 +163,7 @@ class TabList {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: TabList,
     deps: [],
@@ -171,7 +171,7 @@ class TabList {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: TabList,
     isStandalone: true,
     selector: "[ngTabList]",
@@ -251,7 +251,7 @@ class TabList {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: TabList,
   decorators: [{
@@ -271,7 +271,68 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    orientation: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "orientation",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    focusMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "focusMode",
+        required: false
+      }]
+    }],
+    selectionMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectionMode",
+        required: false
+      }]
+    }],
+    selectedTab: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectedTab",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["selectedTabChange"]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }]
+  }
 });
 class Tab {
   _elementRef = inject(ElementRef);
@@ -320,7 +381,7 @@ class Tab {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Tab,
     deps: [],
@@ -328,7 +389,7 @@ class Tab {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Tab,
     isStandalone: true,
     selector: "[ngTab]",
@@ -374,7 +435,7 @@ class Tab {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Tab,
   decorators: [{
@@ -392,7 +453,33 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-controls]': '_pattern.controls()'
       }
     }]
-  }]
+  }],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }]
+  }
 });
 class TabPanel {
   _elementRef = inject(ElementRef);
@@ -426,7 +513,7 @@ class TabPanel {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: TabPanel,
     deps: [],
@@ -434,7 +521,7 @@ class TabPanel {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: TabPanel,
     isStandalone: true,
     selector: "[ngTabPanel]",
@@ -475,7 +562,7 @@ class TabPanel {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: TabPanel,
   decorators: [{
@@ -496,12 +583,30 @@ i0.ɵɵngDeclareClassMetadata({
       }]
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }]
+  }
 });
 class TabContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: TabContent,
     deps: [],
@@ -509,7 +614,7 @@ class TabContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: TabContent,
     isStandalone: true,
     selector: "ng-template[ngTabContent]",
@@ -522,7 +627,7 @@ class TabContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: TabContent,
   decorators: [{

@@ -132,7 +132,7 @@ class Listbox {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Listbox,
     deps: [],
@@ -140,7 +140,7 @@ class Listbox {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Listbox,
     isStandalone: true,
     selector: "[ngListbox]",
@@ -260,7 +260,7 @@ class Listbox {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Listbox,
   decorators: [{
@@ -284,7 +284,109 @@ i0.ɵɵngDeclareClassMetadata({
       hostDirectives: [ComboboxPopup]
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    _options: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => Option), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    orientation: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "orientation",
+        required: false
+      }]
+    }],
+    multi: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "multi",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    focusMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "focusMode",
+        required: false
+      }]
+    }],
+    selectionMode: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "selectionMode",
+        required: false
+      }]
+    }],
+    typeaheadDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    readonly: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "readonly",
+        required: false
+      }]
+    }],
+    values: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "values",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["valuesChange"]
+    }]
+  }
 });
 class Option {
   _elementRef = inject(ElementRef);
@@ -327,7 +429,7 @@ class Option {
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     ngImport: i0,
     type: Option,
     deps: [],
@@ -335,7 +437,7 @@ class Option {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "20.2.0-next.2",
+    version: "21.0.0",
     type: Option,
     isStandalone: true,
     selector: "[ngOption]",
@@ -387,7 +489,7 @@ class Option {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "20.2.0-next.2",
+  version: "21.0.0",
   ngImport: i0,
   type: Option,
   decorators: [{
@@ -404,7 +506,41 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-disabled]': '_pattern.disabled()'
       }
     }]
-  }]
+  }],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    label: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "label",
+        required: false
+      }]
+    }]
+  }
 });
 
 export { Listbox, Option };
