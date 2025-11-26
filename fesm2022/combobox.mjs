@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, contentChild, input, booleanAttribute, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
+import { inject, ElementRef, contentChild, forwardRef, input, booleanAttribute, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { DeferredContentAware, ComboboxPattern, ComboboxDialogPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
@@ -15,7 +15,7 @@ class Combobox {
   _deferredContentAware = inject(DeferredContentAware, {
     optional: true
   });
-  popup = contentChild(ComboboxPopup, ...(ngDevMode ? [{
+  popup = contentChild(forwardRef(() => ComboboxPopup), ...(ngDevMode ? [{
     debugName: "popup"
   }] : []));
   filterMode = input('manual', ...(ngDevMode ? [{
@@ -144,7 +144,7 @@ class Combobox {
     queries: [{
       propertyName: "popup",
       first: true,
-      predicate: ComboboxPopup,
+      predicate: i0.forwardRef(() => ComboboxPopup),
       descendants: true,
       isSignal: true
     }],
@@ -184,7 +184,7 @@ i0.ɵɵngDeclareClassMetadata({
   propDecorators: {
     popup: [{
       type: i0.ContentChild,
-      args: [i0.forwardRef(() => ComboboxPopup), {
+      args: [forwardRef(() => ComboboxPopup), {
         isSignal: true
       }]
     }],
