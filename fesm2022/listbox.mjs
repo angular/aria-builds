@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { input, inject, ElementRef, contentChildren, computed, booleanAttribute, model, signal, afterRenderEffect, untracked, Directive } from '@angular/core';
+import { input, inject, ElementRef, contentChildren, forwardRef, computed, booleanAttribute, model, signal, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { ComboboxListboxPattern, ListboxPattern, OptionPattern } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -16,7 +16,7 @@ class Listbox {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   _directionality = inject(Directionality);
-  _options = contentChildren(Option, ...(ngDevMode ? [{
+  _options = contentChildren(forwardRef(() => Option), ...(ngDevMode ? [{
     debugName: "_options",
     descendants: true
   }] : [{
@@ -247,7 +247,7 @@ class Listbox {
     },
     queries: [{
       propertyName: "_options",
-      predicate: Option,
+      predicate: i0.forwardRef(() => Option),
       descendants: true,
       isSignal: true
     }],
@@ -296,7 +296,7 @@ i0.ɵɵngDeclareClassMetadata({
     }],
     _options: [{
       type: i0.ContentChildren,
-      args: [i0.forwardRef(() => Option), {
+      args: [forwardRef(() => Option), {
         ...{
           descendants: true
         },
