@@ -611,6 +611,8 @@ declare class MenuPattern<V> {
     isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the menu has received focus. */
     hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the menu trigger has been hovered. */
+    hasBeenHovered: _angular_core.WritableSignal<boolean>;
     /** Timeout used to open sub-menus on hover. */
     _openTimeout: any;
     /** Timeout used to close sub-menus on hover out. */
