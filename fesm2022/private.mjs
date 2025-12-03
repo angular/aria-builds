@@ -941,6 +941,7 @@ class MenuPattern {
   listBehavior;
   isFocused = signal(false);
   hasBeenFocused = signal(false);
+  hasBeenHovered = signal(false);
   _openTimeout;
   _closeTimeout;
   tabIndex = () => this.listBehavior.tabIndex();
@@ -1001,6 +1002,7 @@ class MenuPattern {
     if (!this.visible()) {
       return;
     }
+    this.hasBeenHovered.set(true);
     const item = this.inputs.items().find(i => i.element()?.contains(event.target));
     if (!item) {
       return;

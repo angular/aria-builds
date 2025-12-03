@@ -234,7 +234,7 @@ class Menu {
       }
     });
     afterRenderEffect(() => {
-      if (!this._pattern.hasBeenFocused() && this._items().length) {
+      if (!this._pattern.hasBeenFocused() && !this._pattern.hasBeenHovered() && this._items().length) {
         untracked(() => this._pattern.setDefaultState());
       }
     });
