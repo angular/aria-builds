@@ -1,7 +1,10 @@
+import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
-import { ListboxPattern, OptionPattern } from '@angular/aria/private';
+import { ListboxPattern, OptionPattern } from './_listbox-chunk.js';
 import { ComboboxPopup } from './combobox.js';
+import './_list-navigation-chunk.js';
+import '@angular/aria/private';
 
 /**
  * Represents a container used to display a list of items for a user to select from.
@@ -38,7 +41,7 @@ declare class Listbox<V> {
     /** A signal wrapper for directionality. */
     protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
     /** The Option UIPatterns of the child Options. */
-    protected items: _angular_core.Signal<any[]>;
+    protected items: _angular_core.Signal<_angular_aria_private_public_api.OptionPattern<any>[]>;
     /** Whether the list is vertically or horizontally oriented. */
     orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multiple items in the list can be selected at once. */
@@ -82,6 +85,7 @@ declare class Listbox<V> {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
+
 /**
  * A selectable option in an `ngListbox`.
  *
@@ -98,8 +102,6 @@ declare class Listbox<V> {
  * @developerPreview 21.0
  */
 declare class Option<V> {
-    /** A reference to the host element. */
-    private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
     /** Whether the option is currently active (focused). */
