@@ -188,6 +188,9 @@ class ComboboxPattern {
     }
     if (!(event.relatedTarget instanceof HTMLElement) || !this.inputs.containerEl()?.contains(event.relatedTarget)) {
       this.isFocused.set(false);
+      if (!this.expanded()) {
+        return;
+      }
       if (this.readonly()) {
         this.close();
         return;
@@ -353,6 +356,10 @@ class ComboboxPattern {
   }
   select(opts = {}) {
     const controls = this.listControls();
+    const item = opts.item ?? controls?.getActiveItem();
+    if (item?.disabled()) {
+      return;
+    }
     if (opts.item) {
       controls?.focus(opts.item, {
         focusElement: false
