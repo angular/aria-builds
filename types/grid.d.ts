@@ -2,6 +2,7 @@ import * as _angular_core from '@angular/core';
 import { Signal, ElementRef } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_grid-chunk.js';
+import './_list-navigation-chunk.js';
 
 /**
  * The container for a grid. It provides keyboard navigation and focus management for the grid's

@@ -3,6 +3,7 @@ import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, model, output } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_widget-chunk.mjs';
+import './_list-navigation-chunk.mjs';
 
 class Grid {
   _elementRef = inject(ElementRef);
