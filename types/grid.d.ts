@@ -1,7 +1,8 @@
 import * as _angular_core from '@angular/core';
 import { Signal, ElementRef } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { GridPattern, GridRowPattern, GridCellPattern, GridCellWidgetPattern } from './_grid-chunk.js';
+import { GridPattern, GridCellPattern, GridRowPattern, GridCellWidgetPattern } from './_grid-chunk.js';
+import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import './_list-navigation-chunk.js';
 
 /**
@@ -83,37 +84,7 @@ declare class Grid {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Grid, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "enableRangeSelection": { "alias": "enableRangeSelection"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
 }
-/**
- * Represents a row within a grid. It is a container for `ngGridCell` directives.
- *
- * ```html
- * <tr ngGridRow>
- *   <!-- ... cells ... -->
- * </tr>
- * ```
- *
- * @developerPreview 21.0
- */
-declare class GridRow {
-    /** A reference to the host element. */
-    private readonly _elementRef;
-    /** A reference to the host element. */
-    readonly element: HTMLElement;
-    /** The cells that make up this row. */
-    private readonly _cells;
-    /** The UI patterns for the cells in this row. */
-    private readonly _cellPatterns;
-    /** The parent grid. */
-    private readonly _grid;
-    /** The parent grid UI pattern. */
-    readonly _gridPattern: Signal<GridPattern>;
-    /** The index of this row within the grid. */
-    readonly rowIndex: _angular_core.InputSignal<number | undefined>;
-    /** The UI pattern for the grid row. */
-    readonly _pattern: GridRowPattern;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridRow, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridRow, "[ngGridRow]", ["ngGridRow"], { "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; }, {}, ["_cells"], never, true, never>;
-}
+
 /**
  * Represents a cell within a grid row. It is the primary focusable element
  * within the grid. It can be disabled and can have its selection state managed
@@ -179,6 +150,39 @@ declare class GridCell {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCell, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widgets"], never, true, never>;
 }
+
+/**
+ * Represents a row within a grid. It is a container for `ngGridCell` directives.
+ *
+ * ```html
+ * <tr ngGridRow>
+ *   <!-- ... cells ... -->
+ * </tr>
+ * ```
+ *
+ * @developerPreview 21.0
+ */
+declare class GridRow {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
+    /** The cells that make up this row. */
+    private readonly _cells;
+    /** The UI patterns for the cells in this row. */
+    private readonly _cellPatterns;
+    /** The parent grid. */
+    private readonly _grid;
+    /** The parent grid UI pattern. */
+    readonly _gridPattern: Signal<_angular_aria_private_public_api.GridPattern>;
+    /** The index of this row within the grid. */
+    readonly rowIndex: _angular_core.InputSignal<number | undefined>;
+    /** The UI pattern for the grid row. */
+    readonly _pattern: GridRowPattern;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridRow, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridRow, "[ngGridRow]", ["ngGridRow"], { "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; }, {}, ["_cells"], never, true, never>;
+}
+
 /**
  * Represents an interactive element inside a `GridCell`. It allows for pausing grid navigation to
  * interact with the widget.

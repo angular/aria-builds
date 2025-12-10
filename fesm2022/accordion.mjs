@@ -1,9 +1,9 @@
 import * as i0 from '@angular/core';
-import { inject, input, computed, signal, afterRenderEffect, Directive, ElementRef, booleanAttribute, model, contentChildren } from '@angular/core';
+import { inject, input, computed, signal, afterRenderEffect, Directive, InjectionToken, ElementRef, booleanAttribute, model, contentChildren } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
 import { DeferredContentAware, AccordionPanelPattern, AccordionTriggerPattern, AccordionGroupPattern, DeferredContent } from '@angular/aria/private';
+import { Directionality } from '@angular/cdk/bidi';
 
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);
@@ -128,10 +128,13 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
+const ACCORDION_GROUP = new InjectionToken('ACCORDION_GROUP');
+
 class AccordionTrigger {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _accordionGroup = inject(AccordionGroup);
+  _accordionGroup = inject(ACCORDION_GROUP);
   id = input(inject(_IdGenerator).getId('ng-accordion-trigger-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -293,6 +296,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
 class AccordionGroup {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -425,6 +429,10 @@ class AccordionGroup {
         "focusin": "_pattern.onFocus($event)"
       }
     },
+    providers: [{
+      provide: ACCORDION_GROUP,
+      useExisting: AccordionGroup
+    }],
     queries: [{
       propertyName: "_triggers",
       predicate: AccordionTrigger,
@@ -454,7 +462,11 @@ i0.ɵɵngDeclareClassMetadata({
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
         '(focusin)': '_pattern.onFocus($event)'
-      }
+      },
+      providers: [{
+        provide: ACCORDION_GROUP,
+        useExisting: AccordionGroup
+      }]
     }]
   }],
   ctorParameters: () => [],
@@ -511,6 +523,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
 class AccordionContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

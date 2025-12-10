@@ -4,12 +4,12 @@ import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
 import { ComboboxTreePattern, TreePattern, DeferredContentAware, TreeItemPattern, DeferredContent } from '@angular/aria/private';
-import { ComboboxPopup } from './combobox.mjs';
-import '@angular/core/rxjs-interop';
+import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
 
 function sortDirectives(a, b) {
   return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
+
 class Tree {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -381,6 +381,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
 class TreeItem extends DeferredContentAware {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -661,6 +662,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
 class TreeItemGroup {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;

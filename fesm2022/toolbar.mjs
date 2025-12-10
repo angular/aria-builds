@@ -1,12 +1,14 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, contentChildren } from '@angular/core';
+import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, contentChildren } from '@angular/core';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
 
+const TOOLBAR_WIDGET_GROUP = new InjectionToken('TOOLBAR_WIDGET_GROUP');
 function sortDirectives(a, b) {
   return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
+
 class Toolbar {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -230,6 +232,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
 class ToolbarWidget {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -249,7 +252,7 @@ class ToolbarWidget {
   hardDisabled = computed(() => this._pattern.disabled() && !this._toolbar.softDisabled(), ...(ngDevMode ? [{
     debugName: "hardDisabled"
   }] : []));
-  _group = inject(ToolbarWidgetGroup, {
+  _group = inject(TOOLBAR_WIDGET_GROUP, {
     optional: true
   });
   value = input.required(...(ngDevMode ? [{
@@ -372,6 +375,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
 class ToolbarWidgetGroup {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -435,6 +439,10 @@ class ToolbarWidgetGroup {
         transformFunction: null
       }
     },
+    providers: [{
+      provide: TOOLBAR_WIDGET_GROUP,
+      useExisting: ToolbarWidgetGroup
+    }],
     queries: [{
       propertyName: "_widgets",
       predicate: ToolbarWidget,
@@ -454,7 +462,11 @@ i0.ɵɵngDeclareClassMetadata({
     type: Directive,
     args: [{
       selector: '[ngToolbarWidgetGroup]',
-      exportAs: 'ngToolbarWidgetGroup'
+      exportAs: 'ngToolbarWidgetGroup',
+      providers: [{
+        provide: TOOLBAR_WIDGET_GROUP,
+        useExisting: ToolbarWidgetGroup
+      }]
     }]
   }],
   propDecorators: {
