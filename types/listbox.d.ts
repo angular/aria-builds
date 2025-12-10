@@ -2,8 +2,9 @@ import * as _angular_aria_private_public_api from '@angular/aria/private/public-
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { ListboxPattern, OptionPattern } from './_listbox-chunk.js';
-import { ComboboxPopup } from './combobox.js';
+import { ComboboxPopup } from './_combobox-chunk.js';
 import './_list-navigation-chunk.js';
+import './_list-chunk.js';
 import '@angular/aria/private';
 
 /**

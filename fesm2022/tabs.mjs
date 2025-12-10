@@ -1,81 +1,19 @@
-import { _IdGenerator } from '@angular/cdk/a11y';
-import { Directionality } from '@angular/cdk/bidi';
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, computed, Directive, input, booleanAttribute, model, afterRenderEffect } from '@angular/core';
+import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive } from '@angular/core';
+import { Directionality } from '@angular/cdk/bidi';
 import * as i1 from '@angular/aria/private';
-import { TabListPattern, TabPattern, DeferredContentAware, TabPanelPattern, DeferredContent } from '@angular/aria/private';
+import { TabListPattern, DeferredContentAware, TabPanelPattern, TabPattern, DeferredContent } from '@angular/aria/private';
+import { _IdGenerator } from '@angular/cdk/a11y';
 
+const TABS = new InjectionToken('TABS');
 function sortDirectives(a, b) {
   return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
 }
-class Tabs {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  _tablist = signal(undefined, ...(ngDevMode ? [{
-    debugName: "_tablist"
-  }] : []));
-  _unorderedPanels = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_unorderedPanels"
-  }] : []));
-  _tabPatterns = computed(() => this._tablist()?._tabPatterns(), ...(ngDevMode ? [{
-    debugName: "_tabPatterns"
-  }] : []));
-  _unorderedTabpanelPatterns = computed(() => [...this._unorderedPanels()].map(tabpanel => tabpanel._pattern), ...(ngDevMode ? [{
-    debugName: "_unorderedTabpanelPatterns"
-  }] : []));
-  _register(child) {
-    if (child instanceof TabList) {
-      this._tablist.set(child);
-    }
-    if (child instanceof TabPanel) {
-      this._unorderedPanels().add(child);
-      this._unorderedPanels.set(new Set(this._unorderedPanels()));
-    }
-  }
-  _unregister(child) {
-    if (child instanceof TabList) {
-      this._tablist.set(undefined);
-    }
-    if (child instanceof TabPanel) {
-      this._unorderedPanels().delete(child);
-      this._unorderedPanels.set(new Set(this._unorderedPanels()));
-    }
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "21.0.0",
-    ngImport: i0,
-    type: Tabs,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "14.0.0",
-    version: "21.0.0",
-    type: Tabs,
-    isStandalone: true,
-    selector: "[ngTabs]",
-    exportAs: ["ngTabs"],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "21.0.0",
-  ngImport: i0,
-  type: Tabs,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngTabs]',
-      exportAs: 'ngTabs'
-    }]
-  }]
-});
+
 class TabList {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _tabs = inject(Tabs);
+  _tabs = inject(TABS);
   _unorderedTabs = signal(new Set(), ...(ngDevMode ? [{
     debugName: "_unorderedTabs"
   }] : []));
@@ -334,10 +272,207 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
+class TabPanel {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  _deferredContentAware = inject(DeferredContentAware);
+  _tabs = inject(TABS);
+  id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  _tabPattern = computed(() => this._tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
+    debugName: "_tabPattern"
+  }] : []));
+  value = input.required(...(ngDevMode ? [{
+    debugName: "value"
+  }] : []));
+  visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
+    debugName: "visible"
+  }] : []));
+  _pattern = new TabPanelPattern({
+    ...this,
+    tab: this._tabPattern
+  });
+  constructor() {
+    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
+  }
+  ngOnInit() {
+    this._tabs._register(this);
+  }
+  ngOnDestroy() {
+    this._tabs._unregister(this);
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.0.0",
+    ngImport: i0,
+    type: TabPanel,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "21.0.0",
+    type: TabPanel,
+    isStandalone: true,
+    selector: "[ngTabPanel]",
+    inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      }
+    },
+    host: {
+      attributes: {
+        "role": "tabpanel"
+      },
+      properties: {
+        "attr.id": "_pattern.id()",
+        "attr.tabindex": "_pattern.tabIndex()",
+        "attr.inert": "!visible() ? true : null",
+        "attr.aria-labelledby": "_pattern.labelledBy()"
+      }
+    },
+    exportAs: ["ngTabPanel"],
+    hostDirectives: [{
+      directive: i1.DeferredContentAware,
+      inputs: ["preserveContent", "preserveContent"]
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.0.0",
+  ngImport: i0,
+  type: TabPanel,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngTabPanel]',
+      exportAs: 'ngTabPanel',
+      host: {
+        'role': 'tabpanel',
+        '[attr.id]': '_pattern.id()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
+        '[attr.inert]': '!visible() ? true : null',
+        '[attr.aria-labelledby]': '_pattern.labelledBy()'
+      },
+      hostDirectives: [{
+        directive: DeferredContentAware,
+        inputs: ['preserveContent']
+      }]
+    }]
+  }],
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }]
+  }
+});
+
+class Tabs {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  _tablist = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_tablist"
+  }] : []));
+  _unorderedPanels = signal(new Set(), ...(ngDevMode ? [{
+    debugName: "_unorderedPanels"
+  }] : []));
+  _tabPatterns = computed(() => this._tablist()?._tabPatterns(), ...(ngDevMode ? [{
+    debugName: "_tabPatterns"
+  }] : []));
+  _unorderedTabpanelPatterns = computed(() => [...this._unorderedPanels()].map(tabpanel => tabpanel._pattern), ...(ngDevMode ? [{
+    debugName: "_unorderedTabpanelPatterns"
+  }] : []));
+  _register(child) {
+    if (child instanceof TabList) {
+      this._tablist.set(child);
+    }
+    if (child instanceof TabPanel) {
+      this._unorderedPanels().add(child);
+      this._unorderedPanels.set(new Set(this._unorderedPanels()));
+    }
+  }
+  _unregister(child) {
+    if (child instanceof TabList) {
+      this._tablist.set(undefined);
+    }
+    if (child instanceof TabPanel) {
+      this._unorderedPanels().delete(child);
+      this._unorderedPanels.set(new Set(this._unorderedPanels()));
+    }
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.0.0",
+    ngImport: i0,
+    type: Tabs,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "14.0.0",
+    version: "21.0.0",
+    type: Tabs,
+    isStandalone: true,
+    selector: "[ngTabs]",
+    providers: [{
+      provide: TABS,
+      useExisting: Tabs
+    }],
+    exportAs: ["ngTabs"],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.0.0",
+  ngImport: i0,
+  type: Tabs,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngTabs]',
+      exportAs: 'ngTabs',
+      providers: [{
+        provide: TABS,
+        useExisting: Tabs
+      }]
+    }]
+  }]
+});
+
 class Tab {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _tabs = inject(Tabs);
+  _tabs = inject(TABS);
   _tabList = inject(TabList);
   id = input(inject(_IdGenerator).getId('ng-tab-', true), ...(ngDevMode ? [{
     debugName: "id"
@@ -481,128 +616,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
-class TabPanel {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  _deferredContentAware = inject(DeferredContentAware);
-  _Tabs = inject(Tabs);
-  id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
-  _tabPattern = computed(() => this._Tabs._tabPatterns()?.find(tab => tab.value() === this.value()), ...(ngDevMode ? [{
-    debugName: "_tabPattern"
-  }] : []));
-  value = input.required(...(ngDevMode ? [{
-    debugName: "value"
-  }] : []));
-  visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
-    debugName: "visible"
-  }] : []));
-  _pattern = new TabPanelPattern({
-    ...this,
-    tab: this._tabPattern
-  });
-  constructor() {
-    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
-  }
-  ngOnInit() {
-    this._Tabs._register(this);
-  }
-  ngOnDestroy() {
-    this._Tabs._unregister(this);
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "21.0.0",
-    ngImport: i0,
-    type: TabPanel,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "21.0.0",
-    type: TabPanel,
-    isStandalone: true,
-    selector: "[ngTabPanel]",
-    inputs: {
-      id: {
-        classPropertyName: "id",
-        publicName: "id",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
-        isSignal: true,
-        isRequired: true,
-        transformFunction: null
-      }
-    },
-    host: {
-      attributes: {
-        "role": "tabpanel"
-      },
-      properties: {
-        "attr.id": "_pattern.id()",
-        "attr.tabindex": "_pattern.tabIndex()",
-        "attr.inert": "!visible() ? true : null",
-        "attr.aria-labelledby": "_pattern.labelledBy()"
-      }
-    },
-    exportAs: ["ngTabPanel"],
-    hostDirectives: [{
-      directive: i1.DeferredContentAware,
-      inputs: ["preserveContent", "preserveContent"]
-    }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "21.0.0",
-  ngImport: i0,
-  type: TabPanel,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngTabPanel]',
-      exportAs: 'ngTabPanel',
-      host: {
-        'role': 'tabpanel',
-        '[attr.id]': '_pattern.id()',
-        '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.inert]': '!visible() ? true : null',
-        '[attr.aria-labelledby]': '_pattern.labelledBy()'
-      },
-      hostDirectives: [{
-        directive: DeferredContentAware,
-        inputs: ['preserveContent']
-      }]
-    }]
-  }],
-  ctorParameters: () => [],
-  propDecorators: {
-    id: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "id",
-        required: false
-      }]
-    }],
-    value: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "value",
-        required: true
-      }]
-    }]
-  }
-});
+
 class TabContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

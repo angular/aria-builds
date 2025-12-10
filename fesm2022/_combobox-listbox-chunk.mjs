@@ -1,5 +1,6 @@
 import { signal, computed } from '@angular/core';
-import { ListFocus, ListNavigation, Modifier, KeyboardEventManager, PointerEventManager } from './_list-navigation-chunk.mjs';
+import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
+import { Modifier, KeyboardEventManager, PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
 class ListSelection {
   inputs;

@@ -5,6 +5,30 @@
   "normalizedModuleName": "angular_aria_accordion",
   "entries": [
     {
+      "name": "AccordionContent",
+      "isAbstract": false,
+      "entryType": "directive",
+      "members": [],
+      "generics": [],
+      "description": "A structural directive that provides a mechanism for lazily rendering the content for an\n`ngAccordionPanel`.\n\nThis directive should be applied to an `ng-template` inside an `ngAccordionPanel`.\nIt allows the content of the panel to be lazily rendered, improving performance\nby only creating the content when the panel is first expanded.\n\n```html\n<div ngAccordionPanel panelId=\"unique-id-1\">\n  <ng-template ngAccordionContent>\n    <p>This is the content that will be displayed inside the panel.</p>\n  </ng-template>\n</div>\n```",
+      "jsdocTags": [
+        {
+          "name": "developerPreview",
+          "comment": "21.0"
+        }
+      ],
+      "rawComment": "/**\n * A structural directive that provides a mechanism for lazily rendering the content for an\n * `ngAccordionPanel`.\n *\n * This directive should be applied to an `ng-template` inside an `ngAccordionPanel`.\n * It allows the content of the panel to be lazily rendered, improving performance\n * by only creating the content when the panel is first expanded.\n *\n * ```html\n * <div ngAccordionPanel panelId=\"unique-id-1\">\n *   <ng-template ngAccordionContent>\n *     <p>This is the content that will be displayed inside the panel.</p>\n *   </ng-template>\n * </div>\n * ```\n *\n * @developerPreview 21.0\n */",
+      "implements": [],
+      "isStandalone": true,
+      "selector": "ng-template[ngAccordionContent]",
+      "exportAs": [],
+      "source": {
+        "filePath": "src/aria/accordion/accordion-content.ts",
+        "startLine": 30,
+        "endLine": 34
+      }
+    },
+    {
       "name": "AccordionPanel",
       "isAbstract": false,
       "entryType": "directive",
@@ -161,9 +185,9 @@
         "ngAccordionPanel"
       ],
       "source": {
-        "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 52,
-        "endLine": 113
+        "filePath": "/src/aria/accordion/accordion-panel.ts",
+        "startLine": 45,
+        "endLine": 106
       }
     },
     {
@@ -361,9 +385,9 @@
         "ngAccordionTrigger"
       ],
       "source": {
-        "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 132,
-        "endLine": 197
+        "filePath": "/src/aria/accordion/accordion-trigger.ts",
+        "startLine": 41,
+        "endLine": 106
       }
     },
     {
@@ -526,33 +550,9 @@
         "ngAccordionGroup"
       ],
       "source": {
-        "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 234,
-        "endLine": 329
-      }
-    },
-    {
-      "name": "AccordionContent",
-      "isAbstract": false,
-      "entryType": "directive",
-      "members": [],
-      "generics": [],
-      "description": "A structural directive that provides a mechanism for lazily rendering the content for an\n`ngAccordionPanel`.\n\nThis directive should be applied to an `ng-template` inside an `ngAccordionPanel`.\nIt allows the content of the panel to be lazily rendered, improving performance\nby only creating the content when the panel is first expanded.\n\n```html\n<div ngAccordionPanel panelId=\"unique-id-1\">\n  <ng-template ngAccordionContent>\n    <p>This is the content that will be displayed inside the panel.</p>\n  </ng-template>\n</div>\n```",
-      "jsdocTags": [
-        {
-          "name": "developerPreview",
-          "comment": "21.0"
-        }
-      ],
-      "rawComment": "/**\n * A structural directive that provides a mechanism for lazily rendering the content for an\n * `ngAccordionPanel`.\n *\n * This directive should be applied to an `ng-template` inside an `ngAccordionPanel`.\n * It allows the content of the panel to be lazily rendered, improving performance\n * by only creating the content when the panel is first expanded.\n *\n * ```html\n * <div ngAccordionPanel panelId=\"unique-id-1\">\n *   <ng-template ngAccordionContent>\n *     <p>This is the content that will be displayed inside the panel.</p>\n *   </ng-template>\n * </div>\n * ```\n *\n * @developerPreview 21.0\n */",
-      "implements": [],
-      "isStandalone": true,
-      "selector": "ng-template[ngAccordionContent]",
-      "exportAs": [],
-      "source": {
-        "filePath": "src/aria/accordion/accordion.ts",
-        "startLine": 349,
-        "endLine": 353
+        "filePath": "src/aria/accordion/accordion-group.ts",
+        "startLine": 61,
+        "endLine": 157
       }
     }
   ],
@@ -562,19 +562,15 @@
       "@angular/core"
     ],
     [
+      "DeferredContent",
+      "@angular/aria/private"
+    ],
+    [
       "input",
       "@angular/core"
     ],
     [
-      "ElementRef",
-      "@angular/core"
-    ],
-    [
       "inject",
-      "@angular/core"
-    ],
-    [
-      "contentChildren",
       "@angular/core"
     ],
     [
@@ -583,14 +579,6 @@
     ],
     [
       "signal",
-      "@angular/core"
-    ],
-    [
-      "model",
-      "@angular/core"
-    ],
-    [
-      "booleanAttribute",
       "@angular/core"
     ],
     [
@@ -606,19 +594,7 @@
       "@angular/cdk/a11y"
     ],
     [
-      "Directionality",
-      "@angular/cdk/bidi"
-    ],
-    [
-      "DeferredContent",
-      "@angular/aria/private"
-    ],
-    [
       "DeferredContentAware",
-      "@angular/aria/private"
-    ],
-    [
-      "AccordionGroupPattern",
       "@angular/aria/private"
     ],
     [
@@ -628,6 +604,34 @@
     [
       "AccordionTriggerPattern",
       "@angular/aria/private"
+    ],
+    [
+      "ElementRef",
+      "@angular/core"
+    ],
+    [
+      "model",
+      "@angular/core"
+    ],
+    [
+      "booleanAttribute",
+      "@angular/core"
+    ],
+    [
+      "contentChildren",
+      "@angular/core"
+    ],
+    [
+      "Directionality",
+      "@angular/cdk/bidi"
+    ],
+    [
+      "AccordionGroupPattern",
+      "@angular/aria/private"
+    ],
+    [
+      "AccordionContent",
+      "@angular/aria/accordion"
     ],
     [
       "AccordionPanel",
@@ -747,10 +751,6 @@
     ],
     [
       "AccordionGroup.collapseAll",
-      "@angular/aria/accordion"
-    ],
-    [
-      "AccordionContent",
       "@angular/aria/accordion"
     ]
   ]

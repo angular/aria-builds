@@ -1,128 +1,13 @@
-import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import * as i1 from '@angular/aria/private';
-import { TabPattern, TabPanelPattern, TabListPattern } from '@angular/aria/private';
+import { TabPattern, TabListPattern, TabPanelPattern } from '@angular/aria/private';
+import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 
 interface HasElement {
     element: HTMLElement;
 }
-/**
- * A Tabs container.
- *
- * The `ngTabs` directive represents a set of layered sections of content. It acts as the
- * overarching container for a tabbed interface, coordinating the behavior of `ngTabList`,
- * `ngTab`, and `ngTabPanel` directives.
- *
- * ```html
- * <div ngTabs>
- *   <ul ngTabList [(selectedTab)]="selectedTabValue">
- *     <li ngTab value="tab1">Tab 1</li>
- *     <li ngTab value="tab2">Tab 2</li>
- *     <li ngTab value="tab3">Tab 3</li>
- *   </ul>
- *
- *   <div ngTabPanel value="tab1">
- *      <ng-template ngTabContent>Content for Tab 1</ng-template>
- *   </div>
- *   <div ngTabPanel value="tab2">
- *      <ng-template ngTabContent>Content for Tab 2</ng-template>
- *   </div>
- *   <div ngTabPanel value="tab3">
- *      <ng-template ngTabContent>Content for Tab 3</ng-template>
- *   </div>
- * </div>
- * ```
- *
- * @developerPreview 21.0
- */
-declare class Tabs {
-    /** A reference to the host element. */
-    private readonly _elementRef;
-    /** A reference to the host element. */
-    readonly element: HTMLElement;
-    /** The TabList nested inside of the container. */
-    private readonly _tablist;
-    /** The TabPanels nested inside of the container. */
-    private readonly _unorderedPanels;
-    /** The Tab UIPattern of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<TabPattern[] | undefined>;
-    /** The TabPanel UIPattern of the child TabPanels. */
-    readonly _unorderedTabpanelPatterns: _angular_core.Signal<TabPanelPattern[]>;
-    _register(child: TabList | TabPanel): void;
-    _unregister(child: TabList | TabPanel): void;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
-}
-/**
- * A TabList container.
- *
- * The `ngTabList` directive controls a list of `ngTab` elements. It manages keyboard
- * navigation, selection, and the overall orientation of the tabs. It should be placed
- * within an `ngTabs` container.
- *
- * ```html
- * <ul ngTabList [(selectedTab)]="mySelectedTab" orientation="horizontal" selectionMode="explicit">
- *   <li ngTab value="first">First Tab</li>
- *   <li ngTab value="second">Second Tab</li>
- * </ul>
- * ```
- *
- * @developerPreview 21.0
- */
-declare class TabList implements OnInit, OnDestroy {
-    /** A reference to the host element. */
-    private readonly _elementRef;
-    /** A reference to the host element. */
-    readonly element: HTMLElement;
-    /** The parent Tabs. */
-    private readonly _tabs;
-    /** The Tabs nested inside of the TabList. */
-    private readonly _unorderedTabs;
-    /** Text direction. */
-    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
-    /** The Tab UIPatterns of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<TabPattern[]>;
-    /** Whether the tablist is vertically or horizontally oriented. */
-    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
-    /** Whether focus should wrap when navigating. */
-    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /**
-     * Whether to allow disabled items to receive focus. When `true`, disabled items are
-     * focusable but not interactive. When `false`, disabled items are skipped during navigation.
-     */
-    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /**
-     * The focus strategy used by the tablist.
-     * - `roving`: Focus is moved to the active tab using `tabindex`.
-     * - `activedescendant`: Focus remains on the tablist container, and `aria-activedescendant` is used to indicate the active tab.
-     */
-    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
-    /**
-     * The selection strategy used by the tablist.
-     * - `follow`: The focused tab is automatically selected.
-     * - `explicit`: Tabs are selected explicitly by the user (e.g., via click or spacebar).
-     */
-    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
-    /** The current selected tab. */
-    readonly selectedTab: _angular_core.ModelSignal<string | undefined>;
-    /** Whether the tablist is disabled. */
-    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The TabList UIPattern. */
-    readonly _pattern: TabListPattern;
-    /** Whether the tree has received focus yet. */
-    private _hasFocused;
-    constructor();
-    _onFocus(): void;
-    ngOnInit(): void;
-    ngOnDestroy(): void;
-    _register(child: Tab): void;
-    _unregister(child: Tab): void;
-    /** Opens the tab panel with the specified value. */
-    open(value: string): boolean;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
-}
+
 /**
  * A selectable tab in a TabList.
  *
@@ -169,6 +54,77 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tab, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tab, "[ngTab]", ["ngTab"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
+
+/**
+ * A TabList container.
+ *
+ * The `ngTabList` directive controls a list of `ngTab` elements. It manages keyboard
+ * navigation, selection, and the overall orientation of the tabs. It should be placed
+ * within an `ngTabs` container.
+ *
+ * ```html
+ * <ul ngTabList [(selectedTab)]="mySelectedTab" orientation="horizontal" selectionMode="explicit">
+ *   <li ngTab value="first">First Tab</li>
+ *   <li ngTab value="second">Second Tab</li>
+ * </ul>
+ * ```
+ *
+ * @developerPreview 21.0
+ */
+declare class TabList implements OnInit, OnDestroy {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
+    /** The parent Tabs. */
+    private readonly _tabs;
+    /** The Tabs nested inside of the TabList. */
+    private readonly _unorderedTabs;
+    /** Text direction. */
+    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
+    /** The Tab UIPatterns of the child Tabs. */
+    readonly _tabPatterns: _angular_core.Signal<i1.TabPattern[]>;
+    /** Whether the tablist is vertically or horizontally oriented. */
+    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    /** Whether focus should wrap when navigating. */
+    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /**
+     * Whether to allow disabled items to receive focus. When `true`, disabled items are
+     * focusable but not interactive. When `false`, disabled items are skipped during navigation.
+     */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /**
+     * The focus strategy used by the tablist.
+     * - `roving`: Focus is moved to the active tab using `tabindex`.
+     * - `activedescendant`: Focus remains on the tablist container, and `aria-activedescendant` is used to indicate the active tab.
+     */
+    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
+    /**
+     * The selection strategy used by the tablist.
+     * - `follow`: The focused tab is automatically selected.
+     * - `explicit`: Tabs are selected explicitly by the user (e.g., via click or spacebar).
+     */
+    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    /** The current selected tab. */
+    readonly selectedTab: _angular_core.ModelSignal<string | undefined>;
+    /** Whether the tablist is disabled. */
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The TabList UIPattern. */
+    readonly _pattern: TabListPattern;
+    /** Whether the tree has received focus yet. */
+    private _hasFocused;
+    constructor();
+    _onFocus(): void;
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    _register(child: Tab): void;
+    _unregister(child: Tab): void;
+    /** Opens the tab panel with the specified value. */
+    open(value: string): boolean;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
+}
+
 /**
  * A TabPanel container for the resources of layered content associated with a tab.
  *
@@ -194,7 +150,7 @@ declare class TabPanel implements OnInit, OnDestroy {
     /** The DeferredContentAware host directive. */
     private readonly _deferredContentAware;
     /** The parent Tabs. */
-    private readonly _Tabs;
+    private readonly _tabs;
     /** A global unique identifier for the tab. */
     readonly id: _angular_core.InputSignal<string>;
     /** The Tab UIPattern associated with the tabpanel */
@@ -211,6 +167,55 @@ declare class TabPanel implements OnInit, OnDestroy {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabPanel, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
+
+/**
+ * A Tabs container.
+ *
+ * The `ngTabs` directive represents a set of layered sections of content. It acts as the
+ * overarching container for a tabbed interface, coordinating the behavior of `ngTabList`,
+ * `ngTab`, and `ngTabPanel` directives.
+ *
+ * ```html
+ * <div ngTabs>
+ *   <ul ngTabList [(selectedTab)]="selectedTabValue">
+ *     <li ngTab value="tab1">Tab 1</li>
+ *     <li ngTab value="tab2">Tab 2</li>
+ *     <li ngTab value="tab3">Tab 3</li>
+ *   </ul>
+ *
+ *   <div ngTabPanel value="tab1">
+ *      <ng-template ngTabContent>Content for Tab 1</ng-template>
+ *   </div>
+ *   <div ngTabPanel value="tab2">
+ *      <ng-template ngTabContent>Content for Tab 2</ng-template>
+ *   </div>
+ *   <div ngTabPanel value="tab3">
+ *      <ng-template ngTabContent>Content for Tab 3</ng-template>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * @developerPreview 21.0
+ */
+declare class Tabs {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
+    /** The TabList nested inside of the container. */
+    private readonly _tablist;
+    /** The TabPanels nested inside of the container. */
+    private readonly _unorderedPanels;
+    /** The Tab UIPattern of the child Tabs. */
+    readonly _tabPatterns: _angular_core.Signal<i1.TabPattern[] | undefined>;
+    /** The TabPanel UIPattern of the child TabPanels. */
+    readonly _unorderedTabpanelPatterns: _angular_core.Signal<i1.TabPanelPattern[]>;
+    _register(child: TabList | TabPanel): void;
+    _unregister(child: TabList | TabPanel): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
+}
+
 /**
  * A TabContent container for the lazy-loaded content.
  *

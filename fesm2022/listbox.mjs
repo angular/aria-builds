@@ -4,9 +4,9 @@ import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { OptionPattern, ComboboxListboxPattern, ListboxPattern } from './_combobox-listbox-chunk.mjs';
-import { ComboboxPopup } from './combobox.mjs';
+import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
 import './_list-navigation-chunk.mjs';
-import '@angular/aria/private';
+import './_pointer-event-manager-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
 

@@ -1,9 +1,9 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, contentChildren, signal, output, afterRenderEffect, untracked, model } from '@angular/core';
+import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, contentChildren, signal, output, afterRenderEffect, untracked } from '@angular/core';
 import * as i1 from '@angular/aria/private';
-import { MenuTriggerPattern, DeferredContentAware, MenuPattern, MenuBarPattern, MenuItemPattern, DeferredContent } from '@angular/aria/private';
-import { _IdGenerator } from '@angular/cdk/a11y';
+import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, DeferredContentAware, MenuPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
+import { _IdGenerator } from '@angular/cdk/a11y';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);
@@ -156,495 +156,9 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
-class Menu {
-  _deferredContentAware = inject(DeferredContentAware, {
-    optional: true
-  });
-  _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
-    debugName: "_allItems",
-    descendants: true
-  }] : [{
-    descendants: true
-  }]));
-  _items = computed(() => this._allItems().filter(i => i.parent === this), ...(ngDevMode ? [{
-    debugName: "_items"
-  }] : []));
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  textDirection = inject(Directionality).valueSignal;
-  id = input(inject(_IdGenerator).getId('ng-menu-', true), ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  typeaheadDelay = input(500, ...(ngDevMode ? [{
-    debugName: "typeaheadDelay"
-  }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  parent = signal(undefined, ...(ngDevMode ? [{
-    debugName: "parent"
-  }] : []));
-  _pattern;
-  _itemPatterns = () => this._items().map(i => i._pattern);
-  visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
-    debugName: "visible"
-  }] : []));
-  tabIndex = computed(() => this._pattern.tabIndex(), ...(ngDevMode ? [{
-    debugName: "tabIndex"
-  }] : []));
-  onSelect = output();
-  expansionDelay = input(100, ...(ngDevMode ? [{
-    debugName: "expansionDelay"
-  }] : []));
-  constructor() {
-    this._pattern = new MenuPattern({
-      ...this,
-      parent: computed(() => this.parent()?._pattern),
-      items: this._itemPatterns,
-      multi: () => false,
-      softDisabled: () => true,
-      focusMode: () => 'roving',
-      orientation: () => 'vertical',
-      selectionMode: () => 'explicit',
-      activeItem: signal(undefined),
-      element: computed(() => this._elementRef.nativeElement),
-      onSelect: value => this.onSelect.emit(value)
-    });
-    afterRenderEffect(() => {
-      const parent = this.parent();
-      if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
-        this._deferredContentAware?.contentVisible.set(true);
-      } else {
-        this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenFocused());
-      }
-    });
-    afterRenderEffect(() => {
-      if (this._pattern.visible()) {
-        const activeItem = untracked(() => this._pattern.inputs.activeItem());
-        this._pattern.listBehavior.goto(activeItem);
-      }
-    });
-    afterRenderEffect(() => {
-      if (!this._pattern.hasBeenFocused() && !this._pattern.hasBeenHovered() && this._items().length) {
-        untracked(() => this._pattern.setDefaultState());
-      }
-    });
-  }
-  close() {
-    this._pattern.close();
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "21.0.0",
-    ngImport: i0,
-    type: Menu,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
-    version: "21.0.0",
-    type: Menu,
-    isStandalone: true,
-    selector: "[ngMenu]",
-    inputs: {
-      id: {
-        classPropertyName: "id",
-        publicName: "id",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      wrap: {
-        classPropertyName: "wrap",
-        publicName: "wrap",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      typeaheadDelay: {
-        classPropertyName: "typeaheadDelay",
-        publicName: "typeaheadDelay",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      disabled: {
-        classPropertyName: "disabled",
-        publicName: "disabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      expansionDelay: {
-        classPropertyName: "expansionDelay",
-        publicName: "expansionDelay",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      }
-    },
-    outputs: {
-      onSelect: "onSelect"
-    },
-    host: {
-      attributes: {
-        "role": "menu"
-      },
-      listeners: {
-        "keydown": "_pattern.onKeydown($event)",
-        "mouseover": "_pattern.onMouseOver($event)",
-        "mouseout": "_pattern.onMouseOut($event)",
-        "focusout": "_pattern.onFocusOut($event)",
-        "focusin": "_pattern.onFocusIn()",
-        "click": "_pattern.onClick($event)"
-      },
-      properties: {
-        "attr.id": "_pattern.id()",
-        "attr.aria-disabled": "_pattern.disabled()",
-        "attr.tabindex": "tabIndex()",
-        "attr.data-visible": "visible()"
-      }
-    },
-    queries: [{
-      propertyName: "_allItems",
-      predicate: MenuItem,
-      descendants: true,
-      isSignal: true
-    }],
-    exportAs: ["ngMenu"],
-    hostDirectives: [{
-      directive: i1.DeferredContentAware,
-      inputs: ["preserveContent", "preserveContent"]
-    }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "21.0.0",
-  ngImport: i0,
-  type: Menu,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngMenu]',
-      exportAs: 'ngMenu',
-      host: {
-        'role': 'menu',
-        '[attr.id]': '_pattern.id()',
-        '[attr.aria-disabled]': '_pattern.disabled()',
-        '[attr.tabindex]': 'tabIndex()',
-        '[attr.data-visible]': 'visible()',
-        '(keydown)': '_pattern.onKeydown($event)',
-        '(mouseover)': '_pattern.onMouseOver($event)',
-        '(mouseout)': '_pattern.onMouseOut($event)',
-        '(focusout)': '_pattern.onFocusOut($event)',
-        '(focusin)': '_pattern.onFocusIn()',
-        '(click)': '_pattern.onClick($event)'
-      },
-      hostDirectives: [{
-        directive: DeferredContentAware,
-        inputs: ['preserveContent']
-      }]
-    }]
-  }],
-  ctorParameters: () => [],
-  propDecorators: {
-    _allItems: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => MenuItem), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
-    id: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "id",
-        required: false
-      }]
-    }],
-    wrap: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "wrap",
-        required: false
-      }]
-    }],
-    typeaheadDelay: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "typeaheadDelay",
-        required: false
-      }]
-    }],
-    disabled: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "disabled",
-        required: false
-      }]
-    }],
-    onSelect: [{
-      type: i0.Output,
-      args: ["onSelect"]
-    }],
-    expansionDelay: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "expansionDelay",
-        required: false
-      }]
-    }]
-  }
-});
-class MenuBar {
-  _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
-    debugName: "_allItems",
-    descendants: true
-  }] : [{
-    descendants: true
-  }]));
-  _items = () => this._allItems().filter(i => i.parent === this);
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  textDirection = inject(Directionality).valueSignal;
-  values = model([], ...(ngDevMode ? [{
-    debugName: "values"
-  }] : []));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  typeaheadDelay = input(500, ...(ngDevMode ? [{
-    debugName: "typeaheadDelay"
-  }] : []));
-  _pattern;
-  _itemPatterns = signal([], ...(ngDevMode ? [{
-    debugName: "_itemPatterns"
-  }] : []));
-  onSelect = output();
-  constructor() {
-    this._pattern = new MenuBarPattern({
-      ...this,
-      items: this._itemPatterns,
-      multi: () => false,
-      softDisabled: () => true,
-      focusMode: () => 'roving',
-      orientation: () => 'horizontal',
-      selectionMode: () => 'explicit',
-      onSelect: value => this.onSelect.emit(value),
-      activeItem: signal(undefined),
-      element: computed(() => this._elementRef.nativeElement)
-    });
-    afterRenderEffect(() => {
-      this._itemPatterns.set(this._items().map(i => i._pattern));
-    });
-    afterRenderEffect(() => {
-      if (!this._pattern.hasBeenFocused()) {
-        this._pattern.setDefaultState();
-      }
-    });
-  }
-  close() {
-    this._pattern.close();
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "21.0.0",
-    ngImport: i0,
-    type: MenuBar,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
-    version: "21.0.0",
-    type: MenuBar,
-    isStandalone: true,
-    selector: "[ngMenuBar]",
-    inputs: {
-      disabled: {
-        classPropertyName: "disabled",
-        publicName: "disabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      softDisabled: {
-        classPropertyName: "softDisabled",
-        publicName: "softDisabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      values: {
-        classPropertyName: "values",
-        publicName: "values",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      wrap: {
-        classPropertyName: "wrap",
-        publicName: "wrap",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      typeaheadDelay: {
-        classPropertyName: "typeaheadDelay",
-        publicName: "typeaheadDelay",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      }
-    },
-    outputs: {
-      values: "valuesChange",
-      onSelect: "onSelect"
-    },
-    host: {
-      attributes: {
-        "role": "menubar"
-      },
-      listeners: {
-        "keydown": "_pattern.onKeydown($event)",
-        "mouseover": "_pattern.onMouseOver($event)",
-        "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn()",
-        "focusout": "_pattern.onFocusOut($event)"
-      },
-      properties: {
-        "attr.disabled": "!softDisabled() && _pattern.disabled() ? true : null",
-        "attr.aria-disabled": "_pattern.disabled()",
-        "attr.tabindex": "_pattern.tabIndex()"
-      }
-    },
-    queries: [{
-      propertyName: "_allItems",
-      predicate: MenuItem,
-      descendants: true,
-      isSignal: true
-    }],
-    exportAs: ["ngMenuBar"],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "21.0.0",
-  ngImport: i0,
-  type: MenuBar,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngMenuBar]',
-      exportAs: 'ngMenuBar',
-      host: {
-        'role': 'menubar',
-        '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
-        '[attr.aria-disabled]': '_pattern.disabled()',
-        '[attr.tabindex]': '_pattern.tabIndex()',
-        '(keydown)': '_pattern.onKeydown($event)',
-        '(mouseover)': '_pattern.onMouseOver($event)',
-        '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn()',
-        '(focusout)': '_pattern.onFocusOut($event)'
-      }
-    }]
-  }],
-  ctorParameters: () => [],
-  propDecorators: {
-    _allItems: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => MenuItem), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
-    disabled: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "disabled",
-        required: false
-      }]
-    }],
-    softDisabled: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "softDisabled",
-        required: false
-      }]
-    }],
-    values: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "values",
-        required: false
-      }]
-    }, {
-      type: i0.Output,
-      args: ["valuesChange"]
-    }],
-    wrap: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "wrap",
-        required: false
-      }]
-    }],
-    typeaheadDelay: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "typeaheadDelay",
-        required: false
-      }]
-    }],
-    onSelect: [{
-      type: i0.Output,
-      args: ["onSelect"]
-    }]
-  }
-});
+
+const MENU_COMPONENT = new InjectionToken('MENU_COMPONENT');
+
 class MenuItem {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -660,13 +174,9 @@ class MenuItem {
   searchTerm = model('', ...(ngDevMode ? [{
     debugName: "searchTerm"
   }] : []));
-  _menu = inject(Menu, {
+  parent = inject(MENU_COMPONENT, {
     optional: true
   });
-  _menuBar = inject(MenuBar, {
-    optional: true
-  });
-  parent = this._menu ?? this._menuBar;
   submenu = input(undefined, ...(ngDevMode ? [{
     debugName: "submenu"
   }] : []));
@@ -842,6 +352,514 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
+class MenuBar {
+  _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
+    debugName: "_allItems",
+    descendants: true
+  }] : [{
+    descendants: true
+  }]));
+  _items = () => this._allItems().filter(i => i.parent === this);
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  disabled = input(false, ...(ngDevMode ? [{
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  softDisabled = input(true, ...(ngDevMode ? [{
+    debugName: "softDisabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  textDirection = inject(Directionality).valueSignal;
+  values = model([], ...(ngDevMode ? [{
+    debugName: "values"
+  }] : []));
+  wrap = input(true, ...(ngDevMode ? [{
+    debugName: "wrap",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  typeaheadDelay = input(500, ...(ngDevMode ? [{
+    debugName: "typeaheadDelay"
+  }] : []));
+  _pattern;
+  _itemPatterns = signal([], ...(ngDevMode ? [{
+    debugName: "_itemPatterns"
+  }] : []));
+  onSelect = output();
+  constructor() {
+    this._pattern = new MenuBarPattern({
+      ...this,
+      items: this._itemPatterns,
+      multi: () => false,
+      softDisabled: () => true,
+      focusMode: () => 'roving',
+      orientation: () => 'horizontal',
+      selectionMode: () => 'explicit',
+      onSelect: value => this.onSelect.emit(value),
+      activeItem: signal(undefined),
+      element: computed(() => this._elementRef.nativeElement)
+    });
+    afterRenderEffect(() => {
+      this._itemPatterns.set(this._items().map(i => i._pattern));
+    });
+    afterRenderEffect(() => {
+      if (!this._pattern.hasBeenFocused()) {
+        this._pattern.setDefaultState();
+      }
+    });
+  }
+  close() {
+    this._pattern.close();
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.0.0",
+    ngImport: i0,
+    type: MenuBar,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.2.0",
+    version: "21.0.0",
+    type: MenuBar,
+    isStandalone: true,
+    selector: "[ngMenuBar]",
+    inputs: {
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      values: {
+        classPropertyName: "values",
+        publicName: "values",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      wrap: {
+        classPropertyName: "wrap",
+        publicName: "wrap",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      typeaheadDelay: {
+        classPropertyName: "typeaheadDelay",
+        publicName: "typeaheadDelay",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    outputs: {
+      values: "valuesChange",
+      onSelect: "onSelect"
+    },
+    host: {
+      attributes: {
+        "role": "menubar"
+      },
+      listeners: {
+        "keydown": "_pattern.onKeydown($event)",
+        "mouseover": "_pattern.onMouseOver($event)",
+        "click": "_pattern.onClick($event)",
+        "focusin": "_pattern.onFocusIn()",
+        "focusout": "_pattern.onFocusOut($event)"
+      },
+      properties: {
+        "attr.disabled": "!softDisabled() && _pattern.disabled() ? true : null",
+        "attr.aria-disabled": "_pattern.disabled()",
+        "attr.tabindex": "_pattern.tabIndex()"
+      }
+    },
+    providers: [{
+      provide: MENU_COMPONENT,
+      useExisting: MenuBar
+    }],
+    queries: [{
+      propertyName: "_allItems",
+      predicate: MenuItem,
+      descendants: true,
+      isSignal: true
+    }],
+    exportAs: ["ngMenuBar"],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.0.0",
+  ngImport: i0,
+  type: MenuBar,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngMenuBar]',
+      exportAs: 'ngMenuBar',
+      host: {
+        'role': 'menubar',
+        '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
+        '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
+        '(keydown)': '_pattern.onKeydown($event)',
+        '(mouseover)': '_pattern.onMouseOver($event)',
+        '(click)': '_pattern.onClick($event)',
+        '(focusin)': '_pattern.onFocusIn()',
+        '(focusout)': '_pattern.onFocusOut($event)'
+      },
+      providers: [{
+        provide: MENU_COMPONENT,
+        useExisting: MenuBar
+      }]
+    }]
+  }],
+  ctorParameters: () => [],
+  propDecorators: {
+    _allItems: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => MenuItem), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    values: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "values",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["valuesChange"]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    typeaheadDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    onSelect: [{
+      type: i0.Output,
+      args: ["onSelect"]
+    }]
+  }
+});
+
+class Menu {
+  _deferredContentAware = inject(DeferredContentAware, {
+    optional: true
+  });
+  _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
+    debugName: "_allItems",
+    descendants: true
+  }] : [{
+    descendants: true
+  }]));
+  _items = computed(() => this._allItems().filter(i => i.parent === this), ...(ngDevMode ? [{
+    debugName: "_items"
+  }] : []));
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  textDirection = inject(Directionality).valueSignal;
+  id = input(inject(_IdGenerator).getId('ng-menu-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  wrap = input(true, ...(ngDevMode ? [{
+    debugName: "wrap",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  typeaheadDelay = input(500, ...(ngDevMode ? [{
+    debugName: "typeaheadDelay"
+  }] : []));
+  disabled = input(false, ...(ngDevMode ? [{
+    debugName: "disabled",
+    transform: booleanAttribute
+  }] : [{
+    transform: booleanAttribute
+  }]));
+  parent = signal(undefined, ...(ngDevMode ? [{
+    debugName: "parent"
+  }] : []));
+  _pattern;
+  _itemPatterns = () => this._items().map(i => i._pattern);
+  visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
+    debugName: "visible"
+  }] : []));
+  tabIndex = computed(() => this._pattern.tabIndex(), ...(ngDevMode ? [{
+    debugName: "tabIndex"
+  }] : []));
+  onSelect = output();
+  expansionDelay = input(100, ...(ngDevMode ? [{
+    debugName: "expansionDelay"
+  }] : []));
+  constructor() {
+    this._pattern = new MenuPattern({
+      ...this,
+      parent: computed(() => this.parent()?._pattern),
+      items: this._itemPatterns,
+      multi: () => false,
+      softDisabled: () => true,
+      focusMode: () => 'roving',
+      orientation: () => 'vertical',
+      selectionMode: () => 'explicit',
+      activeItem: signal(undefined),
+      element: computed(() => this._elementRef.nativeElement),
+      onSelect: value => this.onSelect.emit(value)
+    });
+    afterRenderEffect(() => {
+      const parent = this.parent();
+      if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
+        this._deferredContentAware?.contentVisible.set(true);
+      } else {
+        this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenFocused());
+      }
+    });
+    afterRenderEffect(() => {
+      if (this._pattern.visible()) {
+        const activeItem = untracked(() => this._pattern.inputs.activeItem());
+        this._pattern.listBehavior.goto(activeItem);
+      }
+    });
+    afterRenderEffect(() => {
+      if (!this._pattern.hasBeenFocused() && !this._pattern.hasBeenHovered() && this._items().length) {
+        untracked(() => this._pattern.setDefaultState());
+      }
+    });
+  }
+  close() {
+    this._pattern.close();
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.0.0",
+    ngImport: i0,
+    type: Menu,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.2.0",
+    version: "21.0.0",
+    type: Menu,
+    isStandalone: true,
+    selector: "[ngMenu]",
+    inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      wrap: {
+        classPropertyName: "wrap",
+        publicName: "wrap",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      typeaheadDelay: {
+        classPropertyName: "typeaheadDelay",
+        publicName: "typeaheadDelay",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      expansionDelay: {
+        classPropertyName: "expansionDelay",
+        publicName: "expansionDelay",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    outputs: {
+      onSelect: "onSelect"
+    },
+    host: {
+      attributes: {
+        "role": "menu"
+      },
+      listeners: {
+        "keydown": "_pattern.onKeydown($event)",
+        "mouseover": "_pattern.onMouseOver($event)",
+        "mouseout": "_pattern.onMouseOut($event)",
+        "focusout": "_pattern.onFocusOut($event)",
+        "focusin": "_pattern.onFocusIn()",
+        "click": "_pattern.onClick($event)"
+      },
+      properties: {
+        "attr.id": "_pattern.id()",
+        "attr.aria-disabled": "_pattern.disabled()",
+        "attr.tabindex": "tabIndex()",
+        "attr.data-visible": "visible()"
+      }
+    },
+    providers: [{
+      provide: MENU_COMPONENT,
+      useExisting: Menu
+    }],
+    queries: [{
+      propertyName: "_allItems",
+      predicate: MenuItem,
+      descendants: true,
+      isSignal: true
+    }],
+    exportAs: ["ngMenu"],
+    hostDirectives: [{
+      directive: i1.DeferredContentAware,
+      inputs: ["preserveContent", "preserveContent"]
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.0.0",
+  ngImport: i0,
+  type: Menu,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngMenu]',
+      exportAs: 'ngMenu',
+      host: {
+        'role': 'menu',
+        '[attr.id]': '_pattern.id()',
+        '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.tabindex]': 'tabIndex()',
+        '[attr.data-visible]': 'visible()',
+        '(keydown)': '_pattern.onKeydown($event)',
+        '(mouseover)': '_pattern.onMouseOver($event)',
+        '(mouseout)': '_pattern.onMouseOut($event)',
+        '(focusout)': '_pattern.onFocusOut($event)',
+        '(focusin)': '_pattern.onFocusIn()',
+        '(click)': '_pattern.onClick($event)'
+      },
+      hostDirectives: [{
+        directive: DeferredContentAware,
+        inputs: ['preserveContent']
+      }],
+      providers: [{
+        provide: MENU_COMPONENT,
+        useExisting: Menu
+      }]
+    }]
+  }],
+  ctorParameters: () => [],
+  propDecorators: {
+    _allItems: [{
+      type: i0.ContentChildren,
+      args: [i0.forwardRef(() => MenuItem), {
+        ...{
+          descendants: true
+        },
+        isSignal: true
+      }]
+    }],
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }],
+    typeaheadDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    onSelect: [{
+      type: i0.Output,
+      args: ["onSelect"]
+    }],
+    expansionDelay: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "expansionDelay",
+        required: false
+      }]
+    }]
+  }
+});
+
 class MenuContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
