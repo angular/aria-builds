@@ -1292,7 +1292,7 @@ class DeferredContentAware {
   }] : []));
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: DeferredContentAware,
     deps: [],
@@ -1300,7 +1300,7 @@ class DeferredContentAware {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: DeferredContentAware,
     isStandalone: true,
     inputs: {
@@ -1320,7 +1320,7 @@ class DeferredContentAware {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: DeferredContentAware,
   decorators: [{
@@ -1377,7 +1377,7 @@ class DeferredContent {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: DeferredContent,
     deps: [],
@@ -1385,7 +1385,7 @@ class DeferredContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: DeferredContent,
     isStandalone: true,
     ngImport: i0
@@ -1393,7 +1393,7 @@ class DeferredContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: DeferredContent,
   decorators: [{

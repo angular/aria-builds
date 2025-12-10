@@ -25,36 +25,36 @@ class Tree {
   orientation = input('vertical', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
-  multi = input(false, ...(ngDevMode ? [{
-    debugName: "multi",
+  multi = input(false, {
+    ...(ngDevMode ? {
+      debugName: "multi"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   selectionMode = input('explicit', ...(ngDevMode ? [{
     debugName: "selectionMode"
   }] : []));
   focusMode = input('roving', ...(ngDevMode ? [{
     debugName: "focusMode"
   }] : []));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
+  wrap = input(true, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
@@ -62,12 +62,12 @@ class Tree {
     debugName: "values"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
-  nav = input(false, ...(ngDevMode ? [{
-    debugName: "nav",
+  nav = input(false, {
+    ...(ngDevMode ? {
+      debugName: "nav"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   currentType = input('page', ...(ngDevMode ? [{
     debugName: "currentType"
   }] : []));
@@ -127,7 +127,7 @@ class Tree {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Tree,
     deps: [],
@@ -135,7 +135,7 @@ class Tree {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Tree,
     isStandalone: true,
     selector: "[ngTree]",
@@ -255,7 +255,7 @@ class Tree {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Tree,
   decorators: [{
@@ -397,12 +397,12 @@ class TreeItem extends DeferredContentAware {
   parent = input.required(...(ngDevMode ? [{
     debugName: "parent"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   selectable = input(true, ...(ngDevMode ? [{
     debugName: "selectable"
   }] : []));
@@ -486,7 +486,7 @@ class TreeItem extends DeferredContentAware {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: TreeItem,
     deps: [],
@@ -494,7 +494,7 @@ class TreeItem extends DeferredContentAware {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: TreeItem,
     isStandalone: true,
     selector: "[ngTreeItem]",
@@ -576,7 +576,7 @@ class TreeItem extends DeferredContentAware {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: TreeItem,
   decorators: [{
@@ -693,7 +693,7 @@ class TreeItemGroup {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: TreeItemGroup,
     deps: [],
@@ -701,7 +701,7 @@ class TreeItemGroup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: TreeItemGroup,
     isStandalone: true,
     selector: "ng-template[ngTreeItemGroup]",
@@ -723,7 +723,7 @@ class TreeItemGroup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: TreeItemGroup,
   decorators: [{

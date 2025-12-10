@@ -22,24 +22,24 @@ class Toolbar {
   orientation = input('horizontal', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  });
+  wrap = input(true, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   values = model([], ...(ngDevMode ? [{
     debugName: "values"
   }] : []));
@@ -91,7 +91,7 @@ class Toolbar {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Toolbar,
     deps: [],
@@ -99,7 +99,7 @@ class Toolbar {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Toolbar,
     isStandalone: true,
     selector: "[ngToolbar]",
@@ -165,7 +165,7 @@ class Toolbar {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Toolbar,
   decorators: [{
@@ -243,12 +243,12 @@ class ToolbarWidget {
   _toolbarPattern = computed(() => this._toolbar._pattern, ...(ngDevMode ? [{
     debugName: "_toolbarPattern"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   hardDisabled = computed(() => this._pattern.disabled() && !this._toolbar.softDisabled(), ...(ngDevMode ? [{
     debugName: "hardDisabled"
   }] : []));
@@ -279,7 +279,7 @@ class ToolbarWidget {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: ToolbarWidget,
     deps: [],
@@ -287,7 +287,7 @@ class ToolbarWidget {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: ToolbarWidget,
     isStandalone: true,
     selector: "[ngToolbarWidget]",
@@ -330,7 +330,7 @@ class ToolbarWidget {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: ToolbarWidget,
   decorators: [{
@@ -382,28 +382,28 @@ class ToolbarWidgetGroup {
   _toolbar = inject(Toolbar, {
     optional: true
   });
-  _widgets = contentChildren(ToolbarWidget, ...(ngDevMode ? [{
-    debugName: "_widgets",
+  _widgets = contentChildren(ToolbarWidget, {
+    ...(ngDevMode ? {
+      debugName: "_widgets"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   _toolbarPattern = computed(() => this._toolbar?._pattern, ...(ngDevMode ? [{
     debugName: "_toolbarPattern"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   _itemPatterns = () => this._widgets().map(w => w._pattern);
-  multi = input(false, ...(ngDevMode ? [{
-    debugName: "multi",
+  multi = input(false, {
+    ...(ngDevMode ? {
+      debugName: "multi"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   _pattern = new ToolbarWidgetGroupPattern({
     ...this,
     items: this._itemPatterns,
@@ -411,7 +411,7 @@ class ToolbarWidgetGroup {
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: ToolbarWidgetGroup,
     deps: [],
@@ -419,7 +419,7 @@ class ToolbarWidgetGroup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: ToolbarWidgetGroup,
     isStandalone: true,
     selector: "[ngToolbarWidgetGroup]",
@@ -455,7 +455,7 @@ class ToolbarWidgetGroup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: ToolbarWidgetGroup,
   decorators: [{

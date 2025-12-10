@@ -28,12 +28,12 @@ class Option {
   value = input.required(...(ngDevMode ? [{
     debugName: "value"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   label = input(...(ngDevMode ? [undefined, {
     debugName: "label"
   }] : []));
@@ -50,7 +50,7 @@ class Option {
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Option,
     deps: [],
@@ -58,7 +58,7 @@ class Option {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Option,
     isStandalone: true,
     selector: "[ngOption]",
@@ -110,7 +110,7 @@ class Option {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Option,
   decorators: [{
@@ -174,12 +174,12 @@ class Listbox {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   _directionality = inject(Directionality);
-  _options = contentChildren(Option, ...(ngDevMode ? [{
-    debugName: "_options",
+  _options = contentChildren(Option, {
+    ...(ngDevMode ? {
+      debugName: "_options"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   textDirection = toSignal(this._directionality.change, {
     initialValue: this._directionality.value
   });
@@ -189,24 +189,24 @@ class Listbox {
   orientation = input('vertical', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
-  multi = input(false, ...(ngDevMode ? [{
-    debugName: "multi",
+  multi = input(false, {
+    ...(ngDevMode ? {
+      debugName: "multi"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  wrap = input(true, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
+  });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   focusMode = input('roving', ...(ngDevMode ? [{
     debugName: "focusMode"
   }] : []));
@@ -216,18 +216,18 @@ class Listbox {
   typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  readonly = input(false, {
+    ...(ngDevMode ? {
+      debugName: "readonly"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  readonly = input(false, ...(ngDevMode ? [{
-    debugName: "readonly",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   values = model([], ...(ngDevMode ? [{
     debugName: "values"
   }] : []));
@@ -290,7 +290,7 @@ class Listbox {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Listbox,
     deps: [],
@@ -298,7 +298,7 @@ class Listbox {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Listbox,
     isStandalone: true,
     selector: "[ngListbox]",
@@ -422,7 +422,7 @@ class Listbox {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Listbox,
   decorators: [{
