@@ -5,7 +5,10 @@ import { ListboxPattern, OptionPattern } from './_listbox-chunk.js';
 import { ComboboxPopup } from './_combobox-chunk.js';
 import './_list-navigation-chunk.js';
 import './_list-chunk.js';
-import '@angular/aria/private';
+import './_keyboard-event-manager-chunk.js';
+import './_pointer-event-manager-chunk.js';
+import './_combobox-chunk.d2.ts';
+import './_deferred-content-chunk.js';
 
 /**
  * Represents a container used to display a list of items for a user to select from.

@@ -1,8 +1,12 @@
 import * as _angular_core from '@angular/core';
 import { WritableSignal } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { AccordionTriggerPattern, AccordionPanelPattern, AccordionGroupPattern } from '@angular/aria/private';
+import { AccordionTriggerPattern, AccordionPanelPattern, AccordionGroupPattern } from './_accordion-chunk.js';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
+import './_keyboard-event-manager-chunk.js';
+import './_list-navigation-chunk.js';
+import './_pointer-event-manager-chunk.js';
+import './_expansion-chunk.js';
 
 /**
  * The content panel of an accordion item that is conditionally visible.
@@ -45,7 +49,7 @@ declare class AccordionPanel {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "panelId": { "alias": "panelId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**
@@ -188,7 +192,7 @@ declare class AccordionTrigger {
  */
 declare class AccordionContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionContent, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionContent, "ng-template[ngAccordionContent]", never, {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionContent, "ng-template[ngAccordionContent]", never, {}, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
-export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger };
+export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger, DeferredContent as ɵɵDeferredContent };

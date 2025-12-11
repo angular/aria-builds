@@ -1,5 +1,6 @@
 import { computed, signal, linkedSignal, untracked } from '@angular/core';
-import { Modifier, KeyboardEventManager, PointerEventManager } from './_pointer-event-manager-chunk.mjs';
+import { Modifier, KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
+import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 
 class GridData {

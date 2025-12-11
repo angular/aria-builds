@@ -1,6 +1,8 @@
 import * as _angular_core from '@angular/core';
 import { WritableSignal, Signal } from '@angular/core';
-import { SignalLike, WritableSignalLike, ListNavigationItem, KeyboardEventManager, ListNavigationInputs, ListFocus, ListNavigation, PointerEventManager } from './_list-navigation-chunk.js';
+import { SignalLike, WritableSignalLike, ListNavigationItem, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
+import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 
 /** Represents coordinates in a grid. */
 interface RowCol {

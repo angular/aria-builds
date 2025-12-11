@@ -1,9 +1,15 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { TreeItemPattern, DeferredContentAware, TreePattern } from '@angular/aria/private';
+import { TreeItemPattern, TreePattern } from './_tree-chunk.js';
+import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
 import { ComboboxPopup } from './_combobox-chunk.js';
+import './_list-navigation-chunk.js';
+import './_list-chunk.js';
+import './_expansion-chunk.js';
+import './_keyboard-event-manager-chunk.js';
+import './_pointer-event-manager-chunk.js';
+import './_combobox-chunk.d2.ts';
 
 /**
  * Group that contains children tree items.
@@ -43,7 +49,7 @@ declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     _register(child: TreeItem<V>): void;
     _unregister(child: TreeItem<V>): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItemGroup<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItemGroup<any>, "ng-template[ngTreeItemGroup]", ["ngTreeItemGroup"], { "ownedBy": { "alias": "ownedBy"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItemGroup<any>, "ng-template[ngTreeItemGroup]", ["ngTreeItemGroup"], { "ownedBy": { "alias": "ownedBy"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
 interface HasElement {
@@ -207,4 +213,4 @@ declare class Tree<V> {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 
-export { Tree, TreeItem, TreeItemGroup };
+export { Tree, TreeItem, TreeItemGroup, DeferredContent as ɵɵDeferredContent };

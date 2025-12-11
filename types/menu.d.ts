@@ -1,8 +1,11 @@
 import * as _angular_core from '@angular/core';
 import { Signal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import * as i1 from '@angular/aria/private';
-import { SignalLike, MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from '@angular/aria/private';
+import { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.js';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
+import { SignalLike } from './_list-navigation-chunk.js';
+import './_keyboard-event-manager-chunk.js';
+import './_list-chunk.js';
 
 /**
  * A menu bar of menu items.
@@ -180,7 +183,7 @@ declare class Menu<V> {
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Menu<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "onSelect": "onSelect"; }, ["_allItems"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "onSelect": "onSelect"; }, ["_allItems"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**
@@ -248,7 +251,7 @@ declare class MenuTrigger<V> {
  */
 declare class MenuContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuContent, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuContent, "ng-template[ngMenuContent]", ["ngMenuContent"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuContent, "ng-template[ngMenuContent]", ["ngMenuContent"], {}, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
-export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger };
+export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger, DeferredContent as ɵɵDeferredContent };

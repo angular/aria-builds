@@ -1,8 +1,14 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { TabPattern, TabListPattern, TabPanelPattern } from '@angular/aria/private';
+import * as _angular_aria_private from '@angular/aria/private';
+import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
+import { TabPattern, TabListPattern, TabPanelPattern } from './_tabs-chunk.js';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
+import './_keyboard-event-manager-chunk.js';
+import './_list-navigation-chunk.js';
+import './_pointer-event-manager-chunk.js';
+import './_expansion-chunk.js';
 
 interface HasElement {
     element: HTMLElement;
@@ -83,7 +89,7 @@ declare class TabList implements OnInit, OnDestroy {
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The Tab UIPatterns of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<i1.TabPattern[]>;
+    readonly _tabPatterns: _angular_core.Signal<_angular_aria_private_public_api.TabPattern[]>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether focus should wrap when navigating. */
@@ -165,7 +171,7 @@ declare class TabPanel implements OnInit, OnDestroy {
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**
@@ -207,9 +213,9 @@ declare class Tabs {
     /** The TabPanels nested inside of the container. */
     private readonly _unorderedPanels;
     /** The Tab UIPattern of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<i1.TabPattern[] | undefined>;
+    readonly _tabPatterns: _angular_core.Signal<_angular_aria_private.TabPattern[] | undefined>;
     /** The TabPanel UIPattern of the child TabPanels. */
-    readonly _unorderedTabpanelPatterns: _angular_core.Signal<i1.TabPanelPattern[]>;
+    readonly _unorderedTabpanelPatterns: _angular_core.Signal<_angular_aria_private.TabPanelPattern[]>;
     _register(child: TabList | TabPanel): void;
     _unregister(child: TabList | TabPanel): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
@@ -235,7 +241,7 @@ declare class Tabs {
  */
 declare class TabContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabContent, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabContent, "ng-template[ngTabContent]", ["ngTabContent"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabContent, "ng-template[ngTabContent]", ["ngTabContent"], {}, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
-export { Tab, TabContent, TabList, TabPanel, Tabs };
+export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent };

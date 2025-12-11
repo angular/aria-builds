@@ -5,7 +5,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { OptionPattern, ComboboxListboxPattern, ListboxPattern } from './_combobox-listbox-chunk.mjs';
 import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
+import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
