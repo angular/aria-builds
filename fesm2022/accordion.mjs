@@ -1,9 +1,13 @@
 import * as i0 from '@angular/core';
 import { inject, input, computed, signal, afterRenderEffect, Directive, InjectionToken, ElementRef, booleanAttribute, model, contentChildren } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import * as i1 from '@angular/aria/private';
-import { DeferredContentAware, AccordionPanelPattern, AccordionTriggerPattern, AccordionGroupPattern, DeferredContent } from '@angular/aria/private';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import { AccordionPanelPattern, AccordionTriggerPattern, AccordionGroupPattern } from './_accordion-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
+import './_expansion-chunk.mjs';
+import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
+import './_pointer-event-manager-chunk.mjs';
 
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);
@@ -80,7 +84,7 @@ class AccordionPanel {
     },
     exportAs: ["ngAccordionPanel"],
     hostDirectives: [{
-      directive: i1.DeferredContentAware,
+      directive: DeferredContentAware,
       inputs: ["preserveContent", "preserveContent"]
     }],
     ngImport: i0
@@ -540,7 +544,7 @@ class AccordionContent {
     isStandalone: true,
     selector: "ng-template[ngAccordionContent]",
     hostDirectives: [{
-      directive: i1.DeferredContent
+      directive: DeferredContent
     }],
     ngImport: i0
   });
@@ -559,5 +563,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger };
+export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger, DeferredContent as ɵɵDeferredContent };
 //# sourceMappingURL=accordion.mjs.map

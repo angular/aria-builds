@@ -1,9 +1,12 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, contentChildren, signal, output, afterRenderEffect, untracked } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, DeferredContentAware, MenuPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
+import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, MenuPattern } from './_menu-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import './_list-chunk.mjs';
+import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);
@@ -763,7 +766,7 @@ class Menu {
     }],
     exportAs: ["ngMenu"],
     hostDirectives: [{
-      directive: i1.DeferredContentAware,
+      directive: DeferredContentAware,
       inputs: ["preserveContent", "preserveContent"]
     }],
     ngImport: i0
@@ -877,7 +880,7 @@ class MenuContent {
     selector: "ng-template[ngMenuContent]",
     exportAs: ["ngMenuContent"],
     hostDirectives: [{
-      directive: i1.DeferredContent
+      directive: DeferredContent
     }],
     ngImport: i0
   });
@@ -897,5 +900,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger };
+export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger, DeferredContent as ɵɵDeferredContent };
 //# sourceMappingURL=menu.mjs.map

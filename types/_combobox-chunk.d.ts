@@ -1,7 +1,7 @@
 import * as _angular_core from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import * as i1 from '@angular/aria/private';
-import { ComboboxListboxControls, ComboboxTreeControls, ComboboxDialogPattern, ComboboxPattern } from '@angular/aria/private';
+import { ComboboxListboxControls, ComboboxTreeControls, ComboboxDialogPattern, ComboboxPattern } from './_combobox-chunk.d2.ts';
+import { DeferredContentAware } from './_deferred-content-chunk.js';
 
 /**
  * Identifies an element as a popup for an `ngCombobox`.
@@ -92,7 +92,7 @@ declare class Combobox<V> {
     /** Closes the combobox. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof i1.DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 export { Combobox, ComboboxPopup };

@@ -1,5 +1,7 @@
 import * as _angular_core from '@angular/core';
-import { SignalLike, WritableSignalLike, KeyboardEventManager, PointerEventManager } from './_list-navigation-chunk.js';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
+import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
 import { ListItem } from './_list-chunk.js';
 
 /** Represents the required inputs for a combobox. */

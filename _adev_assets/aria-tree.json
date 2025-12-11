@@ -7,7 +7,7 @@
     {
       "name": "TreeItemGroup",
       "isAbstract": false,
-      "entryType": "directive",
+      "entryType": "undecorated_class",
       "members": [
         {
           "name": "element",
@@ -24,13 +24,10 @@
           "type": "InputSignal<TreeItem<V>>",
           "memberType": "property",
           "memberTags": [
-            "readonly",
-            "input"
+            "readonly"
           ],
           "description": "Tree item that owns the group.",
-          "jsdocTags": [],
-          "inputAlias": "ownedBy",
-          "isRequiredInput": true
+          "jsdocTags": []
         },
         {
           "name": "ngOnInit",
@@ -115,11 +112,6 @@
       "implements": [
         "OnInit",
         "OnDestroy"
-      ],
-      "isStandalone": true,
-      "selector": "ng-template[ngTreeItemGroup]",
-      "exportAs": [
-        "ngTreeItemGroup"
       ],
       "source": {
         "filePath": "/src/aria/tree/tree-item-group.ts",
@@ -257,7 +249,7 @@
         },
         {
           "name": "active",
-          "type": "Signal<boolean>",
+          "type": "Signal<any>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -267,7 +259,7 @@
         },
         {
           "name": "level",
-          "type": "Signal<number>",
+          "type": "Signal<any>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -277,7 +269,7 @@
         },
         {
           "name": "selected",
-          "type": "Signal<boolean | undefined>",
+          "type": "Signal<any>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -287,7 +279,7 @@
         },
         {
           "name": "visible",
-          "type": "Signal<boolean>",
+          "type": "Signal<any>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -360,28 +352,6 @@
           "rawComment": "",
           "memberType": "method",
           "memberTags": []
-        },
-        {
-          "name": "contentVisible",
-          "type": "WritableSignal<boolean>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "override"
-          ],
-          "description": "",
-          "jsdocTags": []
-        },
-        {
-          "name": "preserveContent",
-          "type": "ModelSignal<boolean>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "override"
-          ],
-          "description": "",
-          "jsdocTags": []
         }
       ],
       "generics": [
@@ -664,14 +634,6 @@
       "@angular/core"
     ],
     [
-      "TreeItemPattern",
-      "@angular/aria/private"
-    ],
-    [
-      "DeferredContent",
-      "@angular/aria/private"
-    ],
-    [
       "afterRenderEffect",
       "@angular/core"
     ],
@@ -696,24 +658,12 @@
       "@angular/cdk/a11y"
     ],
     [
-      "ComboboxTreePattern",
-      "@angular/aria/private"
-    ],
-    [
-      "DeferredContentAware",
-      "@angular/aria/private"
-    ],
-    [
       "untracked",
       "@angular/core"
     ],
     [
       "Directionality",
       "@angular/cdk/bidi"
-    ],
-    [
-      "TreePattern",
-      "@angular/aria/private"
     ],
     [
       "TreeItemGroup",
@@ -813,14 +763,6 @@
     ],
     [
       "TreeItem.ngOnDestroy",
-      "@angular/aria/tree"
-    ],
-    [
-      "TreeItem.contentVisible",
-      "@angular/aria/tree"
-    ],
-    [
-      "TreeItem.preserveContent",
       "@angular/aria/tree"
     ],
     [

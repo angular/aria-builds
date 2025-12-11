@@ -1,9 +1,11 @@
 import { Combobox, ComboboxPopup } from './_combobox-chunk.js';
 import { ComboboxDialogPattern } from './_combobox-chunk.d2.ts';
 import * as _angular_core from '@angular/core';
-import * as i1 from '@angular/aria/private';
+import { DeferredContent } from './_deferred-content-chunk.js';
 import '@angular/cdk/bidi';
+import './_keyboard-event-manager-chunk.js';
 import './_list-navigation-chunk.js';
+import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
 
 /**
@@ -101,7 +103,7 @@ declare class ComboboxInput {
  */
 declare class ComboboxPopupContainer {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopupContainer, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopupContainer, "ng-template[ngComboboxPopupContainer]", ["ngComboboxPopupContainer"], {}, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopupContainer, "ng-template[ngComboboxPopupContainer]", ["ngComboboxPopupContainer"], {}, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
-export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer };
+export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer, DeferredContent as ɵɵDeferredContent };

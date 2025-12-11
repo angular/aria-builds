@@ -1,8 +1,11 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, contentChildren } from '@angular/core';
-import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
+import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import './_list-chunk.mjs';
+import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 
 const TOOLBAR_WIDGET_GROUP = new InjectionToken('TOOLBAR_WIDGET_GROUP');
 function sortDirectives(a, b) {

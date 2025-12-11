@@ -231,7 +231,7 @@
         },
         {
           "name": "hardDisabled",
-          "type": "Signal<boolean>",
+          "type": "Signal<any>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -254,7 +254,7 @@
         },
         {
           "name": "active",
-          "type": "Signal<boolean>",
+          "type": "Signal<any>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -264,7 +264,7 @@
         },
         {
           "name": "selected",
-          "type": "() => boolean",
+          "type": "() => any",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -398,14 +398,6 @@
       "@angular/core"
     ],
     [
-      "ToolbarWidgetPattern",
-      "@angular/aria/private"
-    ],
-    [
-      "ToolbarWidgetGroupPattern",
-      "@angular/aria/private"
-    ],
-    [
       "afterRenderEffect",
       "@angular/core"
     ],
@@ -418,10 +410,6 @@
       "@angular/core"
     ],
     [
-      "ToolbarPattern",
-      "@angular/aria/private"
-    ],
-    [
       "Directionality",
       "@angular/cdk/bidi"
     ],
@@ -432,10 +420,6 @@
     [
       "OnDestroy",
       "@angular/core"
-    ],
-    [
-      "SignalLike",
-      "@angular/aria/private"
     ],
     [
       "_IdGenerator",

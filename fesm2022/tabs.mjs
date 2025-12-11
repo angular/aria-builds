@@ -1,9 +1,13 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import * as i1 from '@angular/aria/private';
-import { TabListPattern, DeferredContentAware, TabPanelPattern, TabPattern, DeferredContent } from '@angular/aria/private';
+import { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import './_expansion-chunk.mjs';
+import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
+import './_pointer-event-manager-chunk.mjs';
 
 const TABS = new InjectionToken('TABS');
 function sortDirectives(a, b) {
@@ -346,7 +350,7 @@ class TabPanel {
     },
     exportAs: ["ngTabPanel"],
     hostDirectives: [{
-      directive: i1.DeferredContentAware,
+      directive: DeferredContentAware,
       inputs: ["preserveContent", "preserveContent"]
     }],
     ngImport: i0
@@ -634,7 +638,7 @@ class TabContent {
     selector: "ng-template[ngTabContent]",
     exportAs: ["ngTabContent"],
     hostDirectives: [{
-      directive: i1.DeferredContent
+      directive: DeferredContent
     }],
     ngImport: i0
   });
@@ -654,5 +658,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { Tab, TabContent, TabList, TabPanel, Tabs };
+export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent };
 //# sourceMappingURL=tabs.mjs.map

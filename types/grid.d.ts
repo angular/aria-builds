@@ -4,6 +4,8 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridCellPattern, GridRowPattern, GridCellWidgetPattern } from './_grid-chunk.js';
 import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import './_list-navigation-chunk.js';
+import './_keyboard-event-manager-chunk.js';
+import './_pointer-event-manager-chunk.js';
 
 /**
  * The container for a grid. It provides keyboard navigation and focus management for the grid's

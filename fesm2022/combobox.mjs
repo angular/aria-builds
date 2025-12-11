@@ -1,12 +1,12 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChild, input, booleanAttribute, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { DeferredContentAware, ComboboxPattern, DeferredContent } from '@angular/aria/private';
 import { Directionality } from '@angular/cdk/bidi';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ComboboxPopup, COMBOBOX } from './_combobox-popup-chunk.mjs';
-import { ComboboxDialogPattern } from './_combobox-chunk.mjs';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 
 class Combobox {
   _directionality = inject(Directionality);
@@ -157,7 +157,7 @@ class Combobox {
     }],
     exportAs: ["ngCombobox"],
     hostDirectives: [{
-      directive: i1.DeferredContentAware,
+      directive: DeferredContentAware,
       inputs: ["preserveContent", "preserveContent"]
     }],
     ngImport: i0
@@ -440,7 +440,7 @@ class ComboboxPopupContainer {
     selector: "ng-template[ngComboboxPopupContainer]",
     exportAs: ["ngComboboxPopupContainer"],
     hostDirectives: [{
-      directive: i1.DeferredContent
+      directive: DeferredContent
     }],
     ngImport: i0
   });
@@ -460,5 +460,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer };
+export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer, DeferredContent as ɵɵDeferredContent };
 //# sourceMappingURL=combobox.mjs.map
