@@ -12,6 +12,11 @@ import { DeferredContentAware } from './_deferred-content-chunk.js';
  * exposing the popup's control pattern to the parent combobox.
  *
  * @developerPreview 21.0
+ *
+ * @see [Combobox](guide/aria/combobox)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
+ * @see [Autocomplete](guide/aria/autocomplete)
  */
 declare class ComboboxPopup<V> {
     /** The combobox that the popup belongs to. */
@@ -51,6 +56,11 @@ declare class ComboboxPopup<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Combobox](guide/aria/combobox)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
+ * @see [Autocomplete](guide/aria/autocomplete)
  */
 declare class Combobox<V> {
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */

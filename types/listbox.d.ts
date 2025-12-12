@@ -28,6 +28,11 @@ import './_deferred-content-chunk.js';
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Listbox](guide/aria/listbox)
+ * @see [Autocomplete](guide/aria/autocomplete)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
  */
 declare class Listbox<V> {
     /** A unique identifier for the listbox. */
@@ -104,6 +109,11 @@ declare class Listbox<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Listbox](guide/aria/listbox)
+ * @see [Autocomplete](guide/aria/autocomplete)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
  */
 declare class Option<V> {
     /** A reference to the host element. */

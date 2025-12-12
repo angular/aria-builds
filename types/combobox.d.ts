@@ -22,6 +22,11 @@ import './_list-chunk.js';
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Combobox](guide/aria/combobox)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
+ * @see [Autocomplete](guide/aria/autocomplete)
  */
 declare class ComboboxDialog {
     /** The dialog element. */
@@ -56,6 +61,11 @@ declare class ComboboxDialog {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Combobox](guide/aria/combobox)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
+ * @see [Autocomplete](guide/aria/autocomplete)
  */
 declare class ComboboxInput {
     /** The element that the combobox is attached to. */
@@ -100,6 +110,11 @@ declare class ComboboxInput {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Combobox](guide/aria/combobox)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
+ * @see [Autocomplete](guide/aria/autocomplete)
  */
 declare class ComboboxPopupContainer {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopupContainer, never>;

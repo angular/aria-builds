@@ -27,6 +27,8 @@ import './_pointer-event-manager-chunk.js';
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Grid](guide/aria/grid)
  */
 declare class Grid {
     /** A reference to the host element. */
@@ -99,6 +101,8 @@ declare class Grid {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Grid](guide/aria/grid)
  */
 declare class GridCell {
     /** A reference to the host element. */
@@ -163,6 +167,8 @@ declare class GridCell {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Grid](guide/aria/grid)
  */
 declare class GridRow {
     /** A reference to the host element. */
@@ -200,6 +206,8 @@ declare class GridRow {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Grid](guide/aria/grid)
  */
 declare class GridCellWidget {
     /** A reference to the host element. */
