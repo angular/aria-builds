@@ -11,6 +11,8 @@ import './_list-chunk.js';
  * that have their own internal navigation.
  *
  * @developerPreview 21.0
+ *
+ * @see [Toolbar](guide/aria/toolbar)
  */
 declare class ToolbarWidgetGroup<V> {
     /** A reference to the host element. */
@@ -49,6 +51,8 @@ declare class ToolbarWidgetGroup<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Toolbar](guide/aria/toolbar)
  */
 declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     /** A reference to the host element. */
@@ -101,6 +105,8 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Toolbar](guide/aria/toolbar)
  */
 declare class Toolbar<V> {
     /** A reference to the host element. */

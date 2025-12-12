@@ -27,6 +27,7 @@ import './_expansion-chunk.js';
  * ```
  *
  * @developerPreview 21.0
+ * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionPanel {
     /** The DeferredContentAware host directive. */
@@ -86,6 +87,7 @@ declare class AccordionPanel {
  * ```
  *
  * @developerPreview 21.0
+ * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionGroup {
     /** A reference to the group element. */
@@ -140,6 +142,7 @@ declare class AccordionGroup {
  * ```
  *
  * @developerPreview 21.0
+ * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionTrigger {
     /** A reference to the trigger element. */
@@ -189,6 +192,7 @@ declare class AccordionTrigger {
  * ```
  *
  * @developerPreview 21.0
+ * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionContent, never>;

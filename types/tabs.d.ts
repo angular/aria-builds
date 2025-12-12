@@ -27,6 +27,8 @@ interface HasElement {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tabs](guide/aria/tabs)
  */
 declare class Tab implements HasElement, OnInit, OnDestroy {
     /** A reference to the host element. */
@@ -76,6 +78,8 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tabs](guide/aria/tabs)
  */
 declare class TabList implements OnInit, OnDestroy {
     /** A reference to the host element. */
@@ -147,6 +151,8 @@ declare class TabList implements OnInit, OnDestroy {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tabs](guide/aria/tabs)
  */
 declare class TabPanel implements OnInit, OnDestroy {
     /** A reference to the host element. */
@@ -202,6 +208,8 @@ declare class TabPanel implements OnInit, OnDestroy {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tabs](guide/aria/tabs)
  */
 declare class Tabs {
     /** A reference to the host element. */
@@ -238,6 +246,8 @@ declare class Tabs {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tabs](guide/aria/tabs)
  */
 declare class TabContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabContent, never>;

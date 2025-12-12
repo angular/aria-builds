@@ -30,6 +30,8 @@ import './_combobox-chunk.d2.ts';
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tree](guide/aria/tree)
  */
 declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     /** A reference to the host element. */
@@ -150,6 +152,8 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Tree](guide/aria/tree)
  */
 declare class Tree<V> {
     /** A reference to the host element. */

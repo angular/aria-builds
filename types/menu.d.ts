@@ -32,6 +32,9 @@ import './_list-chunk.js';
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Menu](guide/aria/menu)
+ * @see [MenuBar](guide/aria/menubar)
  */
 declare class MenuBar<V> {
     /** The menu items contained in the menubar. */
@@ -79,6 +82,9 @@ declare class MenuBar<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Menu](guide/aria/menu)
+ * @see [MenuBar](guide/aria/menubar)
  */
 declare class MenuItem<V> {
     /** A reference to the host element. */
@@ -137,6 +143,9 @@ declare class MenuItem<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Menu](guide/aria/menu)
+ * @see [MenuBar](guide/aria/menubar)
  */
 declare class Menu<V> {
     /** The DeferredContentAware host directive. */
@@ -203,6 +212,9 @@ declare class Menu<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Menu](guide/aria/menu)
+ * @see [MenuBar](guide/aria/menubar)
  */
 declare class MenuTrigger<V> {
     /** A reference to the host element. */
@@ -248,6 +260,9 @@ declare class MenuTrigger<V> {
  * ```
  *
  * @developerPreview 21.0
+ *
+ * @see [Menu](guide/aria/menu)
+ * @see [MenuBar](guide/aria/menubar)
  */
 declare class MenuContent {
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuContent, never>;
