@@ -21,18 +21,18 @@ class MenuTrigger {
   hasPopup = computed(() => this._pattern.hasPopup(), ...(ngDevMode ? [{
     debugName: "hasPopup"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   _pattern = new MenuTriggerPattern({
     textDirection: this.textDirection,
     element: computed(() => this._elementRef.nativeElement),
@@ -52,7 +52,7 @@ class MenuTrigger {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: MenuTrigger,
     deps: [],
@@ -60,7 +60,7 @@ class MenuTrigger {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: MenuTrigger,
     isStandalone: true,
     selector: "button[ngMenuTrigger]",
@@ -109,7 +109,7 @@ class MenuTrigger {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: MenuTrigger,
   decorators: [{
@@ -214,7 +214,7 @@ class MenuItem {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: MenuItem,
     deps: [],
@@ -222,7 +222,7 @@ class MenuItem {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: MenuItem,
     isStandalone: true,
     selector: "[ngMenuItem]",
@@ -288,7 +288,7 @@ class MenuItem {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: MenuItem,
   decorators: [{
@@ -357,37 +357,37 @@ i0.ɵɵngDeclareClassMetadata({
 });
 
 class MenuBar {
-  _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
-    debugName: "_allItems",
+  _allItems = contentChildren(MenuItem, {
+    ...(ngDevMode ? {
+      debugName: "_allItems"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   _items = () => this._allItems().filter(i => i.parent === this);
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   textDirection = inject(Directionality).valueSignal;
   values = model([], ...(ngDevMode ? [{
     debugName: "values"
   }] : []));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
+  wrap = input(true, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
@@ -423,7 +423,7 @@ class MenuBar {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: MenuBar,
     deps: [],
@@ -431,7 +431,7 @@ class MenuBar {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: MenuBar,
     isStandalone: true,
     selector: "[ngMenuBar]",
@@ -509,7 +509,7 @@ class MenuBar {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: MenuBar,
   decorators: [{
@@ -599,12 +599,12 @@ class Menu {
   _deferredContentAware = inject(DeferredContentAware, {
     optional: true
   });
-  _allItems = contentChildren(MenuItem, ...(ngDevMode ? [{
-    debugName: "_allItems",
+  _allItems = contentChildren(MenuItem, {
+    ...(ngDevMode ? {
+      debugName: "_allItems"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   _items = computed(() => this._allItems().filter(i => i.parent === this), ...(ngDevMode ? [{
     debugName: "_items"
   }] : []));
@@ -614,21 +614,21 @@ class Menu {
   id = input(inject(_IdGenerator).getId('ng-menu-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
+  wrap = input(true, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   parent = signal(undefined, ...(ngDevMode ? [{
     debugName: "parent"
   }] : []));
@@ -683,7 +683,7 @@ class Menu {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Menu,
     deps: [],
@@ -691,7 +691,7 @@ class Menu {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Menu,
     isStandalone: true,
     selector: "[ngMenu]",
@@ -774,7 +774,7 @@ class Menu {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Menu,
   decorators: [{
@@ -866,7 +866,7 @@ i0.ɵɵngDeclareClassMetadata({
 class MenuContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: MenuContent,
     deps: [],
@@ -874,7 +874,7 @@ class MenuContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: MenuContent,
     isStandalone: true,
     selector: "ng-template[ngMenuContent]",
@@ -887,7 +887,7 @@ class MenuContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: MenuContent,
   decorators: [{

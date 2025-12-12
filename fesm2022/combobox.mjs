@@ -24,30 +24,30 @@ class Combobox {
   filterMode = input('manual', ...(ngDevMode ? [{
     debugName: "filterMode"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  readonly = input(false, {
+    ...(ngDevMode ? {
+      debugName: "readonly"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  readonly = input(false, ...(ngDevMode ? [{
-    debugName: "readonly",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   firstMatch = input(undefined, ...(ngDevMode ? [{
     debugName: "firstMatch"
   }] : []));
   expanded = computed(() => this.alwaysExpanded() || this._pattern.expanded(), ...(ngDevMode ? [{
     debugName: "expanded"
   }] : []));
-  alwaysExpanded = input(false, ...(ngDevMode ? [{
-    debugName: "alwaysExpanded",
+  alwaysExpanded = input(false, {
+    ...(ngDevMode ? {
+      debugName: "alwaysExpanded"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   inputElement = computed(() => this._pattern.inputs.inputEl(), ...(ngDevMode ? [{
     debugName: "inputElement"
   }] : []));
@@ -83,7 +83,7 @@ class Combobox {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Combobox,
     deps: [],
@@ -91,7 +91,7 @@ class Combobox {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Combobox,
     isStandalone: true,
     selector: "[ngCombobox]",
@@ -165,7 +165,7 @@ class Combobox {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Combobox,
   decorators: [{
@@ -270,7 +270,7 @@ class ComboboxDialog {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: ComboboxDialog,
     deps: [],
@@ -278,7 +278,7 @@ class ComboboxDialog {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: ComboboxDialog,
     isStandalone: true,
     selector: "dialog[ngComboboxDialog]",
@@ -300,7 +300,7 @@ class ComboboxDialog {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: ComboboxDialog,
   decorators: [{
@@ -341,7 +341,7 @@ class ComboboxInput {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: ComboboxInput,
     deps: [],
@@ -349,7 +349,7 @@ class ComboboxInput {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: ComboboxInput,
     isStandalone: true,
     selector: "input[ngComboboxInput]",
@@ -386,7 +386,7 @@ class ComboboxInput {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: ComboboxInput,
   decorators: [{
@@ -426,7 +426,7 @@ i0.ɵɵngDeclareClassMetadata({
 class ComboboxPopupContainer {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: ComboboxPopupContainer,
     deps: [],
@@ -434,7 +434,7 @@ class ComboboxPopupContainer {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: ComboboxPopupContainer,
     isStandalone: true,
     selector: "ng-template[ngComboboxPopupContainer]",
@@ -447,7 +447,7 @@ class ComboboxPopupContainer {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: ComboboxPopupContainer,
   decorators: [{

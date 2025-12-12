@@ -13,34 +13,34 @@ const GRID_ROW = new InjectionToken('GRID_ROW');
 class Grid {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _rows = contentChildren(GRID_ROW, ...(ngDevMode ? [{
-    debugName: "_rows",
+  _rows = contentChildren(GRID_ROW, {
+    ...(ngDevMode ? {
+      debugName: "_rows"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   _rowPatterns = computed(() => this._rows().map(r => r._pattern), ...(ngDevMode ? [{
     debugName: "_rowPatterns"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
-  enableSelection = input(false, ...(ngDevMode ? [{
-    debugName: "enableSelection",
+  enableSelection = input(false, {
+    ...(ngDevMode ? {
+      debugName: "enableSelection"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
+  });
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }]));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
-  softDisabled = input(true, ...(ngDevMode ? [{
-    debugName: "softDisabled",
-    transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   focusMode = input('roving', ...(ngDevMode ? [{
     debugName: "focusMode"
   }] : []));
@@ -50,21 +50,21 @@ class Grid {
   colWrap = input('loop', ...(ngDevMode ? [{
     debugName: "colWrap"
   }] : []));
-  multi = input(false, ...(ngDevMode ? [{
-    debugName: "multi",
+  multi = input(false, {
+    ...(ngDevMode ? {
+      debugName: "multi"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   selectionMode = input('follow', ...(ngDevMode ? [{
     debugName: "selectionMode"
   }] : []));
-  enableRangeSelection = input(false, ...(ngDevMode ? [{
-    debugName: "enableRangeSelection",
+  enableRangeSelection = input(false, {
+    ...(ngDevMode ? {
+      debugName: "enableRangeSelection"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   _pattern = new GridPattern({
     ...this,
     rows: this._rowPatterns,
@@ -94,7 +94,7 @@ class Grid {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: Grid,
     deps: [],
@@ -102,7 +102,7 @@ class Grid {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: Grid,
     isStandalone: true,
     selector: "[ngGrid]",
@@ -201,7 +201,7 @@ class Grid {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: Grid,
   decorators: [{
@@ -322,12 +322,12 @@ class GridCellWidget {
   widgetType = input('simple', ...(ngDevMode ? [{
     debugName: "widgetType"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   focusTarget = input(...(ngDevMode ? [undefined, {
     debugName: "focusTarget"
   }] : []));
@@ -375,7 +375,7 @@ class GridCellWidget {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: GridCellWidget,
     deps: [],
@@ -383,7 +383,7 @@ class GridCellWidget {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: GridCellWidget,
     isStandalone: true,
     selector: "[ngGridCellWidget]",
@@ -441,7 +441,7 @@ class GridCellWidget {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: GridCellWidget,
   decorators: [{
@@ -515,12 +515,12 @@ class GridCell {
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  _widgets = contentChildren(GridCellWidget, ...(ngDevMode ? [{
-    debugName: "_widgets",
+  _widgets = contentChildren(GridCellWidget, {
+    ...(ngDevMode ? {
+      debugName: "_widgets"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   _widgetPatterns = computed(() => this._widgets().map(w => w._pattern), ...(ngDevMode ? [{
     debugName: "_widgetPatterns"
   }] : []));
@@ -544,12 +544,12 @@ class GridCell {
   colIndex = input(...(ngDevMode ? [undefined, {
     debugName: "colIndex"
   }] : []));
-  disabled = input(false, ...(ngDevMode ? [{
-    debugName: "disabled",
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   selected = model(false, ...(ngDevMode ? [{
     debugName: "selected"
   }] : []));
@@ -559,12 +559,12 @@ class GridCell {
   orientation = input('horizontal', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
-  wrap = input(true, ...(ngDevMode ? [{
-    debugName: "wrap",
+  wrap = input(true, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
     transform: booleanAttribute
-  }] : [{
-    transform: booleanAttribute
-  }]));
+  });
   tabindex = input(...(ngDevMode ? [undefined, {
     debugName: "tabindex"
   }] : []));
@@ -593,7 +593,7 @@ class GridCell {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: GridCell,
     deps: [],
@@ -601,7 +601,7 @@ class GridCell {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: GridCell,
     isStandalone: true,
     selector: "[ngGridCell]",
@@ -727,7 +727,7 @@ class GridCell {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: GridCell,
   decorators: [{
@@ -872,12 +872,12 @@ i0.ɵɵngDeclareClassMetadata({
 class GridRow {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _cells = contentChildren(GRID_CELL, ...(ngDevMode ? [{
-    debugName: "_cells",
+  _cells = contentChildren(GRID_CELL, {
+    ...(ngDevMode ? {
+      debugName: "_cells"
+    } : {}),
     descendants: true
-  }] : [{
-    descendants: true
-  }]));
+  });
   _cellPatterns = computed(() => this._cells().map(c => c._pattern), ...(ngDevMode ? [{
     debugName: "_cellPatterns"
   }] : []));
@@ -895,7 +895,7 @@ class GridRow {
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0",
+    version: "21.0.3",
     ngImport: i0,
     type: GridRow,
     deps: [],
@@ -903,7 +903,7 @@ class GridRow {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.0.0",
+    version: "21.0.3",
     type: GridRow,
     isStandalone: true,
     selector: "[ngGridRow]",
@@ -940,7 +940,7 @@ class GridRow {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0",
+  version: "21.0.3",
   ngImport: i0,
   type: GridRow,
   decorators: [{
