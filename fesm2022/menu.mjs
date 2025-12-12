@@ -4,9 +4,10 @@ import { Directionality } from '@angular/cdk/bidi';
 import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, MenuPattern } from './_menu-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import './_signal-like-chunk.mjs';
+import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
-import './_keyboard-event-manager-chunk.mjs';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);

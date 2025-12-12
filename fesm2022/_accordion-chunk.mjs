@@ -1,7 +1,6 @@
-import { computed } from '@angular/core';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
-import { KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
+import { computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
 const focusMode = () => 'roving';

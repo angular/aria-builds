@@ -1,6 +1,5 @@
-import { signal, computed } from '@angular/core';
+import { signal, computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
-import { KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
 
 class ComboboxPattern {
   inputs;

@@ -1,7 +1,5 @@
-import * as _angular_core from '@angular/core';
-import { Signal } from '@angular/core';
+import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
-import { SignalLike } from './_list-navigation-chunk.js';
 import { ListInputs, ListItem, List } from './_list-chunk.js';
 
 /** The inputs for the MenuBarPattern class. */
@@ -56,15 +54,15 @@ declare class MenuPattern<V> {
     /** Whether the menu is disabled. */
     disabled: () => boolean;
     /** Whether the menu is visible. */
-    visible: Signal<boolean>;
+    visible: SignalLike<boolean>;
     /** Controls list behavior for the menu items. */
     listBehavior: List<MenuItemPattern<V>, V>;
     /** Whether the menu or any of its child elements are currently focused. */
-    isFocused: _angular_core.WritableSignal<boolean>;
+    isFocused: WritableSignalLike<boolean>;
     /** Whether the menu has received focus. */
-    hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    hasBeenFocused: WritableSignalLike<boolean>;
     /** Whether the menu trigger has been hovered. */
-    hasBeenHovered: _angular_core.WritableSignal<boolean>;
+    hasBeenHovered: WritableSignalLike<boolean>;
     /** Timeout used to open sub-menus on hover. */
     _openTimeout: any;
     /** Timeout used to close sub-menus on hover out. */
@@ -72,19 +70,19 @@ declare class MenuPattern<V> {
     /** The tab index of the menu. */
     tabIndex: () => 0 | -1;
     /** Whether the menu should be focused on mouse over. */
-    shouldFocus: Signal<boolean>;
+    shouldFocus: SignalLike<boolean>;
     /** The key used to expand sub-menus. */
     private _expandKey;
     /** The key used to collapse sub-menus. */
     private _collapseKey;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    dynamicSpaceKey: Signal<"" | " ">;
+    dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */
     typeaheadRegexp: RegExp;
     /** The root of the menu. */
-    root: Signal<MenuTriggerPattern<V> | MenuBarPattern<V> | MenuPattern<V> | undefined>;
+    root: SignalLike<MenuTriggerPattern<V> | MenuBarPattern<V> | MenuPattern<V> | undefined>;
     /** Handles keyboard events for the menu. */
-    keydownManager: Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuInputs<V>);
     /** Sets the default state for the menu. */
     setDefaultState(): void;
@@ -143,17 +141,17 @@ declare class MenuBarPattern<V> {
     /** The key used to navigate to the previous item. */
     private _previousKey;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    dynamicSpaceKey: Signal<"" | " ">;
+    dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */
     typeaheadRegexp: RegExp;
     /** Whether the menubar or any of its children are currently focused. */
-    isFocused: _angular_core.WritableSignal<boolean>;
+    isFocused: WritableSignalLike<boolean>;
     /** Whether the menubar has been focused. */
-    hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    hasBeenFocused: WritableSignalLike<boolean>;
     /** Whether the menubar is disabled. */
     disabled: () => boolean;
     /** Handles keyboard events for the menu. */
-    keydownManager: Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuBarInputs<V>);
     /** Sets the default state for the menubar. */
     setDefaultState(): void;
@@ -182,9 +180,9 @@ declare class MenuBarPattern<V> {
 declare class MenuTriggerPattern<V> {
     readonly inputs: MenuTriggerInputs<V>;
     /** Whether the menu is expanded. */
-    expanded: _angular_core.WritableSignal<boolean>;
+    expanded: WritableSignalLike<boolean>;
     /** Whether the menu trigger has received focus. */
-    hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    hasBeenFocused: WritableSignalLike<boolean>;
     /** The role of the menu trigger. */
     role: () => string;
     /** Whether the menu trigger has a popup. */
@@ -192,11 +190,11 @@ declare class MenuTriggerPattern<V> {
     /** The menu associated with the trigger. */
     menu: SignalLike<MenuPattern<V> | undefined>;
     /** The tab index of the menu trigger. */
-    tabIndex: Signal<-1 | 0>;
+    tabIndex: SignalLike<-1 | 0>;
     /** Whether the menu trigger is disabled. */
     disabled: () => boolean;
     /** Handles keyboard events for the menu trigger. */
-    keydownManager: Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuTriggerInputs<V>);
     /** Handles keyboard events for the menu trigger. */
     onKeydown(event: KeyboardEvent): void;
@@ -230,23 +228,23 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** The element of the menu item. */
     element: SignalLike<HTMLElement | undefined>;
     /** Whether the menu item is active. */
-    active: Signal<boolean>;
+    active: SignalLike<boolean>;
     /** Whether the menu item has received focus. */
-    hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    hasBeenFocused: WritableSignalLike<boolean>;
     /** The tab index of the menu item. */
-    tabIndex: Signal<0 | -1>;
+    tabIndex: SignalLike<0 | -1>;
     /** The position of the menu item in the menu. */
-    index: Signal<number>;
+    index: SignalLike<number>;
     /** Whether the menu item is expanded. */
-    expanded: Signal<boolean | null>;
+    expanded: SignalLike<boolean | null>;
     /** Whether the menu item is expanded. */
-    _expanded: _angular_core.WritableSignal<boolean>;
+    _expanded: WritableSignalLike<boolean>;
     /** The ID of the menu that the menu item controls. */
-    controls: _angular_core.WritableSignal<string | undefined>;
+    controls: WritableSignalLike<string | undefined>;
     /** The role of the menu item. */
     role: () => string;
     /** Whether the menu item has a popup. */
-    hasPopup: Signal<boolean>;
+    hasPopup: SignalLike<boolean>;
     /** The submenu associated with the menu item. */
     submenu: SignalLike<MenuPattern<V> | undefined>;
     /** Whether the menu item is selectable. */

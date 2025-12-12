@@ -3,9 +3,10 @@ import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAtt
 import { Directionality } from '@angular/cdk/bidi';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import './_signal-like-chunk.mjs';
+import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
-import './_keyboard-event-manager-chunk.mjs';
 
 const TOOLBAR_WIDGET_GROUP = new InjectionToken('TOOLBAR_WIDGET_GROUP');
 function sortDirectives(a, b) {

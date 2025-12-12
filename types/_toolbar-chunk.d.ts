@@ -1,4 +1,3 @@
-import * as _angular_core from '@angular/core';
 import { SignalLike } from './_list-navigation-chunk.js';
 import { ListItem, ListInputs, List } from './_list-chunk.js';
 
@@ -49,7 +48,7 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
     /** A reference to the toolbar containing the widget. */
     readonly toolbar: () => ToolbarPattern<V>;
     /** The tabindex of the widget. */
-    readonly tabIndex: _angular_core.Signal<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** The text used by the typeahead search. */
     readonly searchTerm: () => string;
     /** The value associated with the widget. */
@@ -57,9 +56,9 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
     /** Whether the widget is selectable. */
     readonly selectable: () => boolean;
     /** The position of the widget within the toolbar. */
-    readonly index: _angular_core.Signal<number>;
+    readonly index: SignalLike<number>;
     /** Whether the widget is selected (only relevant in a selection group). */
-    readonly selected: _angular_core.Signal<boolean>;
+    readonly selected: SignalLike<boolean>;
     /** Whether the widget is currently the active one (focused). */
     readonly active: SignalLike<boolean>;
     constructor(inputs: ToolbarWidgetInputs<V>);
@@ -80,11 +79,11 @@ declare class ToolbarPattern<V> {
     /** Whether disabled items in the group should be focusable. */
     readonly softDisabled: SignalLike<boolean>;
     /** Whether the toolbar is disabled. */
-    readonly disabled: _angular_core.Signal<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The tab index of the toolbar (if using activedescendant). */
-    readonly tabIndex: _angular_core.Signal<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** The id of the current active widget (if using activedescendant). */
-    readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** The currently active item in the toolbar. */
     readonly activeItem: () => ToolbarWidgetPattern<V> | undefined;
     /** The key used to navigate to the previous widget. */

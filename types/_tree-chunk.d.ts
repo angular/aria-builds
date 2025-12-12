@@ -1,4 +1,3 @@
-import * as _angular_core from '@angular/core';
 import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
 import { ListItem, ListInputs, List } from './_list-chunk.js';
 import { ExpansionItem, ListExpansion } from './_expansion-chunk.js';
@@ -38,7 +37,7 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     /** The children items. */
     readonly children: SignalLike<TreeItemPattern<V>[]>;
     /** The position of this item among its siblings. */
-    readonly index: _angular_core.Signal<number>;
+    readonly index: SignalLike<number>;
     /** Controls expansion for child items. */
     readonly expansionBehavior: ListExpansion;
     /** Whether the item is expandable. It's expandable if children item exist. */
@@ -52,13 +51,13 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     /** Whether this item is visible. */
     readonly visible: SignalLike<boolean>;
     /** The number of items under the same parent at the same level. */
-    readonly setsize: _angular_core.Signal<number>;
+    readonly setsize: SignalLike<number>;
     /** The position of this item among its siblings (1-based). */
-    readonly posinset: _angular_core.Signal<number>;
+    readonly posinset: SignalLike<number>;
     /** Whether the item is active. */
-    readonly active: _angular_core.Signal<boolean>;
+    readonly active: SignalLike<boolean>;
     /** The tab index of the item. */
-    readonly tabIndex: _angular_core.Signal<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** Whether the item is selected. */
     readonly selected: SignalLike<boolean | undefined>;
     /** The current type of this item. */
@@ -99,31 +98,31 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** The tab index of the tree. */
     readonly tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active item. */
-    readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** The direct children of the root (top-level tree items). */
-    readonly children: _angular_core.Signal<TreeItemPattern<V>[]>;
+    readonly children: SignalLike<TreeItemPattern<V>[]>;
     /** All currently visible tree items. An item is visible if their parent is expanded. */
-    readonly visibleItems: _angular_core.Signal<TreeItemPattern<V>[]>;
+    readonly visibleItems: SignalLike<TreeItemPattern<V>[]>;
     /** Whether the tree selection follows focus. */
-    readonly followFocus: _angular_core.Signal<boolean>;
+    readonly followFocus: SignalLike<boolean>;
     /** Whether the tree direction is RTL. */
-    readonly isRtl: _angular_core.Signal<boolean>;
+    readonly isRtl: SignalLike<boolean>;
     /** The key for navigating to the previous item. */
-    readonly prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key for navigating to the next item. */
-    readonly nextKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** The key for collapsing an item or moving to its parent. */
-    readonly collapseKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly collapseKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key for expanding an item or moving to its first child. */
-    readonly expandKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly expandKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    readonly dynamicSpaceKey: _angular_core.Signal<"" | " ">;
+    readonly dynamicSpaceKey: SignalLike<"" | " ">;
     /** Regular expression to match characters for typeahead. */
     readonly typeaheadRegexp: RegExp;
     /** The keydown event manager for the tree. */
-    readonly keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the tree. */
-    pointerdown: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
     /** A unique identifier for the tree. */
     readonly id: SignalLike<string>;
     /** The host native element. */

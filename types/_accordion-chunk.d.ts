@@ -1,8 +1,7 @@
-import * as _angular_core from '@angular/core';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 import { ListExpansionInputs, ListExpansion, ExpansionItem } from './_expansion-chunk.js';
-import { ListNavigationInputs, ListFocusInputs, ListNavigation, ListFocus, ListNavigationItem, ListFocusItem, SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
+import { ListNavigationInputs, ListFocusInputs, ListNavigation, ListFocus, SignalLike, ListNavigationItem, ListFocusItem, WritableSignalLike } from './_list-navigation-chunk.js';
 
 /** Inputs of the AccordionGroupPattern. */
 interface AccordionGroupInputs extends Omit<ListNavigationInputs<AccordionTriggerPattern> & ListFocusInputs<AccordionTriggerPattern> & Omit<ListExpansionInputs, 'items'>, 'focusMode'> {
@@ -20,13 +19,13 @@ declare class AccordionGroupPattern {
     readonly expansionBehavior: ListExpansion;
     constructor(inputs: AccordionGroupInputs);
     /** The key used to navigate to the previous accordion trigger. */
-    prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key used to navigate to the next accordion trigger. */
-    nextKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** The keydown event manager for the accordion trigger. */
-    keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the accordion trigger. */
-    pointerdown: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
     /** Handles keydown events on the trigger, delegating to the group if not disabled. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles pointerdown events on the trigger, delegating to the group if not disabled. */
@@ -57,17 +56,17 @@ declare class AccordionTriggerPattern implements ListNavigationItem, ListFocusIt
     /** Whether the corresponding panel is expanded. */
     readonly expanded: WritableSignalLike<boolean>;
     /** Whether the trigger is active. */
-    readonly active: _angular_core.Signal<boolean>;
+    readonly active: SignalLike<boolean>;
     /** Id of the accordion panel controlled by the trigger. */
-    readonly controls: _angular_core.Signal<string | undefined>;
+    readonly controls: SignalLike<string | undefined>;
     /** The tabindex of the trigger. */
-    readonly tabIndex: _angular_core.Signal<-1 | 0>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the trigger is disabled. Disabling an accordion group disables all the triggers. */
-    readonly disabled: _angular_core.Signal<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** Whether the trigger is hard disabled.  */
-    readonly hardDisabled: _angular_core.Signal<boolean>;
+    readonly hardDisabled: SignalLike<boolean>;
     /** The index of the trigger within its accordion group. */
-    readonly index: _angular_core.Signal<number>;
+    readonly index: SignalLike<number>;
     constructor(inputs: AccordionTriggerInputs);
     /** Opens the accordion panel. */
     open(): void;

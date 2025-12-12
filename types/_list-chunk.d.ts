@@ -1,4 +1,3 @@
-import * as _angular_core from '@angular/core';
 import { ListFocusItem, SignalLike, ListFocusInputs, WritableSignalLike, ListFocus, ListNavigationItem, ListNavigationInputs, ListNavigation } from './_list-navigation-chunk.js';
 
 /** Represents an item in a collection, such as a listbox option, that can be selected. */
@@ -23,11 +22,11 @@ declare class ListSelection<T extends ListSelectionItem<V>, V> {
         focusManager: ListFocus<T>;
     };
     /** The start index to use for range selection. */
-    rangeStartIndex: _angular_core.WritableSignal<number>;
+    rangeStartIndex: WritableSignalLike<number>;
     /** The end index to use for range selection. */
-    rangeEndIndex: _angular_core.WritableSignal<number>;
+    rangeEndIndex: WritableSignalLike<number>;
     /** The currently selected items. */
-    selectedItems: _angular_core.Signal<T[]>;
+    selectedItems: SignalLike<T[]>;
     constructor(inputs: ListSelectionInputs<T, V> & {
         focusManager: ListFocus<T>;
     });
@@ -93,7 +92,7 @@ declare class ListTypeahead<T extends ListTypeaheadItem> {
     /** The focus controller of the parent list. */
     focusManager: ListFocus<T>;
     /** Whether the user is actively typing a typeahead search query. */
-    isTyping: _angular_core.Signal<boolean>;
+    isTyping: SignalLike<boolean>;
     /** Keeps track of the characters that typeahead search is being called with. */
     private _query;
     /** The index where that the typeahead search was initiated from. */
@@ -135,13 +134,13 @@ declare class List<T extends ListItem<V>, V> {
     /** Controls focus for the list. */
     focusBehavior: ListFocus<T>;
     /** Whether the list is disabled. */
-    disabled: _angular_core.Signal<boolean>;
+    disabled: SignalLike<boolean>;
     /** The id of the current active item. */
-    activeDescendant: _angular_core.Signal<string | undefined>;
+    activeDescendant: SignalLike<string | undefined>;
     /** The tab index of the list. */
-    tabIndex: _angular_core.Signal<0 | -1>;
+    tabIndex: SignalLike<0 | -1>;
     /** The index of the currently active item in the list. */
-    activeIndex: _angular_core.Signal<number>;
+    activeIndex: SignalLike<number>;
     /**
      * The uncommitted index for selecting a range of options.
      *

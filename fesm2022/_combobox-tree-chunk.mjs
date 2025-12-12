@@ -1,7 +1,6 @@
-import { computed } from '@angular/core';
+import { computed, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
-import { Modifier, KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
 class TreeItemPattern {
