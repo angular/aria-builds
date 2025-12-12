@@ -1,5 +1,5 @@
+import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
 import * as _angular_core from '@angular/core';
-import { SignalLike } from './_list-navigation-chunk.js';
 import { ListItem, ListInputs, List } from './_list-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
@@ -57,33 +57,33 @@ declare class ListboxPattern<V> {
     /** Whether the list is vertically or horizontally oriented. */
     orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether the listbox is disabled. */
-    disabled: _angular_core.Signal<boolean>;
+    disabled: SignalLike<boolean>;
     /** Whether the listbox is readonly. */
     readonly: SignalLike<boolean>;
     /** The tab index of the listbox. */
     tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active item. */
-    activeDescendant: _angular_core.Signal<string | undefined>;
+    activeDescendant: SignalLike<string | undefined>;
     /** Whether multiple items in the list can be selected at once. */
     multi: SignalLike<boolean>;
     /** The number of items in the listbox. */
-    setsize: _angular_core.Signal<number>;
+    setsize: SignalLike<number>;
     /** Whether the listbox selection follows focus. */
-    followFocus: _angular_core.Signal<boolean>;
+    followFocus: SignalLike<boolean>;
     /** Whether the listbox should wrap. Used to disable wrapping while range selecting. */
-    wrap: _angular_core.WritableSignal<boolean>;
+    wrap: WritableSignalLike<boolean>;
     /** The key used to navigate to the previous item in the list. */
-    prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key used to navigate to the next item in the list. */
-    nextKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    dynamicSpaceKey: _angular_core.Signal<"" | " ">;
+    dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */
     typeaheadRegexp: RegExp;
     /** The keydown event manager for the listbox. */
-    keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the listbox. */
-    pointerdown: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
     constructor(inputs: ListboxInputs<V>);
     /** Returns a set of violations */
     validate(): string[];

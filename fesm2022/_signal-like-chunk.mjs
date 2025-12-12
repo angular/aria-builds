@@ -1,3 +1,5 @@
+import { createComputed, createSignal, createLinkedSignal, linkedSignalSetFn, SIGNAL, linkedSignalUpdateFn } from '@angular/core/primitives/signals';
+
 var Modifier;
 (function (Modifier) {
   Modifier[Modifier["None"] = 0] = "None";
@@ -80,5 +82,34 @@ class KeyboardEventManager extends EventManager {
   }
 }
 
-export { EventManager, KeyboardEventManager, Modifier, hasModifiers };
-//# sourceMappingURL=_keyboard-event-manager-chunk.mjs.map
+function convertGetterSetterToWritableSignalLike(getter, setter) {
+  return Object.assign(getter, {
+    set: setter,
+    update: updateCallback => setter(updateCallback(getter())),
+    asReadonly: () => getter
+  });
+}
+function computed(computation) {
+  const computed = createComputed(computation);
+  computed.toString = () => `[Computed: ${computed()}]`;
+  return computed;
+}
+function signal(initialValue) {
+  const [get, set, update] = createSignal(initialValue);
+  return Object.assign(get, {
+    set,
+    update,
+    asReadonly: () => get
+  });
+}
+function linkedSignal(sourceFn) {
+  const getter = createLinkedSignal(sourceFn, s => s);
+  return Object.assign(getter, {
+    set: v => linkedSignalSetFn(getter[SIGNAL], v),
+    update: updater => linkedSignalUpdateFn(getter[SIGNAL], updater),
+    asReadonly: () => getter
+  });
+}
+
+export { EventManager, KeyboardEventManager, Modifier, computed, convertGetterSetterToWritableSignalLike, hasModifiers, linkedSignal, signal };
+//# sourceMappingURL=_signal-like-chunk.mjs.map

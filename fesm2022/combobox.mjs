@@ -5,8 +5,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ComboboxPopup, COMBOBOX } from './_combobox-popup-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
+import './_signal-like-chunk.mjs';
+import '@angular/core/primitives/signals';
 import './_pointer-event-manager-chunk.mjs';
-import './_keyboard-event-manager-chunk.mjs';
 
 class Combobox {
   _directionality = inject(Directionality);

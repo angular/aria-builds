@@ -1,6 +1,7 @@
-import { computed, signal, linkedSignal, untracked } from '@angular/core';
-import { Modifier, KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
+import { computed, signal, linkedSignal, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed as computed$1, signal as signal$1, linkedSignal as linkedSignal$1 } from '@angular/core';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
+import { untracked } from '@angular/core/primitives/signals';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 
 class GridData {
@@ -217,7 +218,7 @@ const direction = {
 };
 class GridNavigation {
   inputs;
-  _maxSteps = computed(() => this.inputs.grid.maxRowCount() * this.inputs.grid.maxColCount());
+  _maxSteps = computed$1(() => this.inputs.grid.maxRowCount() * this.inputs.grid.maxColCount());
   constructor(inputs) {
     this.inputs = inputs;
   }
@@ -818,46 +819,46 @@ class GridCellPattern {
   inputs;
   id = () => this.inputs.id();
   element = () => this.inputs.element();
-  isFocused = signal(false);
+  isFocused = signal$1(false);
   selected;
   selectable = () => this.inputs.selectable();
   disabled = () => this.inputs.disabled();
   rowSpan = () => this.inputs.rowSpan();
   colSpan = () => this.inputs.colSpan();
-  active = computed(() => this.inputs.grid().activeCell() === this);
-  anchor = computed(() => this.inputs.grid().anchorCell() === this ? true : undefined);
-  ariaSelected = computed(() => this.inputs.grid().inputs.enableSelection() && this.selectable() ? this.selected() : undefined);
-  ariaRowIndex = computed(() => this.inputs.row().rowIndex() ?? this.inputs.rowIndex() ?? this.inputs.grid().gridBehavior.rowIndex(this));
-  ariaColIndex = computed(() => this.inputs.colIndex() ?? this.inputs.grid().gridBehavior.colIndex(this));
-  _tabIndex = computed(() => this.inputs.grid().gridBehavior.cellTabIndex(this));
-  tabIndex = computed(() => {
+  active = computed$1(() => this.inputs.grid().activeCell() === this);
+  anchor = computed$1(() => this.inputs.grid().anchorCell() === this ? true : undefined);
+  ariaSelected = computed$1(() => this.inputs.grid().inputs.enableSelection() && this.selectable() ? this.selected() : undefined);
+  ariaRowIndex = computed$1(() => this.inputs.row().rowIndex() ?? this.inputs.rowIndex() ?? this.inputs.grid().gridBehavior.rowIndex(this));
+  ariaColIndex = computed$1(() => this.inputs.colIndex() ?? this.inputs.grid().gridBehavior.colIndex(this));
+  _tabIndex = computed$1(() => this.inputs.grid().gridBehavior.cellTabIndex(this));
+  tabIndex = computed$1(() => {
     if (this.singleWidgetMode() || this.navigationActivated()) {
       return -1;
     }
     return this._tabIndex();
   });
-  singleWidgetMode = computed(() => this.inputs.widgets().length === 1);
-  multiWidgetMode = computed(() => this.inputs.widgets().length > 1);
-  navigationDisabled = computed(() => !this.multiWidgetMode() || !this.active() || this.inputs.disabled());
+  singleWidgetMode = computed$1(() => this.inputs.widgets().length === 1);
+  multiWidgetMode = computed$1(() => this.inputs.widgets().length > 1);
+  navigationDisabled = computed$1(() => !this.multiWidgetMode() || !this.active() || this.inputs.disabled());
   focusBehavior;
   navigationBehavior;
-  activeWidget = linkedSignal(() => this.inputs.widgets().length > 0 ? this.inputs.widgets()[0] : undefined);
-  navigationActivated = signal(false);
-  widgetActivated = computed(() => this.inputs.widgets().some(w => w.isActivated()));
-  isActivated = computed(() => this.navigationActivated() || this.widgetActivated());
-  prevKey = computed(() => {
+  activeWidget = linkedSignal$1(() => this.inputs.widgets().length > 0 ? this.inputs.widgets()[0] : undefined);
+  navigationActivated = signal$1(false);
+  widgetActivated = computed$1(() => this.inputs.widgets().some(w => w.isActivated()));
+  isActivated = computed$1(() => this.navigationActivated() || this.widgetActivated());
+  prevKey = computed$1(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
     }
     return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
   });
-  nextKey = computed(() => {
+  nextKey = computed$1(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowDown';
     }
     return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
-  keydown = computed(() => {
+  keydown = computed$1(() => {
     const manager = new KeyboardEventManager();
     if (!this.navigationActivated()) {
       manager.on('Enter', () => this.startNavigation());

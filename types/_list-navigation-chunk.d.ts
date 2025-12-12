@@ -1,12 +1,14 @@
-import * as _angular_core from '@angular/core';
-
 type SignalLike<T> = () => T;
 interface WritableSignalLike<T> extends SignalLike<T> {
     set(value: T): void;
     update(updateFn: (value: T) => T): void;
+    asReadonly(): SignalLike<T>;
 }
 /** Converts a getter setter style signal to a WritableSignalLike. */
 declare function convertGetterSetterToWritableSignalLike<T>(getter: () => T, setter: (v: T) => void): WritableSignalLike<T>;
+declare function computed<T>(computation: () => T): SignalLike<T>;
+declare function signal<T>(initialValue: T): WritableSignalLike<T>;
+declare function linkedSignal<T>(sourceFn: () => T): WritableSignalLike<T>;
 
 /** Represents an item in a collection, such as a listbox option, than may receive focus. */
 interface ListFocusItem {
@@ -37,11 +39,11 @@ interface ListFocusInputs<T extends ListFocusItem> {
 declare class ListFocus<T extends ListFocusItem> {
     readonly inputs: ListFocusInputs<T>;
     /** The last item that was active. */
-    prevActiveItem: _angular_core.WritableSignal<T | undefined>;
+    prevActiveItem: WritableSignalLike<T | undefined>;
     /** The index of the last item that was active. */
-    prevActiveIndex: _angular_core.Signal<number>;
+    prevActiveIndex: SignalLike<number>;
     /** The current active index in the list. */
-    activeIndex: _angular_core.Signal<number>;
+    activeIndex: SignalLike<number>;
     constructor(inputs: ListFocusInputs<T>);
     /** Whether the list is in a disabled state. */
     isListDisabled(): boolean;
@@ -113,5 +115,5 @@ declare class ListNavigation<T extends ListNavigationItem> {
     private _peek;
 }
 
-export { ListFocus, ListNavigation, convertGetterSetterToWritableSignalLike };
+export { ListFocus, ListNavigation, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal };
 export type { ListFocusInputs, ListFocusItem, ListNavigationInputs, ListNavigationItem, SignalLike, WritableSignalLike };

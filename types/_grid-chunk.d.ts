@@ -1,8 +1,8 @@
-import * as _angular_core from '@angular/core';
-import { WritableSignal, Signal } from '@angular/core';
 import { SignalLike, WritableSignalLike, ListNavigationItem, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import * as _angular_core from '@angular/core';
+import { WritableSignal } from '@angular/core';
 
 /** Represents coordinates in a grid. */
 interface RowCol {
@@ -29,9 +29,9 @@ declare class GridData<T extends BaseGridCell> {
     /** The two-dimensional array of cells that represents the grid. */
     readonly cells: SignalLike<T[][]>;
     /** The maximum number of rows in the grid, accounting for row spans. */
-    readonly maxRowCount: _angular_core.Signal<number>;
+    readonly maxRowCount: SignalLike<number>;
     /** The maximum number of columns in the grid, accounting for column spans. */
-    readonly maxColCount: _angular_core.Signal<number>;
+    readonly maxColCount: SignalLike<number>;
     /** A map from a cell to its primary and spanned coordinates. */
     private readonly _coordsMap;
     /** A map from a coordinate string to the cell at that coordinate. */
@@ -82,11 +82,11 @@ interface GridFocusDeps<T extends GridFocusCell> {
 declare class GridFocus<T extends GridFocusCell> {
     readonly inputs: GridFocusInputs & GridFocusDeps<T>;
     /** The current active cell. */
-    readonly activeCell: WritableSignal<T | undefined>;
+    readonly activeCell: WritableSignalLike<T | undefined>;
     /** The current active cell coordinates. */
-    readonly activeCoords: WritableSignal<RowCol>;
+    readonly activeCoords: WritableSignalLike<RowCol>;
     /** Whether the grid active state is empty (no active cell or coordinates). */
-    readonly stateEmpty: _angular_core.Signal<boolean>;
+    readonly stateEmpty: SignalLike<boolean>;
     /**
      * Whether the grid focus state is stale.
      *
@@ -94,13 +94,13 @@ declare class GridFocus<T extends GridFocusCell> {
      * current grid data, for example if the underlying cells have changed.
      * A stale state should be re-initialized.
      */
-    readonly stateStale: _angular_core.Signal<boolean>;
+    readonly stateStale: SignalLike<boolean>;
     /** The id of the current active cell, for ARIA activedescendant. */
-    readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** Whether the grid is in a disabled state. */
-    readonly gridDisabled: _angular_core.Signal<boolean>;
+    readonly gridDisabled: SignalLike<boolean>;
     /** The tab index for the grid container. */
-    readonly gridTabIndex: _angular_core.Signal<0 | -1>;
+    readonly gridTabIndex: SignalLike<0 | -1>;
     constructor(inputs: GridFocusInputs & GridFocusDeps<T>);
     /** Returns the tab index for the given grid cell cell. */
     getCellTabIndex(cell: T): -1 | 0;
@@ -265,11 +265,11 @@ declare class Grid<T extends GridCell> {
     /** Controls selection for the grid. */
     readonly selectionBehavior: GridSelection<T>;
     /** The anchor point for range selection, linked to the active coordinates. */
-    readonly selectionAnchor: _angular_core.WritableSignal<RowCol>;
+    readonly selectionAnchor: WritableSignalLike<RowCol>;
     /** The cell at the selection anchor. */
-    readonly selectionAnchorCell: _angular_core.Signal<T | undefined>;
+    readonly selectionAnchorCell: SignalLike<T | undefined>;
     /** Whether a range selection has settled. */
-    readonly selectionStabled: _angular_core.WritableSignal<boolean>;
+    readonly selectionStabled: WritableSignalLike<boolean>;
     /** Whether all selectable cells are selected. */
     readonly allSelected: SignalLike<boolean>;
     /** The tab index for the grid container. */
@@ -355,23 +355,23 @@ declare class GridCellWidgetPattern implements ListNavigationItem {
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement>;
     /** The element that should receive focus. */
-    readonly widgetHost: Signal<HTMLElement>;
+    readonly widgetHost: SignalLike<HTMLElement>;
     /** The index of the widget within the cell. */
-    readonly index: Signal<number>;
+    readonly index: SignalLike<number>;
     /** Whether the widget is disabled. */
-    readonly disabled: Signal<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The tab index for the widget. */
-    readonly tabIndex: Signal<-1 | 0>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the widget is the active item in the widget list. */
-    readonly active: Signal<boolean>;
+    readonly active: SignalLike<boolean>;
     /** Whether the widget is currently activated. */
-    readonly isActivated: WritableSignal<boolean>;
+    readonly isActivated: WritableSignalLike<boolean>;
     /** The last event that caused the widget to be activated. */
-    readonly lastActivateEvent: WritableSignal<KeyboardEvent | FocusEvent | undefined>;
+    readonly lastActivateEvent: WritableSignalLike<KeyboardEvent | FocusEvent | undefined>;
     /** The last event that caused the widget to be deactivated. */
-    readonly lastDeactivateEvent: WritableSignal<KeyboardEvent | FocusEvent | undefined>;
+    readonly lastDeactivateEvent: WritableSignalLike<KeyboardEvent | FocusEvent | undefined>;
     /** The keyboard event manager for the widget. */
-    readonly keydown: Signal<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: GridCellWidgetInputs);
     /** Handles keydown events for the widget. */
     onKeydown(event: KeyboardEvent): void;
@@ -520,35 +520,35 @@ declare class GridPattern {
     /** The underlying grid behavior that this pattern is built on. */
     readonly gridBehavior: Grid<GridCellPattern>;
     /** The cells in the grid. */
-    readonly cells: _angular_core.Signal<GridCellPattern[][]>;
+    readonly cells: SignalLike<GridCellPattern[][]>;
     /** The tab index for the grid. */
-    readonly tabIndex: _angular_core.Signal<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** Whether the grid is disabled. */
-    readonly disabled: _angular_core.Signal<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The ID of the currently active descendant cell. */
-    readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** The currently active cell. */
-    readonly activeCell: _angular_core.Signal<GridCellPattern | undefined>;
+    readonly activeCell: SignalLike<GridCellPattern | undefined>;
     /** The current selection anchor cell. */
     readonly anchorCell: SignalLike<GridCellPattern | undefined>;
     /** Whether to pause grid navigation and give the keyboard control to cell or widget. */
     readonly pauseNavigation: SignalLike<boolean>;
     /** Whether the focus is in the grid. */
-    readonly isFocused: _angular_core.WritableSignal<boolean>;
+    readonly isFocused: WritableSignalLike<boolean>;
     /** Whether the grid has been focused once. */
-    readonly hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    readonly hasBeenFocused: WritableSignalLike<boolean>;
     /** Whether the user is currently dragging to select a range of cells. */
-    readonly dragging: _angular_core.WritableSignal<boolean>;
+    readonly dragging: WritableSignalLike<boolean>;
     /** The key for navigating to the previous column. */
-    readonly prevColKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft">;
+    readonly prevColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
     /** The key for navigating to the next column. */
-    readonly nextColKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft">;
+    readonly nextColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
     /** The keydown event manager for the grid. */
-    readonly keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the grid. */
-    readonly pointerdown: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
     /** The pointerup event manager for the grid. */
-    readonly pointerup: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    readonly pointerup: SignalLike<PointerEventManager<PointerEvent>>;
     /** Indicates maybe the losing focus is caused by row/cell deletion. */
     private readonly _maybeDeletion;
     /** Indicates the losing focus is certainly caused by row/cell deletion. */

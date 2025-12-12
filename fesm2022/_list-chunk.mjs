@@ -1,4 +1,4 @@
-import { signal, computed } from '@angular/core';
+import { signal, computed } from './_signal-like-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 
 class ListSelection {

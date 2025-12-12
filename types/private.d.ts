@@ -2,9 +2,8 @@ import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from '
 export { ComboboxDialogPattern, ComboboxInputs } from './_combobox-chunk.d2.ts';
 import { ListboxInputs, OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 export { OptionInputs } from './_listbox-chunk.js';
-import * as _angular_core from '@angular/core';
 import { SignalLike } from './_list-navigation-chunk.js';
-export { WritableSignalLike, convertGetterSetterToWritableSignalLike } from './_list-navigation-chunk.js';
+export { WritableSignalLike, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_list-navigation-chunk.js';
 export { MenuBarInputs, MenuBarPattern, MenuInputs, MenuItemInputs, MenuItemPattern, MenuPattern, MenuTriggerInputs, MenuTriggerPattern } from './_menu-chunk.js';
 export { TabInputs, TabListInputs, TabListPattern, TabPanelInputs, TabPanelPattern, TabPattern } from './_tabs-chunk.js';
 export { ToolbarInputs, ToolbarPattern, ToolbarWidgetGroupInputs, ToolbarWidgetGroupPattern, ToolbarWidgetInputs, ToolbarWidgetPattern } from './_toolbar-chunk.js';
@@ -13,9 +12,11 @@ import { TreeInputs, TreeItemPattern, TreePattern } from './_tree-chunk.js';
 export { TreeItemInputs } from './_tree-chunk.js';
 export { GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern } from './_grid-chunk.js';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
+export { untracked } from '@angular/core/primitives/signals';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
+import '@angular/core';
 import './_expansion-chunk.js';
 
 type ComboboxListboxInputs<V> = ListboxInputs<V> & {
@@ -25,17 +26,17 @@ type ComboboxListboxInputs<V> = ListboxInputs<V> & {
 declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements ComboboxListboxControls<OptionPattern<V>, V> {
     readonly inputs: ComboboxListboxInputs<V>;
     /** A unique identifier for the popup. */
-    id: _angular_core.Signal<string>;
+    id: SignalLike<string>;
     /** The ARIA role for the listbox. */
-    role: _angular_core.Signal<"listbox">;
+    role: SignalLike<"listbox">;
     /** The id of the active (focused) item in the listbox. */
-    activeId: _angular_core.Signal<string | undefined>;
+    activeId: SignalLike<string | undefined>;
     /** The list of options in the listbox. */
     items: SignalLike<OptionPattern<V>[]>;
     /** The tab index for the listbox. Always -1 because the combobox handles focus. */
     tabIndex: SignalLike<-1 | 0>;
     /** Whether multiple items in the list can be selected at once. */
-    multi: _angular_core.Signal<boolean>;
+    multi: SignalLike<boolean>;
     constructor(inputs: ComboboxListboxInputs<V>);
     /** Noop. The combobox handles keydown events. */
     onKeydown(_: KeyboardEvent): void;
@@ -83,11 +84,11 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     isItemCollapsible: () => boolean;
     /** The ARIA role for the tree. */
     role: () => "tree";
-    activeId: _angular_core.Signal<string | undefined>;
+    activeId: SignalLike<string | undefined>;
     /** Returns the currently active (focused) item in the tree. */
     getActiveItem: () => TreeItemPattern<V> | undefined;
     /** The list of items in the tree. */
-    items: _angular_core.Signal<TreeItemPattern<V>[]>;
+    items: SignalLike<TreeItemPattern<V>[]>;
     /** The tab index for the tree. Always -1 because the combobox handles focus. */
     tabIndex: SignalLike<-1 | 0>;
     constructor(inputs: ComboboxTreeInputs<V>);

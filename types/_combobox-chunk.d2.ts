@@ -1,4 +1,3 @@
-import * as _angular_core from '@angular/core';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
@@ -90,39 +89,39 @@ interface ComboboxTreeControls<T extends ListItem<V>, V> extends ComboboxListbox
 declare class ComboboxPattern<T extends ListItem<V>, V> {
     readonly inputs: ComboboxInputs<T, V>;
     /** Whether the combobox is expanded. */
-    expanded: _angular_core.WritableSignal<boolean>;
+    expanded: WritableSignalLike<boolean>;
     /** Whether the combobox is disabled. */
     disabled: () => boolean;
     /** The ID of the active item in the combobox. */
-    activeDescendant: _angular_core.Signal<string | null>;
+    activeDescendant: SignalLike<string | null>;
     /** The currently highlighted item in the combobox. */
-    highlightedItem: _angular_core.WritableSignal<T | undefined>;
+    highlightedItem: WritableSignalLike<T | undefined>;
     /** Whether the most recent input event was a deletion. */
     isDeleting: boolean;
     /** Whether the combobox is focused. */
-    isFocused: _angular_core.WritableSignal<boolean>;
+    isFocused: WritableSignalLike<boolean>;
     /** Whether the combobox has ever been focused. */
-    hasBeenFocused: _angular_core.WritableSignal<boolean>;
+    hasBeenFocused: WritableSignalLike<boolean>;
     /** The key used to navigate to the previous item in the list. */
-    expandKey: _angular_core.Signal<"ArrowLeft" | "ArrowRight">;
+    expandKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The key used to navigate to the next item in the list. */
-    collapseKey: _angular_core.Signal<"ArrowLeft" | "ArrowRight">;
+    collapseKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The ID of the popup associated with the combobox. */
-    popupId: _angular_core.Signal<string | null>;
+    popupId: SignalLike<string | null>;
     /** The autocomplete behavior of the combobox. */
-    autocomplete: _angular_core.Signal<"both" | "list">;
+    autocomplete: SignalLike<"both" | "list">;
     /** The ARIA role of the popup associated with the combobox. */
-    hasPopup: _angular_core.Signal<"listbox" | "tree" | "grid" | "dialog" | null>;
+    hasPopup: SignalLike<"listbox" | "tree" | "grid" | "dialog" | null>;
     /** Whether the combobox is read-only. */
-    readonly: _angular_core.Signal<true | null>;
+    readonly: SignalLike<true | null>;
     /** Returns the listbox controls for the combobox. */
     listControls: () => ComboboxListboxControls<T, V> | null | undefined;
     /** Returns the tree controls for the combobox. */
     treeControls: () => ComboboxTreeControls<T, V> | null;
     /** The keydown event manager for the combobox. */
-    keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the combobox. */
-    click: _angular_core.Signal<PointerEventManager<PointerEvent>>;
+    click: SignalLike<PointerEventManager<PointerEvent>>;
     constructor(inputs: ComboboxInputs<T, V>);
     /** Handles keydown events for the combobox. */
     onKeydown(event: KeyboardEvent): void;
@@ -135,7 +134,7 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     /** Handles focus out events for the combobox. */
     onFocusOut(event: FocusEvent): void;
     /** The first matching item in the combobox. */
-    firstMatch: _angular_core.Signal<T | undefined>;
+    firstMatch: SignalLike<T | undefined>;
     /** Handles filtering logic for the combobox. */
     onFilter(): void;
     /** Highlights the currently selected item in the combobox. */
@@ -181,7 +180,7 @@ declare class ComboboxDialogPattern {
     };
     id: () => string;
     role: () => "dialog";
-    keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: {
         combobox: ComboboxPattern<any, any>;
         element: SignalLike<HTMLDialogElement>;

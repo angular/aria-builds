@@ -1,4 +1,4 @@
-import { EventManager, Modifier, hasModifiers } from './_keyboard-event-manager-chunk.mjs';
+import { EventManager, Modifier, hasModifiers } from './_signal-like-chunk.mjs';
 
 var MouseButton;
 (function (MouseButton) {

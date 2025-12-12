@@ -1,4 +1,4 @@
-import { signal, computed } from '@angular/core';
+import { signal, computed } from './_signal-like-chunk.mjs';
 
 class ListFocus {
   inputs;

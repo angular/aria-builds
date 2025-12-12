@@ -5,8 +5,9 @@ import { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import './_expansion-chunk.mjs';
+import './_signal-like-chunk.mjs';
+import '@angular/core/primitives/signals';
 import './_list-navigation-chunk.mjs';
-import './_keyboard-event-manager-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
 
 const TABS = new InjectionToken('TABS');

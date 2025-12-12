@@ -5,10 +5,11 @@ import { Directionality } from '@angular/cdk/bidi';
 import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
 import { ComboboxTreePattern, TreePattern, TreeItemPattern } from './_combobox-tree-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import './_signal-like-chunk.mjs';
+import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_expansion-chunk.mjs';
-import './_keyboard-event-manager-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
 
 function sortDirectives(a, b) {

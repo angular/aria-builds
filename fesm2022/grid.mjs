@@ -3,7 +3,8 @@ import { InjectionToken, inject, ElementRef, contentChildren, computed, input, b
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import './_keyboard-event-manager-chunk.mjs';
+import './_signal-like-chunk.mjs';
+import '@angular/core/primitives/signals';
 import './_pointer-event-manager-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 
@@ -351,7 +352,7 @@ class GridCellWidget {
     })
   });
   get isActivated() {
-    return this._pattern.isActivated.asReadonly();
+    return computed(() => this._pattern.isActivated());
   }
   constructor() {
     afterRenderEffect(() => {

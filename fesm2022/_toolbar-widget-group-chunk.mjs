@@ -1,6 +1,5 @@
-import { computed } from '@angular/core';
+import { computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { List } from './_list-chunk.mjs';
-import { KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
 
 class ToolbarPattern {
   inputs;
