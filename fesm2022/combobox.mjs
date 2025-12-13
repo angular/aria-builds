@@ -1,7 +1,6 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, contentChild, input, booleanAttribute, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ComboboxPopup, COMBOBOX } from './_combobox-popup-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
@@ -10,10 +9,7 @@ import '@angular/core/primitives/signals';
 import './_pointer-event-manager-chunk.mjs';
 
 class Combobox {
-  _directionality = inject(Directionality);
-  textDirection = toSignal(this._directionality.change, {
-    initialValue: this._directionality.value
-  });
+  textDirection = inject(Directionality).valueSignal.asReadonly();
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   _deferredContentAware = inject(DeferredContentAware, {

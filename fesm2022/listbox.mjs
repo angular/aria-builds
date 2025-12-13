@@ -1,7 +1,6 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, Directive, contentChildren, model, signal, afterRenderEffect, untracked } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { OptionPattern, ComboboxListboxPattern, ListboxPattern } from './_combobox-listbox-chunk.mjs';
 import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
@@ -176,16 +175,13 @@ class Listbox {
   });
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _directionality = inject(Directionality);
   _options = contentChildren(Option, {
     ...(ngDevMode ? {
       debugName: "_options"
     } : {}),
     descendants: true
   });
-  textDirection = toSignal(this._directionality.change, {
-    initialValue: this._directionality.value
-  });
+  textDirection = inject(Directionality).valueSignal.asReadonly();
   items = computed(() => this._options().map(option => option._pattern), ...(ngDevMode ? [{
     debugName: "items"
   }] : []));

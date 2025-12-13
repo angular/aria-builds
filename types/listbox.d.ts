@@ -43,8 +43,6 @@ declare class Listbox<V> {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
-    /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
-    private readonly _directionality;
     /** The Options nested inside of the Listbox. */
     private readonly _options;
     /** A signal wrapper for directionality. */

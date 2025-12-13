@@ -63,8 +63,6 @@ declare class ComboboxPopup<V> {
  * @see [Autocomplete](guide/aria/autocomplete)
  */
 declare class Combobox<V> {
-    /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
-    private readonly _directionality;
     /** A signal wrapper for directionality. */
     protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
     /** The element that the combobox is attached to. */
