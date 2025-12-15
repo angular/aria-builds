@@ -1,6 +1,6 @@
 import { Version } from '@angular/core';
 
-/** Current version of the CDK Experimental package. */
+/** Current version of the Aria package. */
 declare const VERSION: Version;
 
 export { VERSION };
