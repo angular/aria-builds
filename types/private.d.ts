@@ -16,8 +16,8 @@ export { untracked } from '@angular/core/primitives/signals';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
-import '@angular/core';
 import './_expansion-chunk.js';
+import '@angular/core';
 
 type ComboboxListboxInputs<V> = ListboxInputs<V> & {
     /** The combobox controlling the listbox. */

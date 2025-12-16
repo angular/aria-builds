@@ -1,5 +1,4 @@
 import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
-import * as _angular_core from '@angular/core';
 import { ListItem, ListInputs, List } from './_list-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
@@ -23,11 +22,11 @@ declare class OptionPattern<V> {
     /** The value of the option. */
     value: SignalLike<V>;
     /** The position of the option in the list. */
-    index: _angular_core.Signal<number>;
+    index: SignalLike<number>;
     /** Whether the option is active. */
-    active: _angular_core.Signal<boolean>;
+    active: SignalLike<boolean>;
     /** Whether the option is selected. */
-    selected: _angular_core.Signal<boolean | undefined>;
+    selected: SignalLike<boolean | undefined>;
     /** Whether the option is selectable. */
     selectable: () => boolean;
     /** Whether the option is disabled. */
@@ -37,7 +36,7 @@ declare class OptionPattern<V> {
     /** A reference to the parent listbox. */
     listbox: SignalLike<ListboxPattern$1<V> | undefined>;
     /** The tab index of the option. */
-    tabIndex: _angular_core.Signal<0 | -1 | undefined>;
+    tabIndex: SignalLike<0 | -1 | undefined>;
     /** The html element that should receive focus. */
     element: SignalLike<HTMLElement | undefined>;
     constructor(args: OptionInputs<V>);

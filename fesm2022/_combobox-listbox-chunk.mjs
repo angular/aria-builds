@@ -1,4 +1,3 @@
-import { computed as computed$1 } from '@angular/core';
 import { computed, signal, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
@@ -171,14 +170,14 @@ class ListboxPattern {
 class OptionPattern {
   id;
   value;
-  index = computed$1(() => this.listbox()?.inputs.items().indexOf(this) ?? -1);
-  active = computed$1(() => this.listbox()?.inputs.activeItem() === this);
-  selected = computed$1(() => this.listbox()?.inputs.values().includes(this.value()));
+  index = computed(() => this.listbox()?.inputs.items().indexOf(this) ?? -1);
+  active = computed(() => this.listbox()?.inputs.activeItem() === this);
+  selected = computed(() => this.listbox()?.inputs.values().includes(this.value()));
   selectable = () => true;
   disabled;
   searchTerm;
   listbox;
-  tabIndex = computed$1(() => this.listbox()?.listBehavior.getItemTabindex(this));
+  tabIndex = computed(() => this.listbox()?.listBehavior.getItemTabindex(this));
   element;
   constructor(args) {
     this.id = args.id;
