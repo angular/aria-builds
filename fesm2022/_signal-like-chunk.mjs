@@ -1,4 +1,4 @@
-import { createComputed, createSignal, createLinkedSignal, linkedSignalSetFn, SIGNAL, linkedSignalUpdateFn } from '@angular/core/primitives/signals';
+import { createComputed, SIGNAL, createSignal, createLinkedSignal, linkedSignalSetFn, linkedSignalUpdateFn } from '@angular/core/primitives/signals';
 
 var Modifier;
 (function (Modifier) {
@@ -92,10 +92,12 @@ function convertGetterSetterToWritableSignalLike(getter, setter) {
 function computed(computation) {
   const computed = createComputed(computation);
   computed.toString = () => `[Computed: ${computed()}]`;
+  computed[SIGNAL].debugName = '';
   return computed;
 }
 function signal(initialValue) {
   const [get, set, update] = createSignal(initialValue);
+  get[SIGNAL].debugName = '';
   return Object.assign(get, {
     set,
     update,
@@ -104,6 +106,7 @@ function signal(initialValue) {
 }
 function linkedSignal(sourceFn) {
   const getter = createLinkedSignal(sourceFn, s => s);
+  getter[SIGNAL].debugName = '';
   return Object.assign(getter, {
     set: v => linkedSignalSetFn(getter[SIGNAL], v),
     update: updater => linkedSignalUpdateFn(getter[SIGNAL], updater),

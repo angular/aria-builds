@@ -10,8 +10,8 @@ export { ComboboxTreePattern, TreeItemPattern, TreePattern } from './_combobox-t
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern } from './_widget-chunk.mjs';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
-import '@angular/core';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_expansion-chunk.mjs';
+import '@angular/core';
 //# sourceMappingURL=private.mjs.map

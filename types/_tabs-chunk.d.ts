@@ -2,7 +2,6 @@ import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
 import { SignalLike, ListNavigationItem, WritableSignalLike, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
-import * as _angular_core from '@angular/core';
 
 /** Represents the required inputs for the label control. */
 interface LabelControlInputs {
@@ -20,9 +19,9 @@ interface LabelControlOptionalInputs {
 declare class LabelControl {
     readonly inputs: LabelControlInputs & LabelControlOptionalInputs;
     /** The `aria-label`. */
-    readonly label: _angular_core.Signal<string | undefined>;
+    readonly label: SignalLike<string | undefined>;
     /** The `aria-labelledby` ids. */
-    readonly labelledBy: _angular_core.Signal<string[]>;
+    readonly labelledBy: SignalLike<string[]>;
     constructor(inputs: LabelControlInputs & LabelControlOptionalInputs);
 }
 

@@ -1,6 +1,5 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
-import { computed as computed$1, signal, KeyboardEventManager } from './_signal-like-chunk.mjs';
-import { computed } from '@angular/core';
+import { computed, signal, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
@@ -27,16 +26,16 @@ class LabelControl {
 class TabPattern {
   inputs;
   id = () => this.inputs.id();
-  index = computed$1(() => this.inputs.tablist().inputs.items().indexOf(this));
+  index = computed(() => this.inputs.tablist().inputs.items().indexOf(this));
   value = () => this.inputs.value();
   disabled = () => this.inputs.disabled();
   element = () => this.inputs.element();
   expandable = () => true;
   expanded;
-  active = computed$1(() => this.inputs.tablist().inputs.activeItem() === this);
-  selected = computed$1(() => this.inputs.tablist().selectedTab() === this);
-  tabIndex = computed$1(() => this.inputs.tablist().focusBehavior.getItemTabIndex(this));
-  controls = computed$1(() => this.inputs.tabpanel()?.id());
+  active = computed(() => this.inputs.tablist().inputs.activeItem() === this);
+  selected = computed(() => this.inputs.tablist().selectedTab() === this);
+  tabIndex = computed(() => this.inputs.tablist().focusBehavior.getItemTabIndex(this));
+  controls = computed(() => this.inputs.tabpanel()?.id());
   constructor(inputs) {
     this.inputs = inputs;
     this.expanded = inputs.expanded;
@@ -50,14 +49,14 @@ class TabPanelPattern {
   id = () => this.inputs.id();
   value = () => this.inputs.value();
   labelManager;
-  hidden = computed$1(() => this.inputs.tab()?.expanded() === false);
-  tabIndex = computed$1(() => this.hidden() ? -1 : 0);
-  labelledBy = computed$1(() => this.labelManager.labelledBy().length > 0 ? this.labelManager.labelledBy().join(' ') : undefined);
+  hidden = computed(() => this.inputs.tab()?.expanded() === false);
+  tabIndex = computed(() => this.hidden() ? -1 : 0);
+  labelledBy = computed(() => this.labelManager.labelledBy().length > 0 ? this.labelManager.labelledBy().join(' ') : undefined);
   constructor(inputs) {
     this.inputs = inputs;
     this.labelManager = new LabelControl({
       ...inputs,
-      defaultLabelledBy: computed$1(() => this.inputs.tab() ? [this.inputs.tab().id()] : [])
+      defaultLabelledBy: computed(() => this.inputs.tab() ? [this.inputs.tab().id()] : [])
     });
   }
 }
@@ -70,25 +69,25 @@ class TabListPattern {
   selectedTab = signal(undefined);
   orientation = () => this.inputs.orientation();
   disabled = () => this.inputs.disabled();
-  tabIndex = computed$1(() => this.focusBehavior.getListTabIndex());
-  activeDescendant = computed$1(() => this.focusBehavior.getActiveDescendant());
-  followFocus = computed$1(() => this.inputs.selectionMode() === 'follow');
-  prevKey = computed$1(() => {
+  tabIndex = computed(() => this.focusBehavior.getListTabIndex());
+  activeDescendant = computed(() => this.focusBehavior.getActiveDescendant());
+  followFocus = computed(() => this.inputs.selectionMode() === 'follow');
+  prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
     }
     return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
   });
-  nextKey = computed$1(() => {
+  nextKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowDown';
     }
     return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
-  keydown = computed$1(() => {
+  keydown = computed(() => {
     return new KeyboardEventManager().on(this.prevKey, () => this._navigate(() => this.navigationBehavior.prev(), this.followFocus())).on(this.nextKey, () => this._navigate(() => this.navigationBehavior.next(), this.followFocus())).on('Home', () => this._navigate(() => this.navigationBehavior.first(), this.followFocus())).on('End', () => this._navigate(() => this.navigationBehavior.last(), this.followFocus())).on(' ', () => this.open()).on('Enter', () => this.open());
   });
-  pointerdown = computed$1(() => {
+  pointerdown = computed(() => {
     return new PointerEventManager().on(e => this._navigate(() => this.navigationBehavior.goto(this._getItem(e)), true));
   });
   constructor(inputs) {

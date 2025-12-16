@@ -1,8 +1,6 @@
 import { SignalLike, WritableSignalLike, ListNavigationItem, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
-import * as _angular_core from '@angular/core';
-import { WritableSignal } from '@angular/core';
 
 /** Represents coordinates in a grid. */
 interface RowCol {
@@ -410,7 +408,7 @@ declare class GridCellPattern implements GridCell {
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement>;
     /** Whether the cell has focus. */
-    readonly isFocused: WritableSignal<boolean>;
+    readonly isFocused: WritableSignalLike<boolean>;
     /** Whether the cell is selected. */
     readonly selected: WritableSignalLike<boolean>;
     /** Whether the cell is selectable. */
@@ -454,11 +452,11 @@ declare class GridCellPattern implements GridCell {
     /** Whether the cell or widget inside the cell is activated. */
     readonly isActivated: SignalLike<boolean>;
     /** The key used to navigate to the previous widget. */
-    readonly prevKey: _angular_core.Signal<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key used to navigate to the next widget. */
-    readonly nextKey: _angular_core.Signal<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** The keyboard event manager for the cell. */
-    readonly keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: GridCellInputs);
     /** Handles keydown events for the cell. */
     onKeydown(event: KeyboardEvent): void;
