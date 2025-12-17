@@ -3,12 +3,15 @@ import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, 
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { OptionPattern, ComboboxListboxPattern, ListboxPattern } from './_combobox-listbox-chunk.mjs';
-import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
+import { ComboboxPopup } from './combobox.mjs';
+export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
+import './_deferred-content-chunk.mjs';
+import './_combobox-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
 
@@ -554,5 +557,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Listbox, Option };
+export { Listbox, Option, ComboboxPopup as ɵɵComboboxPopup };
 //# sourceMappingURL=listbox.mjs.map

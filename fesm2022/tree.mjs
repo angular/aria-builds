@@ -2,15 +2,17 @@ import * as i0 from '@angular/core';
 import { inject, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
-import { ComboboxPopup } from './_combobox-popup-chunk.mjs';
+import { ComboboxPopup } from './combobox.mjs';
+export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import { ComboboxTreePattern, TreePattern, TreeItemPattern } from './_combobox-tree-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
+import './_pointer-event-manager-chunk.mjs';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_expansion-chunk.mjs';
-import './_pointer-event-manager-chunk.mjs';
 
 function sortDirectives(a, b) {
   return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
@@ -752,5 +754,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Tree, TreeItem, TreeItemGroup, DeferredContent as ɵɵDeferredContent };
+export { Tree, TreeItem, TreeItemGroup, ComboboxPopup as ɵɵComboboxPopup, DeferredContent as ɵɵDeferredContent };
 //# sourceMappingURL=tree.mjs.map

@@ -2,12 +2,13 @@ import * as _angular_aria_private_public_api from '@angular/aria/private/public-
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { ListboxPattern, OptionPattern } from './_listbox-chunk.js';
-import { ComboboxPopup } from './_combobox-chunk.js';
+import { ComboboxPopup } from './combobox.js';
+export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_list-navigation-chunk.js';
 import './_list-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
-import './_combobox-chunk.d2.ts';
+import './_combobox-chunk.js';
 import './_deferred-content-chunk.js';
 
 /**
@@ -140,4 +141,4 @@ declare class Option<V> {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Option<any>, "[ngOption]", ["ngOption"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
-export { Listbox, Option };
+export { Listbox, Option, ComboboxPopup as ɵɵComboboxPopup };

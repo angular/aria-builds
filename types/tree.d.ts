@@ -3,13 +3,14 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal } from '@angular/core';
 import { TreeItemPattern, TreePattern } from './_tree-chunk.js';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
-import { ComboboxPopup } from './_combobox-chunk.js';
+import { ComboboxPopup } from './combobox.js';
+export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_list-navigation-chunk.js';
 import './_list-chunk.js';
 import './_expansion-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
-import './_combobox-chunk.d2.ts';
+import './_combobox-chunk.js';
 
 /**
  * Group that contains children tree items.
@@ -217,4 +218,4 @@ declare class Tree<V> {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 
-export { Tree, TreeItem, TreeItemGroup, DeferredContent as ɵɵDeferredContent };
+export { Tree, TreeItem, TreeItemGroup, ComboboxPopup as ɵɵComboboxPopup, DeferredContent as ɵɵDeferredContent };

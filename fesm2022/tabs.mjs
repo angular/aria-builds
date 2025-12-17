@@ -662,5 +662,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent };
+export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
 //# sourceMappingURL=tabs.mjs.map
