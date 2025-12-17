@@ -1,106 +1,194 @@
-import * as _angular_core from '@angular/core';
-import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { ComboboxListboxControls, ComboboxTreeControls, ComboboxDialogPattern, ComboboxPattern } from './_combobox-chunk.d2.ts';
-import { DeferredContentAware } from './_deferred-content-chunk.js';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
+import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
+import { ListItem } from './_list-chunk.js';
 
-/**
- * Identifies an element as a popup for an `ngCombobox`.
- *
- * This directive acts as a bridge, allowing the `ngCombobox` to discover and interact
- * with the underlying control (e.g., `ngListbox`, `ngTree`, or `ngComboboxDialog`) that
- * manages the options. It's primarily used as a host directive and is responsible for
- * exposing the popup's control pattern to the parent combobox.
- *
- * @developerPreview 21.0
- *
- * @see [Combobox](guide/aria/combobox)
- * @see [Select](guide/aria/select)
- * @see [Multiselect](guide/aria/multiselect)
- * @see [Autocomplete](guide/aria/autocomplete)
- */
-declare class ComboboxPopup<V> {
-    /** The combobox that the popup belongs to. */
-    readonly combobox: Combobox<V> | null;
-    /** The popup controls exposed to the combobox. */
-    readonly _controls: _angular_core.WritableSignal<ComboboxListboxControls<any, V> | ComboboxTreeControls<any, V> | ComboboxDialogPattern | undefined>;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopup<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup<any>, "[ngComboboxPopup]", ["ngComboboxPopup"], {}, {}, never, never, true, never>;
-}
-
-/**
- * The container element that wraps a combobox input and popup, and orchestrates its behavior.
- *
- * The `ngCombobox` directive is the main entry point for creating a combobox and customizing its
- * behavior. It coordinates the interactions between the `ngComboboxInput` and the popup, which
- * is defined by a `ng-template` with the `ngComboboxPopupContainer` directive. If using the
- * `CdkOverlay`, the `cdkConnectedOverlay` directive takes the place of `ngComboboxPopupContainer`.
- *
- * ```html
- * <div ngCombobox filterMode="highlight">
- *   <input
- *     ngComboboxInput
- *     placeholder="Search for a state..."
- *     [(value)]="searchString"
- *   />
- *
- *   <ng-template ngComboboxPopupContainer>
- *     <div ngListbox [(value)]="selectedValue">
- *       @for (option of filteredOptions(); track option) {
- *         <div ngOption [value]="option" [label]="option">
- *           <span>{{option}}</span>
- *         </div>
- *       }
- *     </div>
- *   </ng-template>
- * </div>
- * ```
- *
- * @developerPreview 21.0
- *
- * @see [Combobox](guide/aria/combobox)
- * @see [Select](guide/aria/select)
- * @see [Multiselect](guide/aria/multiselect)
- * @see [Autocomplete](guide/aria/autocomplete)
- */
-declare class Combobox<V> {
-    /** A signal wrapper for directionality. */
-    protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
-    /** The element that the combobox is attached to. */
-    private readonly _elementRef;
-    /** A reference to the combobox element. */
-    readonly element: HTMLElement;
-    /** The DeferredContentAware host directive. */
-    private readonly _deferredContentAware;
-    /** The combobox popup. */
-    readonly popup: _angular_core.Signal<ComboboxPopup<V> | undefined>;
-    /**
-     * The filter mode for the combobox.
-     * - `manual`: The consumer is responsible for filtering the options.
-     * - `auto-select`: The combobox automatically selects the first matching option.
-     * - `highlight`: The combobox highlights matching text in the options without changing selection.
-     */
-    filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
-    /** Whether the combobox is disabled. */
-    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Whether the combobox is read-only. */
-    readonly readonly: _angular_core.InputSignalWithTransform<boolean, unknown>;
+/** Represents the required inputs for a combobox. */
+interface ComboboxInputs<T extends ListItem<V>, V> {
+    /** The controls for the popup associated with the combobox. */
+    popupControls: SignalLike<ComboboxListboxControls<T, V> | ComboboxTreeControls<T, V> | ComboboxDialogPattern | undefined>;
+    /** The HTML input element that serves as the combobox input. */
+    inputEl: SignalLike<HTMLInputElement | undefined>;
+    /** The HTML element that serves as the combobox container. */
+    containerEl: SignalLike<HTMLElement | undefined>;
+    /** The filtering mode for the combobox. */
+    filterMode: SignalLike<'manual' | 'auto-select' | 'highlight'>;
+    /** The current value of the combobox. */
+    inputValue?: WritableSignalLike<string>;
     /** The value of the first matching item in the popup. */
-    readonly firstMatch: _angular_core.InputSignal<V | undefined>;
+    firstMatch: SignalLike<V | undefined>;
+    /** Whether the combobox is disabled. */
+    disabled: SignalLike<boolean>;
+    /** Whether the combobox is read-only. */
+    readonly: SignalLike<boolean>;
+    /** Whether the combobox is in a right-to-left context. */
+    textDirection: SignalLike<'rtl' | 'ltr'>;
+    /** Whether the combobox is always expanded. */
+    alwaysExpanded: SignalLike<boolean>;
+}
+/** An interface that allows combobox popups to expose the necessary controls for the combobox. */
+interface ComboboxListboxControls<T extends ListItem<V>, V> {
+    /** A unique identifier for the popup. */
+    id: () => string;
+    /** The ARIA role for the popup. */
+    role: SignalLike<'listbox' | 'tree' | 'grid'>;
+    /** Whether multiple items in the popup can be selected at once. */
+    multi: SignalLike<boolean>;
+    /** The ID of the active item in the popup. */
+    activeId: SignalLike<string | undefined>;
+    /** The list of items in the popup. */
+    items: SignalLike<T[]>;
+    /** Navigates to the given item in the popup. */
+    focus: (item: T, opts?: {
+        focusElement?: boolean;
+    }) => void;
+    /** Navigates to the next item in the popup. */
+    next: () => void;
+    /** Navigates to the previous item in the popup. */
+    prev: () => void;
+    /** Navigates to the first item in the popup. */
+    first: () => void;
+    /** Navigates to the last item in the popup. */
+    last: () => void;
+    /** Selects the current item in the popup. */
+    select: (item?: T) => void;
+    /** Toggles the selection state of the given item in the popup. */
+    toggle: (item?: T) => void;
+    /** Clears the selection state of the popup. */
+    clearSelection: () => void;
+    /** Removes focus from any item in the popup. */
+    unfocus: () => void;
+    /** Returns the item corresponding to the given event. */
+    getItem: (e: PointerEvent) => T | undefined;
+    /** Returns the currently active (focused) item in the popup. */
+    getActiveItem: () => T | undefined;
+    /** Returns the currently selected items in the popup. */
+    getSelectedItems: () => T[];
+    /** Sets the value of the combobox based on the selected item. */
+    setValue: (value: V | undefined) => void;
+}
+interface ComboboxTreeControls<T extends ListItem<V>, V> extends ComboboxListboxControls<T, V> {
+    /** Whether the currently active item in the popup is collapsible. */
+    isItemCollapsible: () => boolean;
+    /** Expands the currently active item in the popup. */
+    expandItem: () => void;
+    /** Collapses the currently active item in the popup. */
+    collapseItem: () => void;
+    /** Checks if the currently active item in the popup is expandable. */
+    isItemExpandable: (item?: T) => boolean;
+    /** Expands all nodes in the tree. */
+    expandAll: () => void;
+    /** Collapses all nodes in the tree. */
+    collapseAll: () => void;
+    /** Toggles the expansion state of the currently active item in the popup. */
+    toggleExpansion: (item?: T) => void;
+    /** Whether the current active item is selectable. */
+    isItemSelectable: (item?: T) => boolean;
+}
+/** Controls the state of a combobox. */
+declare class ComboboxPattern<T extends ListItem<V>, V> {
+    readonly inputs: ComboboxInputs<T, V>;
     /** Whether the combobox is expanded. */
-    readonly expanded: _angular_core.Signal<boolean>;
-    /** Whether the combobox popup should always be expanded, regardless of user interaction. */
-    readonly alwaysExpanded: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** Input element connected to the combobox, if any. */
-    readonly inputElement: _angular_core.Signal<HTMLInputElement | undefined>;
-    /** The combobox ui pattern. */
-    readonly _pattern: ComboboxPattern<any, V>;
-    constructor();
-    /** Opens the combobox to the selected item. */
-    open(): void;
+    expanded: WritableSignalLike<boolean>;
+    /** Whether the combobox is disabled. */
+    disabled: () => boolean;
+    /** The ID of the active item in the combobox. */
+    activeDescendant: SignalLike<string | null>;
+    /** The currently highlighted item in the combobox. */
+    highlightedItem: WritableSignalLike<T | undefined>;
+    /** Whether the most recent input event was a deletion. */
+    isDeleting: boolean;
+    /** Whether the combobox is focused. */
+    isFocused: WritableSignalLike<boolean>;
+    /** Whether the combobox has ever been focused. */
+    hasBeenFocused: WritableSignalLike<boolean>;
+    /** The key used to navigate to the previous item in the list. */
+    expandKey: SignalLike<"ArrowLeft" | "ArrowRight">;
+    /** The key used to navigate to the next item in the list. */
+    collapseKey: SignalLike<"ArrowLeft" | "ArrowRight">;
+    /** The ID of the popup associated with the combobox. */
+    popupId: SignalLike<string | null>;
+    /** The autocomplete behavior of the combobox. */
+    autocomplete: SignalLike<"both" | "list">;
+    /** The ARIA role of the popup associated with the combobox. */
+    hasPopup: SignalLike<"listbox" | "tree" | "grid" | "dialog" | null>;
+    /** Whether the combobox is read-only. */
+    readonly: SignalLike<true | null>;
+    /** Returns the listbox controls for the combobox. */
+    listControls: () => ComboboxListboxControls<T, V> | null | undefined;
+    /** Returns the tree controls for the combobox. */
+    treeControls: () => ComboboxTreeControls<T, V> | null;
+    /** The keydown event manager for the combobox. */
+    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    /** The click event manager for the combobox. */
+    click: SignalLike<PointerEventManager<PointerEvent>>;
+    constructor(inputs: ComboboxInputs<T, V>);
+    /** Handles keydown events for the combobox. */
+    onKeydown(event: KeyboardEvent): void;
+    /** Handles click events for the combobox. */
+    onClick(event: MouseEvent): void;
+    /** Handles input events for the combobox. */
+    onInput(event: Event): void;
+    /** Handles focus in events for the combobox. */
+    onFocusIn(): void;
+    /** Handles focus out events for the combobox. */
+    onFocusOut(event: FocusEvent): void;
+    /** The first matching item in the combobox. */
+    firstMatch: SignalLike<T | undefined>;
+    /** Handles filtering logic for the combobox. */
+    onFilter(): void;
+    /** Highlights the currently selected item in the combobox. */
+    highlight(): void;
     /** Closes the combobox. */
-    close(): void;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox<any>, "[ngCombobox]", ["ngCombobox"], { "filterMode": { "alias": "filterMode"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "firstMatch": { "alias": "firstMatch"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; }, {}, ["popup"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    close(opts?: {
+        reset: boolean;
+    }): void;
+    /** Opens the combobox. */
+    open(nav?: {
+        first?: boolean;
+        last?: boolean;
+        selected?: boolean;
+    }): void;
+    /** Navigates to the next focusable item in the combobox popup. */
+    next(): void;
+    /** Navigates to the previous focusable item in the combobox popup. */
+    prev(): void;
+    /** Navigates to the first focusable item in the combobox popup. */
+    first(): void;
+    /** Navigates to the last focusable item in the combobox popup. */
+    last(): void;
+    /** Collapses the currently focused item in the combobox. */
+    collapseItem(): void;
+    /** Expands the currently focused item in the combobox. */
+    expandItem(): void;
+    /** Selects an item in the combobox popup. */
+    select(opts?: {
+        item?: T;
+        commit?: boolean;
+        close?: boolean;
+    }): void;
+    /** Updates the value of the input based on the currently selected item. */
+    commit(): void;
+    /** Navigates and handles additional actions based on filter mode. */
+    private _navigate;
+}
+declare class ComboboxDialogPattern {
+    readonly inputs: {
+        combobox: ComboboxPattern<any, any>;
+        element: SignalLike<HTMLDialogElement>;
+        id: SignalLike<string>;
+    };
+    id: () => string;
+    role: () => "dialog";
+    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    constructor(inputs: {
+        combobox: ComboboxPattern<any, any>;
+        element: SignalLike<HTMLDialogElement>;
+        id: SignalLike<string>;
+    });
+    onKeydown(event: KeyboardEvent): void;
+    onClick(event: MouseEvent): void;
 }
 
-export { Combobox, ComboboxPopup };
+export { ComboboxDialogPattern, ComboboxPattern };
+export type { ComboboxInputs, ComboboxListboxControls, ComboboxTreeControls };

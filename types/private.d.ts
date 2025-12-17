@@ -1,5 +1,5 @@
-import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from './_combobox-chunk.d2.ts';
-export { ComboboxDialogPattern, ComboboxInputs } from './_combobox-chunk.d2.ts';
+import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from './_combobox-chunk.js';
+export { ComboboxDialogPattern, ComboboxInputs } from './_combobox-chunk.js';
 import { ListboxInputs, OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 export { OptionInputs } from './_listbox-chunk.js';
 import { SignalLike } from './_list-navigation-chunk.js';

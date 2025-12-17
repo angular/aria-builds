@@ -1,12 +1,52 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, contentChild, input, booleanAttribute, computed, signal, afterRenderEffect, Directive, model, untracked } from '@angular/core';
+import { InjectionToken, inject, signal, Directive, ElementRef, contentChild, input, booleanAttribute, computed, afterRenderEffect, model, untracked } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { ComboboxPopup, COMBOBOX } from './_combobox-popup-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_pointer-event-manager-chunk.mjs';
+
+const COMBOBOX = new InjectionToken('COMBOBOX');
+
+class ComboboxPopup {
+  combobox = inject(COMBOBOX, {
+    optional: true
+  });
+  _controls = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_controls"
+  }] : []));
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.0.3",
+    ngImport: i0,
+    type: ComboboxPopup,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "14.0.0",
+    version: "21.0.3",
+    type: ComboboxPopup,
+    isStandalone: true,
+    selector: "[ngComboboxPopup]",
+    exportAs: ["ngComboboxPopup"],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.0.3",
+  ngImport: i0,
+  type: ComboboxPopup,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngComboboxPopup]',
+      exportAs: 'ngComboboxPopup'
+    }]
+  }]
+});
 
 class Combobox {
   textDirection = inject(Directionality).valueSignal.asReadonly();
@@ -457,5 +497,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer, DeferredContent as ɵɵDeferredContent };
+export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
 //# sourceMappingURL=combobox.mjs.map
