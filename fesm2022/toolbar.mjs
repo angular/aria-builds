@@ -7,6 +7,7 @@ import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_list-typeahead-chunk.mjs';
 
 const TOOLBAR_WIDGET_GROUP = new InjectionToken('TOOLBAR_WIDGET_GROUP');
 function sortDirectives(a, b) {

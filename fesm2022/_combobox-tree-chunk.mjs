@@ -1,7 +1,204 @@
-import { computed, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
-import { List } from './_list-chunk.mjs';
+import { computed, signal, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
+import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
+import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
+
+class TreeListFocus extends ListFocus {
+  isFocusable(item) {
+    return super.isFocusable(item) && item.visible();
+  }
+}
+class Tree {
+  inputs;
+  navigationBehavior;
+  selectionBehavior;
+  typeaheadBehavior;
+  focusBehavior;
+  expansionBehavior;
+  disabled = computed(() => this.focusBehavior.isListDisabled());
+  activeDescendant = computed(() => this.focusBehavior.getActiveDescendant());
+  tabIndex = computed(() => this.focusBehavior.getListTabIndex());
+  activeIndex = computed(() => this.focusBehavior.activeIndex());
+  _anchorIndex = signal(0);
+  _wrap = signal(true);
+  constructor(inputs) {
+    this.inputs = inputs;
+    this.focusBehavior = new TreeListFocus(inputs);
+    this.selectionBehavior = new ListSelection({
+      ...inputs,
+      focusManager: this.focusBehavior
+    });
+    this.typeaheadBehavior = new ListTypeahead({
+      ...inputs,
+      focusManager: this.focusBehavior
+    });
+    this.expansionBehavior = new ListExpansion(inputs);
+    this.navigationBehavior = new ListNavigation({
+      ...inputs,
+      focusManager: this.focusBehavior,
+      wrap: computed(() => this._wrap() && this.inputs.wrap())
+    });
+  }
+  getItemTabindex(item) {
+    return this.focusBehavior.getItemTabIndex(item);
+  }
+  first(opts) {
+    this._navigate(opts, () => this.navigationBehavior.first(opts));
+  }
+  last(opts) {
+    this._navigate(opts, () => this.navigationBehavior.last(opts));
+  }
+  next(opts) {
+    this._navigate(opts, () => this.navigationBehavior.next(opts));
+  }
+  prev(opts) {
+    this._navigate(opts, () => this.navigationBehavior.prev(opts));
+  }
+  firstChild(opts) {
+    this._navigate(opts, () => {
+      const item = this.inputs.activeItem();
+      const items = item?.children?.() ?? [];
+      return this.navigationBehavior.first({
+        items,
+        ...opts
+      });
+    });
+  }
+  lastChild(opts) {
+    this._navigate(opts, () => {
+      const item = this.inputs.activeItem();
+      const items = item?.children?.() ?? [];
+      return this.navigationBehavior.last({
+        items,
+        ...opts
+      });
+    });
+  }
+  nextSibling(opts) {
+    this._navigate(opts, () => {
+      const item = this.inputs.activeItem();
+      const items = item?.parent?.()?.children?.() ?? [];
+      return this.navigationBehavior.next({
+        items,
+        ...opts
+      });
+    });
+  }
+  prevSibling(opts) {
+    this._navigate(opts, () => {
+      const item = this.inputs.activeItem();
+      const items = item?.parent?.()?.children?.() ?? [];
+      return this.navigationBehavior.prev({
+        items,
+        ...opts
+      });
+    });
+  }
+  parent(opts) {
+    this._navigate(opts, () => this.navigationBehavior.goto(this.inputs.activeItem()?.parent?.(), opts));
+  }
+  goto(item, opts) {
+    this._navigate(opts, () => this.navigationBehavior.goto(item, opts));
+  }
+  unfocus() {
+    this.inputs.activeItem.set(undefined);
+  }
+  anchor(index) {
+    this._anchorIndex.set(index);
+  }
+  search(char, opts) {
+    this._navigate(opts, () => this.typeaheadBehavior.search(char));
+  }
+  isTyping() {
+    return this.typeaheadBehavior.isTyping();
+  }
+  select(item) {
+    this.selectionBehavior.select(item);
+  }
+  selectOne() {
+    this.selectionBehavior.selectOne();
+  }
+  deselect(item) {
+    this.selectionBehavior.deselect(item);
+  }
+  deselectAll() {
+    this.selectionBehavior.deselectAll();
+  }
+  toggle(item) {
+    this.selectionBehavior.toggle(item);
+  }
+  toggleOne() {
+    this.selectionBehavior.toggleOne();
+  }
+  toggleAll() {
+    this.selectionBehavior.toggleAll();
+  }
+  toggleExpansion(item) {
+    item ??= this.inputs.activeItem();
+    if (!item || !this.isFocusable(item)) return;
+    if (this.isExpandable(item)) {
+      this.expansionBehavior.toggle(item);
+    }
+  }
+  expand(item) {
+    if (this.isExpandable(item)) {
+      this.expansionBehavior.open(item);
+    }
+  }
+  collapse(item) {
+    this.expansionBehavior.close(item);
+  }
+  expandSiblings(item) {
+    item ??= this.inputs.activeItem();
+    if (!item) return;
+    const parent = item.parent?.();
+    const siblings = parent ? parent.children?.() : this.inputs.items().filter(i => !i.parent?.());
+    siblings?.forEach(s => this.expand(s));
+  }
+  expandAll() {
+    this.expansionBehavior.openAll();
+  }
+  collapseAll() {
+    this.expansionBehavior.closeAll();
+  }
+  isFocusable(item) {
+    return this.focusBehavior.isFocusable(item);
+  }
+  isExpandable(item) {
+    return this.expansionBehavior.isExpandable(item);
+  }
+  updateSelection(opts = {
+    anchor: true
+  }) {
+    if (opts.toggle) {
+      this.selectionBehavior.toggle();
+    }
+    if (opts.select) {
+      this.selectionBehavior.select();
+    }
+    if (opts.selectOne) {
+      this.selectionBehavior.selectOne();
+    }
+    if (opts.selectRange) {
+      this.selectionBehavior.selectRange();
+    }
+    if (!opts.anchor) {
+      this.anchor(this.selectionBehavior.rangeStartIndex());
+    }
+  }
+  _navigate(opts = {}, operation) {
+    if (opts?.selectRange) {
+      this._wrap.set(false);
+      this.selectionBehavior.rangeStartIndex.set(this._anchorIndex());
+    }
+    const moved = operation();
+    if (moved) {
+      this.updateSelection(opts);
+    }
+    this._wrap.set(true);
+  }
+}
 
 class TreeItemPattern {
   inputs;
@@ -11,19 +208,21 @@ class TreeItemPattern {
   disabled = () => this.inputs.disabled();
   searchTerm = () => this.inputs.searchTerm();
   tree = () => this.inputs.tree();
-  parent = () => this.inputs.parent();
-  children = () => this.inputs.children();
-  index = computed(() => this.tree().visibleItems().indexOf(this));
-  expansionBehavior;
+  parent = computed(() => {
+    const parent = this.inputs.parent();
+    return parent instanceof TreeItemPattern ? parent : undefined;
+  });
+  children = () => this.inputs.children() ?? [];
+  index = computed(() => this.tree().inputs.items().indexOf(this));
   expandable = () => this.inputs.hasChildren();
   selectable = () => this.inputs.selectable();
   expanded;
-  level = computed(() => this.parent().level() + 1);
-  visible = computed(() => this.parent().expanded() && this.parent().visible());
-  setsize = computed(() => this.parent().children().length);
-  posinset = computed(() => this.parent().children().indexOf(this) + 1);
+  level = computed(() => this.inputs.parent().level() + 1);
+  visible = computed(() => this.inputs.parent().expanded() && this.inputs.parent().visible());
+  setsize = computed(() => this.inputs.parent().children().length);
+  posinset = computed(() => this.inputs.parent().children().indexOf(this) + 1);
   active = computed(() => this.tree().activeItem() === this);
-  tabIndex = computed(() => this.tree().listBehavior.getItemTabindex(this));
+  tabIndex = computed(() => this.tree().treeBehavior.getItemTabindex(this));
   selected = computed(() => {
     if (this.tree().nav()) {
       return undefined;
@@ -45,25 +244,17 @@ class TreeItemPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.expanded = inputs.expanded;
-    this.expansionBehavior = new ListExpansion({
-      ...inputs,
-      multiExpandable: () => true,
-      items: this.children,
-      disabled: computed(() => this.tree()?.disabled() ?? false)
-    });
   }
 }
 class TreePattern {
   inputs;
-  listBehavior;
-  expansionBehavior;
+  treeBehavior;
   level = () => 0;
   expanded = () => true;
   visible = () => true;
-  tabIndex = computed(() => this.listBehavior.tabIndex());
-  activeDescendant = computed(() => this.listBehavior.activeDescendant());
-  children = computed(() => this.inputs.allItems().filter(item => item.level() === this.level() + 1));
-  visibleItems = computed(() => this.inputs.allItems().filter(item => item.visible()));
+  tabIndex = computed(() => this.treeBehavior.tabIndex());
+  activeDescendant = computed(() => this.treeBehavior.activeDescendant());
+  children = computed(() => this.inputs.items().filter(item => item.level() === this.level() + 1));
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
   isRtl = computed(() => this.inputs.textDirection() === 'rtl');
   prevKey = computed(() => {
@@ -90,60 +281,60 @@ class TreePattern {
     }
     return this.isRtl() ? 'ArrowLeft' : 'ArrowRight';
   });
-  dynamicSpaceKey = computed(() => this.listBehavior.isTyping() ? '' : ' ');
+  dynamicSpaceKey = computed(() => this.treeBehavior.isTyping() ? '' : ' ');
   typeaheadRegexp = /^.$/;
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
-    const list = this.listBehavior;
-    manager.on(this.prevKey, () => list.prev({
+    const tree = this.treeBehavior;
+    manager.on(this.prevKey, () => tree.prev({
       selectOne: this.followFocus()
-    })).on(this.nextKey, () => list.next({
+    })).on(this.nextKey, () => tree.next({
       selectOne: this.followFocus()
-    })).on('Home', () => list.first({
+    })).on('Home', () => tree.first({
       selectOne: this.followFocus()
-    })).on('End', () => list.last({
+    })).on('End', () => tree.last({
       selectOne: this.followFocus()
-    })).on(this.typeaheadRegexp, e => list.search(e.key, {
+    })).on(this.typeaheadRegexp, e => tree.search(e.key, {
       selectOne: this.followFocus()
-    })).on(this.expandKey, () => this.expand({
+    })).on(Modifier.Shift, '*', () => tree.expandSiblings()).on(this.expandKey, () => this._expandOrFirstChild({
       selectOne: this.followFocus()
-    })).on(this.collapseKey, () => this.collapse({
+    })).on(this.collapseKey, () => this._collapseOrParent({
       selectOne: this.followFocus()
-    })).on(Modifier.Shift, '*', () => this.expandSiblings());
+    }));
     if (this.inputs.multi()) {
-      manager.on(Modifier.Any, 'Shift', () => list.anchor(this.listBehavior.activeIndex())).on(Modifier.Shift, this.prevKey, () => list.prev({
+      manager.on(Modifier.Any, 'Shift', () => tree.anchor(this.treeBehavior.activeIndex())).on(Modifier.Shift, this.prevKey, () => tree.prev({
         selectRange: true
-      })).on(Modifier.Shift, this.nextKey, () => list.next({
+      })).on(Modifier.Shift, this.nextKey, () => tree.next({
         selectRange: true
-      })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'Home', () => list.first({
+      })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'Home', () => tree.first({
         selectRange: true,
         anchor: false
-      })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'End', () => list.last({
+      })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'End', () => tree.last({
         selectRange: true,
         anchor: false
-      })).on(Modifier.Shift, 'Enter', () => list.updateSelection({
+      })).on(Modifier.Shift, 'Enter', () => tree.updateSelection({
         selectRange: true,
         anchor: false
-      })).on(Modifier.Shift, this.dynamicSpaceKey, () => list.updateSelection({
+      })).on(Modifier.Shift, this.dynamicSpaceKey, () => tree.updateSelection({
         selectRange: true,
         anchor: false
       }));
     }
     if (!this.followFocus() && this.inputs.multi()) {
-      manager.on(this.dynamicSpaceKey, () => list.toggle()).on('Enter', () => list.toggle(), {
+      manager.on(this.dynamicSpaceKey, () => tree.toggle()).on('Enter', () => tree.toggle(), {
         preventDefault: !this.nav()
-      }).on([Modifier.Ctrl, Modifier.Meta], 'A', () => list.toggleAll());
+      }).on([Modifier.Ctrl, Modifier.Meta], 'A', () => tree.toggleAll());
     }
     if (!this.followFocus() && !this.inputs.multi()) {
-      manager.on(this.dynamicSpaceKey, () => list.selectOne());
-      manager.on('Enter', () => list.selectOne(), {
+      manager.on(this.dynamicSpaceKey, () => tree.selectOne());
+      manager.on('Enter', () => tree.selectOne(), {
         preventDefault: !this.nav()
       });
     }
     if (this.inputs.multi() && this.followFocus()) {
-      manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => list.prev()).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => list.next()).on([Modifier.Ctrl, Modifier.Meta], this.expandKey, () => this.expand()).on([Modifier.Ctrl, Modifier.Meta], this.collapseKey, () => this.collapse()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => list.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => list.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => list.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => list.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
-        list.toggleAll();
-        list.select();
+      manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => tree.prev()).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => tree.next()).on([Modifier.Ctrl, Modifier.Meta], this.expandKey, () => this._expandOrFirstChild()).on([Modifier.Ctrl, Modifier.Meta], this.collapseKey, () => this._collapseOrParent()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => tree.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => tree.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => tree.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => tree.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
+        tree.toggleAll();
+        tree.select();
       });
     }
     return manager;
@@ -178,7 +369,7 @@ class TreePattern {
   element = () => this.inputs.element();
   nav = () => this.inputs.nav();
   currentType = () => this.inputs.currentType();
-  allItems = () => this.inputs.allItems();
+  items = () => this.inputs.items();
   focusMode = () => this.inputs.focusMode();
   disabled = () => this.inputs.disabled();
   activeItem;
@@ -194,22 +385,17 @@ class TreePattern {
     this.inputs = inputs;
     this.activeItem = inputs.activeItem;
     this.values = inputs.values;
-    this.listBehavior = new List({
+    this.treeBehavior = new Tree({
       ...inputs,
-      items: this.visibleItems,
-      multi: this.multi
-    });
-    this.expansionBehavior = new ListExpansion({
-      multiExpandable: () => true,
-      items: this.children,
-      disabled: this.disabled
+      multi: this.multi,
+      multiExpandable: () => true
     });
   }
   setDefaultState() {
     let firstItem;
-    for (const item of this.allItems()) {
+    for (const item of this.inputs.items()) {
       if (!item.visible()) continue;
-      if (!this.listBehavior.isFocusable(item)) continue;
+      if (!this.treeBehavior.isFocusable(item)) continue;
       if (firstItem === undefined) {
         firstItem = item;
       }
@@ -235,43 +421,23 @@ class TreePattern {
   goto(e, opts) {
     const item = this._getItem(e);
     if (!item) return;
-    this.listBehavior.goto(item, opts);
-    this.toggleExpansion(item);
+    this.treeBehavior.goto(item, opts);
+    this.treeBehavior.toggleExpansion(item);
   }
-  toggleExpansion(item) {
-    item ??= this.activeItem();
-    if (!item || !this.listBehavior.isFocusable(item)) return;
-    if (!item.expandable()) return;
-    if (item.expanded()) {
-      this.collapse();
+  _expandOrFirstChild(opts) {
+    const item = this.treeBehavior.inputs.activeItem();
+    if (item && this.treeBehavior.isExpandable(item) && !item.expanded()) {
+      this.treeBehavior.expand(item);
     } else {
-      this.expansionBehavior.open(item);
+      this.treeBehavior.firstChild(opts);
     }
   }
-  expand(opts) {
-    const item = this.activeItem();
-    if (!item || !this.listBehavior.isFocusable(item)) return;
-    if (item.expandable() && !item.expanded()) {
-      this.expansionBehavior.open(item);
-    } else if (item.expanded() && item.children().some(item => this.listBehavior.isFocusable(item))) {
-      this.listBehavior.next(opts);
-    }
-  }
-  expandSiblings(item) {
-    item ??= this.activeItem();
-    const siblings = item?.parent()?.children();
-    siblings?.forEach(item => this.expansionBehavior.open(item));
-  }
-  collapse(opts) {
-    const item = this.activeItem();
-    if (!item || !this.listBehavior.isFocusable(item)) return;
-    if (item.expandable() && item.expanded()) {
-      this.expansionBehavior.close(item);
-    } else if (item.parent() && item.parent() !== this) {
-      const parentItem = item.parent();
-      if (parentItem instanceof TreeItemPattern && this.listBehavior.isFocusable(parentItem)) {
-        this.listBehavior.goto(parentItem, opts);
-      }
+  _collapseOrParent(opts) {
+    const item = this.treeBehavior.inputs.activeItem();
+    if (item && this.treeBehavior.isExpandable(item) && item.expanded()) {
+      this.treeBehavior.collapse(item);
+    } else {
+      this.treeBehavior.parent(opts);
     }
   }
   _getItem(event) {
@@ -279,17 +445,18 @@ class TreePattern {
       return;
     }
     const element = event.target.closest('[role="treeitem"]');
-    return this.inputs.allItems().find(i => i.element() === element);
+    return this.inputs.items().find(i => i.element() === element);
   }
 }
 
 class ComboboxTreePattern extends TreePattern {
   inputs;
+  toggleExpansion = item => this.treeBehavior.toggleExpansion(item);
   isItemCollapsible = () => this.inputs.activeItem()?.parent() instanceof TreeItemPattern;
   role = () => 'tree';
-  activeId = computed(() => this.listBehavior.activeDescendant());
+  activeId = computed(() => this.treeBehavior.activeDescendant());
   getActiveItem = () => this.inputs.activeItem();
-  items = computed(() => this.inputs.allItems());
+  items = computed(() => this.inputs.items());
   tabIndex = () => -1;
   constructor(inputs) {
     if (inputs.combobox()) {
@@ -303,25 +470,25 @@ class ComboboxTreePattern extends TreePattern {
   onKeydown(_) {}
   onPointerdown(_) {}
   setDefaultState() {}
-  focus = item => this.listBehavior.goto(item);
-  next = () => this.listBehavior.next();
-  prev = () => this.listBehavior.prev();
-  last = () => this.listBehavior.last();
-  first = () => this.listBehavior.first();
-  unfocus = () => this.listBehavior.unfocus();
-  select = item => this.listBehavior.select(item);
-  toggle = item => this.listBehavior.toggle(item);
-  clearSelection = () => this.listBehavior.deselectAll();
+  focus = item => this.treeBehavior.goto(item);
+  next = () => this.treeBehavior.next();
+  prev = () => this.treeBehavior.prev();
+  last = () => this.treeBehavior.last();
+  first = () => this.treeBehavior.first();
+  unfocus = () => this.treeBehavior.unfocus();
+  select = item => this.treeBehavior.select(item);
+  toggle = item => this.treeBehavior.toggle(item);
+  clearSelection = () => this.treeBehavior.deselectAll();
   getItem = e => this._getItem(e);
-  getSelectedItems = () => this.inputs.allItems().filter(item => item.selected());
+  getSelectedItems = () => this.inputs.items().filter(item => item.selected());
   setValue = value => this.inputs.values.set(value ? [value] : []);
-  expandItem = () => this.expand();
-  collapseItem = () => this.collapse();
+  expandItem = () => this._expandOrFirstChild();
+  collapseItem = () => this._collapseOrParent();
   isItemExpandable(item = this.inputs.activeItem()) {
     return item ? item.expandable() : false;
   }
-  expandAll = () => this.items().forEach(item => this.expansionBehavior.open(item));
-  collapseAll = () => this.items().forEach(item => item.expansionBehavior.close(item));
+  expandAll = () => this.treeBehavior.expandAll();
+  collapseAll = () => this.treeBehavior.collapseAll();
   isItemSelectable = (item = this.inputs.activeItem()) => {
     return item ? item.selectable() : false;
   };

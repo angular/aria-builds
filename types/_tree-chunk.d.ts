@@ -1,24 +1,127 @@
-import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
-import { ListItem, ListInputs, List } from './_list-chunk.js';
-import { ExpansionItem, ListExpansion } from './_expansion-chunk.js';
+import { ListNavigationItem, ListFocusItem, SignalLike, ListFocusInputs, ListNavigationInputs, ListNavigation, ListFocus, WritableSignalLike } from './_list-navigation-chunk.js';
+import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
+import { ListTypeaheadItem, ListSelectionItem, ListSelectionInputs, ListTypeaheadInputs, ListSelection, ListTypeahead, NavOptions } from './_list-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 
+/** Represents an item in the tree. */
+interface TreeItem<V, T extends TreeItem<V, T>> extends ListTypeaheadItem, ListNavigationItem, ListSelectionItem<V>, ListFocusItem, ExpansionItem {
+    /** The children of this item. */
+    children: SignalLike<T[] | undefined>;
+    /** The parent of this item. */
+    parent: SignalLike<T | undefined>;
+    /** Whether this item is visible. */
+    visible: SignalLike<boolean>;
+}
+/** The necessary inputs for the tree behavior. */
+type TreeInputs$1<T extends TreeItem<V, T>, V> = ListFocusInputs<T> & ListNavigationInputs<T> & ListSelectionInputs<T, V> & ListTypeaheadInputs<T> & ListExpansionInputs;
+/** Controls the state of a tree. */
+declare class Tree<T extends TreeItem<V, T>, V> {
+    readonly inputs: TreeInputs$1<T, V>;
+    /** Controls navigation for the tree. */
+    navigationBehavior: ListNavigation<T>;
+    /** Controls selection for the tree. */
+    selectionBehavior: ListSelection<T, V>;
+    /** Controls typeahead for the tree. */
+    typeaheadBehavior: ListTypeahead<T>;
+    /** Controls focus for the tree. */
+    focusBehavior: ListFocus<T>;
+    /** Controls expansion for the tree. */
+    expansionBehavior: ListExpansion;
+    /** Whether the tree is disabled. */
+    disabled: SignalLike<boolean>;
+    /** The id of the current active item. */
+    activeDescendant: SignalLike<string | undefined>;
+    /** The tab index of the tree. */
+    tabIndex: SignalLike<0 | -1>;
+    /** The index of the currently active item in the tree (within the flattened list). */
+    activeIndex: SignalLike<number>;
+    /** The uncommitted index for selecting a range of options. */
+    private _anchorIndex;
+    /** Whether the list should wrap. */
+    private _wrap;
+    constructor(inputs: TreeInputs$1<T, V>);
+    /** Returns the tab index for the given item. */
+    getItemTabindex(item: T): 0 | -1;
+    /** Navigates to the first option in the tree. */
+    first(opts?: NavOptions<T>): void;
+    /** Navigates to the last option in the tree. */
+    last(opts?: NavOptions<T>): void;
+    /** Navigates to the next option in the tree. */
+    next(opts?: NavOptions<T>): void;
+    /** Navigates to the previous option in the tree. */
+    prev(opts?: NavOptions<T>): void;
+    /** Navigates to the first child of the current active item. */
+    firstChild(opts?: NavOptions<T>): void;
+    /** Navigates to the last child of the current active item. */
+    lastChild(opts?: NavOptions<T>): void;
+    /** Navigates to the next sibling of the current active item. */
+    nextSibling(opts?: NavOptions<T>): void;
+    /** Navigates to the previous sibling of the current active item. */
+    prevSibling(opts?: NavOptions<T>): void;
+    /** Navigates to the parent of the current active item. */
+    parent(opts?: NavOptions<T>): void;
+    /** Navigates to the given item in the tree. */
+    goto(item: T, opts?: NavOptions<T>): void;
+    /** Removes focus from the tree. */
+    unfocus(): void;
+    /** Marks the given index as the potential start of a range selection. */
+    anchor(index: number): void;
+    /** Handles typeahead search navigation for the tree. */
+    search(char: string, opts?: NavOptions<T>): void;
+    /** Checks if the tree is currently typing for typeahead search. */
+    isTyping(): boolean;
+    /** Selects the currently active item in the tree. */
+    select(item?: T): void;
+    /** Sets the selection to only the current active item. */
+    selectOne(): void;
+    /** Deselects the currently active item in the tree. */
+    deselect(item?: T): void;
+    /** Deselects all items in the tree. */
+    deselectAll(): void;
+    /** Toggles the currently active item in the tree. */
+    toggle(item?: T): void;
+    /** Toggles the currently active item in the tree, deselecting all other items. */
+    toggleOne(): void;
+    /** Toggles the selection of all items in the tree. */
+    toggleAll(): void;
+    /** Toggles the expansion of the given item. */
+    toggleExpansion(item?: T): void;
+    /** Expands the given item. */
+    expand(item: T): void;
+    /** Collapses the given item. */
+    collapse(item: T): void;
+    /** Expands all sibling items of the given item (or active item). */
+    expandSiblings(item?: T): void;
+    /** Expands all items in the tree. */
+    expandAll(): void;
+    /** Collapses all items in the tree. */
+    collapseAll(): void;
+    /** Checks if the given item is able to receive focus. */
+    isFocusable(item: T): boolean;
+    /** Checks if the given item is expandable. */
+    isExpandable(item: T): boolean;
+    /** Handles updating selection for the tree. */
+    updateSelection(opts?: NavOptions<T>): void;
+    /**
+     * Safely performs a navigation operation.
+     */
+    private _navigate;
+}
+
 /** Represents the required inputs for a tree item. */
-interface TreeItemInputs<V> extends Omit<ListItem<V>, 'index'>, Omit<ExpansionItem, 'expandable'> {
+interface TreeItemInputs<V> extends Omit<TreeItem<V, TreeItemPattern<V>>, 'index' | 'parent' | 'visible' | 'expandable'> {
     /** The parent item. */
     parent: SignalLike<TreeItemPattern<V> | TreePattern<V>>;
     /** Whether this item has children. Children can be lazily loaded. */
     hasChildren: SignalLike<boolean>;
-    /** The children items. */
-    children: SignalLike<TreeItemPattern<V>[]>;
     /** The tree pattern this item belongs to. */
     tree: SignalLike<TreePattern<V>>;
 }
 /**
  * Represents an item in a Tree.
  */
-declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
+declare class TreeItemPattern<V> implements TreeItem<V, TreeItemPattern<V>> {
     readonly inputs: TreeItemInputs<V>;
     /** A unique identifier for this item. */
     readonly id: SignalLike<string>;
@@ -33,13 +136,11 @@ declare class TreeItemPattern<V> implements ListItem<V>, ExpansionItem {
     /** The tree pattern this item belongs to. */
     readonly tree: SignalLike<TreePattern<V>>;
     /** The parent item. */
-    readonly parent: SignalLike<TreeItemPattern<V> | TreePattern<V>>;
+    readonly parent: SignalLike<TreeItemPattern<V> | undefined>;
     /** The children items. */
     readonly children: SignalLike<TreeItemPattern<V>[]>;
     /** The position of this item among its siblings. */
     readonly index: SignalLike<number>;
-    /** Controls expansion for child items. */
-    readonly expansionBehavior: ListExpansion;
     /** Whether the item is expandable. It's expandable if children item exist. */
     readonly expandable: SignalLike<boolean>;
     /** Whether the item is selectable. */
@@ -72,11 +173,9 @@ interface SelectOptions {
     anchor?: boolean;
 }
 /** Represents the required inputs for a tree. */
-interface TreeInputs<V> extends Omit<ListInputs<TreeItemPattern<V>, V>, 'items'> {
+interface TreeInputs<V> extends Omit<TreeInputs$1<TreeItemPattern<V>, V>, 'multiExpandable'> {
     /** A unique identifier for the tree. */
     id: SignalLike<string>;
-    /** All items in the tree, in document order (DFS-like, a flattened list). */
-    allItems: SignalLike<TreeItemPattern<V>[]>;
     /** Whether the tree is in navigation mode. */
     nav: SignalLike<boolean>;
     /** The aria-current type. */
@@ -85,10 +184,8 @@ interface TreeInputs<V> extends Omit<ListInputs<TreeItemPattern<V>, V>, 'items'>
 /** Controls the state and interactions of a tree view. */
 declare class TreePattern<V> implements TreeInputs<V> {
     readonly inputs: TreeInputs<V>;
-    /** The list behavior for the tree. */
-    readonly listBehavior: List<TreeItemPattern<V>, V>;
-    /** Controls expansion for direct children of the tree root (top-level items). */
-    readonly expansionBehavior: ListExpansion;
+    /** The tree behavior for the tree. */
+    readonly treeBehavior: Tree<TreeItemPattern<V>, V>;
     /** The root level is 0. */
     readonly level: () => number;
     /** The root is always expanded. */
@@ -101,8 +198,6 @@ declare class TreePattern<V> implements TreeInputs<V> {
     readonly activeDescendant: SignalLike<string | undefined>;
     /** The direct children of the root (top-level tree items). */
     readonly children: SignalLike<TreeItemPattern<V>[]>;
-    /** All currently visible tree items. An item is visible if their parent is expanded. */
-    readonly visibleItems: SignalLike<TreeItemPattern<V>[]>;
     /** Whether the tree selection follows focus. */
     readonly followFocus: SignalLike<boolean>;
     /** Whether the tree direction is RTL. */
@@ -132,7 +227,7 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** The aria-current type. */
     readonly currentType: SignalLike<'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'>;
     /** All items in the tree, in document order (DFS-like, a flattened list). */
-    readonly allItems: SignalLike<TreeItemPattern<V>[]>;
+    readonly items: SignalLike<TreeItemPattern<V>[]>;
     /** The focus strategy used by the tree. */
     readonly focusMode: SignalLike<'roving' | 'activedescendant'>;
     /** Whether the tree is disabled. */
@@ -169,14 +264,10 @@ declare class TreePattern<V> implements TreeInputs<V> {
     onPointerdown(event: PointerEvent): void;
     /** Navigates to the given tree item in the tree. */
     goto(e: PointerEvent, opts?: SelectOptions): void;
-    /** Toggles to expand or collapse a tree item. */
-    toggleExpansion(item?: TreeItemPattern<V>): void;
-    /** Expands a tree item. */
-    expand(opts?: SelectOptions): void;
-    /** Expands all sibling tree items including itself. */
-    expandSiblings(item?: TreeItemPattern<V>): void;
-    /** Collapses a tree item. */
-    collapse(opts?: SelectOptions): void;
+    /** Expands the active item if possible, otherwise navigates to the first child. */
+    _expandOrFirstChild(opts?: SelectOptions): void;
+    /** Collapses the active item if possible, otherwise navigates to the parent. */
+    _collapseOrParent(opts?: SelectOptions): void;
     /** Retrieves the TreeItemPattern associated with a DOM event, if any. */
     protected _getItem(event: Event): TreeItemPattern<V> | undefined;
 }

@@ -80,6 +80,8 @@ type ComboboxTreeInputs<V> = TreeInputs<V> & {
 };
 declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxTreeControls<TreeItemPattern<V>, V> {
     readonly inputs: ComboboxTreeInputs<V>;
+    /** Toggles to expand or collapse a tree item. */
+    toggleExpansion: (item?: TreeItemPattern<V>) => void;
     /** Whether the currently focused item is collapsible. */
     isItemCollapsible: () => boolean;
     /** The ARIA role for the tree. */
@@ -122,9 +124,9 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     getSelectedItems: () => TreeItemPattern<V>[];
     /** Sets the value of the combobox tree. */
     setValue: (value: V | undefined) => void;
-    /** Expands the currently focused item if it is expandable. */
+    /** Expands the currently focused item if it is expandable, or navigates to the first child. */
     expandItem: () => void;
-    /** Collapses the currently focused item if it is expandable. */
+    /** Collapses the currently focused item if it is expandable, or navigates to the parent. */
     collapseItem: () => void;
     /** Whether the specified item or the currently active item is expandable. */
     isItemExpandable(item?: TreeItemPattern<V> | undefined): boolean;

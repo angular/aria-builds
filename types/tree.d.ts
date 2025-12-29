@@ -6,8 +6,8 @@ import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk
 import { ComboboxPopup } from './combobox.js';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_list-navigation-chunk.js';
-import './_list-chunk.js';
 import './_expansion-chunk.js';
+import './_list-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
 import './_combobox-chunk.js';
