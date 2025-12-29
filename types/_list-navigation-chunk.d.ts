@@ -33,6 +33,7 @@ interface ListFocusInputs<T extends ListFocusItem> {
     activeItem: WritableSignalLike<T | undefined>;
     /** Whether disabled items in the list should be focusable. */
     softDisabled: SignalLike<boolean>;
+    /** The html element that should receive focus. */
     element: SignalLike<HTMLElement | undefined>;
 }
 /** Controls focus for a list of items. */
@@ -73,6 +74,19 @@ interface ListNavigationInputs<T extends ListNavigationItem> extends ListFocusIn
     /** The direction that text is read based on the users locale. */
     textDirection: SignalLike<'rtl' | 'ltr'>;
 }
+/** Options for list navigation. */
+interface ListNavigationOpts<T> {
+    /**
+     * Whether to focus the item's element.
+     * Defaults to true.
+     */
+    focusElement?: boolean;
+    /**
+     * The list of items to navigate through.
+     * Defaults to the list of items from the inputs.
+     */
+    items?: T[];
+}
 /** Controls navigation for a list of items. */
 declare class ListNavigation<T extends ListNavigationItem> {
     readonly inputs: ListNavigationInputs<T> & {
@@ -82,33 +96,23 @@ declare class ListNavigation<T extends ListNavigationItem> {
         focusManager: ListFocus<T>;
     });
     /** Navigates to the given item. */
-    goto(item?: T, opts?: {
-        focusElement?: boolean;
-    }): boolean;
+    goto(item?: T, opts?: ListNavigationOpts<T>): boolean;
     /** Navigates to the next item in the list. */
-    next(opts?: {
-        focusElement?: boolean;
-    }): boolean;
+    next(opts?: ListNavigationOpts<T>): boolean;
     /** Peeks the next item in the list. */
-    peekNext(): T | undefined;
+    peekNext(opts?: ListNavigationOpts<T>): T | undefined;
     /** Navigates to the previous item in the list. */
-    prev(opts?: {
-        focusElement?: boolean;
-    }): boolean;
+    prev(opts?: ListNavigationOpts<T>): boolean;
     /** Peeks the previous item in the list. */
-    peekPrev(): T | undefined;
+    peekPrev(opts?: ListNavigationOpts<T>): T | undefined;
     /** Navigates to the first item in the list. */
-    first(opts?: {
-        focusElement?: boolean;
-    }): boolean;
+    first(opts?: ListNavigationOpts<T>): boolean;
     /** Navigates to the last item in the list. */
-    last(opts?: {
-        focusElement?: boolean;
-    }): boolean;
+    last(opts?: ListNavigationOpts<T>): boolean;
     /** Gets the first focusable item from the given list of items. */
-    peekFirst(items?: T[]): T | undefined;
+    peekFirst(opts?: ListNavigationOpts<T>): T | undefined;
     /** Gets the last focusable item from the given list of items. */
-    peekLast(items?: T[]): T | undefined;
+    peekLast(opts?: ListNavigationOpts<T>): T | undefined;
     /** Advances to the next or previous focusable item in the list based on the given delta. */
     private _advance;
     /** Peeks the next or previous focusable item in the list based on the given delta. */

@@ -12,6 +12,7 @@ export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk
 import './_pointer-event-manager-chunk.mjs';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_list-typeahead-chunk.mjs';
 import './_expansion-chunk.mjs';
 import '@angular/core';
 //# sourceMappingURL=private.mjs.map

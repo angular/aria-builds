@@ -110,13 +110,14 @@ declare class ListTypeahead<T extends ListTypeaheadItem> {
 }
 
 /** The operations that the list can perform after navigation. */
-interface NavOptions {
+interface NavOptions<T = any> {
     toggle?: boolean;
     select?: boolean;
     selectOne?: boolean;
     selectRange?: boolean;
     anchor?: boolean;
     focusElement?: boolean;
+    items?: T[];
 }
 /** Represents an item in the list. */
 type ListItem<V> = ListTypeaheadItem & ListNavigationItem & ListSelectionItem<V> & ListFocusItem;
@@ -160,15 +161,15 @@ declare class List<T extends ListItem<V>, V> {
     /** Returns the tab index for the given item. */
     getItemTabindex(item: T): 0 | -1;
     /** Navigates to the first option in the list. */
-    first(opts?: NavOptions): void;
+    first(opts?: NavOptions<T>): void;
     /** Navigates to the last option in the list. */
-    last(opts?: NavOptions): void;
+    last(opts?: NavOptions<T>): void;
     /** Navigates to the next option in the list. */
-    next(opts?: NavOptions): void;
+    next(opts?: NavOptions<T>): void;
     /** Navigates to the previous option in the list. */
-    prev(opts?: NavOptions): void;
+    prev(opts?: NavOptions<T>): void;
     /** Navigates to the given item in the list. */
-    goto(item: T, opts?: NavOptions): void;
+    goto(item: T, opts?: NavOptions<T>): void;
     /** Removes focus from the list. */
     unfocus(): void;
     /** Marks the given index as the potential start of a range selection. */
@@ -207,5 +208,5 @@ declare class List<T extends ListItem<V>, V> {
     private _navigate;
 }
 
-export { List };
-export type { ListInputs, ListItem };
+export { List, ListSelection, ListTypeahead };
+export type { ListInputs, ListItem, ListSelectionInputs, ListSelectionItem, ListTypeaheadInputs, ListTypeaheadItem, NavOptions };

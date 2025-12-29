@@ -66,27 +66,29 @@ class ListNavigation {
   next(opts) {
     return this._advance(1, opts);
   }
-  peekNext() {
-    return this._peek(1);
+  peekNext(opts) {
+    return this._peek(1, opts);
   }
   prev(opts) {
     return this._advance(-1, opts);
   }
-  peekPrev() {
-    return this._peek(-1);
+  peekPrev(opts) {
+    return this._peek(-1, opts);
   }
   first(opts) {
-    const item = this.peekFirst();
+    const item = this.peekFirst(opts);
     return item ? this.goto(item, opts) : false;
   }
   last(opts) {
-    const item = this.peekLast();
+    const item = this.peekLast(opts);
     return item ? this.goto(item, opts) : false;
   }
-  peekFirst(items = this.inputs.items()) {
+  peekFirst(opts) {
+    const items = opts?.items ?? this.inputs.items();
     return items.find(i => this.inputs.focusManager.isFocusable(i));
   }
-  peekLast(items = this.inputs.items()) {
+  peekLast(opts) {
+    const items = opts?.items ?? this.inputs.items();
     for (let i = items.length - 1; i >= 0; i--) {
       if (this.inputs.focusManager.isFocusable(items[i])) {
         return items[i];
@@ -95,13 +97,14 @@ class ListNavigation {
     return;
   }
   _advance(delta, opts) {
-    const item = this._peek(delta);
+    const item = this._peek(delta, opts);
     return item ? this.goto(item, opts) : false;
   }
-  _peek(delta) {
-    const items = this.inputs.items();
+  _peek(delta, opts) {
+    const items = opts?.items ?? this.inputs.items();
     const itemCount = items.length;
-    const startIndex = this.inputs.focusManager.activeIndex();
+    const activeItem = this.inputs.focusManager.inputs.activeItem();
+    const startIndex = opts?.items && activeItem ? items.indexOf(activeItem) : this.inputs.focusManager.activeIndex();
     const step = i => this.inputs.wrap() ? (i + delta + itemCount) % itemCount : i + delta;
     for (let i = step(startIndex); i !== startIndex && i < itemCount && i >= 0; i = step(i)) {
       if (this.inputs.focusManager.isFocusable(items[i])) {

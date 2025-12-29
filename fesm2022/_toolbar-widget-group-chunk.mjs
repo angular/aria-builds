@@ -45,7 +45,9 @@ class ToolbarPattern {
       return;
     }
     if (currGroup !== nextGroup) {
-      this.listBehavior.goto(this.listBehavior.navigationBehavior.peekFirst(currGroup.inputs.items()));
+      this.listBehavior.goto(this.listBehavior.navigationBehavior.peekFirst({
+        items: currGroup.inputs.items()
+      }));
       return;
     }
     this.listBehavior.next();
@@ -57,7 +59,9 @@ class ToolbarPattern {
       return;
     }
     if (currGroup !== nextGroup) {
-      this.listBehavior.goto(this.listBehavior.navigationBehavior.peekLast(currGroup.inputs.items()));
+      this.listBehavior.goto(this.listBehavior.navigationBehavior.peekLast({
+        items: currGroup.inputs.items()
+      }));
       return;
     }
     this.listBehavior.prev();
@@ -100,7 +104,9 @@ class ToolbarPattern {
     this._goto(event);
   }
   setDefaultState() {
-    const firstItem = this.listBehavior.navigationBehavior.peekFirst(this.inputs.items());
+    const firstItem = this.listBehavior.navigationBehavior.peekFirst({
+      items: this.inputs.items()
+    });
     if (firstItem) {
       this.inputs.activeItem.set(firstItem);
     }

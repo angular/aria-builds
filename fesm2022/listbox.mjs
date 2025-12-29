@@ -9,6 +9,7 @@ import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_list-typeahead-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
 import './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';

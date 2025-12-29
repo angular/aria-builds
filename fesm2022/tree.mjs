@@ -10,9 +10,9 @@ import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_pointer-event-manager-chunk.mjs';
-import './_list-chunk.mjs';
-import './_list-navigation-chunk.mjs';
 import './_expansion-chunk.mjs';
+import './_list-navigation-chunk.mjs';
+import './_list-typeahead-chunk.mjs';
 
 function sortDirectives(a, b) {
   return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
@@ -87,7 +87,7 @@ class Tree {
     const inputs = {
       ...this,
       id: this.id,
-      allItems: computed(() => [...this._unorderedItems()].sort(sortDirectives).map(item => item._pattern)),
+      items: computed(() => [...this._unorderedItems()].sort(sortDirectives).map(item => item._pattern)),
       activeItem: signal(undefined),
       combobox: () => this._popup?.combobox?._pattern,
       element: () => this.element
@@ -102,15 +102,15 @@ class Tree {
       }
     });
     afterRenderEffect(() => {
-      const items = inputs.allItems();
+      const items = inputs.items();
       const activeItem = untracked(() => inputs.activeItem());
       if (!items.some(i => i === activeItem) && activeItem) {
-        this._pattern.listBehavior.unfocus();
+        this._pattern.treeBehavior.unfocus();
       }
     });
     afterRenderEffect(() => {
       if (!(this._pattern instanceof ComboboxTreePattern)) return;
-      const items = inputs.allItems();
+      const items = inputs.items();
       const values = untracked(() => this.values());
       if (items && values.some(v => !items.some(i => i.value() === v))) {
         this.values.set(values.filter(v => items.some(i => i.value() === v)));
@@ -476,7 +476,7 @@ class TreeItem extends DeferredContentAware {
       ...this,
       tree: treePattern,
       parent: parentPattern,
-      children: computed(() => this._group()?._childPatterns() ?? []),
+      children: computed(() => this._group()?._childPatterns()),
       hasChildren: computed(() => !!this._group()),
       element: () => this.element,
       searchTerm: () => this.searchTerm() ?? ''

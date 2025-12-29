@@ -8,6 +8,7 @@ import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_list-typeahead-chunk.mjs';
 
 class MenuTrigger {
   _elementRef = inject(ElementRef);
