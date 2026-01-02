@@ -564,5 +564,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger, DeferredContent as ɵɵDeferredContent };
+export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
 //# sourceMappingURL=accordion.mjs.map
