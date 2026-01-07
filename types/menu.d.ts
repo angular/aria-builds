@@ -241,7 +241,7 @@ declare class MenuTrigger<V> {
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuTrigger<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "button[ngMenuTrigger]", ["ngMenuTrigger"], { "menu": { "alias": "menu"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuTrigger<any>, "[ngMenuTrigger]", ["ngMenuTrigger"], { "menu": { "alias": "menu"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**

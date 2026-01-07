@@ -65,7 +65,7 @@ class MenuTrigger {
     version: "21.0.3",
     type: MenuTrigger,
     isStandalone: true,
-    selector: "button[ngMenuTrigger]",
+    selector: "[ngMenuTrigger]",
     inputs: {
       menu: {
         classPropertyName: "menu",
@@ -117,7 +117,7 @@ i0.ɵɵngDeclareClassMetadata({
   decorators: [{
     type: Directive,
     args: [{
-      selector: 'button[ngMenuTrigger]',
+      selector: '[ngMenuTrigger]',
       exportAs: 'ngMenuTrigger',
       host: {
         '[attr.tabindex]': '_pattern.tabIndex()',
