@@ -1,7 +1,5 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
-import * as _angular_aria_private from '@angular/aria/private';
-import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { TabPattern, TabListPattern, TabPanelPattern } from './_tabs-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
@@ -93,7 +91,7 @@ declare class TabList implements OnInit, OnDestroy {
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The Tab UIPatterns of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<_angular_aria_private_public_api.TabPattern[]>;
+    readonly _tabPatterns: _angular_core.Signal<TabPattern[]>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether focus should wrap when navigating. */
@@ -221,9 +219,9 @@ declare class Tabs {
     /** The TabPanels nested inside of the container. */
     private readonly _unorderedPanels;
     /** The Tab UIPattern of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<_angular_aria_private.TabPattern[] | undefined>;
+    readonly _tabPatterns: _angular_core.Signal<TabPattern[] | undefined>;
     /** The TabPanel UIPattern of the child TabPanels. */
-    readonly _unorderedTabpanelPatterns: _angular_core.Signal<_angular_aria_private.TabPanelPattern[]>;
+    readonly _unorderedTabpanelPatterns: _angular_core.Signal<TabPanelPattern[]>;
     _register(child: TabList | TabPanel): void;
     _unregister(child: TabList | TabPanel): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;

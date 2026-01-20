@@ -1,4 +1,3 @@
-import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
@@ -64,7 +63,7 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The parent Toolbar UIPattern. */
-    readonly _toolbarPattern: _angular_core.Signal<_angular_aria_private_public_api.ToolbarPattern<V>>;
+    readonly _toolbarPattern: _angular_core.Signal<ToolbarPattern<V>>;
     /** Whether the widget is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the widget is 'hard' disabled, which is different from `aria-disabled`. A hard disabled widget cannot receive focus. */
@@ -118,7 +117,7 @@ declare class Toolbar<V> {
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Sorted UIPatterns of the child widgets */
-    readonly _itemPatterns: _angular_core.Signal<_angular_aria_private_public_api.ToolbarWidgetPattern<V>[]>;
+    readonly _itemPatterns: _angular_core.Signal<ToolbarWidgetPattern<V>[]>;
     /** Whether the toolbar is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /**
