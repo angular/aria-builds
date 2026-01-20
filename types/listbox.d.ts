@@ -1,7 +1,6 @@
-import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
-import { ListboxPattern, OptionPattern } from './_listbox-chunk.js';
+import { OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 import { ComboboxPopup } from './combobox.js';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_list-navigation-chunk.js';
@@ -49,7 +48,7 @@ declare class Listbox<V> {
     /** A signal wrapper for directionality. */
     protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
     /** The Option UIPatterns of the child Options. */
-    protected items: _angular_core.Signal<_angular_aria_private_public_api.OptionPattern<any>[]>;
+    protected items: _angular_core.Signal<OptionPattern<V>[]>;
     /** Whether the list is vertically or horizontally oriented. */
     orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multiple items in the list can be selected at once. */

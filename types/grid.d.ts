@@ -2,7 +2,6 @@ import * as _angular_core from '@angular/core';
 import { Signal, ElementRef } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridCellPattern, GridRowPattern, GridCellWidgetPattern } from './_grid-chunk.js';
-import * as _angular_aria_private_public_api from '@angular/aria/private/public-api';
 import './_list-navigation-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
@@ -182,7 +181,7 @@ declare class GridRow {
     /** The parent grid. */
     private readonly _grid;
     /** The parent grid UI pattern. */
-    readonly _gridPattern: Signal<_angular_aria_private_public_api.GridPattern>;
+    readonly _gridPattern: Signal<GridPattern>;
     /** The index of this row within the grid. */
     readonly rowIndex: _angular_core.InputSignal<number | undefined>;
     /** The UI pattern for the grid row. */
