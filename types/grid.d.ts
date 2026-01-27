@@ -226,9 +226,9 @@ declare class GridCellWidget {
     /** The target that will receive focus instead of the widget. */
     readonly focusTarget: _angular_core.InputSignal<ElementRef<any> | HTMLElement | undefined>;
     /** Emits when the widget is activated. */
-    readonly onActivate: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
+    readonly onActivate: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
     /** Emits when the widget is deactivated. */
-    readonly onDeactivate: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
+    readonly onDeactivate: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
     /** The tabindex override. */
     readonly tabindex: _angular_core.InputSignal<number | undefined>;
     /**
