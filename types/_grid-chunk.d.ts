@@ -541,6 +541,8 @@ declare class GridPattern {
     readonly prevColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
     /** The key for navigating to the next column. */
     readonly nextColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
+    /** Whether the grid pattern is currently accepting `pointermove` events. */
+    readonly acceptsPointerMove: SignalLike<boolean>;
     /** The keydown event manager for the grid. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the grid. */

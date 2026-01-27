@@ -602,6 +602,9 @@ class GridPattern {
   dragging = signal(false);
   prevColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
   nextColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
+  acceptsPointerMove = computed(() => {
+    return !this.disabled() && this.inputs.enableSelection() && this.inputs.enableRangeSelection() && this.dragging();
+  });
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
     if (this.pauseNavigation()) {
@@ -717,14 +720,13 @@ class GridPattern {
     this.pointerdown().handle(event);
   }
   onPointermove(event) {
-    if (this.disabled() || !this.inputs.enableSelection() || !this.inputs.enableRangeSelection() || !this.dragging()) {
-      return;
-    }
-    const cell = this.inputs.getCell(event.target);
-    if (cell !== undefined) {
-      this.gridBehavior.gotoCell(cell, {
-        anchor: true
-      });
+    if (this.acceptsPointerMove()) {
+      const cell = this.inputs.getCell(event.target);
+      if (cell !== undefined) {
+        this.gridBehavior.gotoCell(cell, {
+          anchor: true
+        });
+      }
     }
   }
   onPointerup(event) {
