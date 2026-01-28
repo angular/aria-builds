@@ -251,6 +251,8 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** The current selected items of the tree. */
     readonly values: WritableSignalLike<V[]>;
     constructor(inputs: TreeInputs<V>);
+    /** Returns a set of violations */
+    validate(): string[];
     /**
      * Sets the tree to it's default initial state.
      *

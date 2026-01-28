@@ -111,10 +111,6 @@ class ToolbarPattern {
       this.inputs.activeItem.set(firstItem);
     }
   }
-  validate() {
-    const violations = [];
-    return violations;
-  }
 }
 
 class ToolbarWidgetPattern {

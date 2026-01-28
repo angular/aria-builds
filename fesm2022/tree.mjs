@@ -97,6 +97,14 @@ class Tree {
       this._popup?._controls?.set(this._pattern);
     }
     afterRenderEffect(() => {
+      if (typeof ngDevMode === 'undefined' || ngDevMode) {
+        const violations = this._pattern.validate();
+        for (const violation of violations) {
+          console.error(violation);
+        }
+      }
+    });
+    afterRenderEffect(() => {
       if (!this._hasFocused()) {
         this._pattern.setDefaultState();
       }
