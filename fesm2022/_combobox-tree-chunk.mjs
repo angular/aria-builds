@@ -391,6 +391,13 @@ class TreePattern {
       multiExpandable: () => true
     });
   }
+  validate() {
+    const violations = [];
+    if (!this.inputs.multi() && this.inputs.values().length > 1) {
+      violations.push(`A single-select tree should not have multiple selected options. Selected options: ${this.inputs.values().join(', ')}`);
+    }
+    return violations;
+  }
   setDefaultState() {
     let firstItem;
     for (const item of this.inputs.items()) {

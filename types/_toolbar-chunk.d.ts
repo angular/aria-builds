@@ -116,8 +116,6 @@ declare class ToolbarPattern<V> {
      * Otherwise, sets the active index to the first focusable widget.
      */
     setDefaultState(): void;
-    /** Validates the state of the toolbar and returns a list of accessibility violations. */
-    validate(): string[];
 }
 
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern };
