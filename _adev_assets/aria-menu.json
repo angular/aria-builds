@@ -255,7 +255,7 @@
             "readonly",
             "input"
           ],
-          "description": "The value of the menu item.",
+          "description": "The value of the menu item, used as the default aria-label",
           "jsdocTags": [],
           "inputAlias": "value",
           "isRequiredInput": true
@@ -441,7 +441,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu-item.ts",
         "startLine": 33,
-        "endLine": 107
+        "endLine": 108
       }
     },
     {
