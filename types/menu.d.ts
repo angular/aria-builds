@@ -93,7 +93,7 @@ declare class MenuItem<V> {
     readonly element: HTMLElement;
     /** The unique ID of the menu item. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The value of the menu item. */
+    /** The value of the menu item, used as the default aria-label */
     readonly value: _angular_core.InputSignal<V>;
     /** Whether the menu item is disabled. */
     readonly disabled: _angular_core.InputSignal<boolean>;
