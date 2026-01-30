@@ -180,6 +180,8 @@ interface TreeInputs<V> extends Omit<TreeInputs$1<TreeItemPattern<V>, V>, 'multi
     nav: SignalLike<boolean>;
     /** The aria-current type. */
     currentType: SignalLike<'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false'>;
+    /** The text direction of the tree. */
+    textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** Controls the state and interactions of a tree view. */
 declare class TreePattern<V> implements TreeInputs<V> {
