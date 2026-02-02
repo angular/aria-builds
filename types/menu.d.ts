@@ -61,12 +61,12 @@ declare class MenuBar<V> {
     /** The menu items as a writable signal. */
     private readonly _itemPatterns;
     /** A callback function triggered when a menu item is selected. */
-    onSelect: _angular_core.OutputEmitterRef<V>;
+    readonly itemSelected: _angular_core.OutputEmitterRef<V>;
     constructor();
     /** Closes the menubar. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuBar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; "onSelect": "onSelect"; }, ["_allItems"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; "itemSelected": "itemSelected"; }, ["_allItems"], never, true, never>;
 }
 
 /**
@@ -76,9 +76,10 @@ declare class MenuBar<V> {
  * or action a user can take. They can also act as triggers for sub-menus.
  *
  * ```html
- * <div ngMenuItem (onSelect)="doAction()">Action Item</div>
- *
- * <div ngMenuItem [submenu]="anotherMenu">Submenu Trigger</div>
+ * <div ngMenu (itemSelected)="doAction()">
+ *   <div ngMenuItem >Action Item</div>
+ *   <div ngMenuItem [submenu]="anotherMenu">Submenu Trigger</div>
+ * </div>
  * ```
  *
  * @developerPreview 21.0
@@ -185,14 +186,14 @@ declare class Menu<V> {
     /** The tab index of the menu. */
     readonly tabIndex: Signal<0 | -1>;
     /** A callback function triggered when a menu item is selected. */
-    onSelect: _angular_core.OutputEmitterRef<V>;
+    readonly itemSelected: _angular_core.OutputEmitterRef<V>;
     /** The delay in milliseconds before expanding sub-menus on hover. */
     readonly expansionDelay: _angular_core.InputSignal<number>;
     constructor();
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Menu<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "onSelect": "onSelect"; }, ["_allItems"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "itemSelected": "itemSelected"; }, ["_allItems"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**

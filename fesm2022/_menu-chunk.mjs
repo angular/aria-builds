@@ -203,13 +203,13 @@ class MenuPattern {
       }
       if (!item.submenu() && isMenuBar) {
         root.close();
-        root?.inputs.onSelect?.(item.value());
+        root?.inputs.itemSelected?.(item.value());
       }
       if (!item.submenu() && isMenu) {
         root.inputs.activeItem()?.close({
           refocus: true
         });
-        root?.inputs.onSelect?.(item.value());
+        root?.inputs.itemSelected?.(item.value());
       }
     }
   }

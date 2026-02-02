@@ -399,7 +399,7 @@ class MenuBar {
   _itemPatterns = signal([], ...(ngDevMode ? [{
     debugName: "_itemPatterns"
   }] : []));
-  onSelect = output();
+  itemSelected = output();
   constructor() {
     this._pattern = new MenuBarPattern({
       ...this,
@@ -409,7 +409,7 @@ class MenuBar {
       focusMode: () => 'roving',
       orientation: () => 'horizontal',
       selectionMode: () => 'explicit',
-      onSelect: value => this.onSelect.emit(value),
+      itemSelected: value => this.itemSelected.emit(value),
       activeItem: signal(undefined),
       element: computed(() => this._elementRef.nativeElement)
     });
@@ -478,7 +478,7 @@ class MenuBar {
     },
     outputs: {
       values: "valuesChange",
-      onSelect: "onSelect"
+      itemSelected: "itemSelected"
     },
     host: {
       attributes: {
@@ -592,9 +592,9 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    onSelect: [{
+    itemSelected: [{
       type: i0.Output,
-      args: ["onSelect"]
+      args: ["itemSelected"]
     }]
   }
 });
@@ -644,7 +644,7 @@ class Menu {
   tabIndex = computed(() => this._pattern.tabIndex(), ...(ngDevMode ? [{
     debugName: "tabIndex"
   }] : []));
-  onSelect = output();
+  itemSelected = output();
   expansionDelay = input(100, ...(ngDevMode ? [{
     debugName: "expansionDelay"
   }] : []));
@@ -660,7 +660,7 @@ class Menu {
       selectionMode: () => 'explicit',
       activeItem: signal(undefined),
       element: computed(() => this._elementRef.nativeElement),
-      onSelect: value => this.onSelect.emit(value)
+      itemSelected: value => this.itemSelected.emit(value)
     });
     afterRenderEffect(() => {
       const parent = this.parent();
@@ -737,7 +737,7 @@ class Menu {
       }
     },
     outputs: {
-      onSelect: "onSelect"
+      itemSelected: "itemSelected"
     },
     host: {
       attributes: {
@@ -852,9 +852,9 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    onSelect: [{
+    itemSelected: [{
       type: i0.Output,
-      args: ["onSelect"]
+      args: ["itemSelected"]
     }],
     expansionDelay: [{
       type: i0.Input,

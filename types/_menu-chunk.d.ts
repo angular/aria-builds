@@ -7,7 +7,7 @@ interface MenuBarInputs<V> extends ListInputs<MenuItemPattern<V>, V> {
     /** The menu items contained in the menu. */
     items: SignalLike<MenuItemPattern<V>[]>;
     /** Callback function triggered when a menu item is selected. */
-    onSelect?: (value: V) => void;
+    itemSelected?: (value: V) => void;
     /** The text direction of the menu bar. */
     textDirection: SignalLike<'ltr' | 'rtl'>;
 }
@@ -20,7 +20,7 @@ interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'values'
     /** A reference to the parent menu or menu trigger. */
     parent: SignalLike<MenuTriggerPattern<V> | MenuItemPattern<V> | undefined>;
     /** Callback function triggered when a menu item is selected. */
-    onSelect?: (value: V) => void;
+    itemSelected?: (value: V) => void;
     /** The text direction of the menu bar. */
     textDirection: SignalLike<'ltr' | 'rtl'>;
     /** The delay in milliseconds before expanding sub-menus on hover. */

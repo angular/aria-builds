@@ -340,8 +340,8 @@ class GridCellWidget {
   focusTarget = input(...(ngDevMode ? [undefined, {
     debugName: "focusTarget"
   }] : []));
-  onActivate = output();
-  onDeactivate = output();
+  activated = output();
+  deactivated = output();
   tabindex = input(...(ngDevMode ? [undefined, {
     debugName: "tabindex"
   }] : []));
@@ -353,10 +353,8 @@ class GridCellWidget {
     element: () => this.element,
     cell: () => this._cell._pattern,
     focusTarget: computed(() => {
-      if (this.focusTarget() instanceof ElementRef) {
-        return this.focusTarget().nativeElement;
-      }
-      return this.focusTarget();
+      const target = this.focusTarget();
+      return target instanceof ElementRef ? target.nativeElement : target;
     })
   });
   get isActivated() {
@@ -366,13 +364,13 @@ class GridCellWidget {
     afterRenderEffect(() => {
       const activateEvent = this._pattern.lastActivateEvent();
       if (activateEvent) {
-        this.onActivate.emit(activateEvent);
+        this.activated.emit(activateEvent);
       }
     });
     afterRenderEffect(() => {
       const deactivateEvent = this._pattern.lastDeactivateEvent();
       if (deactivateEvent) {
-        this.onDeactivate.emit(deactivateEvent);
+        this.deactivated.emit(deactivateEvent);
       }
     });
   }
@@ -434,8 +432,8 @@ class GridCellWidget {
       }
     },
     outputs: {
-      onActivate: "onActivate",
-      onDeactivate: "onDeactivate"
+      activated: "activated",
+      deactivated: "deactivated"
     },
     host: {
       properties: {
@@ -499,13 +497,13 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    onActivate: [{
+    activated: [{
       type: i0.Output,
-      args: ["onActivate"]
+      args: ["activated"]
     }],
-    onDeactivate: [{
+    deactivated: [{
       type: i0.Output,
-      args: ["onDeactivate"]
+      args: ["deactivated"]
     }],
     tabindex: [{
       type: i0.Input,

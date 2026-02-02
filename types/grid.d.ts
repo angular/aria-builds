@@ -226,9 +226,9 @@ declare class GridCellWidget {
     /** The target that will receive focus instead of the widget. */
     readonly focusTarget: _angular_core.InputSignal<ElementRef<any> | HTMLElement | undefined>;
     /** Emits when the widget is activated. */
-    readonly onActivate: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
+    readonly activated: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
     /** Emits when the widget is deactivated. */
-    readonly onDeactivate: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
+    readonly deactivated: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
     /** The tabindex override. */
     readonly tabindex: _angular_core.InputSignal<number | undefined>;
     /**
@@ -246,7 +246,7 @@ declare class GridCellWidget {
     /** Deactivates the widget. */
     deactivate(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCellWidget, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCellWidget, "[ngGridCellWidget]", ["ngGridCellWidget"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "widgetType": { "alias": "widgetType"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "focusTarget": { "alias": "focusTarget"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "onActivate": "onActivate"; "onDeactivate": "onDeactivate"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCellWidget, "[ngGridCellWidget]", ["ngGridCellWidget"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "widgetType": { "alias": "widgetType"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "focusTarget": { "alias": "focusTarget"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "activated": "activated"; "deactivated": "deactivated"; }, never, never, true, never>;
 }
 
 export { Grid, GridCell, GridCellWidget, GridRow };
