@@ -31,17 +31,29 @@ class ListboxPattern {
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
     if (this.readonly()) {
-      return manager.on(this.prevKey, () => this.listBehavior.prev()).on(this.nextKey, () => this.listBehavior.next()).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last()).on(this.typeaheadRegexp, e => this.listBehavior.search(e.key));
+      return manager.on(this.prevKey, () => this.listBehavior.prev(), {
+        ignoreRepeat: false
+      }).on(this.nextKey, () => this.listBehavior.next(), {
+        ignoreRepeat: false
+      }).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last()).on(this.typeaheadRegexp, e => this.listBehavior.search(e.key));
     }
     if (!this.followFocus()) {
-      manager.on(this.prevKey, () => this.listBehavior.prev()).on(this.nextKey, () => this.listBehavior.next()).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last()).on(this.typeaheadRegexp, e => this.listBehavior.search(e.key));
+      manager.on(this.prevKey, () => this.listBehavior.prev(), {
+        ignoreRepeat: false
+      }).on(this.nextKey, () => this.listBehavior.next(), {
+        ignoreRepeat: false
+      }).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last()).on(this.typeaheadRegexp, e => this.listBehavior.search(e.key));
     }
     if (this.followFocus()) {
       manager.on(this.prevKey, () => this.listBehavior.prev({
         selectOne: true
-      })).on(this.nextKey, () => this.listBehavior.next({
+      }), {
+        ignoreRepeat: false
+      }).on(this.nextKey, () => this.listBehavior.next({
         selectOne: true
-      })).on('Home', () => this.listBehavior.first({
+      }), {
+        ignoreRepeat: false
+      }).on('Home', () => this.listBehavior.first({
         selectOne: true
       })).on('End', () => this.listBehavior.last({
         selectOne: true
@@ -52,9 +64,13 @@ class ListboxPattern {
     if (this.inputs.multi()) {
       manager.on(Modifier.Any, 'Shift', () => this.listBehavior.anchor(this.listBehavior.activeIndex())).on(Modifier.Shift, this.prevKey, () => this.listBehavior.prev({
         selectRange: true
-      })).on(Modifier.Shift, this.nextKey, () => this.listBehavior.next({
+      }), {
+        ignoreRepeat: false
+      }).on(Modifier.Shift, this.nextKey, () => this.listBehavior.next({
         selectRange: true
-      })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'Home', () => this.listBehavior.first({
+      }), {
+        ignoreRepeat: false
+      }).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'Home', () => this.listBehavior.first({
         selectRange: true,
         anchor: false
       })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'End', () => this.listBehavior.last({
@@ -76,7 +92,11 @@ class ListboxPattern {
       manager.on('Enter', () => this.listBehavior.toggleOne());
     }
     if (this.inputs.multi() && this.followFocus()) {
-      manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => this.listBehavior.prev()).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => this.listBehavior.next()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => this.listBehavior.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => this.listBehavior.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => this.listBehavior.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => this.listBehavior.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
+      manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => this.listBehavior.prev(), {
+        ignoreRepeat: false
+      }).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => this.listBehavior.next(), {
+        ignoreRepeat: false
+      }).on([Modifier.Ctrl, Modifier.Meta], ' ', () => this.listBehavior.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => this.listBehavior.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => this.listBehavior.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => this.listBehavior.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
         this.listBehavior.toggleAll();
         this.listBehavior.select();
       });

@@ -613,7 +613,15 @@ class GridPattern {
     const opts = {
       selectOne: this.inputs.enableSelection() && this.inputs.selectionMode() === 'follow'
     };
-    manager.on('ArrowUp', () => this.gridBehavior.up(opts)).on('ArrowDown', () => this.gridBehavior.down(opts)).on(this.prevColKey(), () => this.gridBehavior.left(opts)).on(this.nextColKey(), () => this.gridBehavior.right(opts)).on('Home', () => this.gridBehavior.firstInRow(opts)).on('End', () => this.gridBehavior.lastInRow(opts)).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first(opts)).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last(opts));
+    manager.on('ArrowUp', () => this.gridBehavior.up(opts), {
+      ignoreRepeat: false
+    }).on('ArrowDown', () => this.gridBehavior.down(opts), {
+      ignoreRepeat: false
+    }).on(this.prevColKey(), () => this.gridBehavior.left(opts), {
+      ignoreRepeat: false
+    }).on(this.nextColKey(), () => this.gridBehavior.right(opts), {
+      ignoreRepeat: false
+    }).on('Home', () => this.gridBehavior.firstInRow(opts)).on('End', () => this.gridBehavior.lastInRow(opts)).on([Modifier.Ctrl], 'Home', () => this.gridBehavior.first(opts)).on([Modifier.Ctrl], 'End', () => this.gridBehavior.last(opts));
     if (this.inputs.enableSelection() && this.inputs.selectionMode() === 'explicit') {
       manager.on(/Enter| /, () => this.inputs.multi() ? this.gridBehavior.toggle() : this.gridBehavior.toggleOne());
     }
@@ -867,9 +875,13 @@ class GridCellPattern {
     }
     manager.on('Escape', () => this.stopNavigation()).on(this.prevKey(), () => this._advance(() => this.navigationBehavior.prev({
       focusElement: false
-    }))).on(this.nextKey(), () => this._advance(() => this.navigationBehavior.next({
+    })), {
+      ignoreRepeat: false
+    }).on(this.nextKey(), () => this._advance(() => this.navigationBehavior.next({
       focusElement: false
-    }))).on('Home', () => this._advance(() => this.navigationBehavior.next({
+    })), {
+      ignoreRepeat: false
+    }).on('Home', () => this._advance(() => this.navigationBehavior.next({
       focusElement: false
     }))).on('End', () => this._advance(() => this.navigationBehavior.next({
       focusElement: false

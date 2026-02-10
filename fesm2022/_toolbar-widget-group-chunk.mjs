@@ -36,7 +36,15 @@ class ToolbarPattern {
   });
   _keydown = computed(() => {
     const manager = new KeyboardEventManager();
-    return manager.on(this._nextKey, () => this.listBehavior.next()).on(this._prevKey, () => this.listBehavior.prev()).on(this._altNextKey, () => this._groupNext()).on(this._altPrevKey, () => this._groupPrev()).on(' ', () => this.select()).on('Enter', () => this.select()).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last());
+    return manager.on(this._nextKey, () => this.listBehavior.next(), {
+      ignoreRepeat: false
+    }).on(this._prevKey, () => this.listBehavior.prev(), {
+      ignoreRepeat: false
+    }).on(this._altNextKey, () => this._groupNext(), {
+      ignoreRepeat: false
+    }).on(this._altPrevKey, () => this._groupPrev(), {
+      ignoreRepeat: false
+    }).on(' ', () => this.select()).on('Enter', () => this.select()).on('Home', () => this.listBehavior.first()).on('End', () => this.listBehavior.last());
   });
   _groupNext() {
     const currGroup = this.inputs.activeItem()?.group();
@@ -100,7 +108,7 @@ class ToolbarPattern {
     event.preventDefault();
   }
   onClick(event) {
-    if (this.disabled()) return;
+    if (this.disabled() || event.pointerType === '') return;
     this._goto(event);
   }
   setDefaultState() {

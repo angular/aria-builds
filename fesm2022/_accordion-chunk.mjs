@@ -37,7 +37,11 @@ class AccordionGroupPattern {
     return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
   keydown = computed(() => {
-    return new KeyboardEventManager().on(this.prevKey, () => this.navigationBehavior.prev()).on(this.nextKey, () => this.navigationBehavior.next()).on('Home', () => this.navigationBehavior.first()).on('End', () => this.navigationBehavior.last()).on(' ', () => this.toggle()).on('Enter', () => this.toggle());
+    return new KeyboardEventManager().on(this.prevKey, () => this.navigationBehavior.prev(), {
+      ignoreRepeat: false
+    }).on(this.nextKey, () => this.navigationBehavior.next(), {
+      ignoreRepeat: false
+    }).on('Home', () => this.navigationBehavior.first()).on('End', () => this.navigationBehavior.last()).on(' ', () => this.toggle()).on('Enter', () => this.toggle());
   });
   pointerdown = computed(() => {
     return new PointerEventManager().on(e => {

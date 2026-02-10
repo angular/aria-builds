@@ -71,7 +71,11 @@ class ComboboxPattern {
       }
       return manager;
     }
-    manager.on('ArrowDown', () => this.next()).on('ArrowUp', () => this.prev()).on('Home', () => this.first()).on('End', () => this.last());
+    manager.on('ArrowDown', () => this.next(), {
+      ignoreRepeat: false
+    }).on('ArrowUp', () => this.prev(), {
+      ignoreRepeat: false
+    }).on('Home', () => this.first()).on('End', () => this.last());
     if (this.readonly()) {
       manager.on(' ', () => this.select({
         commit: true,
