@@ -6,6 +6,7 @@ import { SignalLike } from './_list-navigation-chunk.js';
  * This library has not yet had a need for stopPropagationImmediate.
  */
 interface EventHandlerOptions {
+    ignoreRepeat?: boolean;
     stopPropagation: boolean;
     preventDefault: boolean;
 }

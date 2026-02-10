@@ -288,9 +288,13 @@ class TreePattern {
     const tree = this.treeBehavior;
     manager.on(this.prevKey, () => tree.prev({
       selectOne: this.followFocus()
-    })).on(this.nextKey, () => tree.next({
+    }), {
+      ignoreRepeat: false
+    }).on(this.nextKey, () => tree.next({
       selectOne: this.followFocus()
-    })).on('Home', () => tree.first({
+    }), {
+      ignoreRepeat: false
+    }).on('Home', () => tree.first({
       selectOne: this.followFocus()
     })).on('End', () => tree.last({
       selectOne: this.followFocus()
@@ -304,9 +308,13 @@ class TreePattern {
     if (this.inputs.multi()) {
       manager.on(Modifier.Any, 'Shift', () => tree.anchor(this.treeBehavior.activeIndex())).on(Modifier.Shift, this.prevKey, () => tree.prev({
         selectRange: true
-      })).on(Modifier.Shift, this.nextKey, () => tree.next({
+      }), {
+        ignoreRepeat: false
+      }).on(Modifier.Shift, this.nextKey, () => tree.next({
         selectRange: true
-      })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'Home', () => tree.first({
+      }), {
+        ignoreRepeat: false
+      }).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'Home', () => tree.first({
         selectRange: true,
         anchor: false
       })).on([Modifier.Ctrl | Modifier.Shift, Modifier.Meta | Modifier.Shift], 'End', () => tree.last({
@@ -332,7 +340,11 @@ class TreePattern {
       });
     }
     if (this.inputs.multi() && this.followFocus()) {
-      manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => tree.prev()).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => tree.next()).on([Modifier.Ctrl, Modifier.Meta], this.expandKey, () => this._expandOrFirstChild()).on([Modifier.Ctrl, Modifier.Meta], this.collapseKey, () => this._collapseOrParent()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => tree.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => tree.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => tree.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => tree.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
+      manager.on([Modifier.Ctrl, Modifier.Meta], this.prevKey, () => tree.prev(), {
+        ignoreRepeat: false
+      }).on([Modifier.Ctrl, Modifier.Meta], this.nextKey, () => tree.next(), {
+        ignoreRepeat: false
+      }).on([Modifier.Ctrl, Modifier.Meta], this.expandKey, () => this._expandOrFirstChild()).on([Modifier.Ctrl, Modifier.Meta], this.collapseKey, () => this._collapseOrParent()).on([Modifier.Ctrl, Modifier.Meta], ' ', () => tree.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Enter', () => tree.toggle()).on([Modifier.Ctrl, Modifier.Meta], 'Home', () => tree.first()).on([Modifier.Ctrl, Modifier.Meta], 'End', () => tree.last()).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
         tree.toggleAll();
         tree.select();
       });

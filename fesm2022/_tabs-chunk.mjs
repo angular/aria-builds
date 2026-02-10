@@ -85,7 +85,11 @@ class TabListPattern {
     return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
   });
   keydown = computed(() => {
-    return new KeyboardEventManager().on(this.prevKey, () => this._navigate(() => this.navigationBehavior.prev(), this.followFocus())).on(this.nextKey, () => this._navigate(() => this.navigationBehavior.next(), this.followFocus())).on('Home', () => this._navigate(() => this.navigationBehavior.first(), this.followFocus())).on('End', () => this._navigate(() => this.navigationBehavior.last(), this.followFocus())).on(' ', () => this.open()).on('Enter', () => this.open());
+    return new KeyboardEventManager().on(this.prevKey, () => this._navigate(() => this.navigationBehavior.prev(), this.followFocus()), {
+      ignoreRepeat: false
+    }).on(this.nextKey, () => this._navigate(() => this.navigationBehavior.next(), this.followFocus()), {
+      ignoreRepeat: false
+    }).on('Home', () => this._navigate(() => this.navigationBehavior.first(), this.followFocus())).on('End', () => this._navigate(() => this.navigationBehavior.last(), this.followFocus())).on(' ', () => this.open()).on('Enter', () => this.open());
   });
   pointerdown = computed(() => {
     return new PointerEventManager().on(e => this._navigate(() => this.navigationBehavior.goto(this._getItem(e)), true));

@@ -39,6 +39,7 @@ function hasModifiers(event, modifiers) {
 
 class KeyboardEventManager extends EventManager {
   options = {
+    ignoreRepeat: true,
     preventDefault: true,
     stopPropagation: true
   };
@@ -51,7 +52,7 @@ class KeyboardEventManager extends EventManager {
     } = this._normalizeInputs(...args);
     this.configs.push({
       handler: handler,
-      matcher: event => this._isMatch(event, key, modifiers),
+      matcher: event => this._isMatch(event, key, modifiers, options),
       ...this.options,
       ...options
     });
@@ -70,8 +71,11 @@ class KeyboardEventManager extends EventManager {
       options: options ?? {}
     };
   }
-  _isMatch(event, key, modifiers) {
+  _isMatch(event, key, modifiers, options) {
     if (!hasModifiers(event, modifiers)) {
+      return false;
+    }
+    if (event.repeat && options?.ignoreRepeat !== false) {
       return false;
     }
     if (key instanceof RegExp) {
