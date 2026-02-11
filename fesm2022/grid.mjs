@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, NgZone, afterRenderEffect, Directive, output, model } from '@angular/core';
+import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, NgZone, afterRenderEffect, Directive, output, Renderer2, model } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -518,6 +518,7 @@ i0.ɵɵngDeclareClassMetadata({
 
 class GridCell {
   _elementRef = inject(ElementRef);
+  _renderer = inject(Renderer2);
   element = this._elementRef.nativeElement;
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
@@ -586,7 +587,38 @@ class GridCell {
     getWidget: e => this._getWidget(e),
     element: () => this.element
   });
-  constructor() {}
+  constructor() {
+    afterRenderEffect({
+      write: () => {
+        const {
+          _pattern: pattern,
+          _toggleAttribute: toggle
+        } = this;
+        const rowSpan = pattern.rowSpan();
+        const colSpan = pattern.colSpan();
+        toggle('role', this.role());
+        toggle('id', pattern.id());
+        toggle('rowspan', rowSpan);
+        toggle('colspan', rowSpan);
+        toggle('aria-rowspan', rowSpan);
+        toggle('aria-colspan', colSpan);
+        toggle('data-active', this.active());
+        toggle('data-anchor', pattern.anchor());
+        toggle('aria-disabled', pattern.disabled());
+        toggle('aria-rowindex', pattern.ariaRowIndex());
+        toggle('aria-colindex', pattern.ariaColIndex());
+        toggle('aria-selected', pattern.ariaSelected());
+        toggle('tabindex', this._tabIndex());
+      }
+    });
+  }
+  _toggleAttribute = (name, value) => {
+    if (value == null) {
+      this._renderer.removeAttribute(this.element, name);
+    } else {
+      this._renderer.setAttribute(this.element, name, value);
+    }
+  };
   _getWidget(element) {
     let target = element;
     while (target) {
@@ -701,23 +733,6 @@ class GridCell {
     outputs: {
       selected: "selectedChange"
     },
-    host: {
-      properties: {
-        "attr.role": "role()",
-        "attr.id": "_pattern.id()",
-        "attr.rowspan": "_pattern.rowSpan()",
-        "attr.colspan": "_pattern.colSpan()",
-        "attr.data-active": "active()",
-        "attr.data-anchor": "_pattern.anchor()",
-        "attr.aria-disabled": "_pattern.disabled()",
-        "attr.aria-rowspan": "_pattern.rowSpan()",
-        "attr.aria-colspan": "_pattern.colSpan()",
-        "attr.aria-rowindex": "_pattern.ariaRowIndex()",
-        "attr.aria-colindex": "_pattern.ariaColIndex()",
-        "attr.aria-selected": "_pattern.ariaSelected()",
-        "tabindex": "_tabIndex()"
-      }
-    },
     providers: [{
       provide: GRID_CELL,
       useExisting: GridCell
@@ -742,21 +757,6 @@ i0.ɵɵngDeclareClassMetadata({
     args: [{
       selector: '[ngGridCell]',
       exportAs: 'ngGridCell',
-      host: {
-        '[attr.role]': 'role()',
-        '[attr.id]': '_pattern.id()',
-        '[attr.rowspan]': '_pattern.rowSpan()',
-        '[attr.colspan]': '_pattern.colSpan()',
-        '[attr.data-active]': 'active()',
-        '[attr.data-anchor]': '_pattern.anchor()',
-        '[attr.aria-disabled]': '_pattern.disabled()',
-        '[attr.aria-rowspan]': '_pattern.rowSpan()',
-        '[attr.aria-colspan]': '_pattern.colSpan()',
-        '[attr.aria-rowindex]': '_pattern.ariaRowIndex()',
-        '[attr.aria-colindex]': '_pattern.ariaColIndex()',
-        '[attr.aria-selected]': '_pattern.ariaSelected()',
-        '[tabindex]': '_tabIndex()'
-      },
       providers: [{
         provide: GRID_CELL,
         useExisting: GridCell

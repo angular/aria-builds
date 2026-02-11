@@ -104,8 +104,8 @@ declare class Grid {
  * @see [Grid](guide/aria/grid)
  */
 declare class GridCell {
-    /** A reference to the host element. */
     private readonly _elementRef;
+    private readonly _renderer;
     /** A reference to the host element. */
     readonly element: HTMLElement;
     /** Whether the cell is currently active (focused). */
@@ -150,6 +150,7 @@ declare class GridCell {
     /** The UI pattern for the grid cell. */
     readonly _pattern: GridCellPattern;
     constructor();
+    private _toggleAttribute;
     /** Gets the cell widget pattern for a given element. */
     private _getWidget;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCell, never>;
