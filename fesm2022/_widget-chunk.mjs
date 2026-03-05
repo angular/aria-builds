@@ -593,9 +593,10 @@ class GridPattern {
   cells = computed(() => this.gridBehavior.data.cells());
   tabIndex = computed(() => this.gridBehavior.gridTabIndex());
   disabled = computed(() => this.gridBehavior.gridDisabled());
+  multiSelectable = computed(() => this.inputs.enableSelection() ? this.inputs.multi() : undefined);
   activeDescendant = computed(() => this.gridBehavior.activeDescendant());
   activeCell = computed(() => this.gridBehavior.focusBehavior.activeCell());
-  anchorCell = computed(() => this.inputs.enableSelection() && this.inputs.multi() ? this.gridBehavior.selectionAnchorCell() : undefined);
+  anchorCell = computed(() => this.multiSelectable() ? this.gridBehavior.selectionAnchorCell() : undefined);
   pauseNavigation = computed(() => this.gridBehavior.data.cells().flat().reduce((res, c) => res || c.isActivated(), false));
   isFocused = signal(false);
   hasBeenFocused = signal(false);
@@ -984,7 +985,7 @@ class GridCellWidgetPattern {
   index = computed(() => this.inputs.cell().inputs.widgets().indexOf(this));
   disabled = computed(() => this.inputs.disabled() || this.inputs.cell().disabled());
   tabIndex = computed(() => this.inputs.cell().widgetTabIndex());
-  active = computed(() => this.inputs.cell().activeWidget() === this);
+  active = computed(() => this.inputs.cell().active() && this.inputs.cell().activeWidget() === this);
   isActivated = signal(false);
   lastActivateEvent = signal(undefined);
   lastDeactivateEvent = signal(undefined);

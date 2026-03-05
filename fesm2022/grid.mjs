@@ -196,6 +196,7 @@ class Grid {
       properties: {
         "tabindex": "_pattern.tabIndex()",
         "attr.aria-disabled": "_pattern.disabled()",
+        "attr.aria-multiselectable": "_pattern.multiSelectable()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()"
       }
     },
@@ -223,6 +224,7 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'grid',
         '[tabindex]': '_pattern.tabIndex()',
         '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.aria-multiselectable]': '_pattern.multiSelectable()',
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
@@ -439,7 +441,8 @@ class GridCellWidget {
       properties: {
         "attr.data-active": "active()",
         "attr.data-active-control": "isActivated() ? \"widget\" : \"cell\"",
-        "tabindex": "_tabIndex()"
+        "tabindex": "_tabIndex()",
+        "attr.id": "id()"
       }
     },
     exportAs: ["ngGridCellWidget"],
@@ -459,7 +462,8 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         '[attr.data-active]': 'active()',
         '[attr.data-active-control]': 'isActivated() ? "widget" : "cell"',
-        '[tabindex]': '_tabIndex()'
+        '[tabindex]': '_tabIndex()',
+        '[attr.id]': 'id()'
       }
     }]
   }],
@@ -599,7 +603,7 @@ class GridCell {
         toggle('role', this.role());
         toggle('id', pattern.id());
         toggle('rowspan', rowSpan);
-        toggle('colspan', rowSpan);
+        toggle('colspan', colSpan);
         toggle('aria-rowspan', rowSpan);
         toggle('aria-colspan', colSpan);
         toggle('data-active', this.active());
