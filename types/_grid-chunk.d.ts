@@ -523,6 +523,8 @@ declare class GridPattern {
     readonly tabIndex: SignalLike<0 | -1>;
     /** Whether the grid is disabled. */
     readonly disabled: SignalLike<boolean>;
+    /** Whether the grid is multi-selectable. */
+    readonly multiSelectable: SignalLike<boolean | undefined>;
     /** The ID of the currently active descendant cell. */
     readonly activeDescendant: SignalLike<string | undefined>;
     /** The currently active cell. */
