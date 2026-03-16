@@ -7,7 +7,7 @@ export { WritableSignalLike, computed, convertGetterSetterToWritableSignalLike, 
 export { MenuBarInputs, MenuBarPattern, MenuInputs, MenuItemInputs, MenuItemPattern, MenuPattern, MenuTriggerInputs, MenuTriggerPattern } from './_menu-chunk.js';
 export { TabInputs, TabListInputs, TabListPattern, TabPanelInputs, TabPanelPattern, TabPattern } from './_tabs-chunk.js';
 export { ToolbarInputs, ToolbarPattern, ToolbarWidgetGroupInputs, ToolbarWidgetGroupPattern, ToolbarWidgetInputs, ToolbarWidgetPattern } from './_toolbar-chunk.js';
-export { AccordionGroupInputs, AccordionGroupPattern, AccordionPanelInputs, AccordionPanelPattern, AccordionTriggerInputs, AccordionTriggerPattern } from './_accordion-chunk.js';
+export { AccordionGroupInputs, AccordionGroupPattern, AccordionTriggerInputs, AccordionTriggerPattern } from './_accordion-chunk.js';
 import { TreeInputs, TreeItemPattern, TreePattern } from './_tree-chunk.js';
 export { TreeItemInputs } from './_tree-chunk.js';
 export { GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern } from './_grid-chunk.js';
