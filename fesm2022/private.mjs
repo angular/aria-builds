@@ -5,7 +5,7 @@ export { untracked } from '@angular/core/primitives/signals';
 export { computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.mjs';
 export { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern } from './_toolbar-widget-group-chunk.mjs';
-export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
+export { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 export { ComboboxTreePattern, TreeItemPattern, TreePattern } from './_combobox-tree-chunk.mjs';
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern } from './_widget-chunk.mjs';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';

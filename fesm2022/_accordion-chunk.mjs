@@ -45,7 +45,7 @@ class AccordionGroupPattern {
   });
   pointerdown = computed(() => {
     return new PointerEventManager().on(e => {
-      const item = this.inputs.getItem(e.target);
+      const item = this._findTriggerPattern(e.target);
       if (!item) return;
       this.navigationBehavior.goto(item);
       this.expansionBehavior.toggle(item);
@@ -58,7 +58,7 @@ class AccordionGroupPattern {
     this.pointerdown().handle(event);
   }
   onFocus(event) {
-    const item = this.inputs.getItem(event.target);
+    const item = this._findTriggerPattern(event.target);
     if (!item) return;
     if (!this.focusBehavior.isFocusable(item)) return;
     this.focusBehavior.focus(item);
@@ -68,22 +68,40 @@ class AccordionGroupPattern {
     if (activeItem === undefined) return;
     this.expansionBehavior.toggle(activeItem);
   }
+  expandAll() {
+    this.expansionBehavior.openAll();
+  }
+  collapseAll() {
+    this.expansionBehavior.closeAll();
+  }
+  _findTriggerPattern(element) {
+    let target = element;
+    while (target) {
+      const pattern = this.inputs.items().find(t => t.element() === target);
+      if (pattern) {
+        return pattern;
+      }
+      target = target.parentElement?.closest('[ngAccordionTrigger]');
+    }
+    return undefined;
+  }
 }
 class AccordionTriggerPattern {
   inputs;
-  id = () => this.inputs.id();
+  id;
   element = () => this.inputs.element();
   expandable = () => true;
   expanded;
   active = computed(() => this.inputs.accordionGroup().inputs.activeItem() === this);
-  controls = computed(() => this.inputs.accordionPanel()?.inputs.id());
+  controls;
   tabIndex = computed(() => this.inputs.accordionGroup().focusBehavior.isFocusable(this) ? 0 : -1);
   disabled = computed(() => this.inputs.disabled() || this.inputs.accordionGroup().inputs.disabled());
   hardDisabled = computed(() => this.disabled() && !this.inputs.accordionGroup().inputs.softDisabled());
-  index = computed(() => this.inputs.accordionGroup().inputs.items().indexOf(this));
   constructor(inputs) {
     this.inputs = inputs;
+    this.id = inputs.id;
     this.expanded = inputs.expanded;
+    this.controls = inputs.accordionPanelId;
   }
   open() {
     this.inputs.accordionGroup().expansionBehavior.open(this);
@@ -95,18 +113,6 @@ class AccordionTriggerPattern {
     this.inputs.accordionGroup().expansionBehavior.toggle(this);
   }
 }
-class AccordionPanelPattern {
-  inputs;
-  id;
-  accordionTrigger;
-  hidden;
-  constructor(inputs) {
-    this.inputs = inputs;
-    this.id = inputs.id;
-    this.accordionTrigger = inputs.accordionTrigger;
-    this.hidden = computed(() => inputs.accordionTrigger()?.expanded() === false);
-  }
-}
 
-export { AccordionGroupPattern, AccordionPanelPattern, AccordionTriggerPattern };
+export { AccordionGroupPattern, AccordionTriggerPattern };
 //# sourceMappingURL=_accordion-chunk.mjs.map
