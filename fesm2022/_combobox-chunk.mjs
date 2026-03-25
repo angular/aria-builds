@@ -1,4 +1,4 @@
-import { signal, computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed, signal, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
 class ComboboxPattern {

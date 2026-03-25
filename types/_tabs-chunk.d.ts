@@ -1,7 +1,7 @@
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
-import { SignalLike, ListNavigationItem, WritableSignalLike, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
+import { SignalLike, ListNavigationItem, ListNavigationInputs, WritableSignalLike, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
 
 /** Represents the required inputs for the label control. */
 interface LabelControlInputs {

@@ -1,4 +1,4 @@
-import { createComputed, SIGNAL, createSignal, createLinkedSignal, linkedSignalSetFn, linkedSignalUpdateFn } from '@angular/core/primitives/signals';
+import { createComputed, SIGNAL, createLinkedSignal, linkedSignalUpdateFn, linkedSignalSetFn, createSignal } from '@angular/core/primitives/signals';
 
 var Modifier;
 (function (Modifier) {

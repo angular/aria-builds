@@ -1,7 +1,7 @@
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
-import { ListExpansionInputs, ListExpansion, ExpansionItem } from './_expansion-chunk.js';
-import { ListNavigationInputs, ListFocusInputs, ListNavigation, ListFocus, SignalLike, ListNavigationItem, ListFocusItem, WritableSignalLike } from './_list-navigation-chunk.js';
+import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
+import { ListNavigationInputs, ListNavigationItem, ListFocusItem, SignalLike, WritableSignalLike, ListFocusInputs, ListNavigation, ListFocus } from './_list-navigation-chunk.js';
 
 /** Inputs of the AccordionGroupPattern. */
 interface AccordionGroupInputs extends Omit<ListNavigationInputs<AccordionTriggerPattern> & ListFocusInputs<AccordionTriggerPattern> & Omit<ListExpansionInputs, 'items'>, 'focusMode'> {

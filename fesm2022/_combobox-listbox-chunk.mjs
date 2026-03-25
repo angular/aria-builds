@@ -1,4 +1,4 @@
-import { computed, signal, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed, signal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
