@@ -56,7 +56,7 @@ class Option {
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     ngImport: i0,
     type: Option,
     deps: [],
@@ -64,7 +64,7 @@ class Option {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     type: Option,
     isStandalone: true,
     selector: "[ngOption]",
@@ -116,7 +116,7 @@ class Option {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.1",
+  version: "22.0.0-next.5",
   ngImport: i0,
   type: Option,
   decorators: [{
@@ -293,7 +293,7 @@ class Listbox {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     ngImport: i0,
     type: Listbox,
     deps: [],
@@ -301,7 +301,7 @@ class Listbox {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     type: Listbox,
     isStandalone: true,
     selector: "[ngListbox]",
@@ -425,7 +425,7 @@ class Listbox {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.1",
+  version: "22.0.0-next.5",
   ngImport: i0,
   type: Listbox,
   decorators: [{

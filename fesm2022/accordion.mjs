@@ -1,8 +1,8 @@
 import * as i0 from '@angular/core';
 import { inject, input, computed, afterRenderEffect, Directive, InjectionToken, ElementRef, booleanAttribute, model, contentChildren, signal } from '@angular/core';
-import { _IdGenerator } from '@angular/cdk/a11y';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
+import { _IdGenerator } from '@angular/cdk/a11y';
 import { AccordionTriggerPattern, AccordionGroupPattern } from './_accordion-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
@@ -35,7 +35,7 @@ class AccordionPanel {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     ngImport: i0,
     type: AccordionPanel,
     deps: [],
@@ -43,7 +43,7 @@ class AccordionPanel {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     type: AccordionPanel,
     isStandalone: true,
     selector: "[ngAccordionPanel]",
@@ -76,7 +76,7 @@ class AccordionPanel {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.1",
+  version: "22.0.0-next.5",
   ngImport: i0,
   type: AccordionPanel,
   decorators: [{
@@ -157,7 +157,7 @@ class AccordionTrigger {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     ngImport: i0,
     type: AccordionTrigger,
     deps: [],
@@ -165,7 +165,7 @@ class AccordionTrigger {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     type: AccordionTrigger,
     isStandalone: true,
     selector: "[ngAccordionTrigger]",
@@ -222,7 +222,7 @@ class AccordionTrigger {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.1",
+  version: "22.0.0-next.5",
   ngImport: i0,
   type: AccordionTrigger,
   decorators: [{
@@ -333,7 +333,7 @@ class AccordionGroup {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     ngImport: i0,
     type: AccordionGroup,
     deps: [],
@@ -341,7 +341,7 @@ class AccordionGroup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     type: AccordionGroup,
     isStandalone: true,
     selector: "[ngAccordionGroup]",
@@ -398,7 +398,7 @@ class AccordionGroup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.1",
+  version: "22.0.0-next.5",
   ngImport: i0,
   type: AccordionGroup,
   decorators: [{
@@ -465,7 +465,7 @@ i0.ɵɵngDeclareClassMetadata({
 class AccordionContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     ngImport: i0,
     type: AccordionContent,
     deps: [],
@@ -473,7 +473,7 @@ class AccordionContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "22.0.0-next.1",
+    version: "22.0.0-next.5",
     type: AccordionContent,
     isStandalone: true,
     selector: "ng-template[ngAccordionContent]",
@@ -485,7 +485,7 @@ class AccordionContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.1",
+  version: "22.0.0-next.5",
   ngImport: i0,
   type: AccordionContent,
   decorators: [{

@@ -1,4 +1,4 @@
-import { computed, signal, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed, signal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
 import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';

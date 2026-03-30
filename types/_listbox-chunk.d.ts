@@ -1,5 +1,5 @@
 import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
-import { ListItem, ListInputs, List } from './_list-chunk.js';
+import { ListInputs, List, ListItem } from './_list-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 

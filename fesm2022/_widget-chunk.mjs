@@ -1,4 +1,4 @@
-import { computed, signal, linkedSignal, Modifier, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
