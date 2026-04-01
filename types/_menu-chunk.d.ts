@@ -12,7 +12,7 @@ interface MenuBarInputs<V> extends ListInputs<MenuItemPattern<V>, V> {
     textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuPattern class. */
-interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'values'> {
+interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value'> {
     /** The unique ID of the menu. */
     id: SignalLike<string>;
     /** The menu items contained in the menu. */

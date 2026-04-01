@@ -4,7 +4,7 @@ class ListSelection {
   inputs;
   rangeStartIndex = signal(0);
   rangeEndIndex = signal(0);
-  selectedItems = computed(() => this.inputs.items().filter(item => this.inputs.values().includes(item.value())));
+  selectedItems = computed(() => this.inputs.items().filter(item => this.inputs.value().includes(item.value())));
   constructor(inputs) {
     this.inputs = inputs;
   }
@@ -12,7 +12,7 @@ class ListSelection {
     anchor: true
   }) {
     item = item ?? this.inputs.focusManager.inputs.activeItem();
-    if (!item || item.disabled() || !item.selectable() || !this.inputs.focusManager.isFocusable(item) || this.inputs.values().includes(item.value())) {
+    if (!item || item.disabled() || !item.selectable() || !this.inputs.focusManager.isFocusable(item) || this.inputs.value().includes(item.value())) {
       return;
     }
     if (!this.inputs.multi()) {
@@ -22,24 +22,24 @@ class ListSelection {
     if (opts.anchor) {
       this.beginRangeSelection(index);
     }
-    this.inputs.values.update(values => values.concat(item.value()));
+    this.inputs.value.update(values => values.concat(item.value()));
   }
   deselect(item) {
     item = item ?? this.inputs.focusManager.inputs.activeItem();
     if (item && !item.disabled() && item.selectable()) {
-      this.inputs.values.update(values => values.filter(value => value !== item.value()));
+      this.inputs.value.update(values => values.filter(value => value !== item.value()));
     }
   }
   toggle(item) {
     item = item ?? this.inputs.focusManager.inputs.activeItem();
     if (item) {
-      this.inputs.values().includes(item.value()) ? this.deselect(item) : this.select(item);
+      this.inputs.value().includes(item.value()) ? this.deselect(item) : this.select(item);
     }
   }
   toggleOne() {
     const item = this.inputs.focusManager.inputs.activeItem();
     if (item) {
-      this.inputs.values().includes(item.value()) ? this.deselect() : this.selectOne();
+      this.inputs.value().includes(item.value()) ? this.deselect() : this.selectOne();
     }
   }
   selectAll() {
@@ -54,14 +54,14 @@ class ListSelection {
     this.beginRangeSelection();
   }
   deselectAll() {
-    for (const value of this.inputs.values()) {
+    for (const value of this.inputs.value()) {
       const item = this.inputs.items().find(i => i.value() === value);
-      item ? this.deselect(item) : this.inputs.values.update(values => values.filter(v => v !== value));
+      item ? this.deselect(item) : this.inputs.value.update(values => values.filter(v => v !== value));
     }
   }
   toggleAll() {
     const selectableValues = this.inputs.items().filter(i => !i.disabled() && i.selectable() && this.inputs.focusManager.isFocusable(i)).map(i => i.value());
-    selectableValues.every(i => this.inputs.values().includes(i)) ? this.deselectAll() : this.selectAll();
+    selectableValues.every(i => this.inputs.value().includes(i)) ? this.deselectAll() : this.selectAll();
   }
   selectOne() {
     const item = this.inputs.focusManager.inputs.activeItem();
@@ -69,7 +69,7 @@ class ListSelection {
       return;
     }
     this.deselectAll();
-    if (this.inputs.values().length > 0 && !this.inputs.multi()) {
+    if (this.inputs.value().length > 0 && !this.inputs.multi()) {
       return;
     }
     this.select();

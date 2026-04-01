@@ -133,7 +133,7 @@ class ToolbarWidgetPattern {
   value = () => this.inputs.value();
   selectable = () => true;
   index = computed(() => this.toolbar().inputs.items().indexOf(this) ?? -1);
-  selected = computed(() => this.toolbar().listBehavior.inputs.values().includes(this.value()));
+  selected = computed(() => this.toolbar().listBehavior.inputs.value().includes(this.value()));
   active = computed(() => this.toolbar().activeItem() === this);
   constructor(inputs) {
     this.inputs = inputs;

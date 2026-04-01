@@ -230,7 +230,7 @@ class TreeItemPattern {
     if (!this.selectable()) {
       return undefined;
     }
-    return this.tree().values().includes(this.value());
+    return this.tree().value().includes(this.value());
   });
   current = computed(() => {
     if (!this.tree().nav()) {
@@ -239,7 +239,7 @@ class TreeItemPattern {
     if (!this.selectable()) {
       return undefined;
     }
-    return this.tree().values().includes(this.value()) ? this.tree().currentType() : undefined;
+    return this.tree().value().includes(this.value()) ? this.tree().currentType() : undefined;
   });
   constructor(inputs) {
     this.inputs = inputs;
@@ -392,11 +392,11 @@ class TreePattern {
   multi = computed(() => this.nav() ? false : this.inputs.multi());
   selectionMode = () => this.inputs.selectionMode();
   typeaheadDelay = () => this.inputs.typeaheadDelay();
-  values;
+  value;
   constructor(inputs) {
     this.inputs = inputs;
     this.activeItem = inputs.activeItem;
-    this.values = inputs.values;
+    this.value = inputs.value;
     this.treeBehavior = new Tree({
       ...inputs,
       multi: this.multi,
@@ -405,8 +405,8 @@ class TreePattern {
   }
   validate() {
     const violations = [];
-    if (!this.inputs.multi() && this.inputs.values().length > 1) {
-      violations.push(`A single-select tree should not have multiple selected options. Selected options: ${this.inputs.values().join(', ')}`);
+    if (!this.inputs.multi() && this.inputs.value().length > 1) {
+      violations.push(`A single-select tree should not have multiple selected options. Selected options: ${this.inputs.value().join(', ')}`);
     }
     return violations;
   }
@@ -500,7 +500,7 @@ class ComboboxTreePattern extends TreePattern {
   clearSelection = () => this.treeBehavior.deselectAll();
   getItem = e => this._getItem(e);
   getSelectedItems = () => this.inputs.items().filter(item => item.selected());
-  setValue = value => this.inputs.values.set(value ? [value] : []);
+  setValue = value => this.inputs.value.set(value ? [value] : []);
   expandItem = () => this._expandOrFirstChild();
   collapseItem = () => this._collapseOrParent();
   isItemExpandable(item = this.inputs.activeItem()) {

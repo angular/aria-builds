@@ -45,8 +45,8 @@ class Toolbar {
     } : {}),
     transform: booleanAttribute
   });
-  values = model([], ...(ngDevMode ? [{
-    debugName: "values"
+  value = model([], ...(ngDevMode ? [{
+    debugName: "value"
   }] : []));
   _pattern = new ToolbarPattern({
     ...this,
@@ -55,7 +55,7 @@ class Toolbar {
     textDirection: this.textDirection,
     element: () => this._elementRef.nativeElement,
     getItem: e => this._getItem(e),
-    values: this.values
+    value: this.value
   });
   _hasBeenFocused = signal(false, ...(ngDevMode ? [{
     debugName: "_hasBeenFocused"
@@ -129,16 +129,16 @@ class Toolbar {
         isRequired: false,
         transformFunction: null
       },
-      values: {
-        classPropertyName: "values",
-        publicName: "values",
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
         isSignal: true,
         isRequired: false,
         transformFunction: null
       }
     },
     outputs: {
-      values: "valuesChange"
+      value: "valueChange"
     },
     host: {
       attributes: {
@@ -216,16 +216,16 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    values: [{
+    value: [{
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "values",
+        alias: "value",
         required: false
       }]
     }, {
       type: i0.Output,
-      args: ["valuesChange"]
+      args: ["valueChange"]
     }]
   }
 });

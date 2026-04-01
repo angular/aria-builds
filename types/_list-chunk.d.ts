@@ -12,7 +12,7 @@ interface ListSelectionInputs<T extends ListSelectionItem<V>, V> extends ListFoc
     /** Whether multiple items in the list can be selected at once. */
     multi: SignalLike<boolean>;
     /** The current value of the list selection. */
-    values: WritableSignalLike<V[]>;
+    value: WritableSignalLike<V[]>;
     /** The selection strategy used by the list. */
     selectionMode: SignalLike<'follow' | 'explicit'>;
 }

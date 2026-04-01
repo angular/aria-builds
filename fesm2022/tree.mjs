@@ -66,8 +66,8 @@ class Tree {
   typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
-  values = model([], ...(ngDevMode ? [{
-    debugName: "values"
+  value = model([], ...(ngDevMode ? [{
+    debugName: "value"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
   nav = input(false, {
@@ -119,9 +119,9 @@ class Tree {
     afterRenderEffect(() => {
       if (!(this._pattern instanceof ComboboxTreePattern)) return;
       const items = inputs.items();
-      const values = untracked(() => this.values());
-      if (items && values.some(v => !items.some(i => i.value() === v))) {
-        this.values.set(values.filter(v => items.some(i => i.value() === v)));
+      const value = untracked(() => this.value());
+      if (items && value.some(v => !items.some(i => i.value() === v))) {
+        this.value.set(value.filter(v => items.some(i => i.value() === v)));
       }
     });
   }
@@ -219,9 +219,9 @@ class Tree {
         isRequired: false,
         transformFunction: null
       },
-      values: {
-        classPropertyName: "values",
-        publicName: "values",
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -242,7 +242,7 @@ class Tree {
       }
     },
     outputs: {
-      values: "valuesChange"
+      value: "valueChange"
     },
     host: {
       attributes: {
@@ -368,16 +368,16 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    values: [{
+    value: [{
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "values",
+        alias: "value",
         required: false
       }]
     }, {
       type: i0.Output,
-      args: ["valuesChange"]
+      args: ["valueChange"]
     }],
     nav: [{
       type: i0.Input,

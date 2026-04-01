@@ -251,7 +251,7 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** The delay in milliseconds to wait before clearing the typeahead buffer. */
     readonly typeaheadDelay: SignalLike<number>;
     /** The current selected items of the tree. */
-    readonly values: WritableSignalLike<V[]>;
+    readonly value: WritableSignalLike<V[]>;
     constructor(inputs: TreeInputs<V>);
     /** Returns a set of violations */
     validate(): string[];

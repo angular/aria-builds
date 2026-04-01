@@ -383,8 +383,8 @@ class MenuBar {
     transform: booleanAttribute
   });
   textDirection = inject(Directionality).valueSignal;
-  values = model([], ...(ngDevMode ? [{
-    debugName: "values"
+  value = model([], ...(ngDevMode ? [{
+    debugName: "value"
   }] : []));
   wrap = input(true, {
     ...(ngDevMode ? {
@@ -454,9 +454,9 @@ class MenuBar {
         isRequired: false,
         transformFunction: null
       },
-      values: {
-        classPropertyName: "values",
-        publicName: "values",
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -477,7 +477,7 @@ class MenuBar {
       }
     },
     outputs: {
-      values: "valuesChange",
+      value: "valueChange",
       itemSelected: "itemSelected"
     },
     host: {
@@ -565,16 +565,16 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    values: [{
+    value: [{
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "values",
+        alias: "value",
         required: false
       }]
     }, {
       type: i0.Output,
-      args: ["valuesChange"]
+      args: ["valueChange"]
     }],
     wrap: [{
       type: i0.Input,

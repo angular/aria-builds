@@ -146,8 +146,8 @@ class ListboxPattern {
   }
   validate() {
     const violations = [];
-    if (!this.inputs.multi() && this.inputs.values().length > 1) {
-      violations.push(`A single-select listbox should not have multiple selected options. Selected options: ${this.inputs.values().join(', ')}`);
+    if (!this.inputs.multi() && this.inputs.value().length > 1) {
+      violations.push(`A single-select listbox should not have multiple selected options. Selected options: ${this.inputs.value().join(', ')}`);
     }
     return violations;
   }
@@ -192,7 +192,7 @@ class OptionPattern {
   value;
   index = computed(() => this.listbox()?.inputs.items().indexOf(this) ?? -1);
   active = computed(() => this.listbox()?.inputs.activeItem() === this);
-  selected = computed(() => this.listbox()?.inputs.values().includes(this.value()));
+  selected = computed(() => this.listbox()?.inputs.value().includes(this.value()));
   selectable = () => true;
   disabled;
   searchTerm;
@@ -245,7 +245,7 @@ class ComboboxListboxPattern extends ListboxPattern {
   getItem = e => this._getItem(e);
   getSelectedItems = () => {
     const items = [];
-    for (const value of this.inputs.values()) {
+    for (const value of this.inputs.value()) {
       const item = this.items().find(i => i.value() === value);
       if (item) {
         items.push(item);
@@ -253,7 +253,7 @@ class ComboboxListboxPattern extends ListboxPattern {
     }
     return items;
   };
-  setValue = value => this.inputs.values.set(value ? [value] : []);
+  setValue = value => this.inputs.value.set(value ? [value] : []);
 }
 
 export { ComboboxListboxPattern, ListboxPattern, OptionPattern };

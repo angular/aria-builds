@@ -58,7 +58,7 @@ class MenuPattern {
     this.id = inputs.id;
     this.listBehavior = new List({
       ...inputs,
-      values: signal([])
+      value: signal([])
     });
   }
   setDefaultState() {

@@ -51,7 +51,7 @@ declare class MenuBar<V> {
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The values of the currently selected menu items. */
-    readonly values: _angular_core.ModelSignal<V[]>;
+    readonly value: _angular_core.ModelSignal<V[]>;
     /** Whether the menu should wrap its items. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The delay in milliseconds before the typeahead buffer is cleared. */
@@ -66,7 +66,7 @@ declare class MenuBar<V> {
     /** Closes the menubar. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuBar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "values": { "alias": "values"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "values": "valuesChange"; "itemSelected": "itemSelected"; }, ["_allItems"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; "itemSelected": "itemSelected"; }, ["_allItems"], never, true, never>;
 }
 
 /**
