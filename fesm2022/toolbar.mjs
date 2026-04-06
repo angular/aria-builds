@@ -57,18 +57,10 @@ class Toolbar {
     getItem: e => this._getItem(e),
     value: this.value
   });
-  _hasBeenFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "_hasBeenFocused"
-  }] : []));
   constructor() {
     afterRenderEffect(() => {
-      if (!this._hasBeenFocused()) {
-        this._pattern.setDefaultState();
-      }
+      this._pattern.setDefaultStateEffect();
     });
-  }
-  _onFocus() {
-    this._hasBeenFocused.set(true);
   }
   _register(widget) {
     const widgets = this._widgets();
@@ -148,7 +140,7 @@ class Toolbar {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "_onFocus()"
+        "focusin": "_pattern.onFocusIn()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
@@ -178,7 +170,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': '_onFocus()'
+        '(focusin)': '_pattern.onFocusIn()'
       }
     }]
   }],

@@ -417,9 +417,7 @@ class MenuBar {
       this._itemPatterns.set(this._items().map(i => i._pattern));
     });
     afterRenderEffect(() => {
-      if (!this._pattern.hasBeenFocused()) {
-        this._pattern.setDefaultState();
-      }
+      this._pattern.setDefaultStateEffect();
     });
   }
   close() {
@@ -667,7 +665,7 @@ class Menu {
       if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
         this._deferredContentAware?.contentVisible.set(true);
       } else {
-        this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenFocused());
+        this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenInteracted());
       }
     });
     afterRenderEffect(() => {
@@ -677,9 +675,7 @@ class Menu {
       }
     });
     afterRenderEffect(() => {
-      if (!this._pattern.hasBeenFocused() && !this._pattern.hasBeenHovered() && this._items().length) {
-        untracked(() => this._pattern.setDefaultState());
-      }
+      this._pattern.setDefaultStateEffect();
     });
   }
   close() {

@@ -188,6 +188,8 @@ declare class TreePattern<V> implements TreeInputs<V> {
     readonly inputs: TreeInputs<V>;
     /** The tree behavior for the tree. */
     readonly treeBehavior: Tree<TreeItemPattern<V>, V>;
+    /** Whether the tree has been interacted with. */
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** The root level is 0. */
     readonly level: () => number;
     /** The root is always expanded. */
@@ -262,10 +264,14 @@ declare class TreePattern<V> implements TreeInputs<V> {
      * Otherwise, sets focus to the first focusable tree item.
      */
     setDefaultState(): void;
+    /** Sets the default active state of the tree before receiving interaction for the first time. */
+    setDefaultStateEffect(): void;
     /** Handles keydown events on the tree. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles pointerdown events on the tree. */
     onPointerdown(event: PointerEvent): void;
+    /** Handles focusin events on the tree. */
+    onFocusIn(): void;
     /** Navigates to the given tree item in the tree. */
     goto(e: PointerEvent, opts?: SelectOptions): void;
     /** Expands the active item if possible, otherwise navigates to the first child. */

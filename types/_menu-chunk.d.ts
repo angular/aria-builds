@@ -59,8 +59,8 @@ declare class MenuPattern<V> {
     listBehavior: List<MenuItemPattern<V>, V>;
     /** Whether the menu or any of its child elements are currently focused. */
     isFocused: WritableSignalLike<boolean>;
-    /** Whether the menu has received focus. */
-    hasBeenFocused: WritableSignalLike<boolean>;
+    /** Whether the menu has received interaction. */
+    hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the menu trigger has been hovered. */
     hasBeenHovered: WritableSignalLike<boolean>;
     /** Timeout used to open sub-menus on hover. */
@@ -86,6 +86,8 @@ declare class MenuPattern<V> {
     constructor(inputs: MenuInputs<V>);
     /** Sets the default state for the menu. */
     setDefaultState(): void;
+    /** Sets the default active state of the menu before receiving interaction for the first time. */
+    setDefaultStateEffect(): void;
     /** Handles keyboard events for the menu. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles mouseover events for the menu. */
@@ -146,8 +148,8 @@ declare class MenuBarPattern<V> {
     typeaheadRegexp: RegExp;
     /** Whether the menubar or any of its children are currently focused. */
     isFocused: WritableSignalLike<boolean>;
-    /** Whether the menubar has been focused. */
-    hasBeenFocused: WritableSignalLike<boolean>;
+    /** Whether the menubar has been interacted with. */
+    hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the menubar is disabled. */
     disabled: () => boolean;
     /** Handles keyboard events for the menu. */
@@ -155,6 +157,8 @@ declare class MenuBarPattern<V> {
     constructor(inputs: MenuBarInputs<V>);
     /** Sets the default state for the menubar. */
     setDefaultState(): void;
+    /** Sets the default active state of the menubar before receiving interaction for the first time. */
+    setDefaultStateEffect(): void;
     /** Handles keyboard events for the menu. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles click events for the menu bar. */
@@ -179,10 +183,10 @@ declare class MenuBarPattern<V> {
 /** The menu trigger ui pattern class. */
 declare class MenuTriggerPattern<V> {
     readonly inputs: MenuTriggerInputs<V>;
-    /** Whether the menu is expanded. */
+    /** Whether the menu trigger is expanded. */
     expanded: WritableSignalLike<boolean>;
-    /** Whether the menu trigger has received focus. */
-    hasBeenFocused: WritableSignalLike<boolean>;
+    /** Whether the menu trigger has received interaction. */
+    hasBeenInteracted: WritableSignalLike<boolean>;
     /** The role of the menu trigger. */
     role: () => string;
     /** Whether the menu trigger has a popup. */
@@ -229,8 +233,8 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     element: SignalLike<HTMLElement | undefined>;
     /** Whether the menu item is active. */
     active: SignalLike<boolean>;
-    /** Whether the menu item has received focus. */
-    hasBeenFocused: WritableSignalLike<boolean>;
+    /** Whether the menu item has received interaction. */
+    hasBeenInteracted: WritableSignalLike<boolean>;
     /** The tab index of the menu item. */
     tabIndex: SignalLike<0 | -1>;
     /** The position of the menu item in the menu. */

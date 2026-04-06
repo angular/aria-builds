@@ -207,10 +207,7 @@ declare class Tree<V> {
     readonly currentType: _angular_core.InputSignal<"page" | "step" | "location" | "date" | "time" | "true" | "false">;
     /** The UI pattern for the tree. */
     readonly _pattern: TreePattern<V>;
-    /** Whether the tree has received focus since it was rendered. */
-    private _hasFocused;
     constructor();
-    _onFocus(): void;
     _register(child: TreeItem<V>): void;
     _unregister(child: TreeItem<V>): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;

@@ -80,9 +80,6 @@ class Tree {
     debugName: "currentType"
   }] : []));
   _pattern;
-  _hasFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "_hasFocused"
-  }] : []));
   constructor() {
     const inputs = {
       ...this,
@@ -105,9 +102,7 @@ class Tree {
       }
     });
     afterRenderEffect(() => {
-      if (!this._hasFocused()) {
-        this._pattern.setDefaultState();
-      }
+      this._pattern.setDefaultStateEffect();
     });
     afterRenderEffect(() => {
       const items = inputs.items();
@@ -124,9 +119,6 @@ class Tree {
         this.value.set(value.filter(v => items.some(i => i.value() === v)));
       }
     });
-  }
-  _onFocus() {
-    this._hasFocused.set(true);
   }
   _register(child) {
     this._unorderedItems().add(child);
@@ -251,7 +243,7 @@ class Tree {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "focusin": "_onFocus()"
+        "focusin": "_pattern.onFocusIn()"
       },
       properties: {
         "attr.id": "id()",
@@ -289,7 +281,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[tabindex]': '_pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(focusin)': '_onFocus()'
+        '(focusin)': '_pattern.onFocusIn()'
       },
       hostDirectives: [ComboboxPopup]
     }]

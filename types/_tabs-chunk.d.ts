@@ -103,6 +103,8 @@ declare class TabListPattern {
     readonly navigationBehavior: ListNavigation<TabPattern>;
     /** Controls expansion for the tablist. */
     readonly expansionBehavior: ListExpansion;
+    /** Whether the tablist has been interacted with. */
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** The currently active tab. */
     readonly activeTab: SignalLike<TabPattern | undefined>;
     /** The currently selected tab. */
@@ -135,10 +137,14 @@ declare class TabListPattern {
      * This method should be called once the tablist and its tabs are properly initialized.
      */
     setDefaultState(): void;
+    /** Sets the default active state of the tablist before receiving interaction for the first time. */
+    setDefaultStateEffect(): void;
     /** Handles keydown events for the tablist. */
     onKeydown(event: KeyboardEvent): void;
     /** The click event manager for the tablist. */
     onClick(event: PointerEvent): void;
+    /** Handles focusin events for the tablist. */
+    onFocusIn(): void;
     /** Opens the tab by given value. */
     open(value: string): boolean;
     /** Opens the given tab or the current active tab. */

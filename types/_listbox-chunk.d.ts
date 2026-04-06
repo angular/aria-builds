@@ -53,6 +53,8 @@ type ListboxInputs<V> = ListInputs<OptionPattern<V>, V> & {
 declare class ListboxPattern<V> {
     readonly inputs: ListboxInputs<V>;
     listBehavior: List<OptionPattern<V>, V>;
+    /** Whether the listbox has been interacted with. */
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the list is vertically or horizontally oriented. */
     orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether the listbox is disabled. */
@@ -89,6 +91,7 @@ declare class ListboxPattern<V> {
     /** Handles keydown events for the listbox. */
     onKeydown(event: KeyboardEvent): void;
     onClick(event: PointerEvent): void;
+    onFocusIn(): void;
     /**
      * Sets the listbox to it's default initial state.
      *
@@ -100,6 +103,10 @@ declare class ListboxPattern<V> {
      * is called.
      */
     setDefaultState(): void;
+    /**
+     * Sets the default active state of the listbox before receiving interaction for the first time.
+     */
+    setDefaultStateEffect(): void;
     protected _getItem(e: PointerEvent): OptionPattern<V> | undefined;
 }
 

@@ -65,6 +65,7 @@ class TabListPattern {
   focusBehavior;
   navigationBehavior;
   expansionBehavior;
+  hasBeenInteracted = signal(false);
   activeTab = () => this.inputs.activeItem();
   selectedTab = signal(undefined);
   orientation = () => this.inputs.orientation();
@@ -122,15 +123,24 @@ class TabListPattern {
       this.inputs.activeItem.set(firstItem);
     }
   }
+  setDefaultStateEffect() {
+    if (this.hasBeenInteracted()) return;
+    this.setDefaultState();
+  }
   onKeydown(event) {
     if (!this.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.keydown().handle(event);
     }
   }
   onClick(event) {
     if (!this.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.clickManager().handle(event);
     }
+  }
+  onFocusIn() {
+    this.hasBeenInteracted.set(true);
   }
   open(tab) {
     tab ??= this.activeTab();

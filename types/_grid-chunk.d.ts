@@ -535,8 +535,8 @@ declare class GridPattern {
     readonly pauseNavigation: SignalLike<boolean>;
     /** Whether the focus is in the grid. */
     readonly isFocused: WritableSignalLike<boolean>;
-    /** Whether the grid has been focused once. */
-    readonly hasBeenFocused: WritableSignalLike<boolean>;
+    /** Whether the grid has received focus once. */
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the user is currently dragging to select a range of cells. */
     readonly dragging: WritableSignalLike<boolean>;
     /** The key for navigating to the previous column. */

@@ -599,7 +599,7 @@ class GridPattern {
   anchorCell = computed(() => this.multiSelectable() ? this.gridBehavior.selectionAnchorCell() : undefined);
   pauseNavigation = computed(() => this.gridBehavior.data.cells().flat().reduce((res, c) => res || c.isActivated(), false));
   isFocused = signal(false);
-  hasBeenFocused = signal(false);
+  hasBeenInteracted = signal(false);
   dragging = signal(false);
   prevColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
   nextColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
@@ -721,11 +721,13 @@ class GridPattern {
   }
   onKeydown(event) {
     if (this.disabled()) return;
+    this.hasBeenInteracted.set(true);
     this.activeCell()?.onKeydown(event);
     this.keydown().handle(event);
   }
   onPointerdown(event) {
     if (this.disabled()) return;
+    this.hasBeenInteracted.set(true);
     this.pointerdown().handle(event);
   }
   onPointermove(event) {
@@ -744,7 +746,7 @@ class GridPattern {
   }
   onFocusIn(event) {
     this.isFocused.set(true);
-    this.hasBeenFocused.set(true);
+    this.hasBeenInteracted.set(true);
     if (this.dragging()) return;
     const cell = this.inputs.getCell(event.target);
     if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
@@ -765,7 +767,7 @@ class GridPattern {
     this.isFocused.set(false);
   }
   setDefaultStateEffect() {
-    if (this.hasBeenFocused()) return;
+    if (this.hasBeenInteracted()) return;
     this.gridBehavior.setDefaultState();
   }
   resetStateEffect() {

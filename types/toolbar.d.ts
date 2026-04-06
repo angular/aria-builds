@@ -133,10 +133,7 @@ declare class Toolbar<V> {
     readonly value: _angular_core.ModelSignal<V[]>;
     /** The toolbar UIPattern. */
     readonly _pattern: ToolbarPattern<V>;
-    /** Whether the toolbar has received focus yet. */
-    private _hasBeenFocused;
     constructor();
-    _onFocus(): void;
     _register(widget: ToolbarWidget<V>): void;
     _unregister(widget: ToolbarWidget<V>): void;
     /** Finds the toolbar item associated with a given element. */

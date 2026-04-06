@@ -1,4 +1,4 @@
-import { SignalLike } from './_list-navigation-chunk.js';
+import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
 import { ListItem, ListInputs, List } from './_list-chunk.js';
 
 /** Represents the required inputs for a toolbar widget group. */
@@ -74,6 +74,8 @@ declare class ToolbarPattern<V> {
     readonly inputs: ToolbarInputs<V>;
     /** The list behavior for the toolbar. */
     readonly listBehavior: List<ToolbarWidgetPattern<V>, V>;
+    /** Whether the toolbar has been interacted with. */
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether disabled items in the group should be focusable. */
@@ -107,6 +109,7 @@ declare class ToolbarPattern<V> {
     /** Handles keydown events for the toolbar. */
     onKeydown(event: KeyboardEvent): void;
     onPointerdown(event: PointerEvent): void;
+    onFocusIn(): void;
     /** Handles click events for the toolbar. */
     onClick(event: MouseEvent): void;
     /**
@@ -116,6 +119,8 @@ declare class ToolbarPattern<V> {
      * Otherwise, sets the active index to the first focusable widget.
      */
     setDefaultState(): void;
+    /** Sets the default active state of the toolbar before receiving interaction for the first time. */
+    setDefaultStateEffect(): void;
 }
 
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern };

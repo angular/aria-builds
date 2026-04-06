@@ -83,10 +83,7 @@ declare class Listbox<V> {
     value: _angular_core.ModelSignal<V[]>;
     /** The Listbox UIPattern. */
     readonly _pattern: ListboxPattern<V>;
-    /** Whether the listbox has received focus yet. */
-    private _hasFocused;
     constructor();
-    _onFocus(): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;

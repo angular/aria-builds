@@ -62,14 +62,9 @@ class TabList {
     activeItem: signal(undefined),
     element: () => this._elementRef.nativeElement
   });
-  _hasFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "_hasFocused"
-  }] : []));
   constructor() {
     afterRenderEffect(() => {
-      if (!this._hasFocused()) {
-        this._pattern.setDefaultState();
-      }
+      this._pattern.setDefaultStateEffect();
     });
     afterRenderEffect(() => {
       const tab = this._pattern.selectedTab();
@@ -86,9 +81,6 @@ class TabList {
         tab?.expanded.set(true);
       }
     });
-  }
-  _onFocus() {
-    this._hasFocused.set(true);
   }
   ngOnInit() {
     this._tabs._register(this);
@@ -182,7 +174,7 @@ class TabList {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_onFocus()"
+        "focusin": "_pattern.onFocusIn()"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
@@ -213,7 +205,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_onFocus()'
+        '(focusin)': '_pattern.onFocusIn()'
       }
     }]
   }],

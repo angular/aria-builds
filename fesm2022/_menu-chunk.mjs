@@ -9,7 +9,7 @@ class MenuPattern {
   visible = computed(() => this.inputs.parent() ? !!this.inputs.parent()?.expanded() : true);
   listBehavior;
   isFocused = signal(false);
-  hasBeenFocused = signal(false);
+  hasBeenInteracted = signal(false);
   hasBeenHovered = signal(false);
   _openTimeout;
   _closeTimeout;
@@ -63,12 +63,22 @@ class MenuPattern {
   }
   setDefaultState() {
     if (!this.inputs.parent()) {
-      this.listBehavior.goto(this.inputs.items()[0], {
-        focusElement: false
-      });
+      const firstFocusable = this.listBehavior.navigationBehavior.peekFirst();
+      if (firstFocusable) {
+        this.listBehavior.goto(firstFocusable, {
+          focusElement: false
+        });
+      }
+    }
+  }
+  setDefaultStateEffect() {
+    if (this.hasBeenInteracted() || this.hasBeenHovered()) return;
+    if (this.inputs.items().length > 0) {
+      this.setDefaultState();
     }
   }
   onKeydown(event) {
+    this.hasBeenInteracted.set(true);
     this.keydownManager().handle(event);
   }
   onMouseOver(event) {
@@ -148,7 +158,7 @@ class MenuPattern {
   }
   onFocusIn() {
     this.isFocused.set(true);
-    this.hasBeenFocused.set(true);
+    this.hasBeenInteracted.set(true);
   }
   onFocusOut(event) {
     const parent = this.inputs.parent();
@@ -285,7 +295,7 @@ class MenuBarPattern {
   dynamicSpaceKey = computed(() => this.listBehavior.isTyping() ? '' : ' ');
   typeaheadRegexp = /^.$/;
   isFocused = signal(false);
-  hasBeenFocused = signal(false);
+  hasBeenInteracted = signal(false);
   disabled = () => this.inputs.disabled();
   keydownManager = computed(() => {
     return new KeyboardEventManager().on(this._nextKey, () => this.next(), {
@@ -307,9 +317,19 @@ class MenuBarPattern {
     this.listBehavior = new List(inputs);
   }
   setDefaultState() {
-    this.inputs.activeItem.set(this.inputs.items()[0]);
+    const firstFocusable = this.listBehavior.navigationBehavior.peekFirst();
+    if (firstFocusable) {
+      this.inputs.activeItem.set(firstFocusable);
+    }
+  }
+  setDefaultStateEffect() {
+    if (this.hasBeenInteracted()) return;
+    if (this.inputs.items().length > 0) {
+      this.setDefaultState();
+    }
   }
   onKeydown(event) {
+    this.hasBeenInteracted.set(true);
     this.keydownManager().handle(event);
   }
   onClick(event) {
@@ -330,7 +350,7 @@ class MenuBarPattern {
   }
   onFocusIn() {
     this.isFocused.set(true);
-    this.hasBeenFocused.set(true);
+    this.hasBeenInteracted.set(true);
   }
   onFocusOut(event) {
     const relatedTarget = event.relatedTarget;
@@ -382,7 +402,7 @@ class MenuBarPattern {
 class MenuTriggerPattern {
   inputs;
   expanded = signal(false);
-  hasBeenFocused = signal(false);
+  hasBeenInteracted = signal(false);
   role = () => 'button';
   hasPopup = () => true;
   menu;
@@ -407,6 +427,7 @@ class MenuTriggerPattern {
   }
   onKeydown(event) {
     if (!this.inputs.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.keydownManager().handle(event);
     }
   }
@@ -418,7 +439,7 @@ class MenuTriggerPattern {
     }
   }
   onFocusIn() {
-    this.hasBeenFocused.set(true);
+    this.hasBeenInteracted.set(true);
   }
   onFocusOut(event) {
     const element = this.inputs.element();
@@ -458,7 +479,7 @@ class MenuItemPattern {
   searchTerm;
   element;
   active = computed(() => this.inputs.parent()?.inputs.activeItem() === this);
-  hasBeenFocused = signal(false);
+  hasBeenInteracted = signal(false);
   tabIndex = computed(() => {
     if (this.submenu() && this.submenu()?.inputs.activeItem()) {
       return -1;
@@ -512,7 +533,7 @@ class MenuItemPattern {
     }
   }
   onFocusIn() {
-    this.hasBeenFocused.set(true);
+    this.hasBeenInteracted.set(true);
   }
 }
 

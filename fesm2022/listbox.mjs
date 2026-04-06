@@ -236,9 +236,6 @@ class Listbox {
     debugName: "value"
   }] : []));
   _pattern;
-  _hasFocused = signal(false, ...(ngDevMode ? [{
-    debugName: "_hasFocused"
-  }] : []));
   constructor() {
     const inputs = {
       ...this,
@@ -262,9 +259,7 @@ class Listbox {
       }
     });
     afterRenderEffect(() => {
-      if (!this._hasFocused()) {
-        this._pattern.setDefaultState();
-      }
+      this._pattern.setDefaultStateEffect();
     });
     afterRenderEffect(() => {
       const items = inputs.items();
@@ -280,9 +275,6 @@ class Listbox {
         this.value.set(value.filter(v => items.some(i => i.value() === v)));
       }
     });
-  }
-  _onFocus() {
-    this._hasFocused.set(true);
   }
   scrollActiveItemIntoView(options = {
     block: 'nearest'
@@ -395,7 +387,7 @@ class Listbox {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_onFocus()"
+        "focusin": "_pattern.onFocusIn()"
       },
       properties: {
         "attr.id": "id()",
@@ -445,7 +437,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_onFocus()'
+        '(focusin)': '_pattern.onFocusIn()'
       },
       hostDirectives: [ComboboxPopup],
       providers: [{

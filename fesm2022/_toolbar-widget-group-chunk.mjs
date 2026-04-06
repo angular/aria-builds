@@ -1,9 +1,10 @@
-import { computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { signal, computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
 class ToolbarPattern {
   inputs;
   listBehavior;
+  hasBeenInteracted = signal(false);
   orientation;
   softDisabled;
   disabled = computed(() => this.listBehavior.disabled());
@@ -102,10 +103,15 @@ class ToolbarPattern {
   }
   onKeydown(event) {
     if (this.disabled()) return;
+    this.hasBeenInteracted.set(true);
     this._keydown().handle(event);
   }
   onPointerdown(event) {
+    this.hasBeenInteracted.set(true);
     event.preventDefault();
+  }
+  onFocusIn() {
+    this.hasBeenInteracted.set(true);
   }
   onClick(event) {
     if (this.disabled() || event.pointerType === '') return;
@@ -117,6 +123,12 @@ class ToolbarPattern {
     });
     if (firstItem) {
       this.inputs.activeItem.set(firstItem);
+    }
+  }
+  setDefaultStateEffect() {
+    if (this.hasBeenInteracted()) return;
+    if (this.inputs.items().length > 0) {
+      this.setDefaultState();
     }
   }
 }

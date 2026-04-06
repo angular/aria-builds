@@ -1,10 +1,11 @@
-import { computed, signal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
+import { signal, computed, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
 class ListboxPattern {
   inputs;
   listBehavior;
+  hasBeenInteracted = signal(false);
   orientation;
   disabled = computed(() => this.listBehavior.disabled());
   readonly;
@@ -153,13 +154,18 @@ class ListboxPattern {
   }
   onKeydown(event) {
     if (!this.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.keydown().handle(event);
     }
   }
   onClick(event) {
     if (!this.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.clickManager().handle(event);
     }
+  }
+  onFocusIn() {
+    this.hasBeenInteracted.set(true);
   }
   setDefaultState() {
     let firstItem = null;
@@ -177,6 +183,10 @@ class ListboxPattern {
     if (firstItem) {
       this.inputs.activeItem.set(firstItem);
     }
+  }
+  setDefaultStateEffect() {
+    if (this.hasBeenInteracted()) return;
+    this.setDefaultState();
   }
   _getItem(e) {
     if (!(e.target instanceof HTMLElement)) {

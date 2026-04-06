@@ -101,7 +101,7 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     /** Whether the combobox is focused. */
     isFocused: WritableSignalLike<boolean>;
     /** Whether the combobox has ever been focused. */
-    hasBeenFocused: WritableSignalLike<boolean>;
+    hasBeenInteracted: WritableSignalLike<boolean>;
     /** The key used to navigate to the previous item in the list. */
     expandKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The key used to navigate to the next item in the list. */

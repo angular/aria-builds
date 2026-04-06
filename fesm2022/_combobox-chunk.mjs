@@ -15,7 +15,7 @@ class ComboboxPattern {
   highlightedItem = signal(undefined);
   isDeleting = false;
   isFocused = signal(false);
-  hasBeenFocused = signal(false);
+  hasBeenInteracted = signal(false);
   expandKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
   collapseKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
   popupId = computed(() => this.inputs.popupControls()?.id() || null);
@@ -171,12 +171,12 @@ class ComboboxPattern {
     }
   }
   onFocusIn() {
-    if (this.inputs.alwaysExpanded() && !this.hasBeenFocused()) {
+    if (this.inputs.alwaysExpanded() && !this.hasBeenInteracted()) {
       const firstSelectedItem = this.listControls()?.getSelectedItems()[0];
       firstSelectedItem ? this.listControls()?.focus(firstSelectedItem) : this.first();
     }
     this.isFocused.set(true);
-    this.hasBeenFocused.set(true);
+    this.hasBeenInteracted.set(true);
   }
   onFocusOut(event) {
     if (this.inputs.disabled()) {

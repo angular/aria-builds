@@ -119,10 +119,7 @@ declare class TabList implements OnInit, OnDestroy {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The TabList UIPattern. */
     readonly _pattern: TabListPattern;
-    /** Whether the tree has received focus yet. */
-    private _hasFocused;
     constructor();
-    _onFocus(): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
     _register(child: Tab): void;

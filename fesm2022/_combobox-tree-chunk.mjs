@@ -249,6 +249,7 @@ class TreeItemPattern {
 class TreePattern {
   inputs;
   treeBehavior;
+  hasBeenInteracted = signal(false);
   level = () => 0;
   expanded = () => true;
   visible = () => true;
@@ -427,15 +428,24 @@ class TreePattern {
       this.activeItem.set(firstItem);
     }
   }
+  setDefaultStateEffect() {
+    if (this.hasBeenInteracted()) return;
+    this.setDefaultState();
+  }
   onKeydown(event) {
     if (!this.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.keydown().handle(event);
     }
   }
   onPointerdown(event) {
     if (!this.disabled()) {
+      this.hasBeenInteracted.set(true);
       this.pointerdown().handle(event);
     }
+  }
+  onFocusIn() {
+    this.hasBeenInteracted.set(true);
   }
   goto(e, opts) {
     const item = this._getItem(e);
