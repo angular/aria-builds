@@ -16,6 +16,7 @@ export { untracked } from '@angular/core/primitives/signals';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
+import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import '@angular/core';
 
@@ -41,7 +42,7 @@ declare class ComboboxListboxPattern<V> extends ListboxPattern<V> implements Com
     /** Noop. The combobox handles keydown events. */
     onKeydown(_: KeyboardEvent): void;
     /** Noop. The combobox handles pointerdown events. */
-    onPointerdown(_: PointerEvent): void;
+    onClick(_: PointerEvent): void;
     /** Noop. The combobox controls the open state. */
     setDefaultState(): void;
     /** Navigates to the specified item in the listbox. */

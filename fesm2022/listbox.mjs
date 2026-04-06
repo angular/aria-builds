@@ -7,12 +7,13 @@ import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
+import './_click-event-manager-chunk.mjs';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
-import './_pointer-event-manager-chunk.mjs';
 import './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
+import './_pointer-event-manager-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
 
@@ -393,7 +394,7 @@ class Listbox {
       },
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
-        "pointerdown": "_pattern.onPointerdown($event)",
+        "click": "_pattern.onClick($event)",
         "focusin": "_onFocus()"
       },
       properties: {
@@ -443,7 +444,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-multiselectable]': '_pattern.multi()',
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
-        '(pointerdown)': '_pattern.onPointerdown($event)',
+        '(click)': '_pattern.onClick($event)',
         '(focusin)': '_onFocus()'
       },
       hostDirectives: [ComboboxPopup],

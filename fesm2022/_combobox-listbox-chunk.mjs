@@ -1,6 +1,6 @@
 import { computed, signal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { List } from './_list-chunk.mjs';
-import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
 class ListboxPattern {
   inputs;
@@ -103,8 +103,8 @@ class ListboxPattern {
     }
     return manager;
   });
-  pointerdown = computed(() => {
-    const manager = new PointerEventManager();
+  clickManager = computed(() => {
+    const manager = new ClickEventManager();
     if (this.readonly()) {
       return manager.on(e => this.listBehavior.goto(this._getItem(e)));
     }
@@ -156,9 +156,9 @@ class ListboxPattern {
       this.keydown().handle(event);
     }
   }
-  onPointerdown(event) {
+  onClick(event) {
     if (!this.disabled()) {
-      this.pointerdown().handle(event);
+      this.clickManager().handle(event);
     }
   }
   setDefaultState() {
@@ -228,7 +228,7 @@ class ComboboxListboxPattern extends ListboxPattern {
     this.inputs = inputs;
   }
   onKeydown(_) {}
-  onPointerdown(_) {}
+  onClick(_) {}
   setDefaultState() {}
   focus = (item, opts) => {
     this.listBehavior.goto(item, opts);

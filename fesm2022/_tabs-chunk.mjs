@@ -1,7 +1,7 @@
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { computed, signal, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
-import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 
 class LabelControl {
   inputs;
@@ -91,8 +91,8 @@ class TabListPattern {
       ignoreRepeat: false
     }).on('Home', () => this._navigate(() => this.navigationBehavior.first(), this.followFocus())).on('End', () => this._navigate(() => this.navigationBehavior.last(), this.followFocus())).on(' ', () => this.open()).on('Enter', () => this.open());
   });
-  pointerdown = computed(() => {
-    return new PointerEventManager().on(e => this._navigate(() => this.navigationBehavior.goto(this._getItem(e)), true));
+  clickManager = computed(() => {
+    return new ClickEventManager().on(e => this._navigate(() => this.navigationBehavior.goto(this._getItem(e)), true));
   });
   constructor(inputs) {
     this.inputs = inputs;
@@ -127,9 +127,9 @@ class TabListPattern {
       this.keydown().handle(event);
     }
   }
-  onPointerdown(event) {
+  onClick(event) {
     if (!this.disabled()) {
-      this.pointerdown().handle(event);
+      this.clickManager().handle(event);
     }
   }
   open(tab) {

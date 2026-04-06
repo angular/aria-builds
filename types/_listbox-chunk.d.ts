@@ -1,7 +1,7 @@
 import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
 import { ListInputs, List, ListItem } from './_list-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
-import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { ClickEventManager } from './_click-event-manager-chunk.js';
 
 /**
  * Represents the properties exposed by a listbox that need to be accessed by an option.
@@ -81,14 +81,14 @@ declare class ListboxPattern<V> {
     typeaheadRegexp: RegExp;
     /** The keydown event manager for the listbox. */
     keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
-    /** The pointerdown event manager for the listbox. */
-    pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    /** The click event manager for the listbox. */
+    clickManager: SignalLike<ClickEventManager<PointerEvent>>;
     constructor(inputs: ListboxInputs<V>);
     /** Returns a set of violations */
     validate(): string[];
     /** Handles keydown events for the listbox. */
     onKeydown(event: KeyboardEvent): void;
-    onPointerdown(event: PointerEvent): void;
+    onClick(event: PointerEvent): void;
     /**
      * Sets the listbox to it's default initial state.
      *

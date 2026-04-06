@@ -12,6 +12,7 @@ export { untracked } from '@angular/core/primitives/signals';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_pointer-event-manager-chunk.mjs';
+import './_click-event-manager-chunk.mjs';
 import './_list-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 import '@angular/core';

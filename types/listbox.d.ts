@@ -6,8 +6,9 @@ export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, Combobo
 import './_list-navigation-chunk.js';
 import './_list-chunk.js';
 import './_keyboard-event-manager-chunk.js';
-import './_pointer-event-manager-chunk.js';
+import './_click-event-manager-chunk.js';
 import './_combobox-chunk.js';
+import './_pointer-event-manager-chunk.js';
 import './_deferred-content-chunk.js';
 
 /**

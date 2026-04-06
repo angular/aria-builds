@@ -1,5 +1,5 @@
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
-import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { ClickEventManager } from './_click-event-manager-chunk.js';
 import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
 import { SignalLike, ListNavigationItem, ListNavigationInputs, WritableSignalLike, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
 
@@ -123,8 +123,8 @@ declare class TabListPattern {
     readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** The keydown event manager for the tablist. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
-    /** The pointerdown event manager for the tablist. */
-    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    /** The click event manager for the tablist. */
+    readonly clickManager: SignalLike<ClickEventManager<PointerEvent>>;
     constructor(inputs: TabListInputs);
     /**
      * Sets the tablist to its default initial state.
@@ -137,8 +137,8 @@ declare class TabListPattern {
     setDefaultState(): void;
     /** Handles keydown events for the tablist. */
     onKeydown(event: KeyboardEvent): void;
-    /** The pointerdown event manager for the tablist. */
-    onPointerdown(event: PointerEvent): void;
+    /** The click event manager for the tablist. */
+    onClick(event: PointerEvent): void;
     /** Opens the tab by given value. */
     open(value: string): boolean;
     /** Opens the given tab or the current active tab. */
