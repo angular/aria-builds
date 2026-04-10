@@ -1,6 +1,6 @@
 {
   "name": "@angular/aria",
-  "version": "22.0.0-next.4+sha-30f2239",
+  "version": "22.0.0-next.4+sha-a49508b",
   "description": "Angular Aria",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/angular/components#readme",
   "peerDependencies": {
-    "@angular/cdk": "22.0.0-next.4+sha-30f2239",
+    "@angular/cdk": "22.0.0-next.4+sha-a49508b",
     "@angular/core": "^22.0.0-0 || ^22.1.0-0 || ^22.2.0-0 || ^22.3.0-0 || ^23.0.0-0"
   },
   "devDependencies": {
@@ -82,6 +82,10 @@
     "./toolbar": {
       "types": "./types/toolbar.d.ts",
       "default": "./fesm2022/toolbar.mjs"
+    },
+    "./toolbar/testing": {
+      "types": "./types/toolbar-testing.d.ts",
+      "default": "./fesm2022/toolbar-testing.mjs"
     },
     "./tree": {
       "types": "./types/tree.d.ts",

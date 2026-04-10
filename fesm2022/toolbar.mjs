@@ -304,6 +304,9 @@ class ToolbarWidget {
       }
     },
     host: {
+      attributes: {
+        "ngToolbarWidget": ""
+      },
       properties: {
         "attr.data-active": "active()",
         "attr.tabindex": "_pattern.tabIndex()",
@@ -328,6 +331,7 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngToolbarWidget]',
       exportAs: 'ngToolbarWidget',
       host: {
+        'ngToolbarWidget': '',
         '[attr.data-active]': 'active()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.inert]': 'hardDisabled() ? true : null',
