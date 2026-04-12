@@ -17,13 +17,13 @@ declare class AccordionGroupPattern {
     readonly expansionBehavior: ListExpansion;
     constructor(inputs: AccordionGroupInputs);
     /** The key used to navigate to the previous accordion trigger. */
-    prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key used to navigate to the next accordion trigger. */
-    nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** The keydown event manager for the accordion trigger. */
-    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the accordion trigger. */
-    pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
     /** Handles keydown events on the trigger, delegating to the group if not disabled. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles pointerdown events on the trigger, delegating to the group if not disabled. */

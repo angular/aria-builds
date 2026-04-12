@@ -18,27 +18,27 @@ interface OptionInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
 /** Represents an option in a listbox. */
 declare class OptionPattern<V> {
     /** A unique identifier for the option. */
-    id: SignalLike<string>;
+    readonly id: SignalLike<string>;
     /** The value of the option. */
-    value: SignalLike<V>;
+    readonly value: SignalLike<V>;
     /** The position of the option in the list. */
-    index: SignalLike<number>;
+    readonly index: SignalLike<number>;
     /** Whether the option is active. */
-    active: SignalLike<boolean>;
+    readonly active: SignalLike<boolean>;
     /** Whether the option is selected. */
-    selected: SignalLike<boolean | undefined>;
+    readonly selected: SignalLike<boolean | undefined>;
     /** Whether the option is selectable. */
-    selectable: () => boolean;
+    readonly selectable: () => boolean;
     /** Whether the option is disabled. */
-    disabled: SignalLike<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The text used by the typeahead search. */
-    searchTerm: SignalLike<string>;
+    readonly searchTerm: SignalLike<string>;
     /** A reference to the parent listbox. */
-    listbox: SignalLike<ListboxPattern$1<V> | undefined>;
+    readonly listbox: SignalLike<ListboxPattern$1<V> | undefined>;
     /** The tab index of the option. */
-    tabIndex: SignalLike<0 | -1 | undefined>;
+    readonly tabIndex: SignalLike<0 | -1 | undefined>;
     /** The html element that should receive focus. */
-    element: SignalLike<HTMLElement | undefined>;
+    readonly element: SignalLike<HTMLElement | undefined>;
     constructor(args: OptionInputs<V>);
 }
 
@@ -52,39 +52,39 @@ type ListboxInputs<V> = ListInputs<OptionPattern<V>, V> & {
 /** Controls the state of a listbox. */
 declare class ListboxPattern<V> {
     readonly inputs: ListboxInputs<V>;
-    listBehavior: List<OptionPattern<V>, V>;
+    readonly listBehavior: List<OptionPattern<V>, V>;
     /** Whether the listbox has been interacted with. */
     readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the list is vertically or horizontally oriented. */
-    orientation: SignalLike<'vertical' | 'horizontal'>;
+    readonly orientation: SignalLike<'vertical' | 'horizontal'>;
     /** Whether the listbox is disabled. */
-    disabled: SignalLike<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** Whether the listbox is readonly. */
-    readonly: SignalLike<boolean>;
+    readonly readonly: SignalLike<boolean>;
     /** The tab index of the listbox. */
-    tabIndex: SignalLike<-1 | 0>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active item. */
-    activeDescendant: SignalLike<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** Whether multiple items in the list can be selected at once. */
     multi: SignalLike<boolean>;
     /** The number of items in the listbox. */
-    setsize: SignalLike<number>;
+    readonly setsize: SignalLike<number>;
     /** Whether the listbox selection follows focus. */
-    followFocus: SignalLike<boolean>;
+    readonly followFocus: SignalLike<boolean>;
     /** Whether the listbox should wrap. Used to disable wrapping while range selecting. */
-    wrap: WritableSignalLike<boolean>;
+    readonly wrap: WritableSignalLike<boolean>;
     /** The key used to navigate to the previous item in the list. */
-    prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
     /** The key used to navigate to the next item in the list. */
-    nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    dynamicSpaceKey: SignalLike<"" | " ">;
+    readonly dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */
-    typeaheadRegexp: RegExp;
+    readonly typeaheadRegexp: RegExp;
     /** The keydown event manager for the listbox. */
-    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the listbox. */
-    clickManager: SignalLike<ClickEventManager<PointerEvent>>;
+    readonly clickManager: SignalLike<ClickEventManager<PointerEvent>>;
     constructor(inputs: ListboxInputs<V>);
     /** Returns a set of violations */
     validate(): string[];

@@ -9,7 +9,7 @@ import { EventManager, EventHandlerOptions, ModifierInputs, EventHandler } from 
  * when handling keyboard activation explicitly via KeyboardEventManager.
  */
 declare class ClickEventManager<T extends PointerEvent> extends EventManager<T> {
-    options: EventHandlerOptions;
+    readonly options: EventHandlerOptions;
     /**
      * Configures this event manager to handle events with a specific modifier combination.
      */

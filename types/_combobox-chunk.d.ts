@@ -29,7 +29,7 @@ interface ComboboxInputs<T extends ListItem<V>, V> {
 /** An interface that allows combobox popups to expose the necessary controls for the combobox. */
 interface ComboboxListboxControls<T extends ListItem<V>, V> {
     /** A unique identifier for the popup. */
-    id: () => string;
+    readonly id: () => string;
     /** The ARIA role for the popup. */
     role: SignalLike<'listbox' | 'tree' | 'grid'>;
     /** Whether multiple items in the popup can be selected at once. */
@@ -89,39 +89,39 @@ interface ComboboxTreeControls<T extends ListItem<V>, V> extends ComboboxListbox
 declare class ComboboxPattern<T extends ListItem<V>, V> {
     readonly inputs: ComboboxInputs<T, V>;
     /** Whether the combobox is expanded. */
-    expanded: WritableSignalLike<boolean>;
+    readonly expanded: WritableSignalLike<boolean>;
     /** Whether the combobox is disabled. */
-    disabled: () => boolean;
+    readonly disabled: () => boolean;
     /** The ID of the active item in the combobox. */
-    activeDescendant: SignalLike<string | null>;
+    readonly activeDescendant: SignalLike<string | null>;
     /** The currently highlighted item in the combobox. */
-    highlightedItem: WritableSignalLike<T | undefined>;
+    readonly highlightedItem: WritableSignalLike<T | undefined>;
     /** Whether the most recent input event was a deletion. */
-    isDeleting: boolean;
+    private _isDeleting;
     /** Whether the combobox is focused. */
-    isFocused: WritableSignalLike<boolean>;
+    readonly isFocused: WritableSignalLike<boolean>;
     /** Whether the combobox has ever been focused. */
-    hasBeenInteracted: WritableSignalLike<boolean>;
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** The key used to navigate to the previous item in the list. */
-    expandKey: SignalLike<"ArrowLeft" | "ArrowRight">;
+    readonly expandKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The key used to navigate to the next item in the list. */
-    collapseKey: SignalLike<"ArrowLeft" | "ArrowRight">;
+    readonly collapseKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The ID of the popup associated with the combobox. */
-    popupId: SignalLike<string | null>;
+    readonly popupId: SignalLike<string | null>;
     /** The autocomplete behavior of the combobox. */
-    autocomplete: SignalLike<"both" | "list">;
+    readonly autocomplete: SignalLike<"both" | "list">;
     /** The ARIA role of the popup associated with the combobox. */
-    hasPopup: SignalLike<"listbox" | "tree" | "grid" | "dialog" | null>;
+    readonly hasPopup: SignalLike<"listbox" | "tree" | "grid" | "dialog" | null>;
     /** Whether the combobox is read-only. */
-    readonly: SignalLike<true | null>;
+    readonly readonly: SignalLike<true | null>;
     /** Returns the listbox controls for the combobox. */
-    listControls: () => ComboboxListboxControls<T, V> | null | undefined;
+    readonly listControls: () => ComboboxListboxControls<T, V> | null | undefined;
     /** Returns the tree controls for the combobox. */
-    treeControls: () => ComboboxTreeControls<T, V> | null;
+    readonly treeControls: () => ComboboxTreeControls<T, V> | null;
     /** The keydown event manager for the combobox. */
-    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the combobox. */
-    click: SignalLike<PointerEventManager<PointerEvent>>;
+    readonly click: SignalLike<PointerEventManager<PointerEvent>>;
     constructor(inputs: ComboboxInputs<T, V>);
     /** Handles keydown events for the combobox. */
     onKeydown(event: KeyboardEvent): void;
@@ -134,7 +134,7 @@ declare class ComboboxPattern<T extends ListItem<V>, V> {
     /** Handles focus out events for the combobox. */
     onFocusOut(event: FocusEvent): void;
     /** The first matching item in the combobox. */
-    firstMatch: SignalLike<T | undefined>;
+    readonly firstMatch: SignalLike<T | undefined>;
     /** Handles filtering logic for the combobox. */
     onFilter(): void;
     /** Highlights the currently selected item in the combobox. */
@@ -178,9 +178,9 @@ declare class ComboboxDialogPattern {
         element: SignalLike<HTMLDialogElement>;
         id: SignalLike<string>;
     };
-    id: () => string;
-    role: () => "dialog";
-    keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly id: () => string;
+    readonly role: () => "dialog";
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: {
         combobox: ComboboxPattern<any, any>;
         element: SignalLike<HTMLDialogElement>;

@@ -19,27 +19,27 @@ type TreeInputs$1<T extends TreeItem<V, T>, V> = ListFocusInputs<T> & ListNaviga
 declare class Tree<T extends TreeItem<V, T>, V> {
     readonly inputs: TreeInputs$1<T, V>;
     /** Controls navigation for the tree. */
-    navigationBehavior: ListNavigation<T>;
+    readonly navigationBehavior: ListNavigation<T>;
     /** Controls selection for the tree. */
-    selectionBehavior: ListSelection<T, V>;
+    readonly selectionBehavior: ListSelection<T, V>;
     /** Controls typeahead for the tree. */
-    typeaheadBehavior: ListTypeahead<T>;
+    readonly typeaheadBehavior: ListTypeahead<T>;
     /** Controls focus for the tree. */
-    focusBehavior: ListFocus<T>;
+    readonly focusBehavior: ListFocus<T>;
     /** Controls expansion for the tree. */
-    expansionBehavior: ListExpansion;
+    readonly expansionBehavior: ListExpansion;
     /** Whether the tree is disabled. */
-    disabled: SignalLike<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The id of the current active item. */
-    activeDescendant: SignalLike<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** The tab index of the tree. */
-    tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** The index of the currently active item in the tree (within the flattened list). */
-    activeIndex: SignalLike<number>;
+    readonly activeIndex: SignalLike<number>;
     /** The uncommitted index for selecting a range of options. */
-    private _anchorIndex;
+    private readonly _anchorIndex;
     /** Whether the list should wrap. */
-    private _wrap;
+    private readonly _wrap;
     constructor(inputs: TreeInputs$1<T, V>);
     /** Returns the tab index for the given item. */
     getItemTabindex(item: T): 0 | -1;
@@ -221,7 +221,7 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** The keydown event manager for the tree. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the tree. */
-    pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
     /** A unique identifier for the tree. */
     readonly id: SignalLike<string>;
     /** The host native element. */

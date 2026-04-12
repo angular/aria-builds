@@ -56,7 +56,7 @@ type KeyCode = string | SignalLike<string> | RegExp;
  * propagation and prevents default on all events it handles.
  */
 declare class KeyboardEventManager<T extends KeyboardEvent> extends EventManager<T> {
-    options: EventHandlerOptions;
+    readonly options: EventHandlerOptions;
     /** Configures this event manager to handle events with a specific key and no modifiers. */
     on(key: KeyCode, handler: EventHandler<T>, options?: Partial<EventHandlerOptions>): this;
     /**  Configures this event manager to handle events with a specific modifer and key combination. */

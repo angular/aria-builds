@@ -225,7 +225,7 @@ declare class MenuTrigger<V> {
     /** The directionality (LTR / RTL) context for the application (or a subtree of it). */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** The menu associated with the trigger. */
-    menu: _angular_core.InputSignal<Menu<V> | undefined>;
+    readonly menu: _angular_core.InputSignal<Menu<V> | undefined>;
     /** Whether the menu is expanded. */
     readonly expanded: _angular_core.Signal<boolean>;
     /** Whether the menu trigger has a popup. */
@@ -235,7 +235,7 @@ declare class MenuTrigger<V> {
     /** Whether the menu trigger is soft disabled. */
     readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The menu trigger ui pattern instance. */
-    _pattern: MenuTriggerPattern<V>;
+    readonly _pattern: MenuTriggerPattern<V>;
     constructor();
     /** Opens the menu focusing on the first menu item. */
     open(): void;

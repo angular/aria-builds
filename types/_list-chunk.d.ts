@@ -22,11 +22,11 @@ declare class ListSelection<T extends ListSelectionItem<V>, V> {
         focusManager: ListFocus<T>;
     };
     /** The start index to use for range selection. */
-    rangeStartIndex: WritableSignalLike<number>;
+    readonly rangeStartIndex: WritableSignalLike<number>;
     /** The end index to use for range selection. */
-    rangeEndIndex: WritableSignalLike<number>;
+    readonly rangeEndIndex: WritableSignalLike<number>;
     /** The currently selected items. */
-    selectedItems: SignalLike<T[]>;
+    readonly selectedItems: SignalLike<T[]>;
     constructor(inputs: ListSelectionInputs<T, V> & {
         focusManager: ListFocus<T>;
     });
@@ -90,13 +90,13 @@ declare class ListTypeahead<T extends ListTypeaheadItem> {
     /** A reference to the timeout for resetting the typeahead search. */
     timeout?: ReturnType<typeof setTimeout> | undefined;
     /** The focus controller of the parent list. */
-    focusManager: ListFocus<T>;
+    readonly focusManager: ListFocus<T>;
     /** Whether the user is actively typing a typeahead search query. */
-    isTyping: SignalLike<boolean>;
+    readonly isTyping: SignalLike<boolean>;
     /** Keeps track of the characters that typeahead search is being called with. */
-    private _query;
+    private readonly _query;
     /** The index where that the typeahead search was initiated from. */
-    private _startIndex;
+    private readonly _startIndex;
     constructor(inputs: ListTypeaheadInputs<T> & {
         focusManager: ListFocus<T>;
     });
@@ -127,21 +127,21 @@ type ListInputs<T extends ListItem<V>, V> = ListFocusInputs<T> & ListNavigationI
 declare class List<T extends ListItem<V>, V> {
     readonly inputs: ListInputs<T, V>;
     /** Controls navigation for the list. */
-    navigationBehavior: ListNavigation<T>;
+    readonly navigationBehavior: ListNavigation<T>;
     /** Controls selection for the list. */
-    selectionBehavior: ListSelection<T, V>;
+    readonly selectionBehavior: ListSelection<T, V>;
     /** Controls typeahead for the list. */
-    typeaheadBehavior: ListTypeahead<T>;
+    readonly typeaheadBehavior: ListTypeahead<T>;
     /** Controls focus for the list. */
-    focusBehavior: ListFocus<T>;
+    readonly focusBehavior: ListFocus<T>;
     /** Whether the list is disabled. */
-    disabled: SignalLike<boolean>;
+    readonly disabled: SignalLike<boolean>;
     /** The id of the current active item. */
-    activeDescendant: SignalLike<string | undefined>;
+    readonly activeDescendant: SignalLike<string | undefined>;
     /** The tab index of the list. */
-    tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** The index of the currently active item in the list. */
-    activeIndex: SignalLike<number>;
+    readonly activeIndex: SignalLike<number>;
     /**
      * The uncommitted index for selecting a range of options.
      *
@@ -154,9 +154,9 @@ declare class List<T extends ListItem<V>, V> {
      * In other words, "rangeStartIndex" is only set when a user commits to starting a range selection
      * while "anchorIndex" is set whenever a user indicates they may be starting a range selection.
      */
-    private _anchorIndex;
+    private readonly _anchorIndex;
     /** Whether the list should wrap. Used to disable wrapping while range selecting. */
-    private _wrap;
+    private readonly _wrap;
     constructor(inputs: ListInputs<T, V>);
     /** Returns the tab index for the given item. */
     getItemTabindex(item: T): 0 | -1;

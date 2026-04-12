@@ -13,7 +13,7 @@ class ComboboxPattern {
     return popupControls?.activeId() ?? null;
   });
   highlightedItem = signal(undefined);
-  isDeleting = false;
+  _isDeleting = false;
   isFocused = signal(false);
   hasBeenInteracted = signal(false);
   expandKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
@@ -165,8 +165,8 @@ class ComboboxPattern {
     }
     this.open();
     this.inputs.inputValue?.set(inputEl.value);
-    this.isDeleting = event instanceof InputEvent && !!event.inputType.match(/^delete/);
-    if (this.inputs.filterMode() === 'highlight' && !this.isDeleting) {
+    this._isDeleting = event instanceof InputEvent && !!event.inputType.match(/^delete/);
+    if (this.inputs.filterMode() === 'highlight' && !this._isDeleting) {
       this.highlight();
     }
   }
@@ -222,7 +222,7 @@ class ComboboxPattern {
     if (popupControls instanceof ComboboxDialogPattern) {
       return;
     }
-    const isInitialRender = !this.inputs.inputValue?.().length && !this.isDeleting;
+    const isInitialRender = !this.inputs.inputValue?.().length && !this._isDeleting;
     if (isInitialRender) {
       return;
     }
@@ -245,7 +245,7 @@ class ComboboxPattern {
         item
       });
     }
-    if (this.inputs.filterMode() === 'highlight' && !this.isDeleting) {
+    if (this.inputs.filterMode() === 'highlight' && !this._isDeleting) {
       this.highlight();
     }
   }

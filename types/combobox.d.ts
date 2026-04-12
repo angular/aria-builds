@@ -68,7 +68,7 @@ declare class ComboboxPopup<V> {
  */
 declare class Combobox<V> {
     /** A signal wrapper for directionality. */
-    protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
+    protected readonly textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
     /** The element that the combobox is attached to. */
     private readonly _elementRef;
     /** A reference to the combobox element. */
@@ -83,7 +83,7 @@ declare class Combobox<V> {
      * - `auto-select`: The combobox automatically selects the first matching option.
      * - `highlight`: The combobox highlights matching text in the options without changing selection.
      */
-    filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
+    readonly filterMode: _angular_core.InputSignal<"manual" | "auto-select" | "highlight">;
     /** Whether the combobox is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the combobox is read-only. */
@@ -136,7 +136,7 @@ declare class ComboboxDialog {
     readonly combobox: Combobox<any>;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
-    _pattern: ComboboxDialogPattern;
+    readonly _pattern: ComboboxDialogPattern;
     constructor();
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxDialog, never>;
@@ -174,7 +174,7 @@ declare class ComboboxInput {
     /** The combobox that the input belongs to. */
     readonly combobox: Combobox<any>;
     /** The value of the input. */
-    value: _angular_core.ModelSignal<string>;
+    readonly value: _angular_core.ModelSignal<string>;
     constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxInput, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxInput, "input[ngComboboxInput]", ["ngComboboxInput"], { "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;

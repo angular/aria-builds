@@ -47,40 +47,40 @@ declare class Listbox<V> {
     /** The Options nested inside of the Listbox. */
     private readonly _options;
     /** A signal wrapper for directionality. */
-    protected textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
+    protected readonly textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
     /** The Option UIPatterns of the child Options. */
-    protected items: _angular_core.Signal<OptionPattern<V>[]>;
+    protected readonly items: _angular_core.Signal<OptionPattern<V>[]>;
     /** Whether the list is vertically or horizontally oriented. */
-    orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multiple items in the list can be selected at once. */
-    multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether focus should wrap when navigating. */
-    wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /**
      * Whether to allow disabled items to receive focus. When `true`, disabled items are
      * focusable but not interactive. When `false`, disabled items are skipped during navigation.
      */
-    softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /**
      * The focus strategy used by the list.
      * - `roving`: Focus is moved to the active item using `tabindex`.
      * - `activedescendant`: Focus remains on the listbox container, and `aria-activedescendant` is used to indicate the active item.
      */
-    focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
+    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
     /**
      * The selection strategy used by the list.
      * - `follow`: The focused item is automatically selected.
      * - `explicit`: Items are selected explicitly by the user (e.g., via click or spacebar).
      */
-    selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
     /** The amount of time before the typeahead search is reset. */
-    typeaheadDelay: _angular_core.InputSignal<number>;
+    readonly typeaheadDelay: _angular_core.InputSignal<number>;
     /** Whether the listbox is disabled. */
-    disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the listbox is readonly. */
-    readonly: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly readonly: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The values of the currently selected items. */
-    value: _angular_core.ModelSignal<V[]>;
+    readonly value: _angular_core.ModelSignal<V[]>;
     /** The Listbox UIPattern. */
     readonly _pattern: ListboxPattern<V>;
     constructor();
@@ -115,21 +115,21 @@ declare class Option<V> {
     /** A reference to the host element. */
     readonly element: HTMLElement;
     /** Whether the option is currently active (focused). */
-    active: _angular_core.Signal<boolean>;
+    readonly active: _angular_core.Signal<boolean>;
     /** The parent Listbox. */
     private readonly _listbox;
     /** A unique identifier for the option. */
     readonly id: _angular_core.InputSignal<string>;
     /** The text used by the typeahead search. */
-    protected searchTerm: _angular_core.Signal<string>;
+    protected readonly searchTerm: _angular_core.Signal<string>;
     /** The parent Listbox UIPattern. */
     private readonly _listboxPattern;
     /** The value of the option. */
-    value: _angular_core.InputSignal<V>;
+    readonly value: _angular_core.InputSignal<V>;
     /** Whether an item is disabled. */
-    disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The text used by the typeahead search. */
-    label: _angular_core.InputSignal<string | undefined>;
+    readonly label: _angular_core.InputSignal<string | undefined>;
     /** Whether the option is selected. */
     readonly selected: _angular_core.Signal<boolean | undefined>;
     /** The Option UIPattern. */

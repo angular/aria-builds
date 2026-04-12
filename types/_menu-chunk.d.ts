@@ -48,41 +48,41 @@ interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
 declare class MenuPattern<V> {
     readonly inputs: MenuInputs<V>;
     /** The unique ID of the menu. */
-    id: SignalLike<string>;
+    readonly id: SignalLike<string>;
     /** The role of the menu. */
-    role: () => string;
+    readonly role: () => string;
     /** Whether the menu is disabled. */
-    disabled: () => boolean;
+    readonly disabled: () => boolean;
     /** Whether the menu is visible. */
-    visible: SignalLike<boolean>;
+    readonly visible: SignalLike<boolean>;
     /** Controls list behavior for the menu items. */
-    listBehavior: List<MenuItemPattern<V>, V>;
+    readonly listBehavior: List<MenuItemPattern<V>, V>;
     /** Whether the menu or any of its child elements are currently focused. */
-    isFocused: WritableSignalLike<boolean>;
+    readonly isFocused: WritableSignalLike<boolean>;
     /** Whether the menu has received interaction. */
-    hasBeenInteracted: WritableSignalLike<boolean>;
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the menu trigger has been hovered. */
-    hasBeenHovered: WritableSignalLike<boolean>;
+    readonly hasBeenHovered: WritableSignalLike<boolean>;
     /** Timeout used to open sub-menus on hover. */
     _openTimeout: any;
     /** Timeout used to close sub-menus on hover out. */
     _closeTimeout: any;
     /** The tab index of the menu. */
-    tabIndex: () => 0 | -1;
+    readonly tabIndex: () => 0 | -1;
     /** Whether the menu should be focused on mouse over. */
-    shouldFocus: SignalLike<boolean>;
+    readonly shouldFocus: SignalLike<boolean>;
     /** The key used to expand sub-menus. */
-    private _expandKey;
+    private readonly _expandKey;
     /** The key used to collapse sub-menus. */
-    private _collapseKey;
+    private readonly _collapseKey;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    dynamicSpaceKey: SignalLike<"" | " ">;
+    readonly dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */
-    typeaheadRegexp: RegExp;
+    readonly typeaheadRegexp: RegExp;
     /** The root of the menu. */
-    root: SignalLike<MenuTriggerPattern<V> | MenuBarPattern<V> | MenuPattern<V> | undefined>;
+    readonly root: SignalLike<MenuTriggerPattern<V> | MenuBarPattern<V> | MenuPattern<V> | undefined>;
     /** Handles keyboard events for the menu. */
-    keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuInputs<V>);
     /** Sets the default state for the menu. */
     setDefaultState(): void;
@@ -135,25 +135,25 @@ declare class MenuPattern<V> {
 declare class MenuBarPattern<V> {
     readonly inputs: MenuBarInputs<V>;
     /** Controls list behavior for the menu items. */
-    listBehavior: List<MenuItemPattern<V>, V>;
+    readonly listBehavior: List<MenuItemPattern<V>, V>;
     /** The tab index of the menu. */
-    tabIndex: () => 0 | -1;
+    readonly tabIndex: () => 0 | -1;
     /** The key used to navigate to the next item. */
-    private _nextKey;
+    private readonly _nextKey;
     /** The key used to navigate to the previous item. */
-    private _previousKey;
+    private readonly _previousKey;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
-    dynamicSpaceKey: SignalLike<"" | " ">;
+    readonly dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */
-    typeaheadRegexp: RegExp;
+    readonly typeaheadRegexp: RegExp;
     /** Whether the menubar or any of its children are currently focused. */
-    isFocused: WritableSignalLike<boolean>;
+    readonly isFocused: WritableSignalLike<boolean>;
     /** Whether the menubar has been interacted with. */
-    hasBeenInteracted: WritableSignalLike<boolean>;
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the menubar is disabled. */
-    disabled: () => boolean;
+    readonly disabled: () => boolean;
     /** Handles keyboard events for the menu. */
-    keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuBarInputs<V>);
     /** Sets the default state for the menubar. */
     setDefaultState(): void;
@@ -184,21 +184,21 @@ declare class MenuBarPattern<V> {
 declare class MenuTriggerPattern<V> {
     readonly inputs: MenuTriggerInputs<V>;
     /** Whether the menu trigger is expanded. */
-    expanded: WritableSignalLike<boolean>;
+    readonly expanded: WritableSignalLike<boolean>;
     /** Whether the menu trigger has received interaction. */
-    hasBeenInteracted: WritableSignalLike<boolean>;
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** The role of the menu trigger. */
-    role: () => string;
+    readonly role: () => string;
     /** Whether the menu trigger has a popup. */
-    hasPopup: () => boolean;
+    readonly hasPopup: () => boolean;
     /** The menu associated with the trigger. */
-    menu: SignalLike<MenuPattern<V> | undefined>;
+    readonly menu: SignalLike<MenuPattern<V> | undefined>;
     /** The tab index of the menu trigger. */
-    tabIndex: SignalLike<-1 | 0>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the menu trigger is disabled. */
-    disabled: () => boolean;
+    readonly disabled: () => boolean;
     /** Handles keyboard events for the menu trigger. */
-    keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    readonly keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuTriggerInputs<V>);
     /** Handles keyboard events for the menu trigger. */
     onKeydown(event: KeyboardEvent): void;
@@ -222,37 +222,37 @@ declare class MenuTriggerPattern<V> {
 declare class MenuItemPattern<V> implements ListItem<V> {
     readonly inputs: MenuItemInputs<V>;
     /** The value of the menu item. */
-    value: SignalLike<V>;
+    readonly value: SignalLike<V>;
     /** The unique ID of the menu item. */
-    id: SignalLike<string>;
+    readonly id: SignalLike<string>;
     /** Whether the menu item is disabled. */
-    disabled: () => boolean;
+    readonly disabled: () => boolean;
     /** The search term for the menu item. */
-    searchTerm: SignalLike<string>;
+    readonly searchTerm: SignalLike<string>;
     /** The element of the menu item. */
-    element: SignalLike<HTMLElement | undefined>;
+    readonly element: SignalLike<HTMLElement | undefined>;
     /** Whether the menu item is active. */
-    active: SignalLike<boolean>;
+    readonly active: SignalLike<boolean>;
     /** Whether the menu item has received interaction. */
-    hasBeenInteracted: WritableSignalLike<boolean>;
+    readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** The tab index of the menu item. */
-    tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<0 | -1>;
     /** The position of the menu item in the menu. */
-    index: SignalLike<number>;
+    readonly index: SignalLike<number>;
     /** Whether the menu item is expanded. */
-    expanded: SignalLike<boolean | null>;
+    readonly expanded: SignalLike<boolean | null>;
     /** Whether the menu item is expanded. */
-    _expanded: WritableSignalLike<boolean>;
+    readonly _expanded: WritableSignalLike<boolean>;
     /** The ID of the menu that the menu item controls. */
-    controls: WritableSignalLike<string | undefined>;
+    readonly controls: WritableSignalLike<string | undefined>;
     /** The role of the menu item. */
-    role: () => string;
+    readonly role: () => string;
     /** Whether the menu item has a popup. */
-    hasPopup: SignalLike<boolean>;
+    readonly hasPopup: SignalLike<boolean>;
     /** The submenu associated with the menu item. */
-    submenu: SignalLike<MenuPattern<V> | undefined>;
+    readonly submenu: SignalLike<MenuPattern<V> | undefined>;
     /** Whether the menu item is selectable. */
-    selectable: SignalLike<boolean>;
+    readonly selectable: SignalLike<boolean>;
     constructor(inputs: MenuItemInputs<V>);
     /** Opens the submenu. */
     open(opts?: {

@@ -10,7 +10,7 @@ declare enum MouseButton {
 }
 /** An event manager that is specialized for handling pointer events. */
 declare class PointerEventManager<T extends PointerEvent> extends EventManager<T> {
-    options: EventHandlerOptions;
+    readonly options: EventHandlerOptions;
     /**
      * Configures this event manager to handle events with a specific modifer and mouse button
      * combination.

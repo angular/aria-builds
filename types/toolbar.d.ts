@@ -124,7 +124,7 @@ declare class Toolbar<V> {
      * Whether to allow disabled items to receive focus. When `true`, disabled items are
      * focusable but not interactive. When `false`, disabled items are skipped during navigation.
      */
-    softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the toolbar is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether focus should wrap when navigating. */

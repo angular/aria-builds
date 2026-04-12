@@ -38,11 +38,11 @@ interface ListFocusInputs<T extends ListFocusItem> {
 declare class ListFocus<T extends ListFocusItem> {
     readonly inputs: ListFocusInputs<T>;
     /** The last item that was active. */
-    prevActiveItem: WritableSignalLike<T | undefined>;
+    readonly prevActiveItem: WritableSignalLike<T | undefined>;
     /** The index of the last item that was active. */
-    prevActiveIndex: SignalLike<number>;
+    readonly prevActiveIndex: SignalLike<number>;
     /** The current active index in the list. */
-    activeIndex: SignalLike<number>;
+    readonly activeIndex: SignalLike<number>;
     constructor(inputs: ListFocusInputs<T>);
     /** Whether the list is in a disabled state. */
     isListDisabled(): boolean;
