@@ -1,6 +1,6 @@
 {
   "name": "@angular/aria",
-  "version": "22.0.0-next.4+sha-ad5fba3",
+  "version": "22.0.0-next.4+sha-75fae52",
   "description": "Angular Aria",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/angular/components#readme",
   "peerDependencies": {
-    "@angular/cdk": "22.0.0-next.4+sha-ad5fba3",
+    "@angular/cdk": "22.0.0-next.4+sha-75fae52",
     "@angular/core": "^22.0.0-0 || ^22.1.0-0 || ^22.2.0-0 || ^22.3.0-0 || ^23.0.0-0"
   },
   "devDependencies": {
@@ -55,6 +55,10 @@
       "types": "./types/accordion.d.ts",
       "default": "./fesm2022/accordion.mjs"
     },
+    "./accordion/testing": {
+      "types": "./types/accordion-testing.d.ts",
+      "default": "./fesm2022/accordion-testing.mjs"
+    },
     "./combobox": {
       "types": "./types/combobox.d.ts",
       "default": "./fesm2022/combobox.mjs"
@@ -67,9 +71,17 @@
       "types": "./types/listbox.d.ts",
       "default": "./fesm2022/listbox.mjs"
     },
+    "./listbox/testing": {
+      "types": "./types/listbox-testing.d.ts",
+      "default": "./fesm2022/listbox-testing.mjs"
+    },
     "./menu": {
       "types": "./types/menu.d.ts",
       "default": "./fesm2022/menu.mjs"
+    },
+    "./menu/testing": {
+      "types": "./types/menu-testing.d.ts",
+      "default": "./fesm2022/menu-testing.mjs"
     },
     "./private": {
       "types": "./types/private.d.ts",
