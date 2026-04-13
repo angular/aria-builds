@@ -2,7 +2,7 @@ import { computed, signal, KeyboardEventManager, Modifier } from './_signal-like
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
 import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';
-import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class TreeListFocus extends ListFocus {
   isFocusable(item) {
@@ -352,8 +352,8 @@ class TreePattern {
     }
     return manager;
   });
-  pointerdown = computed(() => {
-    const manager = new PointerEventManager();
+  clickManager = computed(() => {
+    const manager = new ClickEventManager();
     if (this.multi()) {
       manager.on(Modifier.Shift, e => this.goto(e, {
         selectRange: true
@@ -438,10 +438,10 @@ class TreePattern {
       this.keydown().handle(event);
     }
   }
-  onPointerdown(event) {
+  onClick(event) {
     if (!this.disabled()) {
       this.hasBeenInteracted.set(true);
-      this.pointerdown().handle(event);
+      this.clickManager().handle(event);
     }
   }
   onFocusIn() {
@@ -497,7 +497,7 @@ class ComboboxTreePattern extends TreePattern {
     this.inputs = inputs;
   }
   onKeydown(_) {}
-  onPointerdown(_) {}
+  onClick(_) {}
   setDefaultState() {}
   focus = item => this.treeBehavior.goto(item);
   next = () => this.treeBehavior.next();

@@ -13,6 +13,7 @@ import './_pointer-event-manager-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
+import './_click-event-manager-chunk.mjs';
 
 function sortDirectives(a, b) {
   return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
@@ -242,7 +243,7 @@ class Tree {
       },
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
-        "pointerdown": "_pattern.onPointerdown($event)",
+        "click": "_pattern.onClick($event)",
         "focusin": "_pattern.onFocusIn()"
       },
       properties: {
@@ -280,7 +281,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '[tabindex]': '_pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
-        '(pointerdown)': '_pattern.onPointerdown($event)',
+        '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocusIn()'
       },
       hostDirectives: [ComboboxPopup]

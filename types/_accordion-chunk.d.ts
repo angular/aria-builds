@@ -1,5 +1,5 @@
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
-import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { ClickEventManager } from './_click-event-manager-chunk.js';
 import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
 import { ListNavigationInputs, ListNavigationItem, ListFocusItem, SignalLike, WritableSignalLike, ListFocusInputs, ListNavigation, ListFocus } from './_list-navigation-chunk.js';
 
@@ -22,12 +22,12 @@ declare class AccordionGroupPattern {
     readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
     /** The keydown event manager for the accordion trigger. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
-    /** The pointerdown event manager for the accordion trigger. */
-    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    /** The click event manager for the accordion trigger. */
+    readonly click: SignalLike<ClickEventManager<PointerEvent>>;
     /** Handles keydown events on the trigger, delegating to the group if not disabled. */
     onKeydown(event: KeyboardEvent): void;
-    /** Handles pointerdown events on the trigger, delegating to the group if not disabled. */
-    onPointerdown(event: PointerEvent): void;
+    /** Handles click events on the trigger, delegating to the group if not disabled. */
+    onClick(event: PointerEvent): void;
     /** Handles focus events on the trigger. This ensures the tabbing changes the active index. */
     onFocus(event: FocusEvent): void;
     /** Toggles the expansion state of the active accordion item. */

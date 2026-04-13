@@ -2,7 +2,7 @@ import { ListNavigationItem, ListFocusItem, SignalLike, ListFocusInputs, ListNav
 import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
 import { ListTypeaheadItem, ListSelectionItem, ListSelectionInputs, ListTypeaheadInputs, ListSelection, ListTypeahead, NavOptions } from './_list-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
-import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { ClickEventManager } from './_click-event-manager-chunk.js';
 
 /** Represents an item in the tree. */
 interface TreeItem<V, T extends TreeItem<V, T>> extends ListTypeaheadItem, ListNavigationItem, ListSelectionItem<V>, ListFocusItem, ExpansionItem {
@@ -220,8 +220,8 @@ declare class TreePattern<V> implements TreeInputs<V> {
     readonly typeaheadRegexp: RegExp;
     /** The keydown event manager for the tree. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
-    /** The pointerdown event manager for the tree. */
-    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    /** The click event manager for the tree. */
+    readonly clickManager: SignalLike<ClickEventManager<PointerEvent>>;
     /** A unique identifier for the tree. */
     readonly id: SignalLike<string>;
     /** The host native element. */
@@ -268,8 +268,8 @@ declare class TreePattern<V> implements TreeInputs<V> {
     setDefaultStateEffect(): void;
     /** Handles keydown events on the tree. */
     onKeydown(event: KeyboardEvent): void;
-    /** Handles pointerdown events on the tree. */
-    onPointerdown(event: PointerEvent): void;
+    /** Handles click events on the tree. */
+    onClick(event: PointerEvent): void;
     /** Handles focusin events on the tree. */
     onFocusIn(): void;
     /** Navigates to the given tree item in the tree. */

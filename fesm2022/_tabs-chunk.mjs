@@ -1,7 +1,7 @@
-import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { computed, signal, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class LabelControl {
   inputs;

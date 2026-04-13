@@ -1,7 +1,7 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
-import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 const focusMode = () => 'roving';
 class AccordionGroupPattern {
@@ -43,8 +43,8 @@ class AccordionGroupPattern {
       ignoreRepeat: false
     }).on('Home', () => this.navigationBehavior.first()).on('End', () => this.navigationBehavior.last()).on(' ', () => this.toggle()).on('Enter', () => this.toggle());
   });
-  pointerdown = computed(() => {
-    return new PointerEventManager().on(e => {
+  click = computed(() => {
+    return new ClickEventManager().on(e => {
       const item = this._findTriggerPattern(e.target);
       if (!item) return;
       this.navigationBehavior.goto(item);
@@ -54,8 +54,8 @@ class AccordionGroupPattern {
   onKeydown(event) {
     this.keydown().handle(event);
   }
-  onPointerdown(event) {
-    this.pointerdown().handle(event);
+  onClick(event) {
+    this.click().handle(event);
   }
   onFocus(event) {
     const item = this._findTriggerPattern(event.target);

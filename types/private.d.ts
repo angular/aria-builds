@@ -97,8 +97,8 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     constructor(inputs: ComboboxTreeInputs<V>);
     /** Noop. The combobox handles keydown events. */
     onKeydown(_: KeyboardEvent): void;
-    /** Noop. The combobox handles pointerdown events. */
-    onPointerdown(_: PointerEvent): void;
+    /** Noop. The combobox handles click events. */
+    onClick(_: PointerEvent): void;
     /** Noop. The combobox controls the open state. */
     setDefaultState(): void;
     /** Navigates to the specified item in the tree. */

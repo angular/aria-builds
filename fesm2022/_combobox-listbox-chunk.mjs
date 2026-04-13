@@ -1,6 +1,6 @@
 import { signal, computed, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
-import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { List } from './_list-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class ListboxPattern {
   inputs;

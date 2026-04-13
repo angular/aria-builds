@@ -8,7 +8,7 @@ import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
-import './_pointer-event-manager-chunk.mjs';
+import './_click-event-manager-chunk.mjs';
 
 class AccordionPanel {
   _deferredContentAware = inject(DeferredContentAware);
@@ -378,7 +378,7 @@ class AccordionGroup {
     host: {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
-        "pointerdown": "_pattern.onPointerdown($event)",
+        "click": "_pattern.onClick($event)",
         "focusin": "_pattern.onFocus($event)"
       }
     },
@@ -408,7 +408,7 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngAccordionGroup',
       host: {
         '(keydown)': '_pattern.onKeydown($event)',
-        '(pointerdown)': '_pattern.onPointerdown($event)',
+        '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocus($event)'
       },
       providers: [{

@@ -5,7 +5,7 @@ import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import './_keyboard-event-manager-chunk.js';
 import './_list-navigation-chunk.js';
-import './_pointer-event-manager-chunk.js';
+import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 
 /**

@@ -4,11 +4,11 @@ import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAtt
 import { Directionality } from '@angular/cdk/bidi';
 import { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
-import './_click-event-manager-chunk.mjs';
+import './_expansion-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
-import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_click-event-manager-chunk.mjs';
 
 const TABS = new InjectionToken('TABS');
 function sortDirectives(a, b) {
