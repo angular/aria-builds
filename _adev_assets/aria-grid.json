@@ -604,32 +604,6 @@
           "isRequiredInput": false
         },
         {
-          "name": "orientation",
-          "type": "InputSignal<\"vertical\" | \"horizontal\">",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "input"
-          ],
-          "description": "Orientation of the widgets in the cell.",
-          "jsdocTags": [],
-          "inputAlias": "orientation",
-          "isRequiredInput": false
-        },
-        {
-          "name": "wrap",
-          "type": "InputSignalWithTransform<boolean, unknown>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "input"
-          ],
-          "description": "Whether widgets navigation wraps.",
-          "jsdocTags": [],
-          "inputAlias": "wrap",
-          "isRequiredInput": false
-        },
-        {
           "name": "tabindex",
           "type": "InputSignal<number | undefined>",
           "memberType": "property",
@@ -668,7 +642,7 @@
       "source": {
         "filePath": "/src/aria/grid/grid-cell.ts",
         "startLine": 43,
-        "endLine": 175
+        "endLine": 171
       }
     }
   ],
@@ -724,6 +698,10 @@
     [
       "Directionality",
       "@angular/cdk/bidi"
+    ],
+    [
+      "contentChild",
+      "@angular/core"
     ],
     [
       "model",
@@ -911,14 +889,6 @@
     ],
     [
       "GridCell.selectable",
-      "@angular/aria/grid"
-    ],
-    [
-      "GridCell.orientation",
-      "@angular/aria/grid"
-    ],
-    [
-      "GridCell.wrap",
       "@angular/aria/grid"
     ],
     [

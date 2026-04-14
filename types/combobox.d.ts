@@ -3,9 +3,10 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { ComboboxListboxControls, ComboboxTreeControls, ComboboxDialogPattern, ComboboxPattern } from './_combobox-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import './_keyboard-event-manager-chunk.js';
-import './_list-navigation-chunk.js';
+import './_signal-like-chunk.js';
 import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
+import './_list-navigation-chunk.js';
 
 /**
  * Identifies an element as a popup for an `ngCombobox`.

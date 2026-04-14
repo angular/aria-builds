@@ -2,8 +2,8 @@ import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from '
 export { ComboboxDialogPattern, ComboboxInputs } from './_combobox-chunk.js';
 import { ListboxInputs, OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 export { OptionInputs } from './_listbox-chunk.js';
-import { SignalLike } from './_list-navigation-chunk.js';
-export { WritableSignalLike, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_list-navigation-chunk.js';
+import { SignalLike } from './_signal-like-chunk.js';
+export { WritableSignalLike, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.js';
 export { MenuBarInputs, MenuBarPattern, MenuInputs, MenuItemInputs, MenuItemPattern, MenuPattern, MenuTriggerInputs, MenuTriggerPattern } from './_menu-chunk.js';
 export { TabInputs, TabListInputs, TabListPattern, TabPanelInputs, TabPanelPattern, TabPattern } from './_tabs-chunk.js';
 export { ToolbarInputs, ToolbarPattern, ToolbarWidgetGroupInputs, ToolbarWidgetGroupPattern, ToolbarWidgetInputs, ToolbarWidgetPattern } from './_toolbar-chunk.js';
@@ -16,6 +16,7 @@ export { untracked } from '@angular/core/primitives/signals';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
+import './_list-navigation-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import '@angular/core';

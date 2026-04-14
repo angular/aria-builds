@@ -1,14 +1,4 @@
-type SignalLike<T> = () => T;
-interface WritableSignalLike<T> extends SignalLike<T> {
-    set(value: T): void;
-    update(updateFn: (value: T) => T): void;
-    asReadonly(): SignalLike<T>;
-}
-/** Converts a getter setter style signal to a WritableSignalLike. */
-declare function convertGetterSetterToWritableSignalLike<T>(getter: () => T, setter: (v: T) => void): WritableSignalLike<T>;
-declare function computed<T>(computation: () => T): SignalLike<T>;
-declare function signal<T>(initialValue: T): WritableSignalLike<T>;
-declare function linkedSignal<T>(sourceFn: () => T): WritableSignalLike<T>;
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 
 /** Represents an item in a collection, such as a listbox option, than may receive focus. */
 interface ListFocusItem {
@@ -117,5 +107,5 @@ declare class ListNavigation<T extends ListNavigationItem> {
     private _peek;
 }
 
-export { ListFocus, ListNavigation, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal };
-export type { ListFocusInputs, ListFocusItem, ListNavigationInputs, ListNavigationItem, SignalLike, WritableSignalLike };
+export { ListFocus, ListNavigation };
+export type { ListFocusInputs, ListFocusItem, ListNavigationInputs, ListNavigationItem };

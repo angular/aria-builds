@@ -1,4 +1,4 @@
-import { SignalLike } from './_list-navigation-chunk.js';
+import { SignalLike } from './_signal-like-chunk.js';
 
 /**
  * Options that are applicable to all event handlers.

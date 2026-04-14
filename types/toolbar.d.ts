@@ -2,8 +2,9 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { ToolbarWidgetGroupPattern, ToolbarWidgetPattern, ToolbarPattern } from './_toolbar-chunk.js';
-import './_list-navigation-chunk.js';
+import './_signal-like-chunk.js';
 import './_list-chunk.js';
+import './_list-navigation-chunk.js';
 
 /**
  * A directive that groups toolbar widgets, used for more complex widgets like radio groups

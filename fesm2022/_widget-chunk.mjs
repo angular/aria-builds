@@ -1,7 +1,6 @@
 import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
 import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
-import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 
 class GridData {
   inputs;
@@ -844,85 +843,20 @@ class GridCellPattern {
   ariaColIndex = computed(() => this.inputs.colIndex() ?? this.inputs.grid().gridBehavior.colIndex(this));
   _tabIndex = computed(() => this.inputs.grid().gridBehavior.cellTabIndex(this));
   tabIndex = computed(() => {
-    if (this.singleWidgetMode() || this.navigationActivated()) {
+    if (this.inputs.widget()) {
       return -1;
     }
     return this._tabIndex();
   });
-  singleWidgetMode = computed(() => this.inputs.widgets().length === 1);
-  multiWidgetMode = computed(() => this.inputs.widgets().length > 1);
-  navigationDisabled = computed(() => !this.multiWidgetMode() || !this.active() || this.inputs.disabled());
-  focusBehavior;
-  navigationBehavior;
-  activeWidget = linkedSignal(() => this.inputs.widgets().length > 0 ? this.inputs.widgets()[0] : undefined);
-  navigationActivated = signal(false);
-  widgetActivated = computed(() => this.inputs.widgets().some(w => w.isActivated()));
-  isActivated = computed(() => this.navigationActivated() || this.widgetActivated());
-  prevKey = computed(() => {
-    if (this.inputs.orientation() === 'vertical') {
-      return 'ArrowUp';
-    }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
-  });
-  nextKey = computed(() => {
-    if (this.inputs.orientation() === 'vertical') {
-      return 'ArrowDown';
-    }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
-  });
-  keydown = computed(() => {
-    const manager = new KeyboardEventManager();
-    if (!this.navigationActivated()) {
-      manager.on('Enter', () => this.startNavigation());
-      return manager;
-    }
-    manager.on('Escape', () => this.stopNavigation()).on(this.prevKey(), () => this._advance(() => this.navigationBehavior.prev({
-      focusElement: false
-    })), {
-      ignoreRepeat: false
-    }).on(this.nextKey(), () => this._advance(() => this.navigationBehavior.next({
-      focusElement: false
-    })), {
-      ignoreRepeat: false
-    }).on('Home', () => this._advance(() => this.navigationBehavior.next({
-      focusElement: false
-    }))).on('End', () => this._advance(() => this.navigationBehavior.next({
-      focusElement: false
-    })));
-    return manager;
-  });
+  widget = () => this.inputs.widget();
+  isActivated = computed(() => this.widget()?.isActivated() ?? false);
   constructor(inputs) {
     this.inputs = inputs;
     this.selected = inputs.selected;
-    const listNavigationInputs = {
-      ...inputs,
-      items: inputs.widgets,
-      activeItem: this.activeWidget,
-      disabled: this.navigationDisabled,
-      focusMode: () => 'roving',
-      softDisabled: () => true
-    };
-    this.focusBehavior = new ListFocus(listNavigationInputs);
-    this.navigationBehavior = new ListNavigation({
-      ...listNavigationInputs,
-      focusManager: this.focusBehavior
-    });
   }
   onKeydown(event) {
-    if (this.disabled() || this.inputs.widgets().length === 0) return;
-    if (this.singleWidgetMode()) {
-      this.activeWidget().onKeydown(event);
-      return;
-    }
-    if (!this.navigationActivated()) {
-      this.keydown().handle(event);
-      return;
-    }
-    const widgetActivated = this.widgetActivated();
-    this.activeWidget().onKeydown(event);
-    if (!widgetActivated) {
-      this.keydown().handle(event);
-    }
+    if (this.disabled()) return;
+    this.widget()?.onKeydown(event);
   }
   onFocusIn(event) {
     this.isFocused.set(true);
@@ -930,14 +864,6 @@ class GridCellPattern {
     const widget = this.inputs.getWidget(focusTarget);
     if (!widget) return;
     widget.onFocusIn(event);
-    if (widget !== this.activeWidget()) {
-      this.navigationBehavior.goto(widget, {
-        focusElement: false
-      });
-    }
-    if (this.multiWidgetMode()) {
-      this.navigationActivated.set(true);
-    }
   }
   onFocusOut(event) {
     const blurTarget = event.target;
@@ -946,48 +872,27 @@ class GridCellPattern {
     const focusTarget = event.relatedTarget;
     if (this.element().contains(focusTarget)) return;
     this.isFocused.set(false);
-    this.navigationActivated.set(false);
   }
   focus() {
-    if (this.singleWidgetMode()) {
-      this.activeWidget()?.focus();
+    const widget = this.widget();
+    if (widget) {
+      widget.focus();
     } else {
       this.element().focus();
     }
   }
   widgetTabIndex() {
-    if (this.singleWidgetMode()) {
-      return this._tabIndex();
-    }
-    return this.navigationActivated() ? 0 : -1;
-  }
-  startNavigation() {
-    if (this.navigationActivated()) return;
-    this.navigationActivated.set(true);
-    this.navigationBehavior.first();
-  }
-  stopNavigation() {
-    if (!this.navigationActivated()) return;
-    this.navigationActivated.set(false);
-    this.element().focus();
-  }
-  _advance(op) {
-    const success = op();
-    if (success) {
-      this.activeWidget()?.focus();
-    }
+    return this._tabIndex();
   }
 }
 
 class GridCellWidgetPattern {
   inputs;
-  id = () => this.inputs.id();
   element = () => this.inputs.element();
   widgetHost = computed(() => this.inputs.focusTarget() ?? this.element());
-  index = computed(() => this.inputs.cell().inputs.widgets().indexOf(this));
   disabled = computed(() => this.inputs.disabled() || this.inputs.cell().disabled());
   tabIndex = computed(() => this.inputs.cell().widgetTabIndex());
-  active = computed(() => this.inputs.cell().active() && this.inputs.cell().activeWidget() === this);
+  active = computed(() => this.inputs.cell().active() && this.inputs.cell().widget() === this);
   isActivated = signal(false);
   lastActivateEvent = signal(undefined);
   lastDeactivateEvent = signal(undefined);

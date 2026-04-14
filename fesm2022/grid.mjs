@@ -1,12 +1,11 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, NgZone, afterRenderEffect, Directive, output, Renderer2, model } from '@angular/core';
+import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, NgZone, afterRenderEffect, Directive, output, Renderer2, contentChild, model } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_pointer-event-manager-chunk.mjs';
-import './_list-navigation-chunk.mjs';
 
 const GRID_CELL = new InjectionToken('GRID_CELL');
 const GRID_ROW = new InjectionToken('GRID_ROW');
@@ -527,14 +526,14 @@ class GridCell {
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  _widgets = contentChildren(GridCellWidget, {
+  _widget = contentChild(GridCellWidget, {
     ...(ngDevMode ? {
-      debugName: "_widgets"
+      debugName: "_widget"
     } : {}),
     descendants: true
   });
-  _widgetPatterns = computed(() => this._widgets().map(w => w._pattern), ...(ngDevMode ? [{
-    debugName: "_widgetPatterns"
+  _widgetPattern = computed(() => this._widget()?._pattern, ...(ngDevMode ? [{
+    debugName: "_widgetPattern"
   }] : []));
   _row = inject(GRID_ROW);
   textDirection = inject(Directionality).valueSignal;
@@ -568,15 +567,6 @@ class GridCell {
   selectable = input(true, ...(ngDevMode ? [{
     debugName: "selectable"
   }] : []));
-  orientation = input('horizontal', ...(ngDevMode ? [{
-    debugName: "orientation"
-  }] : []));
-  wrap = input(true, {
-    ...(ngDevMode ? {
-      debugName: "wrap"
-    } : {}),
-    transform: booleanAttribute
-  });
   tabindex = input(...(ngDevMode ? [undefined, {
     debugName: "tabindex"
   }] : []));
@@ -587,7 +577,7 @@ class GridCell {
     ...this,
     grid: this._row._gridPattern,
     row: () => this._row._pattern,
-    widgets: this._widgetPatterns,
+    widget: this._widgetPattern,
     getWidget: e => this._getWidget(e),
     element: () => this.element
   });
@@ -625,10 +615,11 @@ class GridCell {
   };
   _getWidget(element) {
     let target = element;
+    const widget = this._widgetPattern();
+    if (!widget) return undefined;
     while (target) {
-      const pattern = this._widgetPatterns().find(w => w.element() === target);
-      if (pattern) {
-        return pattern;
+      if (widget.element() === target) {
+        return widget;
       }
       target = target.parentElement?.closest('[ngGridCellWidget]');
     }
@@ -712,20 +703,6 @@ class GridCell {
         isRequired: false,
         transformFunction: null
       },
-      orientation: {
-        classPropertyName: "orientation",
-        publicName: "orientation",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      wrap: {
-        classPropertyName: "wrap",
-        publicName: "wrap",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
       tabindex: {
         classPropertyName: "tabindex",
         publicName: "tabindex",
@@ -742,7 +719,8 @@ class GridCell {
       useExisting: GridCell
     }],
     queries: [{
-      propertyName: "_widgets",
+      propertyName: "_widget",
+      first: true,
       predicate: GridCellWidget,
       descendants: true,
       isSignal: true
@@ -769,8 +747,8 @@ i0.ɵɵngDeclareClassMetadata({
   }],
   ctorParameters: () => [],
   propDecorators: {
-    _widgets: [{
-      type: i0.ContentChildren,
+    _widget: [{
+      type: i0.ContentChild,
       args: [i0.forwardRef(() => GridCellWidget), {
         ...{
           descendants: true
@@ -850,22 +828,6 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "selectable",
-        required: false
-      }]
-    }],
-    orientation: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "orientation",
-        required: false
-      }]
-    }],
-    wrap: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "wrap",
         required: false
       }]
     }],

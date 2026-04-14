@@ -4,9 +4,10 @@ import { AccordionTriggerPattern, AccordionGroupPattern } from './_accordion-chu
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import './_keyboard-event-manager-chunk.js';
-import './_list-navigation-chunk.js';
+import './_signal-like-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
+import './_list-navigation-chunk.js';
 
 /**
  * The content panel of an accordion item that is conditionally visible.

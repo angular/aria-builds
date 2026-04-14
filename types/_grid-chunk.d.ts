@@ -1,4 +1,4 @@
-import { SignalLike, WritableSignalLike, ListNavigationItem, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { PointerEventManager } from './_pointer-event-manager-chunk.js';
 
@@ -335,7 +335,9 @@ declare class Grid<T extends GridCell> {
 }
 
 /** The inputs for the `GridCellWidgetPattern`. */
-interface GridCellWidgetInputs extends Omit<ListNavigationItem, 'index'> {
+interface GridCellWidgetInputs {
+    /** Whether the widget is disabled. */
+    disabled: SignalLike<boolean>;
     /** The `GridCellPattern` that this widget belongs to. */
     cell: SignalLike<GridCellPattern>;
     /** The html element that should receive focus. */
@@ -346,21 +348,17 @@ interface GridCellWidgetInputs extends Omit<ListNavigationItem, 'index'> {
     focusTarget: SignalLike<HTMLElement | undefined>;
 }
 /** The UI pattern for a widget inside a grid cell. */
-declare class GridCellWidgetPattern implements ListNavigationItem {
+declare class GridCellWidgetPattern {
     readonly inputs: GridCellWidgetInputs;
-    /** A unique identifier for the widget. */
-    readonly id: SignalLike<string>;
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement>;
     /** The element that should receive focus. */
     readonly widgetHost: SignalLike<HTMLElement>;
-    /** The index of the widget within the cell. */
-    readonly index: SignalLike<number>;
     /** Whether the widget is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The tab index for the widget. */
     readonly tabIndex: SignalLike<-1 | 0>;
-    /** Whether the widget is the active item in the widget list. */
+    /** Whether the widget is the active widget in the cell. */
     readonly active: SignalLike<boolean>;
     /** Whether the widget is currently activated. */
     readonly isActivated: WritableSignalLike<boolean>;
@@ -386,13 +384,13 @@ declare class GridCellWidgetPattern implements ListNavigationItem {
 }
 
 /** The inputs for the `GridCellPattern`. */
-interface GridCellInputs extends GridCell, Omit<ListNavigationInputs<GridCellWidgetPattern>, 'focusMode' | 'items' | 'activeItem' | 'softDisabled' | 'element'> {
+interface GridCellInputs extends GridCell {
     /** The `GridPattern` that this cell belongs to. */
     grid: SignalLike<GridPattern>;
     /** The `GridRowPattern` that this cell belongs to. */
     row: SignalLike<GridRowPattern>;
-    /** The widget patterns contained within this cell, if any. */
-    widgets: SignalLike<GridCellWidgetPattern[]>;
+    /** The widget pattern contained within this cell, if any. */
+    widget: SignalLike<GridCellWidgetPattern | undefined>;
     /** The index of this cell's row within the grid. */
     rowIndex: SignalLike<number | undefined>;
     /** The index of this cell's column within the grid. */
@@ -433,30 +431,10 @@ declare class GridCellPattern implements GridCell {
     private readonly _tabIndex;
     /** The tab index for the cell. If the cell contains a widget, the cell's tab index is -1. */
     readonly tabIndex: SignalLike<-1 | 0>;
-    /** Whether the cell contains a single widget. */
-    readonly singleWidgetMode: SignalLike<boolean>;
-    /** Whether the cell contains multiple widgets. */
-    readonly multiWidgetMode: SignalLike<boolean>;
-    /** Whether navigation between widgets is disabled. */
-    readonly navigationDisabled: SignalLike<boolean>;
-    /** The focus behavior for the widgets in the cell. */
-    readonly focusBehavior: ListFocus<GridCellWidgetPattern>;
-    /** The navigation behavior for the widgets in the cell. */
-    readonly navigationBehavior: ListNavigation<GridCellWidgetPattern>;
-    /** The currently active widget in the cell. */
-    readonly activeWidget: WritableSignalLike<GridCellWidgetPattern | undefined>;
-    /** Whether navigation between widgets is activated. */
-    readonly navigationActivated: WritableSignalLike<boolean>;
-    /** Whether any widget within the cell is activated. */
-    readonly widgetActivated: SignalLike<boolean>;
+    /** The widget in the cell. */
+    readonly widget: SignalLike<GridCellWidgetPattern | undefined>;
     /** Whether the cell or widget inside the cell is activated. */
     readonly isActivated: SignalLike<boolean>;
-    /** The key used to navigate to the previous widget. */
-    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
-    /** The key used to navigate to the next widget. */
-    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
-    /** The keyboard event manager for the cell. */
-    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: GridCellInputs);
     /** Handles keydown events for the cell. */
     onKeydown(event: KeyboardEvent): void;
@@ -468,12 +446,6 @@ declare class GridCellPattern implements GridCell {
     focus(): void;
     /** Gets the tab index for the widget within the cell. */
     widgetTabIndex(): -1 | 0;
-    /** Starts navigation between widgets. */
-    startNavigation(): void;
-    /** Stops navigation between widgets and restores focus to the cell. */
-    stopNavigation(): void;
-    /** Executes a navigation operation and focuses the new active widget. */
-    private _advance;
 }
 
 /** The inputs for the `GridRowPattern`. */

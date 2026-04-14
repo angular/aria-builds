@@ -3,9 +3,10 @@ import { Signal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
-import { SignalLike } from './_list-navigation-chunk.js';
+import { SignalLike } from './_signal-like-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_list-chunk.js';
+import './_list-navigation-chunk.js';
 
 /**
  * A menu bar of menu items.

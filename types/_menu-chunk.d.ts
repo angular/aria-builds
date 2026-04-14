@@ -1,4 +1,4 @@
-import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { ListInputs, ListItem, List } from './_list-chunk.js';
 

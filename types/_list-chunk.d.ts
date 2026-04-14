@@ -1,4 +1,5 @@
-import { ListFocusItem, SignalLike, ListFocusInputs, WritableSignalLike, ListFocus, ListNavigationItem, ListNavigationInputs, ListNavigation } from './_list-navigation-chunk.js';
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
+import { ListFocusItem, ListFocusInputs, ListFocus, ListNavigationItem, ListNavigationInputs, ListNavigation } from './_list-navigation-chunk.js';
 
 /** Represents an item in a collection, such as a listbox option, that can be selected. */
 interface ListSelectionItem<V> extends ListFocusItem {

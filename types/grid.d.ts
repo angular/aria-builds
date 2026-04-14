@@ -2,7 +2,7 @@ import * as _angular_core from '@angular/core';
 import { Signal, ElementRef } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridPattern, GridCellPattern, GridRowPattern, GridCellWidgetPattern } from './_grid-chunk.js';
-import './_list-navigation-chunk.js';
+import './_signal-like-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_pointer-event-manager-chunk.js';
 
@@ -110,10 +110,10 @@ declare class GridCell {
     readonly element: HTMLElement;
     /** Whether the cell is currently active (focused). */
     readonly active: Signal<boolean>;
-    /** The widgets contained within this cell, if any. */
-    private readonly _widgets;
+    /** The widget contained within this cell, if any. */
+    private readonly _widget;
     /** The UI pattern for the widget in this cell. */
-    private readonly _widgetPatterns;
+    private readonly _widgetPattern;
     /** The parent row. */
     private readonly _row;
     /** Text direction. */
@@ -136,10 +136,6 @@ declare class GridCell {
     readonly selected: _angular_core.ModelSignal<boolean>;
     /** Whether the cell is selectable. */
     readonly selectable: _angular_core.InputSignal<boolean>;
-    /** Orientation of the widgets in the cell. */
-    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
-    /** Whether widgets navigation wraps. */
-    readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The tabindex override. */
     readonly tabindex: _angular_core.InputSignal<number | undefined>;
     /**
@@ -154,7 +150,7 @@ declare class GridCell {
     /** Gets the cell widget pattern for a given element. */
     private _getWidget;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<GridCell, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widgets"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCell, "[ngGridCell]", ["ngGridCell"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "rowSpan": { "alias": "rowSpan"; "required": false; "isSignal": true; }; "colSpan": { "alias": "colSpan"; "required": false; "isSignal": true; }; "rowIndex": { "alias": "rowIndex"; "required": false; "isSignal": true; }; "colIndex": { "alias": "colIndex"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selected": { "alias": "selected"; "required": false; "isSignal": true; }; "selectable": { "alias": "selectable"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "selected": "selectedChange"; }, ["_widget"], never, true, never>;
 }
 
 /**

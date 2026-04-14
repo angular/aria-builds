@@ -1,4 +1,4 @@
-import { SignalLike, WritableSignalLike } from './_list-navigation-chunk.js';
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 
 /** Represents an item that can be expanded or collapsed. */
 interface ExpansionItem {
