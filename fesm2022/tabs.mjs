@@ -3,6 +3,7 @@ import * as i0 from '@angular/core';
 import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
+import { sortDirectives } from './_element-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_signal-like-chunk.mjs';
@@ -11,9 +12,6 @@ import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 
 const TABS = new InjectionToken('TABS');
-function sortDirectives(a, b) {
-  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
-}
 
 class TabList {
   _elementRef = inject(ElementRef);

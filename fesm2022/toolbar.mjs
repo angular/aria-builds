@@ -1,18 +1,14 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, contentChildren } from '@angular/core';
+import { inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, InjectionToken, contentChildren } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
+import { sortDirectives } from './_element-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
-
-const TOOLBAR_WIDGET_GROUP = new InjectionToken('TOOLBAR_WIDGET_GROUP');
-function sortDirectives(a, b) {
-  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
-}
 
 class Toolbar {
   _elementRef = inject(ElementRef);
@@ -221,6 +217,8 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
+const TOOLBAR_WIDGET_GROUP = new InjectionToken('TOOLBAR_WIDGET_GROUP');
 
 class ToolbarWidget {
   _elementRef = inject(ElementRef);

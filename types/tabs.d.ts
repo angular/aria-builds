@@ -2,16 +2,13 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { TabPattern, TabListPattern, TabPanelPattern } from './_tabs-chunk.js';
+import { HasElement } from './_element-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_signal-like-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
-
-interface HasElement {
-    element: HTMLElement;
-}
 
 /**
  * A selectable tab in a TabList.

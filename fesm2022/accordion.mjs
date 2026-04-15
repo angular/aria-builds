@@ -1,9 +1,10 @@
 import * as i0 from '@angular/core';
-import { inject, input, computed, afterRenderEffect, Directive, InjectionToken, ElementRef, booleanAttribute, model, contentChildren, signal } from '@angular/core';
+import { inject, ElementRef, input, computed, afterRenderEffect, Directive, InjectionToken, signal, booleanAttribute, model } from '@angular/core';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
+import { sortDirectives } from './_element-chunk.mjs';
+import { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import { AccordionTriggerPattern, AccordionGroupPattern } from './_accordion-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_signal-like-chunk.mjs';
@@ -11,6 +12,8 @@ import '@angular/core/primitives/signals';
 import './_click-event-manager-chunk.mjs';
 
 class AccordionPanel {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
   _deferredContentAware = inject(DeferredContentAware);
   id = input(inject(_IdGenerator).getId('ng-accordion-panel-', true), ...(ngDevMode ? [{
     debugName: "id"
@@ -111,6 +114,186 @@ i0.ɵɵngDeclareClassMetadata({
 
 const ACCORDION_GROUP = new InjectionToken('ACCORDION_GROUP');
 
+class AccordionGroup {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  _triggers = signal(new Set(), ...(ngDevMode ? [{
+    debugName: "_triggers"
+  }] : []));
+  _sortedTriggers = computed(() => {
+    const triggers = [...this._triggers()];
+    const sortFn = triggers[0]?.index() === undefined ? sortDirectives : (a, b) => a.index() - b.index();
+    return triggers.sort(sortFn);
+  }, ...(ngDevMode ? [{
+    debugName: "_sortedTriggers"
+  }] : []));
+  _triggerPatterns = computed(() => {
+    return this._sortedTriggers().map(t => t._pattern);
+  }, ...(ngDevMode ? [{
+    debugName: "_triggerPatterns"
+  }] : []));
+  textDirection = inject(Directionality).valueSignal;
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
+    transform: booleanAttribute
+  });
+  multiExpandable = input(true, {
+    ...(ngDevMode ? {
+      debugName: "multiExpandable"
+    } : {}),
+    transform: booleanAttribute
+  });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
+    transform: booleanAttribute
+  });
+  wrap = input(false, {
+    ...(ngDevMode ? {
+      debugName: "wrap"
+    } : {}),
+    transform: booleanAttribute
+  });
+  _pattern = new AccordionGroupPattern({
+    ...this,
+    element: () => this.element,
+    activeItem: signal(undefined),
+    items: this._triggerPatterns,
+    orientation: () => 'vertical'
+  });
+  expandAll() {
+    this._pattern.expandAll();
+  }
+  collapseAll() {
+    this._pattern.collapseAll();
+  }
+  _registerTrigger(trigger) {
+    this._triggers().add(trigger);
+    this._triggers.set(new Set(this._triggers()));
+  }
+  _unregisterTrigger(trigger) {
+    this._triggers().delete(trigger);
+    this._triggers.set(new Set(this._triggers()));
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.6",
+    ngImport: i0,
+    type: AccordionGroup,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "22.0.0-next.6",
+    type: AccordionGroup,
+    isStandalone: true,
+    selector: "[ngAccordionGroup]",
+    inputs: {
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      multiExpandable: {
+        classPropertyName: "multiExpandable",
+        publicName: "multiExpandable",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      wrap: {
+        classPropertyName: "wrap",
+        publicName: "wrap",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    host: {
+      listeners: {
+        "keydown": "_pattern.onKeydown($event)",
+        "click": "_pattern.onClick($event)",
+        "focusin": "_pattern.onFocus($event)"
+      }
+    },
+    providers: [{
+      provide: ACCORDION_GROUP,
+      useExisting: AccordionGroup
+    }],
+    exportAs: ["ngAccordionGroup"],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.6",
+  ngImport: i0,
+  type: AccordionGroup,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngAccordionGroup]',
+      exportAs: 'ngAccordionGroup',
+      host: {
+        '(keydown)': '_pattern.onKeydown($event)',
+        '(click)': '_pattern.onClick($event)',
+        '(focusin)': '_pattern.onFocus($event)'
+      },
+      providers: [{
+        provide: ACCORDION_GROUP,
+        useExisting: AccordionGroup
+      }]
+    }]
+  }],
+  propDecorators: {
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    multiExpandable: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "multiExpandable",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
+        required: false
+      }]
+    }],
+    wrap: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "wrap",
+        required: false
+      }]
+    }]
+  }
+});
+
 class AccordionTrigger {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -130,6 +313,9 @@ class AccordionTrigger {
     } : {}),
     transform: booleanAttribute
   });
+  index = input(...(ngDevMode ? [undefined, {
+    debugName: "index"
+  }] : []));
   expanded = model(false, ...(ngDevMode ? [{
     debugName: "expanded"
   }] : []));
@@ -145,6 +331,11 @@ class AccordionTrigger {
       accordionPanelId: this.panelId
     });
     this.panel()._pattern = this._pattern;
+    this._accordionGroup._registerTrigger(this);
+  }
+  ngOnDestroy() {
+    this.panel()._pattern = undefined;
+    this._accordionGroup._unregisterTrigger(this);
   }
   expand() {
     this._pattern.open();
@@ -187,6 +378,13 @@ class AccordionTrigger {
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      index: {
+        classPropertyName: "index",
+        publicName: "index",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -267,6 +465,14 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
+    index: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "index",
+        required: false
+      }]
+    }],
     expanded: [{
       type: i0.Input,
       args: [{
@@ -277,187 +483,6 @@ i0.ɵɵngDeclareClassMetadata({
     }, {
       type: i0.Output,
       args: ["expandedChange"]
-    }]
-  }
-});
-
-class AccordionGroup {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  _triggers = contentChildren(AccordionTrigger, {
-    ...(ngDevMode ? {
-      debugName: "_triggers"
-    } : {}),
-    descendants: true
-  });
-  _triggerPatterns = computed(() => this._triggers().map(t => t._pattern), ...(ngDevMode ? [{
-    debugName: "_triggerPatterns"
-  }] : []));
-  textDirection = inject(Directionality).valueSignal;
-  disabled = input(false, {
-    ...(ngDevMode ? {
-      debugName: "disabled"
-    } : {}),
-    transform: booleanAttribute
-  });
-  multiExpandable = input(true, {
-    ...(ngDevMode ? {
-      debugName: "multiExpandable"
-    } : {}),
-    transform: booleanAttribute
-  });
-  softDisabled = input(true, {
-    ...(ngDevMode ? {
-      debugName: "softDisabled"
-    } : {}),
-    transform: booleanAttribute
-  });
-  wrap = input(false, {
-    ...(ngDevMode ? {
-      debugName: "wrap"
-    } : {}),
-    transform: booleanAttribute
-  });
-  _pattern = new AccordionGroupPattern({
-    ...this,
-    element: () => this.element,
-    activeItem: signal(undefined),
-    items: this._triggerPatterns,
-    orientation: () => 'vertical'
-  });
-  expandAll() {
-    this._pattern.expandAll();
-  }
-  collapseAll() {
-    this._pattern.collapseAll();
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.6",
-    ngImport: i0,
-    type: AccordionGroup,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
-    version: "22.0.0-next.6",
-    type: AccordionGroup,
-    isStandalone: true,
-    selector: "[ngAccordionGroup]",
-    inputs: {
-      disabled: {
-        classPropertyName: "disabled",
-        publicName: "disabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      multiExpandable: {
-        classPropertyName: "multiExpandable",
-        publicName: "multiExpandable",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      softDisabled: {
-        classPropertyName: "softDisabled",
-        publicName: "softDisabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      wrap: {
-        classPropertyName: "wrap",
-        publicName: "wrap",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      }
-    },
-    host: {
-      listeners: {
-        "keydown": "_pattern.onKeydown($event)",
-        "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocus($event)"
-      }
-    },
-    providers: [{
-      provide: ACCORDION_GROUP,
-      useExisting: AccordionGroup
-    }],
-    queries: [{
-      propertyName: "_triggers",
-      predicate: AccordionTrigger,
-      descendants: true,
-      isSignal: true
-    }],
-    exportAs: ["ngAccordionGroup"],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.6",
-  ngImport: i0,
-  type: AccordionGroup,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngAccordionGroup]',
-      exportAs: 'ngAccordionGroup',
-      host: {
-        '(keydown)': '_pattern.onKeydown($event)',
-        '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocus($event)'
-      },
-      providers: [{
-        provide: ACCORDION_GROUP,
-        useExisting: AccordionGroup
-      }]
-    }]
-  }],
-  propDecorators: {
-    _triggers: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => AccordionTrigger), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
-    disabled: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "disabled",
-        required: false
-      }]
-    }],
-    multiExpandable: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "multiExpandable",
-        required: false
-      }]
-    }],
-    softDisabled: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "softDisabled",
-        required: false
-      }]
-    }],
-    wrap: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "wrap",
-        required: false
-      }]
     }]
   }
 });

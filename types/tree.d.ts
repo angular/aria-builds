@@ -3,6 +3,7 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal } from '@angular/core';
 import { TreeItemPattern, TreePattern } from './_tree-chunk.js';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
+import { HasElement } from './_element-chunk.js';
 import { ComboboxPopup } from './combobox.js';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_signal-like-chunk.js';
@@ -55,10 +56,6 @@ declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     _unregister(child: TreeItem<V>): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItemGroup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TreeItemGroup<any>, "ng-template[ngTreeItemGroup]", ["ngTreeItemGroup"], { "ownedBy": { "alias": "ownedBy"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
-}
-
-interface HasElement {
-    element: HTMLElement;
 }
 
 /**

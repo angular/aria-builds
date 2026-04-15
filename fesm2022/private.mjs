@@ -8,6 +8,7 @@ export { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from
 export { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern } from './_toolbar-widget-group-chunk.mjs';
 export { computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.mjs';
+export { sortDirectives } from './_element-chunk.mjs';
 export { untracked } from '@angular/core/primitives/signals';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';

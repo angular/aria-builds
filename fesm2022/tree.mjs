@@ -5,6 +5,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import { ComboboxTreePattern, TreePattern, TreeItemPattern } from './_combobox-tree-chunk.mjs';
+import { sortDirectives } from './_element-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
@@ -14,10 +15,6 @@ import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
-
-function sortDirectives(a, b) {
-  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
-}
 
 class Tree {
   _elementRef = inject(ElementRef);
