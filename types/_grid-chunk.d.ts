@@ -479,8 +479,6 @@ interface GridInputs extends Omit<GridInputs$1<GridCellPattern>, 'cells'> {
     multi: SignalLike<boolean>;
     /** The selection strategy used by the grid. */
     selectionMode: SignalLike<'follow' | 'explicit'>;
-    /** Whether enable range selection. */
-    enableRangeSelection: SignalLike<boolean>;
     /** A function that returns the grid cell associated with a given element. */
     getCell: (e: Element | null) => GridCellPattern | undefined;
 }
@@ -515,14 +513,10 @@ declare class GridPattern {
     readonly prevColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
     /** The key for navigating to the next column. */
     readonly nextColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
-    /** Whether the grid pattern is currently accepting `pointermove` events. */
-    readonly acceptsPointerMove: SignalLike<boolean>;
     /** The keydown event manager for the grid. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The pointerdown event manager for the grid. */
     readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
-    /** The pointerup event manager for the grid. */
-    readonly pointerup: SignalLike<PointerEventManager<PointerEvent>>;
     /** Indicates maybe the losing focus is caused by row/cell deletion. */
     private readonly _maybeDeletion;
     /** Indicates the losing focus is certainly caused by row/cell deletion. */
@@ -534,10 +528,6 @@ declare class GridPattern {
     onKeydown(event: KeyboardEvent): void;
     /** Handles pointerdown events on the grid. */
     onPointerdown(event: PointerEvent): void;
-    /** Handles pointermove events on the grid. */
-    onPointermove(event: PointerEvent): void;
-    /** Handles pointerup events on the grid. */
-    onPointerup(event: PointerEvent): void;
     /** Handles focusin events on the grid. */
     onFocusIn(event: FocusEvent): void;
     /** Handles focusout events on the grid. */

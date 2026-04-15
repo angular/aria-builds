@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, NgZone, afterRenderEffect, Directive, output, Renderer2, contentChild, model } from '@angular/core';
+import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, output, Renderer2, contentChild, model } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -59,12 +59,6 @@ class Grid {
   selectionMode = input('follow', ...(ngDevMode ? [{
     debugName: "selectionMode"
   }] : []));
-  enableRangeSelection = input(false, {
-    ...(ngDevMode ? {
-      debugName: "enableRangeSelection"
-    } : {}),
-    transform: booleanAttribute
-  });
   _pattern = new GridPattern({
     ...this,
     rows: this._rowPatterns,
@@ -72,16 +66,6 @@ class Grid {
     element: () => this.element
   });
   constructor() {
-    const ngZone = inject(NgZone);
-    ngZone.runOutsideAngular(() => {
-      this.element.addEventListener('pointermove', event => {
-        if (this._pattern.acceptsPointerMove()) {
-          ngZone.run(() => this._pattern.onPointermove(event));
-        }
-      }, {
-        passive: true
-      });
-    });
     afterRenderEffect(() => this._pattern.setDefaultStateEffect());
     afterRenderEffect(() => this._pattern.resetStateEffect());
     afterRenderEffect(() => this._pattern.resetFocusEffect());
@@ -172,13 +156,6 @@ class Grid {
         isSignal: true,
         isRequired: false,
         transformFunction: null
-      },
-      enableRangeSelection: {
-        classPropertyName: "enableRangeSelection",
-        publicName: "enableRangeSelection",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
       }
     },
     host: {
@@ -188,7 +165,6 @@ class Grid {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "pointerdown": "_pattern.onPointerdown($event)",
-        "pointerup": "_pattern.onPointerup($event)",
         "focusin": "_pattern.onFocusIn($event)",
         "focusout": "_pattern.onFocusOut($event)"
       },
@@ -227,7 +203,6 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(pointerdown)': '_pattern.onPointerdown($event)',
-        '(pointerup)': '_pattern.onPointerup($event)',
         '(focusin)': '_pattern.onFocusIn($event)',
         '(focusout)': '_pattern.onFocusOut($event)'
       }
@@ -305,14 +280,6 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "selectionMode",
-        required: false
-      }]
-    }],
-    enableRangeSelection: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "enableRangeSelection",
         required: false
       }]
     }]

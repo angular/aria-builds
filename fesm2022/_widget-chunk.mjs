@@ -602,9 +602,6 @@ class GridPattern {
   dragging = signal(false);
   prevColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft');
   nextColKey = computed(() => this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
-  acceptsPointerMove = computed(() => {
-    return !this.disabled() && this.inputs.enableSelection() && this.inputs.enableRangeSelection() && this.dragging();
-  });
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
     if (this.pauseNavigation()) {
@@ -625,24 +622,8 @@ class GridPattern {
     if (this.inputs.enableSelection() && this.inputs.selectionMode() === 'explicit') {
       manager.on(/Enter| /, () => this.inputs.multi() ? this.gridBehavior.toggle() : this.gridBehavior.toggleOne());
     }
-    if (this.inputs.enableSelection() && this.inputs.enableRangeSelection()) {
-      manager.on(Modifier.Shift, 'ArrowUp', () => this.gridBehavior.up({
-        anchor: true
-      })).on(Modifier.Shift, 'ArrowDown', () => this.gridBehavior.down({
-        anchor: true
-      })).on(Modifier.Shift, this.prevColKey(), () => this.gridBehavior.left({
-        anchor: true
-      })).on(Modifier.Shift, this.nextColKey(), () => this.gridBehavior.right({
-        anchor: true
-      })).on(Modifier.Shift, 'Home', () => this.gridBehavior.firstInRow({
-        anchor: true
-      })).on(Modifier.Shift, 'End', () => this.gridBehavior.lastInRow({
-        anchor: true
-      })).on([Modifier.Ctrl | Modifier.Shift], 'Home', () => this.gridBehavior.first({
-        anchor: true
-      })).on([Modifier.Ctrl | Modifier.Shift], 'End', () => this.gridBehavior.last({
-        anchor: true
-      })).on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
+    if (this.inputs.enableSelection() && this.inputs.multi()) {
+      manager.on([Modifier.Ctrl, Modifier.Meta], 'A', () => {
         if (this.gridBehavior.allSelected()) {
           this.gridBehavior.deselectAll();
         } else {
@@ -670,9 +651,6 @@ class GridPattern {
           toggleOne: this.inputs.selectionMode() === 'explicit' && !this.inputs.multi(),
           toggle: this.inputs.selectionMode() === 'explicit' && this.inputs.multi()
         });
-        if (this.inputs.multi() && this.inputs.enableRangeSelection()) {
-          this.dragging.set(true);
-        }
       });
       if (this.inputs.multi()) {
         manager.on([Modifier.Ctrl, Modifier.Meta], e => {
@@ -681,30 +659,8 @@ class GridPattern {
           this.gridBehavior.gotoCell(cell, {
             toggle: true
           });
-          if (this.inputs.enableRangeSelection()) {
-            this.dragging.set(true);
-          }
         });
-        if (this.inputs.enableRangeSelection()) {
-          manager.on(Modifier.Shift, e => {
-            const cell = this.inputs.getCell(e.target);
-            if (!cell) return;
-            this.gridBehavior.gotoCell(cell, {
-              anchor: true
-            });
-            this.dragging.set(true);
-          });
-        }
       }
-    }
-    return manager;
-  });
-  pointerup = computed(() => {
-    const manager = new PointerEventManager();
-    if (this.inputs.enableSelection() && this.inputs.enableRangeSelection()) {
-      manager.on([Modifier.Shift, Modifier.Ctrl, Modifier.Meta, Modifier.None], () => {
-        this.dragging.set(false);
-      });
     }
     return manager;
   });
@@ -729,24 +685,9 @@ class GridPattern {
     this.hasBeenInteracted.set(true);
     this.pointerdown().handle(event);
   }
-  onPointermove(event) {
-    if (this.acceptsPointerMove()) {
-      const cell = this.inputs.getCell(event.target);
-      if (cell !== undefined) {
-        this.gridBehavior.gotoCell(cell, {
-          anchor: true
-        });
-      }
-    }
-  }
-  onPointerup(event) {
-    if (this.disabled()) return;
-    this.pointerup().handle(event);
-  }
   onFocusIn(event) {
     this.isFocused.set(true);
     this.hasBeenInteracted.set(true);
-    if (this.dragging()) return;
     const cell = this.inputs.getCell(event.target);
     if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
     cell.onFocusIn(event);

@@ -77,15 +77,13 @@ declare class Grid {
      * - `explicit`: Cells are selected explicitly by the user (e.g., via click or spacebar).
      */
     readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
-    /** Whether enable range selections (with modifier keys or dragging). */
-    readonly enableRangeSelection: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The UI pattern for the grid. */
     readonly _pattern: GridPattern;
     constructor();
     /** Gets the cell pattern for a given element. */
     private _getCell;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Grid, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "enableRangeSelection": { "alias": "enableRangeSelection"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Grid, "[ngGrid]", ["ngGrid"], { "enableSelection": { "alias": "enableSelection"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "rowWrap": { "alias": "rowWrap"; "required": false; "isSignal": true; }; "colWrap": { "alias": "colWrap"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; }, {}, ["_rows"], never, true, never>;
 }
 
 /**
@@ -223,9 +221,9 @@ declare class GridCellWidget {
     /** The target that will receive focus instead of the widget. */
     readonly focusTarget: _angular_core.InputSignal<ElementRef<any> | HTMLElement | undefined>;
     /** Emits when the widget is activated. */
-    readonly activated: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
+    readonly activated: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
     /** Emits when the widget is deactivated. */
-    readonly deactivated: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
+    readonly deactivated: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
     /** The tabindex override. */
     readonly tabindex: _angular_core.InputSignal<number | undefined>;
     /**
