@@ -637,7 +637,12 @@ class Menu {
     debugName: "parent"
   }] : []));
   _pattern;
-  _itemPatterns = () => this._items().map(i => i._pattern);
+  _itemPatterns = computed(() => {
+    this._pattern.visible();
+    return this._items().map(i => i._pattern);
+  }, ...(ngDevMode ? [{
+    debugName: "_itemPatterns"
+  }] : []));
   visible = computed(() => this._pattern.visible(), ...(ngDevMode ? [{
     debugName: "visible"
   }] : []));

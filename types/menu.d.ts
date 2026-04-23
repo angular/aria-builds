@@ -174,11 +174,14 @@ declare class Menu<V> {
     /** The menu ui pattern instance. */
     readonly _pattern: MenuPattern<V>;
     /**
-     * The menu items as a writable signal.
+     * The menu item patterns for the menu items that are direct children of this menu, passed
+     * to the menu pattern.
      *
-     * TODO(wagnermaciel): This would normally be a computed, but using a computed causes a bug where
-     * sometimes the items array is empty. The bug can be reproduced by switching this to use a
-     * computed and then quickly opening and closing menus in the dev app.
+     * Note: contentChildren has an issue where it will return a successively smaller list
+     * each time that the menu is open and closed, eventually resulting in an empty list.
+     * The workaround is to trigger a recomputation of this signal whenever the menu is opened
+     * or closed, by calling this._pattern.visible() in the signal body. Otherwise, computed could
+     * not be used and would have to rebuild the list each time this method is called.
      */
     private readonly _itemPatterns;
     /** Whether the menu is visible. */
