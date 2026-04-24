@@ -54,7 +54,7 @@ class MenuTrigger {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.9",
+    version: "21.2.10",
     ngImport: i0,
     type: MenuTrigger,
     deps: [],
@@ -62,7 +62,7 @@ class MenuTrigger {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.9",
+    version: "21.2.10",
     type: MenuTrigger,
     isStandalone: true,
     selector: "[ngMenuTrigger]",
@@ -111,7 +111,7 @@ class MenuTrigger {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.9",
+  version: "21.2.10",
   ngImport: i0,
   type: MenuTrigger,
   decorators: [{
@@ -216,7 +216,7 @@ class MenuItem {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.9",
+    version: "21.2.10",
     ngImport: i0,
     type: MenuItem,
     deps: [],
@@ -224,7 +224,7 @@ class MenuItem {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.9",
+    version: "21.2.10",
     type: MenuItem,
     isStandalone: true,
     selector: "[ngMenuItem]",
@@ -291,7 +291,7 @@ class MenuItem {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.9",
+  version: "21.2.10",
   ngImport: i0,
   type: MenuItem,
   decorators: [{
@@ -427,7 +427,7 @@ class MenuBar {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.9",
+    version: "21.2.10",
     ngImport: i0,
     type: MenuBar,
     deps: [],
@@ -435,7 +435,7 @@ class MenuBar {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.2.9",
+    version: "21.2.10",
     type: MenuBar,
     isStandalone: true,
     selector: "[ngMenuBar]",
@@ -513,7 +513,7 @@ class MenuBar {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.9",
+  version: "21.2.10",
   ngImport: i0,
   type: MenuBar,
   decorators: [{
@@ -692,7 +692,7 @@ class Menu {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.9",
+    version: "21.2.10",
     ngImport: i0,
     type: Menu,
     deps: [],
@@ -700,7 +700,7 @@ class Menu {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "21.2.9",
+    version: "21.2.10",
     type: Menu,
     isStandalone: true,
     selector: "[ngMenu]",
@@ -783,7 +783,7 @@ class Menu {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.9",
+  version: "21.2.10",
   ngImport: i0,
   type: Menu,
   decorators: [{
@@ -875,7 +875,7 @@ i0.ɵɵngDeclareClassMetadata({
 class MenuContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.9",
+    version: "21.2.10",
     ngImport: i0,
     type: MenuContent,
     deps: [],
@@ -883,7 +883,7 @@ class MenuContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "21.2.9",
+    version: "21.2.10",
     type: MenuContent,
     isStandalone: true,
     selector: "ng-template[ngMenuContent]",
@@ -896,7 +896,7 @@ class MenuContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.9",
+  version: "21.2.10",
   ngImport: i0,
   type: MenuContent,
   decorators: [{
