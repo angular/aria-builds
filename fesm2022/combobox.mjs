@@ -3,6 +3,7 @@ import { InjectionToken, inject, signal, Directive, ElementRef, contentChild, in
 import { Directionality } from '@angular/cdk/bidi';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
+import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 
@@ -103,9 +104,11 @@ class Combobox {
         this._pattern.expanded.set(true);
       }
     });
-    afterRenderEffect(() => {
-      if (!this._deferredContentAware?.contentVisible() && (this._pattern.isFocused() || this.alwaysExpanded())) {
-        this._deferredContentAware?.contentVisible.set(true);
+    afterRenderEffect({
+      write: () => {
+        if (!this._deferredContentAware?.contentVisible() && (this._pattern.isFocused() || this.alwaysExpanded())) {
+          this._deferredContentAware?.contentVisible.set(true);
+        }
       }
     });
   }
@@ -282,22 +285,24 @@ class ComboboxDialog {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   combobox = inject(Combobox);
+  id = input(inject(_IdGenerator).getId('ng-combobox-dialog-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
   _popup = inject(ComboboxPopup, {
     optional: true
   });
-  _pattern;
+  _pattern = new ComboboxDialogPattern({
+    id: this.id,
+    element: () => this.element,
+    combobox: this.combobox._pattern
+  });
   constructor() {
-    this._pattern = new ComboboxDialogPattern({
-      id: () => '',
-      element: () => this._elementRef.nativeElement,
-      combobox: this.combobox._pattern
-    });
     if (this._popup) {
       this._popup._controls.set(this._pattern);
     }
-    afterRenderEffect(() => {
-      if (this._elementRef) {
-        this.combobox._pattern.expanded() ? this._elementRef.nativeElement.showModal() : this._elementRef.nativeElement.close();
+    afterRenderEffect({
+      write: () => {
+        this.combobox._pattern.expanded() ? this.element.showModal() : this.element.close();
       }
     });
   }
@@ -313,11 +318,20 @@ class ComboboxDialog {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "14.0.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.9",
     type: ComboboxDialog,
     isStandalone: true,
     selector: "dialog[ngComboboxDialog]",
+    inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
     host: {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
@@ -352,7 +366,17 @@ i0.ɵɵngDeclareClassMetadata({
       hostDirectives: [ComboboxPopup]
     }]
   }],
-  ctorParameters: () => []
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }]
+  }
 });
 
 class ComboboxInput {
@@ -369,10 +393,12 @@ class ComboboxInput {
     if (controls instanceof ComboboxDialogPattern) {
       return;
     }
-    afterRenderEffect(() => {
-      this.value();
-      controls?.items();
-      untracked(() => this.combobox._pattern.onFilter());
+    afterRenderEffect({
+      write: () => {
+        this.value();
+        controls?.items();
+        untracked(() => this.combobox._pattern.onFilter());
+      }
     });
   }
   static ɵfac = i0.ɵɵngDeclareFactory({

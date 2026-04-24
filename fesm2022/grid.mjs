@@ -66,11 +66,21 @@ class Grid {
     element: () => this.element
   });
   constructor() {
-    afterRenderEffect(() => this._pattern.setDefaultStateEffect());
-    afterRenderEffect(() => this._pattern.resetStateEffect());
-    afterRenderEffect(() => this._pattern.resetFocusEffect());
-    afterRenderEffect(() => this._pattern.restoreFocusEffect());
-    afterRenderEffect(() => this._pattern.focusEffect());
+    afterRenderEffect({
+      write: () => this._pattern.setDefaultStateEffect()
+    });
+    afterRenderEffect({
+      write: () => this._pattern.resetStateEffect()
+    });
+    afterRenderEffect({
+      write: () => this._pattern.resetFocusEffect()
+    });
+    afterRenderEffect({
+      write: () => this._pattern.restoreFocusEffect()
+    });
+    afterRenderEffect({
+      write: () => this._pattern.focusEffect()
+    });
   }
   _getCell(element) {
     let target = element;
@@ -325,17 +335,21 @@ class GridCellWidget {
     return computed(() => this._pattern.isActivated());
   }
   constructor() {
-    afterRenderEffect(() => {
-      if (this._pattern.isActivated()) {
-        const activateEvent = this._pattern.lastActivateEvent();
-        this.activated.emit(activateEvent);
-        this._pattern.focus();
+    afterRenderEffect({
+      read: () => {
+        if (this._pattern.isActivated()) {
+          const activateEvent = this._pattern.lastActivateEvent();
+          this.activated.emit(activateEvent);
+          this._pattern.focus();
+        }
       }
     });
-    afterRenderEffect(() => {
-      const deactivateEvent = this._pattern.lastDeactivateEvent();
-      if (deactivateEvent) {
-        this.deactivated.emit(deactivateEvent);
+    afterRenderEffect({
+      read: () => {
+        const deactivateEvent = this._pattern.lastDeactivateEvent();
+        if (deactivateEvent) {
+          this.deactivated.emit(deactivateEvent);
+        }
       }
     });
   }

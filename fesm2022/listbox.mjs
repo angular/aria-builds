@@ -249,29 +249,35 @@ class Listbox {
     if (this._popup) {
       this._popup._controls.set(this._pattern);
     }
-    afterRenderEffect(() => {
-      if (typeof ngDevMode === 'undefined' || ngDevMode) {
-        const violations = this._pattern.validate();
-        for (const violation of violations) {
-          console.error(violation);
+    afterRenderEffect({
+      read: () => {
+        if (typeof ngDevMode === 'undefined' || ngDevMode) {
+          const violations = this._pattern.validate();
+          for (const violation of violations) {
+            console.error(violation);
+          }
         }
       }
     });
-    afterRenderEffect(() => {
-      this._pattern.setDefaultStateEffect();
+    afterRenderEffect({
+      write: () => this._pattern.setDefaultStateEffect()
     });
-    afterRenderEffect(() => {
-      const items = inputs.items();
-      const activeItem = untracked(() => inputs.activeItem());
-      if (!items.some(i => i === activeItem) && activeItem) {
-        this._pattern.listBehavior.unfocus();
+    afterRenderEffect({
+      write: () => {
+        const items = inputs.items();
+        const activeItem = untracked(() => inputs.activeItem());
+        if (!items.some(i => i === activeItem) && activeItem) {
+          this._pattern.listBehavior.unfocus();
+        }
       }
     });
-    afterRenderEffect(() => {
-      const items = inputs.items();
-      const value = untracked(() => this.value());
-      if (items && value.some(v => !items.some(i => i.value() === v))) {
-        this.value.set(value.filter(v => items.some(i => i.value() === v)));
+    afterRenderEffect({
+      write: () => {
+        const items = inputs.items();
+        const value = untracked(() => this.value());
+        if (items && value.some(v => !items.some(i => i.value() === v))) {
+          this.value.set(value.filter(v => items.some(i => i.value() === v)));
+        }
       }
     });
   }

@@ -216,7 +216,7 @@
       "source": {
         "filePath": "/src/aria/grid/grid.ts",
         "startLine": 47,
-        "endLine": 157
+        "endLine": 158
       }
     },
     {
@@ -433,7 +433,7 @@
       "source": {
         "filePath": "src/aria/grid/grid-cell-widget.ts",
         "startLine": 42,
-        "endLine": 132
+        "endLine": 136
       }
     },
     {

@@ -70,16 +70,18 @@ class DeferredContent {
     debugName: "deferredContentAware"
   }] : []));
   constructor() {
-    afterRenderEffect(() => {
-      if (this.deferredContentAware()?.contentVisible()) {
-        if (!this._isRendered) {
+    afterRenderEffect({
+      write: () => {
+        if (this.deferredContentAware()?.contentVisible()) {
+          if (!this._isRendered) {
+            this._destroyContent();
+            this._currentViewRef = this._viewContainerRef.createEmbeddedView(this._templateRef);
+            this._isRendered = true;
+          }
+        } else if (!this.deferredContentAware()?.preserveContent()) {
           this._destroyContent();
-          this._currentViewRef = this._viewContainerRef.createEmbeddedView(this._templateRef);
-          this._isRendered = true;
+          this._isRendered = false;
         }
-      } else if (!this.deferredContentAware()?.preserveContent()) {
-        this._destroyContent();
-        this._isRendered = false;
       }
     });
   }

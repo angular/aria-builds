@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, contentChildren, signal, output, afterRenderEffect, untracked } from '@angular/core';
+import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, contentChildren, output, signal, afterRenderEffect, untracked } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, MenuPattern } from './_menu-chunk.mjs';
@@ -396,7 +396,7 @@ class MenuBar {
     debugName: "typeaheadDelay"
   }] : []));
   _pattern;
-  _itemPatterns = signal([], ...(ngDevMode ? [{
+  _itemPatterns = computed(() => this._items().map(i => i._pattern), ...(ngDevMode ? [{
     debugName: "_itemPatterns"
   }] : []));
   itemSelected = output();
@@ -413,11 +413,8 @@ class MenuBar {
       activeItem: signal(undefined),
       element: computed(() => this._elementRef.nativeElement)
     });
-    afterRenderEffect(() => {
-      this._itemPatterns.set(this._items().map(i => i._pattern));
-    });
-    afterRenderEffect(() => {
-      this._pattern.setDefaultStateEffect();
+    afterRenderEffect({
+      write: () => this._pattern.setDefaultStateEffect()
     });
   }
   close() {
@@ -665,22 +662,26 @@ class Menu {
       element: computed(() => this._elementRef.nativeElement),
       itemSelected: value => this.itemSelected.emit(value)
     });
-    afterRenderEffect(() => {
-      const parent = this.parent();
-      if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
-        this._deferredContentAware?.contentVisible.set(true);
-      } else {
-        this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenInteracted());
+    afterRenderEffect({
+      write: () => {
+        const parent = this.parent();
+        if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
+          this._deferredContentAware?.contentVisible.set(true);
+        } else {
+          this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenInteracted());
+        }
       }
     });
-    afterRenderEffect(() => {
-      if (this._pattern.visible()) {
-        const activeItem = untracked(() => this._pattern.inputs.activeItem());
-        this._pattern.listBehavior.goto(activeItem);
+    afterRenderEffect({
+      write: () => {
+        if (this.visible()) {
+          const activeItem = untracked(() => this._pattern.inputs.activeItem());
+          this._pattern.listBehavior.goto(activeItem);
+        }
       }
     });
-    afterRenderEffect(() => {
-      this._pattern.setDefaultStateEffect();
+    afterRenderEffect({
+      write: () => this._pattern.setDefaultStateEffect()
     });
   }
   close() {

@@ -131,16 +131,18 @@ declare class ComboboxDialog {
     /** The dialog element. */
     private readonly _elementRef;
     /** A reference to the dialog element. */
-    readonly element: HTMLElement;
+    readonly element: HTMLDialogElement;
     /** The combobox that the dialog belongs to. */
     readonly combobox: Combobox<any>;
+    /** The unique identifier for the trigger. */
+    readonly id: _angular_core.InputSignal<string>;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
     readonly _pattern: ComboboxDialogPattern;
     constructor();
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxDialog, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxDialog, "dialog[ngComboboxDialog]", ["ngComboboxDialog"], {}, {}, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxDialog, "dialog[ngComboboxDialog]", ["ngComboboxDialog"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 
 /**

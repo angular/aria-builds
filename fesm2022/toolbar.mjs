@@ -54,8 +54,8 @@ class Toolbar {
     value: this.value
   });
   constructor() {
-    afterRenderEffect(() => {
-      this._pattern.setDefaultStateEffect();
+    afterRenderEffect({
+      write: () => this._pattern.setDefaultStateEffect()
     });
   }
   _register(widget) {

@@ -535,7 +535,11 @@ class TabPanel {
     tab: this._tabPattern
   });
   constructor() {
-    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
+    afterRenderEffect({
+      write: () => {
+        this._deferredContentAware.contentVisible.set(this.visible());
+      }
+    });
   }
   ngOnInit() {
     this._tabs._registerPanel(this);
