@@ -25,9 +25,6 @@ class Option {
   id = input(inject(_IdGenerator).getId('ng-option-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  searchTerm = computed(() => this.label() ?? this.element.textContent, ...(ngDevMode ? [{
-    debugName: "searchTerm"
-  }] : []));
   _listboxPattern = computed(() => this._listbox._pattern, ...(ngDevMode ? [{
     debugName: "_listboxPattern"
   }] : []));
@@ -52,7 +49,7 @@ class Option {
     value: this.value,
     listbox: this._listboxPattern,
     element: () => this.element,
-    searchTerm: () => this.searchTerm() ?? ''
+    searchTerm: () => this.label() ?? ''
   });
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

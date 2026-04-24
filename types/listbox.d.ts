@@ -120,8 +120,6 @@ declare class Option<V> {
     private readonly _listbox;
     /** A unique identifier for the option. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The text used by the typeahead search. */
-    protected readonly searchTerm: _angular_core.Signal<string>;
     /** The parent Listbox UIPattern. */
     private readonly _listboxPattern;
     /** The value of the option. */

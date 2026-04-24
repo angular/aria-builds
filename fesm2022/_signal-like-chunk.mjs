@@ -95,7 +95,6 @@ function convertGetterSetterToWritableSignalLike(getter, setter) {
 }
 function computed(computation) {
   const computed = createComputed(computation);
-  computed.toString = () => `[Computed: ${computed()}]`;
   computed[SIGNAL].debugName = '';
   return computed;
 }
