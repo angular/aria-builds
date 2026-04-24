@@ -5,7 +5,7 @@ import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } f
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
-import './_pointer-event-manager-chunk.mjs';
+import './_click-event-manager-chunk.mjs';
 
 const GRID_CELL = new InjectionToken('GRID_CELL');
 const GRID_ROW = new InjectionToken('GRID_ROW');
@@ -164,7 +164,7 @@ class Grid {
       },
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
-        "pointerdown": "_pattern.onPointerdown($event)",
+        "click": "_pattern.onClick($event)",
         "focusin": "_pattern.onFocusIn($event)",
         "focusout": "_pattern.onFocusOut($event)"
       },
@@ -202,7 +202,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-multiselectable]': '_pattern.multiSelectable()',
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
-        '(pointerdown)': '_pattern.onPointerdown($event)',
+        '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocusIn($event)',
         '(focusout)': '_pattern.onFocusOut($event)'
       }
@@ -319,20 +319,17 @@ class GridCellWidget {
   _pattern = new GridCellWidgetPattern({
     ...this,
     element: () => this.element,
-    cell: () => this._cell._pattern,
-    focusTarget: computed(() => {
-      const target = this.focusTarget();
-      return target instanceof ElementRef ? target.nativeElement : target;
-    })
+    cell: () => this._cell._pattern
   });
   get isActivated() {
     return computed(() => this._pattern.isActivated());
   }
   constructor() {
     afterRenderEffect(() => {
-      const activateEvent = this._pattern.lastActivateEvent();
-      if (activateEvent) {
+      if (this._pattern.isActivated()) {
+        const activateEvent = this._pattern.lastActivateEvent();
         this.activated.emit(activateEvent);
+        this._pattern.focus();
       }
     });
     afterRenderEffect(() => {

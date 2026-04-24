@@ -10,12 +10,11 @@ export { ToolbarInputs, ToolbarPattern, ToolbarWidgetGroupInputs, ToolbarWidgetG
 export { AccordionGroupInputs, AccordionGroupPattern, AccordionTriggerInputs, AccordionTriggerPattern } from './_accordion-chunk.js';
 import { TreeInputs, TreeItemPattern, TreePattern } from './_tree-chunk.js';
 export { TreeItemInputs } from './_tree-chunk.js';
-export { GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern } from './_grid-chunk.js';
+export { ElementResolver, GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern, resolveElement } from './_grid-chunk.js';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
 export { HasElement, sortDirectives } from './_element-chunk.js';
 export { untracked } from '@angular/core/primitives/signals';
 import './_keyboard-event-manager-chunk.js';
-import './_pointer-event-manager-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 import './_click-event-manager-chunk.js';

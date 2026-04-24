@@ -1,6 +1,7 @@
 import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
-import { PointerEventManager } from './_pointer-event-manager-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
+import { ElementRef } from '@angular/core';
 
 class GridData {
   inputs;
@@ -633,8 +634,8 @@ class GridPattern {
     }
     return manager;
   });
-  pointerdown = computed(() => {
-    const manager = new PointerEventManager();
+  clickManager = computed(() => {
+    const manager = new ClickEventManager();
     if (!this.inputs.enableSelection()) {
       manager.on(e => {
         const cell = this.inputs.getCell(e.target);
@@ -680,10 +681,10 @@ class GridPattern {
     this.activeCell()?.onKeydown(event);
     this.keydown().handle(event);
   }
-  onPointerdown(event) {
+  onClick(event) {
     if (this.disabled()) return;
     this.hasBeenInteracted.set(true);
-    this.pointerdown().handle(event);
+    this.clickManager().handle(event);
   }
   onFocusIn(event) {
     this.isFocused.set(true);
@@ -827,10 +828,17 @@ class GridCellPattern {
   }
 }
 
+function resolveElement(resolver, context) {
+  if (typeof resolver === 'function') {
+    return resolver(context) ?? undefined;
+  }
+  return (resolver instanceof ElementRef ? resolver.nativeElement : resolver) ?? undefined;
+}
+
 class GridCellWidgetPattern {
   inputs;
   element = () => this.inputs.element();
-  widgetHost = computed(() => this.inputs.focusTarget() ?? this.element());
+  widgetHost = () => resolveElement(this.inputs.focusTarget(), this.element()) ?? this.element();
   disabled = computed(() => this.inputs.disabled() || this.inputs.cell().disabled());
   tabIndex = computed(() => this.inputs.cell().widgetTabIndex());
   active = computed(() => this.inputs.cell().active() && this.inputs.cell().widget() === this);
@@ -898,5 +906,5 @@ class GridCellWidgetPattern {
   }
 }
 
-export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern };
+export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, resolveElement };
 //# sourceMappingURL=_widget-chunk.mjs.map

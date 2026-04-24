@@ -1,6 +1,7 @@
 import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
-import { PointerEventManager } from './_pointer-event-manager-chunk.js';
+import { ClickEventManager } from './_click-event-manager-chunk.js';
+import { ElementRef } from '@angular/core';
 
 /** Represents coordinates in a grid. */
 interface RowCol {
@@ -334,6 +335,11 @@ declare class Grid<T extends GridCell> {
     private _navigateWithSelection;
 }
 
+/** A type that allows lazy resolution of a DOM Element. */
+type ElementResolver<T = HTMLElement> = ElementRef<T> | T | undefined | null | ((context: HTMLElement) => T | null | undefined);
+/** Evaluates an ElementResolver to return the underlying DOM element, or undefined. */
+declare function resolveElement<T = HTMLElement>(resolver: ElementResolver<T>, context: HTMLElement): T | undefined;
+
 /** The inputs for the `GridCellWidgetPattern`. */
 interface GridCellWidgetInputs {
     /** Whether the widget is disabled. */
@@ -345,7 +351,7 @@ interface GridCellWidgetInputs {
     /** The type of widget, which determines how it is activated. */
     widgetType: SignalLike<'simple' | 'complex' | 'editable'>;
     /** The element that will receive focus when the widget is activated. */
-    focusTarget: SignalLike<HTMLElement | undefined>;
+    focusTarget: SignalLike<ElementResolver<HTMLElement>>;
 }
 /** The UI pattern for a widget inside a grid cell. */
 declare class GridCellWidgetPattern {
@@ -515,8 +521,8 @@ declare class GridPattern {
     readonly nextColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
     /** The keydown event manager for the grid. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
-    /** The pointerdown event manager for the grid. */
-    readonly pointerdown: SignalLike<PointerEventManager<PointerEvent>>;
+    /** The click event manager for the grid. */
+    readonly clickManager: SignalLike<ClickEventManager<PointerEvent>>;
     /** Indicates maybe the losing focus is caused by row/cell deletion. */
     private readonly _maybeDeletion;
     /** Indicates the losing focus is certainly caused by row/cell deletion. */
@@ -526,8 +532,8 @@ declare class GridPattern {
     constructor(inputs: GridInputs);
     /** Handles keydown events on the grid. */
     onKeydown(event: KeyboardEvent): void;
-    /** Handles pointerdown events on the grid. */
-    onPointerdown(event: PointerEvent): void;
+    /** Handles click events on the grid. */
+    onClick(event: PointerEvent): void;
     /** Handles focusin events on the grid. */
     onFocusIn(event: FocusEvent): void;
     /** Handles focusout events on the grid. */
@@ -544,5 +550,5 @@ declare class GridPattern {
     focusEffect(): void;
 }
 
-export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern };
-export type { GridCellInputs, GridCellWidgetInputs, GridInputs, GridRowInputs };
+export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, resolveElement };
+export type { ElementResolver, GridCellInputs, GridCellWidgetInputs, GridInputs, GridRowInputs };

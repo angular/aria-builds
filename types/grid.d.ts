@@ -1,10 +1,10 @@
 import * as _angular_core from '@angular/core';
-import { Signal, ElementRef } from '@angular/core';
+import { Signal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { GridPattern, GridCellPattern, GridRowPattern, GridCellWidgetPattern } from './_grid-chunk.js';
+import { GridPattern, GridCellPattern, GridRowPattern, ElementResolver, GridCellWidgetPattern } from './_grid-chunk.js';
 import './_signal-like-chunk.js';
 import './_keyboard-event-manager-chunk.js';
-import './_pointer-event-manager-chunk.js';
+import './_click-event-manager-chunk.js';
 
 /**
  * The container for a grid. It provides keyboard navigation and focus management for the grid's
@@ -219,7 +219,7 @@ declare class GridCellWidget {
     /** Whether the widget is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The target that will receive focus instead of the widget. */
-    readonly focusTarget: _angular_core.InputSignal<ElementRef<any> | HTMLElement | undefined>;
+    readonly focusTarget: _angular_core.InputSignal<ElementResolver<HTMLElement>>;
     /** Emits when the widget is activated. */
     readonly activated: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
     /** Emits when the widget is deactivated. */

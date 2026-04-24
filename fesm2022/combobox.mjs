@@ -5,7 +5,6 @@ import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk
 import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
-import './_pointer-event-manager-chunk.mjs';
 
 const COMBOBOX = new InjectionToken('COMBOBOX');
 

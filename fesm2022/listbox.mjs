@@ -13,7 +13,6 @@ import './_list-typeahead-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 import './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
-import './_pointer-event-manager-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
 
