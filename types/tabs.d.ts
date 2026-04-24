@@ -1,14 +1,59 @@
-import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { TabPattern, TabListPattern, TabPanelPattern } from './_tabs-chunk.js';
-import { HasElement } from './_element-chunk.js';
+import * as _angular_core from '@angular/core';
+import { OnInit, OnDestroy, WritableSignal } from '@angular/core';
+import { TabPattern, TabPanelPattern, TabListPattern } from './_tabs-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
+import { HasElement } from './_element-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_signal-like-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
+
+/**
+ * A TabPanel container for the resources of layered content associated with a tab.
+ *
+ * The `ngTabPanel` directive holds the content for a specific tab. It is linked to an
+ * `ngTab` by a matching `value`. If a tab panel is hidden, the `inert` attribute will be
+ * applied to remove it from the accessibility tree. Proper styling is required for visual hiding.
+ *
+ * ```html
+ * <div ngTabPanel value="myTabId">
+ *   <ng-template ngTabContent>
+ *     <!-- Content for the tab panel -->
+ *   </ng-template>
+ * </div>
+ * ```
+ *
+ * @developerPreview 21.0
+ *
+ * @see [Tabs](guide/aria/tabs)
+ */
+declare class TabPanel implements OnInit, OnDestroy {
+    /** A reference to the host element. */
+    private readonly _elementRef;
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
+    /** The DeferredContentAware host directive. */
+    private readonly _deferredContentAware;
+    /** The parent Tabs. */
+    private readonly _tabs;
+    /** A global unique identifier for the tab. */
+    readonly id: _angular_core.InputSignal<string>;
+    /** The Tab UIPattern associated with the tabpanel */
+    readonly _tabPattern: WritableSignal<TabPattern | undefined>;
+    /** A local unique identifier for the tabpanel. */
+    readonly value: _angular_core.InputSignal<string>;
+    /** Whether the tab panel is visible. */
+    readonly visible: _angular_core.Signal<boolean>;
+    /** The TabPanel UIPattern. */
+    readonly _pattern: TabPanelPattern;
+    constructor();
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabPanel, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+}
 
 /**
  * A selectable tab in a TabList.
@@ -31,16 +76,14 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
-    /** The parent Tabs. */
-    private readonly _tabs;
+    /** The parent Tabs wrapper. */
+    private readonly _tabsWrapper;
     /** The parent TabList. */
     private readonly _tabList;
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The parent TabList UIPattern. */
-    private readonly _tablistPattern;
-    /** The TabPanel UIPattern associated with the tab */
-    private readonly _tabpanelPattern;
+    /** The panel associated with this tab. */
+    readonly panel: _angular_core.Signal<TabPanel | undefined>;
     /** Whether a tab is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The remote tabpanel unique identifier. */
@@ -82,16 +125,18 @@ declare class TabList implements OnInit, OnDestroy {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
-    /** The parent Tabs. */
+    /** The parent Tabs container. */
+    private readonly _tabsParent;
+    /** The Tabs registered for this TabList. */
     private readonly _tabs;
-    /** The Tabs nested inside of the TabList. */
-    private readonly _unorderedTabs;
-    /** Text direction. */
-    readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
+    /** The Tabs registered for this TabList. */
+    readonly _sortedTabs: _angular_core.Signal<Tab[]>;
     /** The Tab UIPatterns of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<TabPattern[]>;
+    private readonly _tabPatterns;
     /** Whether the tablist is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    /** Text direction. */
+    readonly textDirection: WritableSignal<_angular_cdk_bidi.Direction>;
     /** Whether focus should wrap when navigating. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /**
@@ -111,8 +156,10 @@ declare class TabList implements OnInit, OnDestroy {
      * - `explicit`: Tabs are selected explicitly by the user (e.g., via click or spacebar).
      */
     readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
-    /** The current selected tab. */
+    /** The current selected tab as a model input. */
     readonly selectedTab: _angular_core.ModelSignal<string | undefined>;
+    /** The current selected Tab pattern, passed to the List pattern. */
+    private readonly _selectedTabPattern;
     /** Whether the tablist is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The TabList UIPattern. */
@@ -120,57 +167,13 @@ declare class TabList implements OnInit, OnDestroy {
     constructor();
     ngOnInit(): void;
     ngOnDestroy(): void;
-    _register(child: Tab): void;
-    _unregister(child: Tab): void;
+    _registerTab(child: Tab): void;
+    _unregisterTab(child: Tab): void;
     /** Opens the tab panel with the specified value. */
     open(value: string): boolean;
+    findTab(value?: string): Tab | undefined;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabList, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabList, "[ngTabList]", ["ngTabList"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "selectedTab": { "alias": "selectedTab"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, { "selectedTab": "selectedTabChange"; }, never, never, true, never>;
-}
-
-/**
- * A TabPanel container for the resources of layered content associated with a tab.
- *
- * The `ngTabPanel` directive holds the content for a specific tab. It is linked to an
- * `ngTab` by a matching `value`. If a tab panel is hidden, the `inert` attribute will be
- * applied to remove it from the accessibility tree. Proper styling is required for visual hiding.
- *
- * ```html
- * <div ngTabPanel value="myTabId">
- *   <ng-template ngTabContent>
- *     <!-- Content for the tab panel -->
- *   </ng-template>
- * </div>
- * ```
- *
- * @developerPreview 21.0
- *
- * @see [Tabs](guide/aria/tabs)
- */
-declare class TabPanel implements OnInit, OnDestroy {
-    /** A reference to the host element. */
-    private readonly _elementRef;
-    /** A reference to the host element. */
-    readonly element: HTMLElement;
-    /** The DeferredContentAware host directive. */
-    private readonly _deferredContentAware;
-    /** The parent Tabs. */
-    private readonly _tabs;
-    /** A global unique identifier for the tab. */
-    readonly id: _angular_core.InputSignal<string>;
-    /** The Tab UIPattern associated with the tabpanel */
-    private readonly _tabPattern;
-    /** A local unique identifier for the tabpanel. */
-    readonly value: _angular_core.InputSignal<string>;
-    /** Whether the tab panel is visible. */
-    readonly visible: _angular_core.Signal<boolean>;
-    /** The TabPanel UIPattern. */
-    readonly _pattern: TabPanelPattern;
-    constructor();
-    ngOnInit(): void;
-    ngOnDestroy(): void;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**
@@ -209,16 +212,18 @@ declare class Tabs {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
-    /** The TabList nested inside of the container. */
-    private readonly _tablist;
-    /** The TabPanels nested inside of the container. */
-    private readonly _unorderedPanels;
-    /** The Tab UIPattern of the child Tabs. */
-    readonly _tabPatterns: _angular_core.Signal<TabPattern[] | undefined>;
-    /** The TabPanel UIPattern of the child TabPanels. */
-    readonly _unorderedTabpanelPatterns: _angular_core.Signal<TabPanelPattern[]>;
-    _register(child: TabList | TabPanel): void;
-    _unregister(child: TabList | TabPanel): void;
+    /** The TabList registered for this container. */
+    private readonly _tabList;
+    /** The TabPanels registered for this container. */
+    private readonly _tabPanels;
+    /** The TabPanels registered for this container. */
+    private readonly _tabPanelsList;
+    constructor();
+    _registerList(list: TabList): void;
+    _unregisterList(list: TabList): void;
+    _registerPanel(panel: TabPanel): void;
+    _unregisterPanel(panel: TabPanel): void;
+    findTabPanel(value?: string): TabPanel | undefined;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tabs, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tabs, "[ngTabs]", ["ngTabs"], {}, {}, never, never, true, never>;
 }

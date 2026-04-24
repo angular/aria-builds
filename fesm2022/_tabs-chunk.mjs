@@ -1,5 +1,5 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
-import { computed, signal, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed, signal, linkedSignal, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
@@ -25,35 +25,34 @@ class LabelControl {
 
 class TabPattern {
   inputs;
-  id = () => this.inputs.id();
-  index = computed(() => this.inputs.tablist().inputs.items().indexOf(this));
-  value = () => this.inputs.value();
-  disabled = () => this.inputs.disabled();
+  id;
+  disabled;
   element = () => this.inputs.element();
   expandable = () => true;
-  expanded;
-  active = computed(() => this.inputs.tablist().inputs.activeItem() === this);
-  selected = computed(() => this.inputs.tablist().selectedTab() === this);
-  tabIndex = computed(() => this.inputs.tablist().focusBehavior.getItemTabIndex(this));
-  controls = computed(() => this.inputs.tabpanel()?.id());
+  expanded = linkedSignal(() => this.inputs.tabList().selectedTab() === this);
+  active = computed(() => this.inputs.tabList().inputs.activeItem() === this);
+  selected = computed(() => this.inputs.tabList().selectedTab() === this);
+  tabIndex = computed(() => this.inputs.tabList().focusBehavior.getItemTabIndex(this));
+  controls = computed(() => this.inputs.tabPanel()?.id());
   constructor(inputs) {
     this.inputs = inputs;
-    this.expanded = inputs.expanded;
+    this.id = inputs.id;
+    this.disabled = inputs.disabled;
   }
   open() {
-    return this.inputs.tablist().open(this);
+    return this.inputs.tabList().open(this);
   }
 }
 class TabPanelPattern {
   inputs;
-  id = () => this.inputs.id();
-  value = () => this.inputs.value();
+  id;
   labelManager;
   hidden = computed(() => this.inputs.tab()?.expanded() === false);
   tabIndex = computed(() => this.hidden() ? -1 : 0);
   labelledBy = computed(() => this.labelManager.labelledBy().length > 0 ? this.labelManager.labelledBy().join(' ') : undefined);
   constructor(inputs) {
     this.inputs = inputs;
+    this.id = inputs.id;
     this.labelManager = new LabelControl({
       ...inputs,
       defaultLabelledBy: computed(() => this.inputs.tab() ? [this.inputs.tab().id()] : [])
@@ -66,10 +65,10 @@ class TabListPattern {
   navigationBehavior;
   expansionBehavior;
   hasBeenInteracted = signal(false);
-  activeTab = () => this.inputs.activeItem();
-  selectedTab = signal(undefined);
-  orientation = () => this.inputs.orientation();
-  disabled = () => this.inputs.disabled();
+  activeTab;
+  selectedTab;
+  orientation;
+  disabled;
   tabIndex = computed(() => this.focusBehavior.getListTabIndex());
   activeDescendant = computed(() => this.focusBehavior.getActiveDescendant());
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
@@ -97,6 +96,10 @@ class TabListPattern {
   });
   constructor(inputs) {
     this.inputs = inputs;
+    this.selectedTab = inputs.selectedTab;
+    this.activeTab = inputs.activeItem;
+    this.orientation = inputs.orientation;
+    this.disabled = inputs.disabled;
     this.focusBehavior = new ListFocus(inputs);
     this.navigationBehavior = new ListNavigation({
       ...inputs,
@@ -144,9 +147,6 @@ class TabListPattern {
   }
   open(tab) {
     tab ??= this.activeTab();
-    if (typeof tab === 'string') {
-      tab = this.inputs.items().find(t => t.value() === tab);
-    }
     if (tab === undefined) return false;
     const success = this.expansionBehavior.open(tab);
     if (success) {

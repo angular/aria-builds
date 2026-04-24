@@ -27,30 +27,23 @@ declare class LabelControl {
 }
 
 /** The required inputs to tabs. */
-interface TabInputs extends Omit<ListNavigationItem, 'index'>, Omit<ExpansionItem, 'expandable'> {
+interface TabInputs extends Omit<ListNavigationItem, 'index'>, Omit<ExpansionItem, 'expandable' | 'expanded'> {
     /** The parent tablist that controls the tab. */
-    tablist: SignalLike<TabListPattern>;
+    tabList: SignalLike<TabListPattern>;
     /** The remote tabpanel controlled by the tab. */
-    tabpanel: SignalLike<TabPanelPattern | undefined>;
-    /** The remote tabpanel unique identifier. */
-    value: SignalLike<string>;
+    tabPanel: SignalLike<TabPanelPattern | undefined>;
 }
 /** A tab in a tablist. */
 declare class TabPattern {
     readonly inputs: TabInputs;
     /** A global unique identifier for the tab. */
     readonly id: SignalLike<string>;
-    /** The index of the tab. */
-    readonly index: SignalLike<number>;
-    /** The remote tabpanel unique identifier. */
-    readonly value: SignalLike<string>;
     /** Whether the tab is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement>;
     /** Whether this tab has expandable panel. */
     readonly expandable: SignalLike<boolean>;
-    /** Whether the tab panel is expanded. */
     readonly expanded: WritableSignalLike<boolean>;
     /** Whether the tab is active. */
     readonly active: SignalLike<boolean>;
@@ -69,17 +62,13 @@ interface TabPanelInputs extends LabelControlOptionalInputs {
     /** A global unique identifier for the tabpanel. */
     id: SignalLike<string>;
     /** The tab that controls this tabpanel. */
-    tab: SignalLike<TabPattern | undefined>;
-    /** A local unique identifier for the tabpanel. */
-    value: SignalLike<string>;
+    readonly tab: SignalLike<TabPattern | undefined>;
 }
 /** A tabpanel associated with a tab. */
 declare class TabPanelPattern {
     readonly inputs: TabPanelInputs;
     /** A global unique identifier for the tabpanel. */
     readonly id: SignalLike<string>;
-    /** A local unique identifier for the tabpanel. */
-    readonly value: SignalLike<string>;
     /** Controls label for this tabpanel. */
     readonly labelManager: LabelControl;
     /** Whether the tabpanel is hidden. */
@@ -94,6 +83,8 @@ declare class TabPanelPattern {
 interface TabListInputs extends Omit<ListNavigationInputs<TabPattern>, 'multi'>, Omit<ListExpansionInputs, 'multiExpandable' | 'items'> {
     /** The selection strategy used by the tablist. */
     selectionMode: SignalLike<'follow' | 'explicit'>;
+    /** The currently selected tab. */
+    selectedTab: WritableSignalLike<TabPattern | undefined>;
 }
 /** Controls the state of a tablist. */
 declare class TabListPattern {
@@ -146,8 +137,6 @@ declare class TabListPattern {
     onClick(event: PointerEvent): void;
     /** Handles focusin events for the tablist. */
     onFocusIn(): void;
-    /** Opens the tab by given value. */
-    open(value: string): boolean;
     /** Opens the given tab or the current active tab. */
     open(tab?: TabPattern): boolean;
     /** Executes a navigation operation and expand the active tab if needed. */
