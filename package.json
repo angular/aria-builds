@@ -1,6 +1,6 @@
 {
   "name": "@angular/aria",
-  "version": "22.0.0-next.6+sha-a7b2c51",
+  "version": "22.0.0-next.6+sha-6ec07bc",
   "description": "Angular Aria",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/angular/components#readme",
   "peerDependencies": {
-    "@angular/cdk": "22.0.0-next.6+sha-a7b2c51",
+    "@angular/cdk": "22.0.0-next.6+sha-6ec07bc",
     "@angular/core": "^22.0.0-0 || ^22.1.0-0 || ^22.2.0-0 || ^22.3.0-0 || ^23.0.0-0"
   },
   "devDependencies": {
@@ -66,6 +66,10 @@
     "./grid": {
       "types": "./types/grid.d.ts",
       "default": "./fesm2022/grid.mjs"
+    },
+    "./grid/testing": {
+      "types": "./types/grid-testing.d.ts",
+      "default": "./fesm2022/grid-testing.mjs"
     },
     "./listbox": {
       "types": "./types/listbox.d.ts",
