@@ -99,7 +99,7 @@ class TabList {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: TabList,
     deps: [],
@@ -107,7 +107,7 @@ class TabList {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: TabList,
     isStandalone: true,
     selector: "[ngTabList]",
@@ -187,7 +187,7 @@ class TabList {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: TabList,
   decorators: [{
@@ -303,7 +303,7 @@ class TabPanel {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: TabPanel,
     deps: [],
@@ -311,7 +311,7 @@ class TabPanel {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: TabPanel,
     isStandalone: true,
     selector: "[ngTabPanel]",
@@ -352,7 +352,7 @@ class TabPanel {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: TabPanel,
   decorators: [{
@@ -429,7 +429,7 @@ class Tabs {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: Tabs,
     deps: [],
@@ -437,7 +437,7 @@ class Tabs {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: Tabs,
     isStandalone: true,
     selector: "[ngTabs]",
@@ -451,7 +451,7 @@ class Tabs {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: Tabs,
   decorators: [{
@@ -514,7 +514,7 @@ class Tab {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: Tab,
     deps: [],
@@ -522,7 +522,7 @@ class Tab {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: Tab,
     isStandalone: true,
     selector: "[ngTab]",
@@ -568,7 +568,7 @@ class Tab {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: Tab,
   decorators: [{
@@ -618,7 +618,7 @@ i0.ɵɵngDeclareClassMetadata({
 class TabContent {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: TabContent,
     deps: [],
@@ -626,7 +626,7 @@ class TabContent {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: TabContent,
     isStandalone: true,
     selector: "ng-template[ngTabContent]",
@@ -639,7 +639,7 @@ class TabContent {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: TabContent,
   decorators: [{

@@ -18,7 +18,7 @@ class ComboboxPopup {
   }] : []));
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: ComboboxPopup,
     deps: [],
@@ -26,7 +26,7 @@ class ComboboxPopup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: ComboboxPopup,
     isStandalone: true,
     selector: "[ngComboboxPopup]",
@@ -36,7 +36,7 @@ class ComboboxPopup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: ComboboxPopup,
   decorators: [{
@@ -120,7 +120,7 @@ class Combobox {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: Combobox,
     deps: [],
@@ -128,7 +128,7 @@ class Combobox {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: Combobox,
     isStandalone: true,
     selector: "[ngCombobox]",
@@ -202,7 +202,7 @@ class Combobox {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: Combobox,
   decorators: [{
@@ -307,7 +307,7 @@ class ComboboxDialog {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: ComboboxDialog,
     deps: [],
@@ -315,7 +315,7 @@ class ComboboxDialog {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: ComboboxDialog,
     isStandalone: true,
     selector: "dialog[ngComboboxDialog]",
@@ -337,7 +337,7 @@ class ComboboxDialog {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: ComboboxDialog,
   decorators: [{
@@ -378,7 +378,7 @@ class ComboboxInput {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: ComboboxInput,
     deps: [],
@@ -386,7 +386,7 @@ class ComboboxInput {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: ComboboxInput,
     isStandalone: true,
     selector: "input[ngComboboxInput]",
@@ -423,7 +423,7 @@ class ComboboxInput {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: ComboboxInput,
   decorators: [{
@@ -463,7 +463,7 @@ i0.ɵɵngDeclareClassMetadata({
 class ComboboxPopupContainer {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     ngImport: i0,
     type: ComboboxPopupContainer,
     deps: [],
@@ -471,7 +471,7 @@ class ComboboxPopupContainer {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "14.0.0",
-    version: "22.0.0-next.8",
+    version: "22.0.0-next.9",
     type: ComboboxPopupContainer,
     isStandalone: true,
     selector: "ng-template[ngComboboxPopupContainer]",
@@ -484,7 +484,7 @@ class ComboboxPopupContainer {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.8",
+  version: "22.0.0-next.9",
   ngImport: i0,
   type: ComboboxPopupContainer,
   decorators: [{
