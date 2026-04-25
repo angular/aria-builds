@@ -4,28 +4,6 @@ import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-
 import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 import { ListNavigationItem, ListNavigationInputs, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
 
-/** Represents the required inputs for the label control. */
-interface LabelControlInputs {
-    /** The default `aria-labelledby` ids. */
-    defaultLabelledBy: SignalLike<string[]>;
-}
-/** Represents the optional inputs for the label control. */
-interface LabelControlOptionalInputs {
-    /** The `aria-label`. */
-    label?: SignalLike<string | undefined>;
-    /** The user-provided `aria-labelledby` ids. */
-    labelledBy?: SignalLike<string[]>;
-}
-/** Controls label and description of an element. */
-declare class LabelControl {
-    readonly inputs: LabelControlInputs & LabelControlOptionalInputs;
-    /** The `aria-label`. */
-    readonly label: SignalLike<string | undefined>;
-    /** The `aria-labelledby` ids. */
-    readonly labelledBy: SignalLike<string[]>;
-    constructor(inputs: LabelControlInputs & LabelControlOptionalInputs);
-}
-
 /** The required inputs to tabs. */
 interface TabInputs extends Omit<ListNavigationItem, 'index'>, Omit<ExpansionItem, 'expandable' | 'expanded'> {
     /** The parent tablist that controls the tab. */
@@ -58,7 +36,7 @@ declare class TabPattern {
     open(): boolean;
 }
 /** The required inputs for the tabpanel. */
-interface TabPanelInputs extends LabelControlOptionalInputs {
+interface TabPanelInputs {
     /** A global unique identifier for the tabpanel. */
     id: SignalLike<string>;
     /** The tab that controls this tabpanel. */
@@ -69,8 +47,6 @@ declare class TabPanelPattern {
     readonly inputs: TabPanelInputs;
     /** A global unique identifier for the tabpanel. */
     readonly id: SignalLike<string>;
-    /** Controls label for this tabpanel. */
-    readonly labelManager: LabelControl;
     /** Whether the tabpanel is hidden. */
     readonly hidden: SignalLike<boolean>;
     /** The tab index of this tabpanel. */

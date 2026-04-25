@@ -1,27 +1,7 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
-import { computed, signal, linkedSignal, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { signal, computed, linkedSignal, KeyboardEventManager } from './_signal-like-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
-
-class LabelControl {
-  inputs;
-  label = computed(() => this.inputs.label?.());
-  labelledBy = computed(() => {
-    const label = this.label();
-    const labelledBy = this.inputs.labelledBy?.();
-    const defaultLabelledBy = this.inputs.defaultLabelledBy();
-    if (labelledBy && labelledBy.length > 0) {
-      return labelledBy;
-    }
-    if (label) {
-      return [];
-    }
-    return defaultLabelledBy;
-  });
-  constructor(inputs) {
-    this.inputs = inputs;
-  }
-}
 
 class TabPattern {
   inputs;
@@ -46,17 +26,12 @@ class TabPattern {
 class TabPanelPattern {
   inputs;
   id;
-  labelManager;
   hidden = computed(() => this.inputs.tab()?.expanded() === false);
   tabIndex = computed(() => this.hidden() ? -1 : 0);
-  labelledBy = computed(() => this.labelManager.labelledBy().length > 0 ? this.labelManager.labelledBy().join(' ') : undefined);
+  labelledBy = computed(() => this.inputs.tab()?.id());
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
-    this.labelManager = new LabelControl({
-      ...inputs,
-      defaultLabelledBy: computed(() => this.inputs.tab() ? [this.inputs.tab().id()] : [])
-    });
   }
 }
 class TabListPattern {
