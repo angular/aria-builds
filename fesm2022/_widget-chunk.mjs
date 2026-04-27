@@ -512,15 +512,47 @@ class Grid {
       return this.setDefaultState();
     }
     if (this.focusBehavior.stateStale()) {
-      if (this.focusBehavior.focusCell(this.focusBehavior.activeCell())) {
+      const activeCell = this.focusBehavior.activeCell();
+      const activeCoords = this.focusBehavior.activeCoords();
+      if (activeCell && this.focusBehavior.focusCell(activeCell)) {
         return true;
       }
-      if (this.focusBehavior.focusCoordinates(this.focusBehavior.activeCoords())) {
+      if (this.focusBehavior.focusCoordinates(activeCoords)) {
         return true;
       }
-      if (this.focusBehavior.focusCoordinates(this.navigationBehavior.peekFirst())) {
+      const maxRow = this.data.maxRowCount() - 1;
+      const targetRow = Math.min(activeCoords.row, maxRow);
+      if (targetRow >= 0) {
+        if (this.focusBehavior.focusCoordinates({
+          row: targetRow,
+          col: activeCoords.col
+        })) {
+          return true;
+        }
+        const colCount = this.data.getColCount(targetRow);
+        if (colCount !== undefined) {
+          const targetCol = Math.min(activeCoords.col, colCount - 1);
+          if (targetCol >= 0 && this.focusBehavior.focusCoordinates({
+            row: targetRow,
+            col: targetCol
+          })) {
+            return true;
+          }
+        }
+        const firstInRow = this.navigationBehavior.peekFirst(targetRow);
+        if (firstInRow !== undefined && this.focusBehavior.focusCoordinates(firstInRow)) {
+          return true;
+        }
+      }
+      const firstAvailable = this.navigationBehavior.peekFirst();
+      if (firstAvailable !== undefined && this.focusBehavior.focusCoordinates(firstAvailable)) {
         return true;
       }
+      this.focusBehavior.activeCell.set(undefined);
+      this.focusBehavior.activeCoords.set({
+        row: -1,
+        col: -1
+      });
     }
     return false;
   }
@@ -799,6 +831,11 @@ class GridCellPattern {
   onKeydown(event) {
     if (this.disabled()) return;
     this.widget()?.onKeydown(event);
+    if (this.widget()?.inputs.widgetType() === 'simple') {
+      if (event.key === 'Enter' || event.key === ' ') {
+        this.inputs.onActivate?.(event);
+      }
+    }
   }
   onFocusIn(event) {
     this.isFocused.set(true);
@@ -847,9 +884,6 @@ class GridCellWidgetPattern {
   lastDeactivateEvent = signal(undefined);
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
-    if (this.inputs.widgetType() === 'simple') {
-      return manager;
-    }
     if (this.isActivated()) {
       manager.on('Escape', e => {
         this.deactivate(e);

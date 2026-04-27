@@ -2,8 +2,8 @@ import { ComboboxPattern, ComboboxListboxControls, ComboboxTreeControls } from '
 export { ComboboxDialogPattern, ComboboxInputs } from './_combobox-chunk.js';
 import { ListboxInputs, OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 export { OptionInputs } from './_listbox-chunk.js';
-import { SignalLike } from './_signal-like-chunk.js';
-export { WritableSignalLike, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.js';
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
+export { computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.js';
 export { MenuBarInputs, MenuBarPattern, MenuInputs, MenuItemInputs, MenuItemPattern, MenuPattern, MenuTriggerInputs, MenuTriggerPattern } from './_menu-chunk.js';
 export { TabInputs, TabListInputs, TabListPattern, TabPanelInputs, TabPanelPattern, TabPattern } from './_tabs-chunk.js';
 export { ToolbarInputs, ToolbarPattern, ToolbarWidgetGroupInputs, ToolbarWidgetGroupPattern, ToolbarWidgetInputs, ToolbarWidgetPattern } from './_toolbar-chunk.js';
@@ -13,13 +13,13 @@ export { TreeItemInputs } from './_tree-chunk.js';
 export { ElementResolver, GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern, resolveElement } from './_grid-chunk.js';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
 export { HasElement, sortDirectives } from './_element-chunk.js';
+import * as _angular_core from '@angular/core';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
+import { ClickEventManager } from './_click-event-manager-chunk.js';
+import { ExpansionItem } from './_expansion-chunk.js';
 export { untracked } from '@angular/core/primitives/signals';
-import './_keyboard-event-manager-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
-import './_click-event-manager-chunk.js';
-import './_expansion-chunk.js';
-import '@angular/core';
 
 type ComboboxListboxInputs<V> = ListboxInputs<V> & {
     /** The combobox controlling the listbox. */
@@ -140,5 +140,102 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     readonly isItemSelectable: (item?: TreeItemPattern<V> | undefined) => boolean;
 }
 
-export { ComboboxListboxControls, ComboboxListboxPattern, ComboboxPattern, ComboboxTreeControls, ComboboxTreePattern, ListboxInputs, ListboxPattern, OptionPattern, SignalLike, TreeInputs, TreeItemPattern, TreePattern };
-export type { ComboboxListboxInputs, ComboboxTreeInputs };
+/** Represents the required inputs for a simple combobox. */
+interface SimpleComboboxInputs extends ExpansionItem {
+    /** Whether the combobox should always remain expanded. */
+    alwaysExpanded: SignalLike<boolean>;
+    /** The value of the combobox. */
+    value: WritableSignalLike<string>;
+    /** The element that the combobox is attached to. */
+    element: SignalLike<HTMLElement>;
+    /** The popup associated with the combobox. */
+    popup: SignalLike<SimpleComboboxPopupPattern | undefined>;
+    /** An inline suggestion to be displayed in the input. */
+    inlineSuggestion: SignalLike<string | undefined>;
+    /** Whether the combobox is disabled. */
+    disabled: SignalLike<boolean>;
+}
+/** Controls the state of a simple combobox. */
+declare class SimpleComboboxPattern {
+    readonly inputs: SimpleComboboxInputs;
+    /** The expanded state of the combobox. */
+    readonly isExpanded: _angular_core.Signal<boolean>;
+    /** The value of the combobox. */
+    readonly value: WritableSignalLike<string>;
+    /** The element that the combobox is attached to. */
+    readonly element: () => HTMLElement;
+    /** Whether the combobox is disabled. */
+    readonly disabled: () => boolean;
+    /** An inline suggestion to be displayed in the input. */
+    readonly inlineSuggestion: () => string | undefined;
+    /** The ID of the active descendant in the popup. */
+    readonly activeDescendant: _angular_core.Signal<string | undefined>;
+    /** The ID of the popup. */
+    readonly popupId: _angular_core.Signal<string | undefined>;
+    /** The type of the popup. */
+    readonly popupType: _angular_core.Signal<"listbox" | "tree" | "grid" | "dialog" | undefined>;
+    /** The autocomplete behavior of the combobox. */
+    readonly autocomplete: _angular_core.Signal<"none" | "inline" | "list" | "both">;
+    /** A relay for keyboard events to the popup. */
+    readonly keyboardEventRelay: _angular_core.WritableSignal<KeyboardEvent | undefined>;
+    /** Whether the combobox is focused. */
+    readonly isFocused: _angular_core.WritableSignal<boolean>;
+    /** Whether the most recent input event was a deletion. */
+    readonly isDeleting: _angular_core.WritableSignal<boolean>;
+    /** Whether the combobox is editable (i.e., an input or textarea). */
+    readonly isEditable: _angular_core.Signal<boolean>;
+    /** The keydown event manager for the combobox. */
+    keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
+    /** The click event manager for the combobox. */
+    click: _angular_core.Signal<ClickEventManager<PointerEvent>>;
+    constructor(inputs: SimpleComboboxInputs);
+    /** Handles keydown events for the combobox. */
+    onKeydown(event: KeyboardEvent): void;
+    /** Handles click events for the combobox. */
+    onClick(event: PointerEvent): void;
+    /** Handles focus in events for the combobox. */
+    onFocusin(): void;
+    /** Handles focus out events for the combobox. */
+    onFocusout(event: FocusEvent): void;
+    /** Handles input events for the combobox. */
+    onInput(event: Event): void;
+    /** Highlights the currently selected item in the combobox. */
+    highlightEffect(): void;
+    /** Relays keyboard events to the popup. */
+    keyboardEventRelayEffect(): void;
+    /** Closes the popup when focus leaves the combobox and popup. */
+    closePopupOnBlurEffect(): void;
+}
+/** Represents the required inputs for a simple combobox popup. */
+interface SimpleComboboxPopupInputs {
+    /** The type of the popup. */
+    popupType: SignalLike<'listbox' | 'tree' | 'grid' | 'dialog'>;
+    /** The element that serves as the control target for the popup. */
+    controlTarget: SignalLike<HTMLElement | undefined>;
+    /** The ID of the active descendant in the popup. */
+    activeDescendant: SignalLike<string | undefined>;
+    /** The ID of the popup. */
+    popupId: SignalLike<string | undefined>;
+}
+/** Controls the state of a simple combobox popup. */
+declare class SimpleComboboxPopupPattern {
+    readonly inputs: SimpleComboboxPopupInputs;
+    /** The type of the popup. */
+    readonly popupType: () => "listbox" | "tree" | "grid" | "dialog";
+    /** The element that serves as the control target for the popup. */
+    readonly controlTarget: () => HTMLElement | undefined;
+    /** The ID of the active descendant in the popup. */
+    readonly activeDescendant: () => string | undefined;
+    /** The ID of the popup. */
+    readonly popupId: () => string | undefined;
+    /** Whether the popup is focused. */
+    readonly isFocused: _angular_core.WritableSignal<boolean>;
+    constructor(inputs: SimpleComboboxPopupInputs);
+    /** Handles focus in events for the popup. */
+    onFocusin(): void;
+    /** Handles focus out events for the popup. */
+    onFocusout(event: FocusEvent): void;
+}
+
+export { ComboboxListboxControls, ComboboxListboxPattern, ComboboxPattern, ComboboxTreeControls, ComboboxTreePattern, ListboxInputs, ListboxPattern, OptionPattern, SignalLike, SimpleComboboxPattern, SimpleComboboxPopupPattern, TreeInputs, TreeItemPattern, TreePattern, WritableSignalLike };
+export type { ComboboxListboxInputs, ComboboxTreeInputs, SimpleComboboxInputs, SimpleComboboxPopupInputs };

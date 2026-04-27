@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, output, Renderer2, contentChild, model } from '@angular/core';
+import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, numberAttribute, afterRenderEffect, Directive, output, Renderer2, EventEmitter, contentChild, model, Output } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
@@ -59,12 +59,21 @@ class Grid {
   selectionMode = input('follow', ...(ngDevMode ? [{
     debugName: "selectionMode"
   }] : []));
+  tabIndex = input(undefined, {
+    ...(ngDevMode ? {
+      debugName: "tabIndex"
+    } : {}),
+    transform: v => v === undefined ? undefined : numberAttribute(v)
+  });
   _pattern = new GridPattern({
     ...this,
     rows: this._rowPatterns,
     getCell: e => this._getCell(e),
     element: () => this.element
   });
+  activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
+    debugName: "activeDescendant"
+  }] : []));
   constructor() {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
@@ -81,6 +90,11 @@ class Grid {
     afterRenderEffect({
       write: () => this._pattern.focusEffect()
     });
+  }
+  scrollActiveCellIntoView(options = {
+    block: 'nearest'
+  }) {
+    this._pattern.activeCell()?.element().scrollIntoView(options);
   }
   _getCell(element) {
     let target = element;
@@ -166,6 +180,13 @@ class Grid {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      tabIndex: {
+        classPropertyName: "tabIndex",
+        publicName: "tabIndex",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
     },
     host: {
@@ -179,7 +200,7 @@ class Grid {
         "focusout": "_pattern.onFocusOut($event)"
       },
       properties: {
-        "tabindex": "_pattern.tabIndex()",
+        "tabindex": "tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-multiselectable": "_pattern.multiSelectable()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()"
@@ -207,7 +228,7 @@ i0.ɵɵngDeclareClassMetadata({
       exportAs: 'ngGrid',
       host: {
         'role': 'grid',
-        '[tabindex]': '_pattern.tabIndex()',
+        '[tabindex]': 'tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-multiselectable]': '_pattern.multiSelectable()',
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
@@ -290,6 +311,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "selectionMode",
+        required: false
+      }]
+    }],
+    tabIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "tabIndex",
         required: false
       }]
     }]
@@ -501,6 +530,7 @@ class GridCell {
   _elementRef = inject(ElementRef);
   _renderer = inject(Renderer2);
   element = this._elementRef.nativeElement;
+  activated = new EventEmitter();
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
@@ -557,7 +587,8 @@ class GridCell {
     row: () => this._row._pattern,
     widget: this._widgetPattern,
     getWidget: e => this._getWidget(e),
-    element: () => this.element
+    element: () => this.element,
+    onActivate: e => this.activated.emit(e)
   });
   constructor() {
     afterRenderEffect({
@@ -690,6 +721,7 @@ class GridCell {
       }
     },
     outputs: {
+      activated: "activated",
       selected: "selectedChange"
     },
     providers: [{
@@ -725,6 +757,9 @@ i0.ɵɵngDeclareClassMetadata({
   }],
   ctorParameters: () => [],
   propDecorators: {
+    activated: [{
+      type: Output
+    }],
     _widget: [{
       type: i0.ContentChild,
       args: [i0.forwardRef(() => GridCellWidget), {

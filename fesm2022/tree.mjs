@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
+import { inject, ElementRef, signal, input, booleanAttribute, numberAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { ComboboxPopup } from './combobox.mjs';
@@ -63,6 +63,12 @@ class Tree {
   typeaheadDelay = input(500, ...(ngDevMode ? [{
     debugName: "typeaheadDelay"
   }] : []));
+  tabIndex = input(undefined, {
+    ...(ngDevMode ? {
+      debugName: "tabIndex"
+    } : {}),
+    transform: v => v === undefined ? undefined : numberAttribute(v)
+  });
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
   }] : []));
@@ -77,6 +83,7 @@ class Tree {
     debugName: "currentType"
   }] : []));
   _pattern;
+  activeDescendant;
   constructor() {
     const inputs = {
       ...this,
@@ -87,6 +94,9 @@ class Tree {
       element: () => this.element
     };
     this._pattern = this._popup?.combobox ? new ComboboxTreePattern(inputs) : new TreePattern(inputs);
+    this.activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
+      debugName: "activeDescendant"
+    }] : []));
     if (this._popup?.combobox) {
       this._popup?._controls?.set(this._pattern);
     }
@@ -214,6 +224,13 @@ class Tree {
         isRequired: false,
         transformFunction: null
       },
+      tabIndex: {
+        classPropertyName: "tabIndex",
+        publicName: "tabIndex",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       value: {
         classPropertyName: "value",
         publicName: "value",
@@ -254,7 +271,7 @@ class Tree {
         "attr.aria-multiselectable": "_pattern.multi()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()",
-        "tabindex": "_pattern.tabIndex()"
+        "tabindex": "tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()"
       }
     },
     exportAs: ["ngTree"],
@@ -281,7 +298,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-multiselectable]': '_pattern.multi()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
-        '[tabindex]': '_pattern.tabIndex()',
+        '[tabindex]': 'tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocusIn()'
@@ -360,6 +377,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "typeaheadDelay",
+        required: false
+      }]
+    }],
+    tabIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "tabIndex",
         required: false
       }]
     }],

@@ -1,5 +1,6 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
+import { Signal } from '@angular/core';
 import { OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 import { ComboboxPopup } from './combobox.js';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
@@ -47,9 +48,9 @@ declare class Listbox<V> {
     /** The Options nested inside of the Listbox. */
     private readonly _options;
     /** A signal wrapper for directionality. */
-    protected readonly textDirection: _angular_core.Signal<_angular_cdk_bidi.Direction>;
+    protected readonly textDirection: Signal<_angular_cdk_bidi.Direction>;
     /** The Option UIPatterns of the child Options. */
-    protected readonly items: _angular_core.Signal<OptionPattern<V>[]>;
+    protected readonly items: Signal<OptionPattern<V>[]>;
     /** Whether the list is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multiple items in the list can be selected at once. */
@@ -79,16 +80,20 @@ declare class Listbox<V> {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the listbox is readonly. */
     readonly readonly: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The tabindex of the listbox. */
+    readonly tabIndex: _angular_core.InputSignalWithTransform<number | undefined, string | number | undefined>;
     /** The values of the currently selected items. */
     readonly value: _angular_core.ModelSignal<V[]>;
     /** The Listbox UIPattern. */
     readonly _pattern: ListboxPattern<V>;
+    /** The ID of the active descendant in the listbox. */
+    readonly activeDescendant: Signal<string | undefined>;
     constructor();
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabIndex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 
 /**

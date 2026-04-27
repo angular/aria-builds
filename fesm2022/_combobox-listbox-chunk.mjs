@@ -182,6 +182,9 @@ class ListboxPattern {
     }
     if (firstItem) {
       this.inputs.activeItem.set(firstItem);
+      if (this.followFocus()) {
+        this.listBehavior.select();
+      }
     }
   }
   setDefaultStateEffect() {

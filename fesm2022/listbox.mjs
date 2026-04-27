@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, Directive, contentChildren, model, signal, afterRenderEffect, untracked } from '@angular/core';
+import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, Directive, contentChildren, numberAttribute, model, signal, afterRenderEffect, untracked } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { OptionPattern, ComboboxListboxPattern, ListboxPattern } from './_combobox-listbox-chunk.mjs';
@@ -228,10 +228,17 @@ class Listbox {
     } : {}),
     transform: booleanAttribute
   });
+  tabIndex = input(undefined, {
+    ...(ngDevMode ? {
+      debugName: "tabIndex"
+    } : {}),
+    transform: v => v === undefined ? undefined : numberAttribute(v)
+  });
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
   }] : []));
   _pattern;
+  activeDescendant;
   constructor() {
     const inputs = {
       ...this,
@@ -243,6 +250,9 @@ class Listbox {
       combobox: () => this._popup?.combobox?._pattern
     };
     this._pattern = this._popup?.combobox ? new ComboboxListboxPattern(inputs) : new ListboxPattern(inputs);
+    this.activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
+      debugName: "activeDescendant"
+    }] : []));
     if (this._popup) {
       this._popup._controls.set(this._pattern);
     }
@@ -371,6 +381,13 @@ class Listbox {
         isRequired: false,
         transformFunction: null
       },
+      tabIndex: {
+        classPropertyName: "tabIndex",
+        publicName: "tabIndex",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       value: {
         classPropertyName: "value",
         publicName: "value",
@@ -393,7 +410,7 @@ class Listbox {
       },
       properties: {
         "attr.id": "id()",
-        "attr.tabindex": "_pattern.tabIndex()",
+        "attr.tabindex": "tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()",
         "attr.aria-readonly": "_pattern.readonly()",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-orientation": "_pattern.orientation()",
@@ -431,7 +448,7 @@ i0.ɵɵngDeclareClassMetadata({
       host: {
         'role': 'listbox',
         '[attr.id]': 'id()',
-        '[attr.tabindex]': '_pattern.tabIndex()',
+        '[attr.tabindex]': 'tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()',
         '[attr.aria-readonly]': '_pattern.readonly()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-orientation]': '_pattern.orientation()',
@@ -536,6 +553,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "readonly",
+        required: false
+      }]
+    }],
+    tabIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "tabIndex",
         required: false
       }]
     }],

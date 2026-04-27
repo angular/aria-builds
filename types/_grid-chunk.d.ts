@@ -403,6 +403,8 @@ interface GridCellInputs extends GridCell {
     colIndex: SignalLike<number | undefined>;
     /** A function that returns the cell widget associated with a given element. */
     getWidget: (e: Element | null) => GridCellWidgetPattern | undefined;
+    /** Callback when the cell is activated via Enter/Space. */
+    onActivate?: (event: KeyboardEvent) => void;
 }
 /** The UI pattern for a grid cell. */
 declare class GridCellPattern implements GridCell {
