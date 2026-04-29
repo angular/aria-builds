@@ -17,6 +17,12 @@ class Combobox extends DeferredContentAware {
     } : {}),
     transform: booleanAttribute
   });
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
+    transform: booleanAttribute
+  });
   alwaysExpanded = input(false, {
     ...(ngDevMode ? {
       debugName: "alwaysExpanded"
@@ -87,6 +93,13 @@ class Combobox extends DeferredContentAware {
         isRequired: false,
         transformFunction: null
       },
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       alwaysExpanded: {
         classPropertyName: "alwaysExpanded",
         publicName: "alwaysExpanded",
@@ -137,7 +150,9 @@ class Combobox extends DeferredContentAware {
         "attr.aria-expanded": "_pattern.isExpanded()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()",
         "attr.aria-controls": "_pattern.popupId()",
-        "attr.aria-haspopup": "_pattern.popupType()"
+        "attr.aria-haspopup": "_pattern.popupType()",
+        "attr.tabindex": "disabled() && !softDisabled() ? -1 : null",
+        "attr.disabled": "disabled() && !softDisabled() ? \"\" : null"
       }
     },
     exportAs: ["ngCombobox"],
@@ -163,6 +178,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '[attr.aria-controls]': '_pattern.popupId()',
         '[attr.aria-haspopup]': '_pattern.popupType()',
+        '[attr.tabindex]': 'disabled() && !softDisabled() ? -1 : null',
+        '[attr.disabled]': 'disabled() && !softDisabled() ? "" : null',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusin)': '_pattern.onFocusin()',
         '(focusout)': '_pattern.onFocusout($event)',
@@ -178,6 +195,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "disabled",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
         required: false
       }]
     }],

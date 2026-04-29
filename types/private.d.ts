@@ -154,6 +154,8 @@ interface SimpleComboboxInputs extends ExpansionItem {
     inlineSuggestion: SignalLike<string | undefined>;
     /** Whether the combobox is disabled. */
     disabled: SignalLike<boolean>;
+    /** Whether the combobox is soft disabled. */
+    softDisabled?: SignalLike<boolean>;
 }
 /** Controls the state of a simple combobox. */
 declare class SimpleComboboxPattern {
@@ -166,6 +168,8 @@ declare class SimpleComboboxPattern {
     readonly element: () => HTMLElement;
     /** Whether the combobox is disabled. */
     readonly disabled: () => boolean;
+    /** Whether the combobox is soft disabled. */
+    readonly softDisabled: () => boolean;
     /** An inline suggestion to be displayed in the input. */
     readonly inlineSuggestion: () => string | undefined;
     /** The ID of the active descendant in the popup. */

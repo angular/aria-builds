@@ -24,6 +24,7 @@ class SimpleComboboxPattern {
   value;
   element = () => this.inputs.element();
   disabled = () => this.inputs.disabled();
+  softDisabled = () => this.inputs.softDisabled?.() ?? true;
   inlineSuggestion = () => this.inputs.inlineSuggestion();
   activeDescendant = computed(() => this.inputs.popup()?.activeDescendant());
   popupId = computed(() => this.inputs.popup()?.popupId());

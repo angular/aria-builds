@@ -101,6 +101,8 @@ declare class Combobox extends DeferredContentAware implements OnInit {
     readonly _popup: _angular_core.WritableSignal<ComboboxPopup | undefined>;
     /** Whether the combobox is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Whether the combobox is soft disabled (remains focusable). */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the combobox should always remain expanded. */
     readonly alwaysExpanded: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the combobox is expanded. */
@@ -118,7 +120,7 @@ declare class Combobox extends DeferredContentAware implements OnInit {
     /** Unregisters the popup from the combobox. */
     _unregisterPopup(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox, "[ngCombobox]", ["ngCombobox"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "inlineSuggestion": { "alias": "inlineSuggestion"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; "value": "valueChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox, "[ngCombobox]", ["ngCombobox"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "inlineSuggestion": { "alias": "inlineSuggestion"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; "value": "valueChange"; }, never, never, true, never>;
 }
 
 export { Combobox, ComboboxPopup, ComboboxWidget };
