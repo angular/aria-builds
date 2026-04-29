@@ -12,6 +12,7 @@ import { TreeInputs, TreeItemPattern, TreePattern } from './_tree-chunk.js';
 export { TreeItemInputs } from './_tree-chunk.js';
 export { ElementResolver, GridCellInputs, GridCellPattern, GridCellWidgetInputs, GridCellWidgetPattern, GridInputs, GridPattern, GridRowInputs, GridRowPattern, resolveElement } from './_grid-chunk.js';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
+export { SortedCollection } from './_collection-chunk.js';
 export { HasElement, sortDirectives } from './_element-chunk.js';
 import * as _angular_core from '@angular/core';
 import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';

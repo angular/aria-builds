@@ -2,11 +2,10 @@ import * as i0 from '@angular/core';
 import { InjectionToken, input, inject, ElementRef, booleanAttribute, numberAttribute, model, computed, signal, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import { SortedCollection } from './_collection-chunk.mjs';
 import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import { ComboboxListboxPattern, ListboxPattern, OptionPattern } from './_combobox-listbox-chunk.mjs';
-import './_element-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
@@ -15,6 +14,7 @@ import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
+import './_element-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
 

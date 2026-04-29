@@ -445,8 +445,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tabs.ts",
-        "startLine": 55,
-        "endLine": 119
+        "startLine": 54,
+        "endLine": 118
       }
     },
     {
@@ -759,8 +759,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tab-list.ts",
-        "startLine": 49,
-        "endLine": 172
+        "startLine": 48,
+        "endLine": 171
       }
     }
   ],

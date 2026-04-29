@@ -9,6 +9,7 @@ import { computed, signal, untracked } from '@angular/core';
 import { KeyboardEventManager } from './_signal-like-chunk.mjs';
 export { computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
+export { SortedCollection } from './_collection-chunk.mjs';
 export { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern } from './_toolbar-widget-group-chunk.mjs';
 export { sortDirectives } from './_element-chunk.mjs';
