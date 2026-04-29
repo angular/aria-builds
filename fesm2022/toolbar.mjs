@@ -1,8 +1,8 @@
 import * as i0 from '@angular/core';
 import { inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, InjectionToken, contentChildren } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { sortDirectives } from './_element-chunk.mjs';
+import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';

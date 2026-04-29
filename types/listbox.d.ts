@@ -1,7 +1,8 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
-import { Signal } from '@angular/core';
+import { OnInit, OnDestroy, Signal } from '@angular/core';
 import { OptionPattern, ListboxPattern } from './_listbox-chunk.js';
+import { SortedCollection } from './_collection-chunk.js';
 import { ComboboxPopup } from './combobox.js';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_signal-like-chunk.js';
@@ -9,8 +10,56 @@ import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_click-event-manager-chunk.js';
+import './_element-chunk.js';
 import './_combobox-chunk.js';
 import './_deferred-content-chunk.js';
+
+/**
+ * A selectable option in an `ngListbox`.
+ *
+ * This directive should be applied to an element (e.g., `<li>`, `<div>`) within an
+ * `ngListbox`. The `value` input is used to identify the option, and the `label` input provides
+ * the accessible name for the option.
+ *
+ * ```html
+ * <li ngOption value="item-id" label="Item Name">
+ *   Item Name
+ * </li>
+ * ```
+ *
+ * @developerPreview 21.0
+ *
+ * @see [Listbox](guide/aria/listbox)
+ * @see [Autocomplete](guide/aria/autocomplete)
+ * @see [Select](guide/aria/select)
+ * @see [Multiselect](guide/aria/multiselect)
+ */
+declare class Option<V> implements OnInit, OnDestroy {
+    /** A reference to the host element. */
+    readonly element: HTMLElement;
+    /** Whether the option is currently active (focused). */
+    readonly active: _angular_core.Signal<boolean>;
+    /** The parent Listbox. */
+    private readonly _listbox;
+    /** A unique identifier for the option. */
+    readonly id: _angular_core.InputSignal<string>;
+    /** The parent Listbox UIPattern. */
+    private readonly _listboxPattern;
+    /** The value of the option. */
+    readonly value: _angular_core.InputSignal<V>;
+    /** Whether an item is disabled. */
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The text used by the typeahead search. */
+    readonly label: _angular_core.InputSignal<string | undefined>;
+    /** Whether the option is selected. */
+    readonly selected: _angular_core.Signal<boolean | undefined>;
+    /** The Option UIPattern. */
+    readonly _pattern: OptionPattern<V>;
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<Option<any>, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Option<any>, "[ngOption]", ["ngOption"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+}
 
 /**
  * Represents a container used to display a list of items for a user to select from.
@@ -36,7 +85,7 @@ import './_deferred-content-chunk.js';
  * @see [Select](guide/aria/select)
  * @see [Multiselect](guide/aria/multiselect)
  */
-declare class Listbox<V> {
+declare class Listbox<V> implements OnDestroy {
     /** A unique identifier for the listbox. */
     readonly id: _angular_core.InputSignal<string>;
     /** A reference to the parent combobox popup, if one exists. */
@@ -45,12 +94,10 @@ declare class Listbox<V> {
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
-    /** The Options nested inside of the Listbox. */
-    private readonly _options;
+    /** The collection of Options. */
+    readonly _collection: SortedCollection<Option<V>>;
     /** A signal wrapper for directionality. */
     protected readonly textDirection: Signal<_angular_cdk_bidi.Direction>;
-    /** The Option UIPatterns of the child Options. */
-    protected readonly items: Signal<OptionPattern<V>[]>;
     /** Whether the list is vertically or horizontally oriented. */
     readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
     /** Whether multiple items in the list can be selected at once. */
@@ -89,56 +136,12 @@ declare class Listbox<V> {
     /** The ID of the active descendant in the listbox. */
     readonly activeDescendant: Signal<string | undefined>;
     constructor();
+    ngOnDestroy(): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabIndex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, ["_options"], never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
-}
-
-/**
- * A selectable option in an `ngListbox`.
- *
- * This directive should be applied to an element (e.g., `<li>`, `<div>`) within an
- * `ngListbox`. The `value` input is used to identify the option, and the `label` input provides
- * the accessible name for the option.
- *
- * ```html
- * <li ngOption value="item-id" label="Item Name">
- *   Item Name
- * </li>
- * ```
- *
- * @developerPreview 21.0
- *
- * @see [Listbox](guide/aria/listbox)
- * @see [Autocomplete](guide/aria/autocomplete)
- * @see [Select](guide/aria/select)
- * @see [Multiselect](guide/aria/multiselect)
- */
-declare class Option<V> {
-    /** A reference to the host element. */
-    readonly element: HTMLElement;
-    /** Whether the option is currently active (focused). */
-    readonly active: _angular_core.Signal<boolean>;
-    /** The parent Listbox. */
-    private readonly _listbox;
-    /** A unique identifier for the option. */
-    readonly id: _angular_core.InputSignal<string>;
-    /** The parent Listbox UIPattern. */
-    private readonly _listboxPattern;
-    /** The value of the option. */
-    readonly value: _angular_core.InputSignal<V>;
-    /** Whether an item is disabled. */
-    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The text used by the typeahead search. */
-    readonly label: _angular_core.InputSignal<string | undefined>;
-    /** Whether the option is selected. */
-    readonly selected: _angular_core.Signal<boolean | undefined>;
-    /** The Option UIPattern. */
-    readonly _pattern: OptionPattern<V>;
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<Option<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Option<any>, "[ngOption]", ["ngOption"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "label": { "alias": "label"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabIndex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
 }
 
 export { Listbox, Option, ComboboxPopup as ɵɵComboboxPopup };

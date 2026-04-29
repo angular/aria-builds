@@ -1,15 +1,16 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, signal, computed, afterRenderEffect, Directive, input, booleanAttribute, model, linkedSignal } from '@angular/core';
+import { InjectionToken, inject, ElementRef, signal, computed, afterNextRender, Directive, input, booleanAttribute, model, linkedSignal, afterRenderEffect } from '@angular/core';
 import { TabListPattern, TabPattern, TabPanelPattern } from './_tabs-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
-import { sortDirectives } from './_element-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
+import './_element-chunk.mjs';
 
 const TABS = new InjectionToken('TABS');
 const TAB_LIST = new InjectionToken('TAB_LIST');
@@ -20,42 +21,47 @@ class Tabs {
   _tabList = signal(undefined, ...(ngDevMode ? [{
     debugName: "_tabList"
   }] : []));
-  _tabPanels = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_tabPanels"
+  _collection = new SortedCollection();
+  _tabPatterns = computed(() => this._tabList()?._tabPatterns(), ...(ngDevMode ? [{
+    debugName: "_tabPatterns"
   }] : []));
-  _tabPanelsList = computed(() => [...this._tabPanels()], ...(ngDevMode ? [{
-    debugName: "_tabPanelsList"
+  _tabPanelPatterns = computed(() => this._collection.orderedItems().map(tabpanel => tabpanel._pattern), ...(ngDevMode ? [{
+    debugName: "_tabPanelPatterns"
+  }] : []));
+  _panelMap = computed(() => {
+    const map = new Map();
+    for (const panel of this._collection.orderedItems()) {
+      map.set(panel.value(), panel._pattern);
+    }
+    return map;
+  }, ...(ngDevMode ? [{
+    debugName: "_panelMap"
+  }] : []));
+  _tabMap = computed(() => {
+    const map = new Map();
+    const tabList = this._tabList();
+    if (tabList) {
+      for (const tab of tabList._collection.orderedItems()) {
+        map.set(tab.value(), tab._pattern);
+      }
+    }
+    return map;
+  }, ...(ngDevMode ? [{
+    debugName: "_tabMap"
   }] : []));
   constructor() {
-    afterRenderEffect({
-      write: () => {
-        if (this._tabList()) {
-          for (const tab of this._tabList()._sortedTabs()) {
-            const panel = this._tabPanelsList().find(panel => panel === tab.panel());
-            if (panel) {
-              panel._tabPattern.set(tab._pattern);
-            }
-          }
-        }
-      }
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
     });
   }
-  _registerList(list) {
-    this._tabList.set(list);
+  ngOnDestroy() {
+    this._collection.stopObserving();
   }
-  _unregisterList(list) {
+  _register(child) {
+    this._tabList.set(child);
+  }
+  _unregister() {
     this._tabList.set(undefined);
-  }
-  _registerPanel(panel) {
-    this._tabPanels().add(panel);
-    this._tabPanels.set(new Set(this._tabPanels()));
-  }
-  _unregisterPanel(panel) {
-    this._tabPanels().delete(panel);
-    this._tabPanels.set(new Set(this._tabPanels()));
-  }
-  findTabPanel(value) {
-    return value ? this._tabPanelsList().find(panel => panel.value() === value) : undefined;
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -102,13 +108,8 @@ class TabList {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   _tabsParent = inject(TABS);
-  _tabs = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_tabs"
-  }] : []));
-  _sortedTabs = computed(() => [...this._tabs()].sort(sortDirectives), ...(ngDevMode ? [{
-    debugName: "_sortedTabs"
-  }] : []));
-  _tabPatterns = computed(() => [...this._sortedTabs()].map(tab => tab._pattern), ...(ngDevMode ? [{
+  _collection = new SortedCollection();
+  _tabPatterns = computed(() => this._collection.orderedItems().map(tab => tab._pattern), ...(ngDevMode ? [{
     debugName: "_tabPatterns"
   }] : []));
   orientation = input('horizontal', ...(ngDevMode ? [{
@@ -156,36 +157,32 @@ class TabList {
     selectedTab: this._selectedTabPattern
   });
   constructor() {
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
+    afterRenderEffect(() => {
+      this._pattern.setDefaultStateEffect();
+    });
     afterRenderEffect({
       write: () => {
         const pattern = this._selectedTabPattern();
-        const tab = this._sortedTabs().find(tab => tab._pattern == pattern);
+        const tab = this._collection.orderedItems().find(tab => tab._pattern == pattern);
         this.selectedTab.set(tab?.value());
       }
     });
-    afterRenderEffect({
-      write: () => this._pattern.setDefaultStateEffect()
-    });
   }
   ngOnInit() {
-    this._tabsParent._registerList(this);
+    this._tabsParent._register(this);
   }
   ngOnDestroy() {
-    this._tabsParent._registerList(this);
-  }
-  _registerTab(child) {
-    this._tabs().add(child);
-    this._tabs.set(new Set(this._tabs()));
-  }
-  _unregisterTab(child) {
-    this._tabs().delete(child);
-    this._tabs.set(new Set(this._tabs()));
+    this._tabsParent._unregister();
+    this._collection.stopObserving();
   }
   open(value) {
     return this._pattern.open(this.findTab(value)?._pattern);
   }
   findTab(value) {
-    return value ? this._sortedTabs().find(tab => tab.value() === value) : undefined;
+    return value ? this._collection.orderedItems().find(tab => tab.value() === value) : undefined;
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -372,13 +369,14 @@ i0.ɵɵngDeclareClassMetadata({
 class Tab {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _tabsWrapper = inject(TABS);
   _tabList = inject(TAB_LIST);
   id = input(inject(_IdGenerator).getId('ng-tab-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  panel = computed(() => this._tabsWrapper.findTabPanel(this.value()), ...(ngDevMode ? [{
-    debugName: "panel"
+  _tabpanelPattern = computed(() => {
+    return this._tabList._tabsParent._panelMap().get(this.value());
+  }, ...(ngDevMode ? [{
+    debugName: "_tabpanelPattern"
   }] : []));
   disabled = input(false, {
     ...(ngDevMode ? {
@@ -399,16 +397,16 @@ class Tab {
     ...this,
     element: () => this.element,
     tabList: () => this._tabList._pattern,
-    tabPanel: computed(() => this.panel()?._pattern)
+    tabPanel: this._tabpanelPattern
   });
   open() {
     this._pattern.open();
   }
   ngOnInit() {
-    this._tabList._registerTab(this);
+    this._tabList._collection.register(this);
   }
   ngOnDestroy() {
-    this._tabList._unregisterTab(this);
+    this._tabList._collection.unregister(this);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -521,7 +519,9 @@ class TabPanel {
   id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  _tabPattern = signal(undefined, ...(ngDevMode ? [{
+  _tabPattern = computed(() => {
+    return this._tabs._tabMap().get(this.value());
+  }, ...(ngDevMode ? [{
     debugName: "_tabPattern"
   }] : []));
   value = input.required(...(ngDevMode ? [{
@@ -535,17 +535,13 @@ class TabPanel {
     tab: this._tabPattern
   });
   constructor() {
-    afterRenderEffect({
-      write: () => {
-        this._deferredContentAware.contentVisible.set(this.visible());
-      }
-    });
+    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
   }
   ngOnInit() {
-    this._tabs._registerPanel(this);
+    this._tabs._collection.register(this);
   }
   ngOnDestroy() {
-    this._tabs._unregisterPanel(this);
+    this._tabs._collection.unregister(this);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

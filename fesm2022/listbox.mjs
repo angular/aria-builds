@@ -1,171 +1,22 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, Directive, contentChildren, numberAttribute, model, signal, afterRenderEffect, untracked } from '@angular/core';
+import { InjectionToken, input, inject, ElementRef, booleanAttribute, numberAttribute, model, computed, signal, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import { OptionPattern, ComboboxListboxPattern, ListboxPattern } from './_combobox-listbox-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
+import { ComboboxListboxPattern, ListboxPattern, OptionPattern } from './_combobox-listbox-chunk.mjs';
+import './_element-chunk.mjs';
+import './_deferred-content-chunk.mjs';
+import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
-import './_deferred-content-chunk.mjs';
-import './_combobox-chunk.mjs';
 
 const LISTBOX = new InjectionToken('LISTBOX');
-
-class Option {
-  element = inject(ElementRef).nativeElement;
-  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
-    debugName: "active"
-  }] : []));
-  _listbox = inject(LISTBOX);
-  id = input(inject(_IdGenerator).getId('ng-option-', true), ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
-  _listboxPattern = computed(() => this._listbox._pattern, ...(ngDevMode ? [{
-    debugName: "_listboxPattern"
-  }] : []));
-  value = input.required(...(ngDevMode ? [{
-    debugName: "value"
-  }] : []));
-  disabled = input(false, {
-    ...(ngDevMode ? {
-      debugName: "disabled"
-    } : {}),
-    transform: booleanAttribute
-  });
-  label = input(...(ngDevMode ? [undefined, {
-    debugName: "label"
-  }] : []));
-  selected = computed(() => this._pattern.selected(), ...(ngDevMode ? [{
-    debugName: "selected"
-  }] : []));
-  _pattern = new OptionPattern({
-    ...this,
-    id: this.id,
-    value: this.value,
-    listbox: this._listboxPattern,
-    element: () => this.element,
-    searchTerm: () => this.label() ?? ''
-  });
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.9",
-    ngImport: i0,
-    type: Option,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "22.0.0-next.9",
-    type: Option,
-    isStandalone: true,
-    selector: "[ngOption]",
-    inputs: {
-      id: {
-        classPropertyName: "id",
-        publicName: "id",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
-        isSignal: true,
-        isRequired: true,
-        transformFunction: null
-      },
-      disabled: {
-        classPropertyName: "disabled",
-        publicName: "disabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      label: {
-        classPropertyName: "label",
-        publicName: "label",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      }
-    },
-    host: {
-      attributes: {
-        "role": "option"
-      },
-      properties: {
-        "attr.data-active": "active()",
-        "attr.id": "_pattern.id()",
-        "attr.tabindex": "_pattern.tabIndex()",
-        "attr.aria-selected": "_pattern.selected()",
-        "attr.aria-disabled": "_pattern.disabled()"
-      }
-    },
-    exportAs: ["ngOption"],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.9",
-  ngImport: i0,
-  type: Option,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngOption]',
-      exportAs: 'ngOption',
-      host: {
-        'role': 'option',
-        '[attr.data-active]': 'active()',
-        '[attr.id]': '_pattern.id()',
-        '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.aria-selected]': '_pattern.selected()',
-        '[attr.aria-disabled]': '_pattern.disabled()'
-      }
-    }]
-  }],
-  propDecorators: {
-    id: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "id",
-        required: false
-      }]
-    }],
-    value: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "value",
-        required: true
-      }]
-    }],
-    disabled: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "disabled",
-        required: false
-      }]
-    }],
-    label: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "label",
-        required: false
-      }]
-    }]
-  }
-});
 
 class Listbox {
   id = input(inject(_IdGenerator).getId('ng-listbox-', true), ...(ngDevMode ? [{
@@ -176,16 +27,8 @@ class Listbox {
   });
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _options = contentChildren(Option, {
-    ...(ngDevMode ? {
-      debugName: "_options"
-    } : {}),
-    descendants: true
-  });
+  _collection = new SortedCollection();
   textDirection = inject(Directionality).valueSignal.asReadonly();
-  items = computed(() => this._options().map(option => option._pattern), ...(ngDevMode ? [{
-    debugName: "items"
-  }] : []));
   orientation = input('vertical', ...(ngDevMode ? [{
     debugName: "orientation"
   }] : []));
@@ -240,10 +83,13 @@ class Listbox {
   _pattern;
   activeDescendant;
   constructor() {
+    const orderedItemPatterns = computed(() => this._collection.orderedItems().map(option => option._pattern), ...(ngDevMode ? [{
+      debugName: "orderedItemPatterns"
+    }] : []));
     const inputs = {
       ...this,
       id: this.id,
-      items: this.items,
+      items: orderedItemPatterns,
       activeItem: signal(undefined),
       textDirection: this.textDirection,
       element: () => this._elementRef.nativeElement,
@@ -253,6 +99,9 @@ class Listbox {
     this.activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
       debugName: "activeDescendant"
     }] : []));
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
     if (this._popup) {
       this._popup._controls.set(this._pattern);
     }
@@ -288,6 +137,9 @@ class Listbox {
       }
     });
   }
+  ngOnDestroy() {
+    this._collection.stopObserving();
+  }
   scrollActiveItemIntoView(options = {
     block: 'nearest'
   }) {
@@ -305,7 +157,7 @@ class Listbox {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.9",
     type: Listbox,
     isStandalone: true,
@@ -422,12 +274,6 @@ class Listbox {
       provide: LISTBOX,
       useExisting: Listbox
     }],
-    queries: [{
-      propertyName: "_options",
-      predicate: Option,
-      descendants: true,
-      isSignal: true
-    }],
     exportAs: ["ngListbox"],
     hostDirectives: [{
       directive: ComboboxPopup
@@ -473,15 +319,6 @@ i0.ɵɵngDeclareClassMetadata({
         isSignal: true,
         alias: "id",
         required: false
-      }]
-    }],
-    _options: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => Option), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
       }]
     }],
     orientation: [{
@@ -574,6 +411,163 @@ i0.ɵɵngDeclareClassMetadata({
     }, {
       type: i0.Output,
       args: ["valueChange"]
+    }]
+  }
+});
+
+class Option {
+  element = inject(ElementRef).nativeElement;
+  active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
+    debugName: "active"
+  }] : []));
+  _listbox = inject(LISTBOX);
+  id = input(inject(_IdGenerator).getId('ng-option-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  _listboxPattern = computed(() => this._listbox._pattern, ...(ngDevMode ? [{
+    debugName: "_listboxPattern"
+  }] : []));
+  value = input.required(...(ngDevMode ? [{
+    debugName: "value"
+  }] : []));
+  disabled = input(false, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {}),
+    transform: booleanAttribute
+  });
+  label = input(...(ngDevMode ? [undefined, {
+    debugName: "label"
+  }] : []));
+  selected = computed(() => this._pattern.selected(), ...(ngDevMode ? [{
+    debugName: "selected"
+  }] : []));
+  _pattern = new OptionPattern({
+    ...this,
+    id: this.id,
+    value: this.value,
+    listbox: this._listboxPattern,
+    element: () => this.element,
+    searchTerm: () => this.label() ?? ''
+  });
+  ngOnInit() {
+    this._listbox._collection.register(this);
+  }
+  ngOnDestroy() {
+    this._listbox._collection.unregister(this);
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.9",
+    ngImport: i0,
+    type: Option,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "22.0.0-next.9",
+    type: Option,
+    isStandalone: true,
+    selector: "[ngOption]",
+    inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      },
+      disabled: {
+        classPropertyName: "disabled",
+        publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      label: {
+        classPropertyName: "label",
+        publicName: "label",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    host: {
+      attributes: {
+        "role": "option"
+      },
+      properties: {
+        "attr.data-active": "active()",
+        "attr.id": "_pattern.id()",
+        "attr.tabindex": "_pattern.tabIndex()",
+        "attr.aria-selected": "_pattern.selected()",
+        "attr.aria-disabled": "_pattern.disabled()"
+      }
+    },
+    exportAs: ["ngOption"],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.9",
+  ngImport: i0,
+  type: Option,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngOption]',
+      exportAs: 'ngOption',
+      host: {
+        'role': 'option',
+        '[attr.data-active]': 'active()',
+        '[attr.id]': '_pattern.id()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
+        '[attr.aria-selected]': '_pattern.selected()',
+        '[attr.aria-disabled]': '_pattern.disabled()'
+      }
+    }]
+  }],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }],
+    disabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "disabled",
+        required: false
+      }]
+    }],
+    label: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "label",
+        required: false
+      }]
     }]
   }
 });

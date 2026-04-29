@@ -3,11 +3,13 @@ import { OnInit, OnDestroy } from '@angular/core';
 import { AccordionTriggerPattern, AccordionGroupPattern } from './_accordion-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
+import { SortedCollection } from './_collection-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_signal-like-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
+import './_element-chunk.js';
 
 /**
  * The content panel of an accordion item that is conditionally visible.
@@ -91,8 +93,6 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
     readonly panelId: _angular_core.Signal<string>;
     /** Whether the trigger is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    /** The index of the trigger within the accordion group. */
-    readonly index: _angular_core.InputSignal<number | undefined>;
     /** Whether the corresponding panel is expanded. */
     readonly expanded: _angular_core.ModelSignal<boolean>;
     /** Whether the trigger is active. */
@@ -108,7 +108,7 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionTrigger, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "panel": { "alias": "panel"; "required": true; "isSignal": true; }; "id": { "alias": "id"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "index": { "alias": "index"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionTrigger, "[ngAccordionTrigger]", ["ngAccordionTrigger"], { "panel": { "alias": "panel"; "required": true; "isSignal": true; }; "id": { "alias": "id"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; }, never, never, true, never>;
 }
 
 /**
@@ -147,15 +147,13 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
  * @developerPreview 21.0
  * @see [Accordion](guide/aria/accordion)
  */
-declare class AccordionGroup {
+declare class AccordionGroup implements OnDestroy {
     /** A reference to the group element. */
     private readonly _elementRef;
     /** A reference to the group element. */
     readonly element: HTMLElement;
-    /** The AccordionTriggers nested inside this group. */
-    private readonly _triggers;
-    /** The AccordionTriggers nested inside this group. */
-    private readonly _sortedTriggers;
+    /** The collection of AccordionTriggers. */
+    readonly _collection: SortedCollection<AccordionTrigger>;
     /** The corresponding patterns for the accordion triggers. */
     private readonly _triggerPatterns;
     /** The text direction (ltr or rtl). */
@@ -173,14 +171,12 @@ declare class AccordionGroup {
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The UI pattern instance for this accordion group. */
     readonly _pattern: AccordionGroupPattern;
+    constructor();
+    ngOnDestroy(): void;
     /** Expands all accordion panels if multi-expandable. */
     expandAll(): void;
     /** Collapses all accordion panels. */
     collapseAll(): void;
-    /** Internal method to register each trigger as we can not use contentChildren. */
-    _registerTrigger(trigger: AccordionTrigger): void;
-    /** Internal method to unregister each trigger as we can not use contentChildren. */
-    _unregisterTrigger(trigger: AccordionTrigger): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionGroup, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionGroup, "[ngAccordionGroup]", ["ngAccordionGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multiExpandable": { "alias": "multiExpandable"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
 }

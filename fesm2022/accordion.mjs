@@ -1,10 +1,11 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, afterRenderEffect, Directive, InjectionToken, signal, booleanAttribute, model } from '@angular/core';
+import { inject, ElementRef, input, computed, afterRenderEffect, Directive, InjectionToken, booleanAttribute, signal, afterNextRender, model } from '@angular/core';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
-import { sortDirectives } from './_element-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import './_element-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_signal-like-chunk.mjs';
@@ -119,18 +120,9 @@ const ACCORDION_GROUP = new InjectionToken('ACCORDION_GROUP');
 class AccordionGroup {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _triggers = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_triggers"
-  }] : []));
-  _sortedTriggers = computed(() => {
-    const triggers = [...this._triggers()];
-    const sortFn = triggers[0]?.index() === undefined ? sortDirectives : (a, b) => a.index() - b.index();
-    return triggers.sort(sortFn);
-  }, ...(ngDevMode ? [{
-    debugName: "_sortedTriggers"
-  }] : []));
+  _collection = new SortedCollection();
   _triggerPatterns = computed(() => {
-    return this._sortedTriggers().map(t => t._pattern);
+    return this._collection.orderedItems().map(t => t._pattern);
   }, ...(ngDevMode ? [{
     debugName: "_triggerPatterns"
   }] : []));
@@ -166,19 +158,19 @@ class AccordionGroup {
     items: this._triggerPatterns,
     orientation: () => 'vertical'
   });
+  constructor() {
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
+  }
+  ngOnDestroy() {
+    this._collection.stopObserving();
+  }
   expandAll() {
     this._pattern.expandAll();
   }
   collapseAll() {
     this._pattern.collapseAll();
-  }
-  _registerTrigger(trigger) {
-    this._triggers().add(trigger);
-    this._triggers.set(new Set(this._triggers()));
-  }
-  _unregisterTrigger(trigger) {
-    this._triggers().delete(trigger);
-    this._triggers.set(new Set(this._triggers()));
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -260,6 +252,7 @@ i0.ɵɵngDeclareClassMetadata({
       }]
     }]
   }],
+  ctorParameters: () => [],
   propDecorators: {
     disabled: [{
       type: i0.Input,
@@ -315,9 +308,6 @@ class AccordionTrigger {
     } : {}),
     transform: booleanAttribute
   });
-  index = input(...(ngDevMode ? [undefined, {
-    debugName: "index"
-  }] : []));
   expanded = model(false, ...(ngDevMode ? [{
     debugName: "expanded"
   }] : []));
@@ -333,11 +323,11 @@ class AccordionTrigger {
       accordionPanelId: this.panelId
     });
     this.panel()._pattern = this._pattern;
-    this._accordionGroup._registerTrigger(this);
+    this._accordionGroup._collection.register(this);
   }
   ngOnDestroy() {
     this.panel()._pattern = undefined;
-    this._accordionGroup._unregisterTrigger(this);
+    this._accordionGroup._collection.unregister(this);
   }
   expand() {
     this._pattern.open();
@@ -380,13 +370,6 @@ class AccordionTrigger {
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      index: {
-        classPropertyName: "index",
-        publicName: "index",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -464,14 +447,6 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "disabled",
-        required: false
-      }]
-    }],
-    index: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "index",
         required: false
       }]
     }],
