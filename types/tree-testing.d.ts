@@ -38,6 +38,14 @@ declare class TreeItemHarness extends ContentContainerComponentHarness<string> {
     getText(): Promise<string>;
     /** Clicks the tree item. */
     click(): Promise<void>;
+    /** Focuses the tree item. */
+    focus(): Promise<void>;
+    /** Blurs the tree item. */
+    blur(): Promise<void>;
+    /** Whether the tree item is active. */
+    isActive(): Promise<boolean>;
+    /** Whether the tree item has focus. */
+    isFocused(): Promise<boolean>;
     private _getHostAttribute;
 }
 

@@ -29,6 +29,14 @@ class GridCellHarness extends ContentContainerComponentHarness {
     const host = await this.host();
     return host.blur();
   }
+  async isActive() {
+    const host = await this.host();
+    return (await host.getAttribute('data-active')) === 'true';
+  }
+  async isFocused() {
+    const host = await this.host();
+    return host.isFocused();
+  }
 }
 class GridRowHarness extends ComponentHarness {
   static hostSelector = '[ngGridRow]';

@@ -26,6 +26,18 @@ class TreeItemHarness extends ContentContainerComponentHarness {
   async click() {
     return (await this.host()).click();
   }
+  async focus() {
+    return (await this.host()).focus();
+  }
+  async blur() {
+    return (await this.host()).blur();
+  }
+  async isActive() {
+    return (await this._getHostAttribute('data-active')) === 'true';
+  }
+  async isFocused() {
+    return (await this.host()).isFocused();
+  }
   async _getHostAttribute(attributeName) {
     return (await this.host()).getAttribute(attributeName);
   }

@@ -12,6 +12,8 @@ interface ToolbarWidgetHarnessFilters extends BaseHarnessFilters {
     text?: string | RegExp;
     /** Active state that the widget should match. */
     active?: boolean;
+    /** Selected state that the widget should match. */
+    selected?: boolean;
 }
 
 /** Harness for interacting with an Aria toolbar widget in tests. */
@@ -32,6 +34,8 @@ declare class ToolbarWidgetHarness extends ContentContainerComponentHarness<stri
     isActive(): Promise<boolean>;
     /** Gets whether the widget is disabled. */
     isDisabled(): Promise<boolean>;
+    /** Gets whether the widget is selected. */
+    isSelected(): Promise<boolean>;
 }
 
 /** Harness for interacting with an Aria toolbar widget group in tests. */

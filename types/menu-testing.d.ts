@@ -29,6 +29,10 @@ declare class MenuItemHarness extends ComponentHarness {
     click(): Promise<void>;
     /** Resolves the nested submenu panel associated with this menu item, if any exists. */
     getSubmenu(): Promise<MenuHarness | null>;
+    /** Whether the menu item has focus. */
+    isFocused(): Promise<boolean>;
+    /** Whether the menu item acts as a submenu trigger. */
+    hasSubmenu(): Promise<boolean>;
 }
 /** Harness for interacting with a standard ngMenu or ngMenuBar in tests. */
 declare class MenuHarness extends ComponentHarness {
@@ -38,6 +42,8 @@ declare class MenuHarness extends ComponentHarness {
     _getTrigger(): Promise<TestElement | null>;
     /** Checks whether the menu container is visible. */
     isOpen(): Promise<boolean>;
+    /** Whether the menu is a menu bar. */
+    isMenuBar(): Promise<boolean>;
     /** Opens the menu if it is currently closed. */
     open(): Promise<void>;
     /** Closes the menu if it is currently open. */

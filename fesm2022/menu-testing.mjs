@@ -28,6 +28,13 @@ class MenuItemHarness extends ComponentHarness {
     }
     return null;
   }
+  async isFocused() {
+    return (await this.host()).isFocused();
+  }
+  async hasSubmenu() {
+    const host = await this.host();
+    return (await host.getAttribute('aria-haspopup')) === 'true' || !!(await host.getAttribute('aria-controls'));
+  }
 }
 class MenuHarness extends ComponentHarness {
   static hostSelector = '[ngMenu], [ngMenuBar]';
@@ -49,6 +56,10 @@ class MenuHarness extends ComponentHarness {
       return true;
     }
     return (await host.getAttribute('data-visible')) === 'true';
+  }
+  async isMenuBar() {
+    const host = await this.host();
+    return host.matchesSelector('[ngMenuBar]');
   }
   async open() {
     if (!(await this.isOpen())) {

@@ -3,7 +3,7 @@ import { ContentContainerComponentHarness, HarnessPredicate, ComponentHarness } 
 class ToolbarWidgetHarness extends ContentContainerComponentHarness {
   static hostSelector = '[ngToolbarWidget]';
   static with(options = {}) {
-    return new HarnessPredicate(ToolbarWidgetHarness, options).addOption('text', options.text, (harness, pattern) => HarnessPredicate.stringMatches(harness.getText(), pattern)).addOption('active', options.active, async (harness, active) => (await harness.isActive()) === active);
+    return new HarnessPredicate(ToolbarWidgetHarness, options).addOption('text', options.text, (harness, pattern) => HarnessPredicate.stringMatches(harness.getText(), pattern)).addOption('active', options.active, async (harness, active) => (await harness.isActive()) === active).addOption('selected', options.selected, async (harness, selected) => (await harness.isSelected()) === selected);
   }
   async getText() {
     return (await this.host()).text();
@@ -18,6 +18,10 @@ class ToolbarWidgetHarness extends ContentContainerComponentHarness {
   async isDisabled() {
     const host = await this.host();
     return (await host.getAttribute('aria-disabled')) === 'true';
+  }
+  async isSelected() {
+    const host = await this.host();
+    return (await host.getAttribute('aria-pressed')) === 'true';
   }
 }
 

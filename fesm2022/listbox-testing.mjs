@@ -49,6 +49,10 @@ class ListboxHarness extends ComponentHarness {
   async blur() {
     await (await this.host()).blur();
   }
+  async getActiveDescendantId() {
+    const host = await this.host();
+    return host.getAttribute('aria-activedescendant');
+  }
 }
 
 export { ListboxHarness, ListboxOptionHarness };

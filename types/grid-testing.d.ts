@@ -39,6 +39,10 @@ declare class GridCellHarness extends ContentContainerComponentHarness {
     focus(): Promise<void>;
     /** Blurs the cell. */
     blur(): Promise<void>;
+    /** Whether the cell is active. */
+    isActive(): Promise<boolean>;
+    /** Whether the cell is focused. */
+    isFocused(): Promise<boolean>;
 }
 /** Harness for interacting with a standard ngGridRow in tests. */
 declare class GridRowHarness extends ComponentHarness {
