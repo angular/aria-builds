@@ -1,11 +1,12 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, input, inject, ElementRef, booleanAttribute, numberAttribute, model, computed, signal, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
+import { InjectionToken, input, inject, ElementRef, booleanAttribute, model, computed, signal, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import { ComboboxListboxPattern, ListboxPattern, OptionPattern } from './_combobox-listbox-chunk.mjs';
 import { SortedCollection } from './_collection-chunk.mjs';
+import { tabIndexTransform } from './_transforms-chunk.mjs';
 import './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
@@ -75,7 +76,8 @@ class Listbox {
     ...(ngDevMode ? {
       debugName: "tabIndex"
     } : {}),
-    transform: v => v === undefined ? undefined : numberAttribute(v)
+    alias: 'tabindex',
+    transform: tabIndexTransform
   });
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
@@ -235,7 +237,7 @@ class Listbox {
       },
       tabIndex: {
         classPropertyName: "tabIndex",
-        publicName: "tabIndex",
+        publicName: "tabindex",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -397,7 +399,7 @@ i0.ɵɵngDeclareClassMetadata({
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "tabIndex",
+        alias: "tabindex",
         required: false
       }]
     }],

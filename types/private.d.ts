@@ -141,6 +141,12 @@ declare class ComboboxTreePattern<V> extends TreePattern<V> implements ComboboxT
     readonly isItemSelectable: (item?: TreeItemPattern<V> | undefined) => boolean;
 }
 
+/**
+ * Transform function for tabIndex inputs.
+ * Returns undefined if the value is undefined, otherwise converts it to a number.
+ */
+declare function tabIndexTransform(v: string | number | undefined): number | undefined;
+
 /** Represents the required inputs for a simple combobox. */
 interface SimpleComboboxInputs extends ExpansionItem {
     /** Whether the combobox should always remain expanded. */
@@ -242,5 +248,5 @@ declare class SimpleComboboxPopupPattern {
     onFocusout(event: FocusEvent): void;
 }
 
-export { ComboboxListboxControls, ComboboxListboxPattern, ComboboxPattern, ComboboxTreeControls, ComboboxTreePattern, ListboxInputs, ListboxPattern, OptionPattern, SignalLike, SimpleComboboxPattern, SimpleComboboxPopupPattern, TreeInputs, TreeItemPattern, TreePattern, WritableSignalLike };
+export { ComboboxListboxControls, ComboboxListboxPattern, ComboboxPattern, ComboboxTreeControls, ComboboxTreePattern, ListboxInputs, ListboxPattern, OptionPattern, SignalLike, SimpleComboboxPattern, SimpleComboboxPopupPattern, TreeInputs, TreeItemPattern, TreePattern, WritableSignalLike, tabIndexTransform };
 export type { ComboboxListboxInputs, ComboboxTreeInputs, SimpleComboboxInputs, SimpleComboboxPopupInputs };

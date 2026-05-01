@@ -1,7 +1,7 @@
 import * as i0 from '@angular/core';
 import { inject, Renderer2, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, Directive, InjectionToken } from '@angular/core';
 import * as i1 from '@angular/aria/private';
-import { DeferredContentAware, SimpleComboboxPattern, DeferredContent, SimpleComboboxPopupPattern } from '@angular/aria/private';
+import { DeferredContentAware, tabIndexTransform, SimpleComboboxPattern, DeferredContent, SimpleComboboxPopupPattern } from '@angular/aria/private';
 export { DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware } from './_deferred-content-chunk.mjs';
 
 class Combobox extends DeferredContentAware {
@@ -28,6 +28,13 @@ class Combobox extends DeferredContentAware {
       debugName: "alwaysExpanded"
     } : {}),
     transform: booleanAttribute
+  });
+  tabIndex = input(undefined, {
+    ...(ngDevMode ? {
+      debugName: "tabIndex"
+    } : {}),
+    alias: 'tabindex',
+    transform: tabIndexTransform
   });
   expanded = model(false, ...(ngDevMode ? [{
     debugName: "expanded"
@@ -107,6 +114,13 @@ class Combobox extends DeferredContentAware {
         isRequired: false,
         transformFunction: null
       },
+      tabIndex: {
+        classPropertyName: "tabIndex",
+        publicName: "tabindex",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       expanded: {
         classPropertyName: "expanded",
         publicName: "expanded",
@@ -151,7 +165,7 @@ class Combobox extends DeferredContentAware {
         "attr.aria-activedescendant": "_pattern.activeDescendant()",
         "attr.aria-controls": "_pattern.popupId()",
         "attr.aria-haspopup": "_pattern.popupType()",
-        "attr.tabindex": "disabled() && !softDisabled() ? -1 : null",
+        "attr.tabindex": "disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)",
         "attr.disabled": "disabled() && !softDisabled() ? \"\" : null"
       }
     },
@@ -178,7 +192,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '[attr.aria-controls]': '_pattern.popupId()',
         '[attr.aria-haspopup]': '_pattern.popupType()',
-        '[attr.tabindex]': 'disabled() && !softDisabled() ? -1 : null',
+        '[attr.tabindex]': 'disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)',
         '[attr.disabled]': 'disabled() && !softDisabled() ? "" : null',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusin)': '_pattern.onFocusin()',
@@ -211,6 +225,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "alwaysExpanded",
+        required: false
+      }]
+    }],
+    tabIndex: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "tabindex",
         required: false
       }]
     }],

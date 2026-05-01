@@ -105,6 +105,8 @@ declare class Combobox extends DeferredContentAware implements OnInit {
     readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the combobox should always remain expanded. */
     readonly alwaysExpanded: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** The tabindex of the combobox. */
+    readonly tabIndex: _angular_core.InputSignalWithTransform<number | undefined, string | number | undefined>;
     /** Whether the combobox is expanded. */
     readonly expanded: _angular_core.ModelSignal<boolean>;
     /** The value of the combobox input. */
@@ -120,7 +122,7 @@ declare class Combobox extends DeferredContentAware implements OnInit {
     /** Unregisters the popup from the combobox. */
     _unregisterPopup(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Combobox, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox, "[ngCombobox]", ["ngCombobox"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "inlineSuggestion": { "alias": "inlineSuggestion"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; "value": "valueChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox, "[ngCombobox]", ["ngCombobox"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "inlineSuggestion": { "alias": "inlineSuggestion"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; "value": "valueChange"; }, never, never, true, never>;
 }
 
 export { Combobox, ComboboxPopup, ComboboxWidget };

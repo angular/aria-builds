@@ -1,10 +1,11 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, input, booleanAttribute, numberAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
+import { inject, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import { ComboboxTreePattern, TreePattern, TreeItemPattern } from './_combobox-tree-chunk.mjs';
+import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { sortDirectives } from './_element-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
@@ -67,7 +68,8 @@ class Tree {
     ...(ngDevMode ? {
       debugName: "tabIndex"
     } : {}),
-    transform: v => v === undefined ? undefined : numberAttribute(v)
+    alias: 'tabindex',
+    transform: tabIndexTransform
   });
   value = model([], ...(ngDevMode ? [{
     debugName: "value"
@@ -226,7 +228,7 @@ class Tree {
       },
       tabIndex: {
         classPropertyName: "tabIndex",
-        publicName: "tabIndex",
+        publicName: "tabindex",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -384,7 +386,7 @@ i0.ɵɵngDeclareClassMetadata({
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "tabIndex",
+        alias: "tabindex",
         required: false
       }]
     }],

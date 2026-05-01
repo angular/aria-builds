@@ -1,6 +1,7 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, numberAttribute, afterRenderEffect, Directive, output, Renderer2, EventEmitter, contentChild, model, Output } from '@angular/core';
+import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, output, Renderer2, EventEmitter, contentChild, model, Output } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
+import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
@@ -63,7 +64,8 @@ class Grid {
     ...(ngDevMode ? {
       debugName: "tabIndex"
     } : {}),
-    transform: v => v === undefined ? undefined : numberAttribute(v)
+    alias: 'tabindex',
+    transform: tabIndexTransform
   });
   _pattern = new GridPattern({
     ...this,
@@ -183,7 +185,7 @@ class Grid {
       },
       tabIndex: {
         classPropertyName: "tabIndex",
-        publicName: "tabIndex",
+        publicName: "tabindex",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -318,7 +320,7 @@ i0.ɵɵngDeclareClassMetadata({
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "tabIndex",
+        alias: "tabindex",
         required: false
       }]
     }]

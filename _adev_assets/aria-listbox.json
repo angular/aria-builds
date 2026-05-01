@@ -333,7 +333,7 @@
         },
         {
           "name": "tabIndex",
-          "type": "InputSignalWithTransform<number | undefined, string | number | undefined>",
+          "type": "InputSignal<undefined>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -511,8 +511,8 @@
       ],
       "source": {
         "filePath": "/src/aria/listbox/listbox.ts",
-        "startLine": 56,
-        "endLine": 232
+        "startLine": 60,
+        "endLine": 236
       }
     }
   ],
@@ -563,10 +563,6 @@
     ],
     [
       "model",
-      "@angular/core"
-    ],
-    [
-      "numberAttribute",
       "@angular/core"
     ],
     [

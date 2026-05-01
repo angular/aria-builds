@@ -13,6 +13,7 @@ export { SortedCollection } from './_collection-chunk.mjs';
 export { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern } from './_toolbar-widget-group-chunk.mjs';
 export { sortDirectives } from './_element-chunk.mjs';
+export { tabIndexTransform } from './_transforms-chunk.mjs';
 export { untracked } from '@angular/core/primitives/signals';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
@@ -54,7 +55,8 @@ class SimpleComboboxPattern {
     if (!this.isExpanded()) {
       manager.on('ArrowDown', () => this.inputs.expanded.set(true));
       if (!this.isEditable()) {
-        manager.on(/^(Enter| )$/, () => this.inputs.expanded.set(true));
+        manager.on('Enter', () => this.inputs.expanded.set(true));
+        manager.on(' ', () => this.inputs.expanded.set(true));
       }
       return manager;
     }
