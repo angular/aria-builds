@@ -166,7 +166,8 @@ class Combobox extends DeferredContentAware {
         "attr.aria-controls": "_pattern.popupId()",
         "attr.aria-haspopup": "_pattern.popupType()",
         "attr.tabindex": "disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)",
-        "attr.disabled": "disabled() && !softDisabled() ? \"\" : null"
+        "attr.disabled": "disabled() && !softDisabled() ? \"\" : null",
+        "attr.readonly": "disabled() && _pattern.isEditable() ? \"\" : null"
       }
     },
     exportAs: ["ngCombobox"],
@@ -194,6 +195,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-haspopup]': '_pattern.popupType()',
         '[attr.tabindex]': 'disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)',
         '[attr.disabled]': 'disabled() && !softDisabled() ? "" : null',
+        '[attr.readonly]': 'disabled() && _pattern.isEditable() ? "" : null',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusin)': '_pattern.onFocusin()',
         '(focusout)': '_pattern.onFocusout($event)',
