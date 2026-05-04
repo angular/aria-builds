@@ -135,6 +135,7 @@ class SimpleComboboxPattern {
   keyboardEventRelayEffect() {
     const event = this.keyboardEventRelay();
     if (event === undefined) return;
+    this.isDeleting.set(false);
     const popup = untracked(() => this.inputs.popup());
     const popupExpanded = untracked(() => this.isExpanded());
     if (popupExpanded) {
