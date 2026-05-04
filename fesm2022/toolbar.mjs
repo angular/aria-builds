@@ -1,8 +1,8 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, computed, input, booleanAttribute, model, afterRenderEffect, Directive, InjectionToken, contentChildren } from '@angular/core';
+import { inject, ElementRef, computed, input, booleanAttribute, model, signal, afterRenderEffect, afterNextRender, Directive, InjectionToken, contentChildren } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { sortDirectives } from './_element-chunk.mjs';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
@@ -13,11 +13,9 @@ import './_list-typeahead-chunk.mjs';
 class Toolbar {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _widgets = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_widgets"
-  }] : []));
+  _collection = new SortedCollection();
   textDirection = inject(Directionality).valueSignal;
-  _itemPatterns = computed(() => [...this._widgets()].sort(sortDirectives).map(widget => widget._pattern), ...(ngDevMode ? [{
+  _itemPatterns = computed(() => this._collection.orderedItems().map(widget => widget._pattern), ...(ngDevMode ? [{
     debugName: "_itemPatterns"
   }] : []));
   orientation = input('horizontal', ...(ngDevMode ? [{
@@ -57,19 +55,12 @@ class Toolbar {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
   }
-  _register(widget) {
-    const widgets = this._widgets();
-    if (!widgets.has(widget)) {
-      widgets.add(widget);
-      this._widgets.set(new Set(widgets));
-    }
-  }
-  _unregister(widget) {
-    const widgets = this._widgets();
-    if (widgets.delete(widget)) {
-      this._widgets.set(new Set(widgets));
-    }
+  ngOnDestroy() {
+    this._collection.stopObserving();
   }
   _getItem(element) {
     return this._itemPatterns().find(item => item.element()?.contains(element));
@@ -259,10 +250,10 @@ class ToolbarWidget {
     element: () => this.element
   });
   ngOnInit() {
-    this._toolbar._register(this);
+    this._toolbar._collection.register(this);
   }
   ngOnDestroy() {
-    this._toolbar._unregister(this);
+    this._toolbar._collection.unregister(this);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",

@@ -10,7 +10,6 @@ import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
-import './_element-chunk.mjs';
 
 const TABS = new InjectionToken('TABS');
 const TAB_LIST = new InjectionToken('TAB_LIST');

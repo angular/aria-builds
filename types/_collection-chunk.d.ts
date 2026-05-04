@@ -1,5 +1,12 @@
 import { Signal } from '@angular/core';
-import { HasElement } from './_element-chunk.js';
+
+interface HasElement {
+    element: HTMLElement;
+}
+/**
+ * Sort directives by their document order.
+ */
+declare function sortDirectives(a: HasElement, b: HasElement): 1 | -1;
 
 /**
  * A collection that lazily sorts its items based on their DOM position.
@@ -19,4 +26,5 @@ declare class SortedCollection<T extends HasElement> {
     stopObserving(): void;
 }
 
-export { SortedCollection };
+export { SortedCollection, sortDirectives };
+export type { HasElement };

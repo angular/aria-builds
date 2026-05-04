@@ -1,8 +1,9 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, contentChildren, computed, input, booleanAttribute, afterRenderEffect, Directive, output, Renderer2, EventEmitter, contentChild, model, Output } from '@angular/core';
+import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, afterRenderEffect, afterNextRender, Directive, output, Renderer2, EventEmitter, contentChild, model, Output } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
@@ -10,17 +11,13 @@ import './_click-event-manager-chunk.mjs';
 
 const GRID_CELL = new InjectionToken('GRID_CELL');
 const GRID_ROW = new InjectionToken('GRID_ROW');
+const GRID = new InjectionToken('GRID');
 
 class Grid {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _rows = contentChildren(GRID_ROW, {
-    ...(ngDevMode ? {
-      debugName: "_rows"
-    } : {}),
-    descendants: true
-  });
-  _rowPatterns = computed(() => this._rows().map(r => r._pattern), ...(ngDevMode ? [{
+  _collection = new SortedCollection();
+  _rowPatterns = computed(() => this._collection.orderedItems().map(r => r._pattern), ...(ngDevMode ? [{
     debugName: "_rowPatterns"
   }] : []));
   textDirection = inject(Directionality).valueSignal;
@@ -92,6 +89,12 @@ class Grid {
     afterRenderEffect({
       write: () => this._pattern.focusEffect()
     });
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
+  }
+  ngOnDestroy() {
+    this._collection.stopObserving();
   }
   scrollActiveCellIntoView(options = {
     block: 'nearest'
@@ -121,7 +124,7 @@ class Grid {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.10",
     type: Grid,
     isStandalone: true,
@@ -208,11 +211,9 @@ class Grid {
         "attr.aria-activedescendant": "_pattern.activeDescendant()"
       }
     },
-    queries: [{
-      propertyName: "_rows",
-      predicate: GRID_ROW,
-      descendants: true,
-      isSignal: true
+    providers: [{
+      provide: GRID,
+      useExisting: Grid
     }],
     exportAs: ["ngGrid"],
     ngImport: i0
@@ -238,20 +239,15 @@ i0.ɵɵngDeclareClassMetadata({
         '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocusIn($event)',
         '(focusout)': '_pattern.onFocusOut($event)'
-      }
+      },
+      providers: [{
+        provide: GRID,
+        useExisting: Grid
+      }]
     }]
   }],
   ctorParameters: () => [],
   propDecorators: {
-    _rows: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => GRID_ROW), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
     enableSelection: [{
       type: i0.Input,
       args: [{
@@ -617,6 +613,12 @@ class GridCell {
       }
     });
   }
+  ngOnInit() {
+    this._row._collection.register(this);
+  }
+  ngOnDestroy() {
+    this._row._collection.unregister(this);
+  }
   _toggleAttribute = (name, value) => {
     if (value == null) {
       this._renderer.removeAttribute(this.element, name);
@@ -860,16 +862,11 @@ i0.ɵɵngDeclareClassMetadata({
 class GridRow {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _cells = contentChildren(GRID_CELL, {
-    ...(ngDevMode ? {
-      debugName: "_cells"
-    } : {}),
-    descendants: true
-  });
-  _cellPatterns = computed(() => this._cells().map(c => c._pattern), ...(ngDevMode ? [{
+  _collection = new SortedCollection();
+  _cellPatterns = computed(() => this._collection.orderedItems().map(c => c._pattern), ...(ngDevMode ? [{
     debugName: "_cellPatterns"
   }] : []));
-  _grid = inject(Grid);
+  _grid = inject(GRID);
   _gridPattern = computed(() => this._grid._pattern, ...(ngDevMode ? [{
     debugName: "_gridPattern"
   }] : []));
@@ -881,6 +878,18 @@ class GridRow {
     cells: this._cellPatterns,
     grid: this._gridPattern
   });
+  constructor() {
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
+  }
+  ngOnInit() {
+    this._grid._collection.register(this);
+  }
+  ngOnDestroy() {
+    this._grid._collection.unregister(this);
+    this._collection.stopObserving();
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "22.0.0-next.10",
@@ -890,7 +899,7 @@ class GridRow {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.10",
     type: GridRow,
     isStandalone: true,
@@ -916,12 +925,6 @@ class GridRow {
       provide: GRID_ROW,
       useExisting: GridRow
     }],
-    queries: [{
-      propertyName: "_cells",
-      predicate: GRID_CELL,
-      descendants: true,
-      isSignal: true
-    }],
     exportAs: ["ngGridRow"],
     ngImport: i0
   });
@@ -946,16 +949,8 @@ i0.ɵɵngDeclareClassMetadata({
       }]
     }]
   }],
+  ctorParameters: () => [],
   propDecorators: {
-    _cells: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => GRID_CELL), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
     rowIndex: [{
       type: i0.Input,
       args: [{

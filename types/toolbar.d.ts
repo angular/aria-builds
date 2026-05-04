@@ -2,6 +2,7 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { ToolbarWidgetGroupPattern, ToolbarWidgetPattern, ToolbarPattern } from './_toolbar-chunk.js';
+import { SortedCollection } from './_collection-chunk.js';
 import './_signal-like-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
@@ -108,13 +109,13 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
  *
  * @see [Toolbar](guide/aria/toolbar)
  */
-declare class Toolbar<V> {
+declare class Toolbar<V> implements OnDestroy {
     /** A reference to the host element. */
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
-    /** The TabList nested inside of the container. */
-    private readonly _widgets;
+    /** The collection of widgets in the toolbar. */
+    readonly _collection: SortedCollection<ToolbarWidget<V>>;
     /** Text direction. */
     readonly textDirection: _angular_core.WritableSignal<_angular_cdk_bidi.Direction>;
     /** Sorted UIPatterns of the child widgets */
@@ -135,8 +136,7 @@ declare class Toolbar<V> {
     /** The toolbar UIPattern. */
     readonly _pattern: ToolbarPattern<V>;
     constructor();
-    _register(widget: ToolbarWidget<V>): void;
-    _unregister(widget: ToolbarWidget<V>): void;
+    ngOnDestroy(): void;
     /** Finds the toolbar item associated with a given element. */
     private _getItem;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Toolbar<any>, never>;

@@ -2,8 +2,8 @@ import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal } from '@angular/core';
 import { TreeItemPattern, TreePattern } from './_tree-chunk.js';
+import { HasElement, SortedCollection } from './_collection-chunk.js';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
-import { HasElement } from './_element-chunk.js';
 import { ComboboxPopup } from './combobox.js';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
 import './_signal-like-chunk.js';
@@ -154,15 +154,15 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
  *
  * @see [Tree](guide/aria/tree)
  */
-declare class Tree<V> {
+declare class Tree<V> implements OnDestroy {
     /** A reference to the host element. */
     private readonly _elementRef;
     /** A reference to the host element. */
     readonly element: HTMLElement;
     /** A reference to the parent combobox popup, if one exists. */
     private readonly _popup;
-    /** All TreeItem instances within this tree. */
-    private readonly _unorderedItems;
+    /** The collection of tree items. */
+    readonly _collection: SortedCollection<TreeItem<V>>;
     /** A unique identifier for the tree. */
     readonly id: _angular_core.InputSignal<string>;
     /** Orientation of the tree. */
@@ -210,8 +210,7 @@ declare class Tree<V> {
     /** The ID of the active descendant in the tree. */
     readonly activeDescendant: Signal<string | undefined>;
     constructor();
-    _register(child: TreeItem<V>): void;
-    _unregister(child: TreeItem<V>): void;
+    ngOnDestroy(): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tree<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Tree<any>, "[ngTree]", ["ngTree"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "nav": { "alias": "nav"; "required": false; "isSignal": true; }; "currentType": { "alias": "currentType"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;

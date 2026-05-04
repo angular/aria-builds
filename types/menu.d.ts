@@ -1,8 +1,9 @@
 import * as _angular_core from '@angular/core';
-import { Signal } from '@angular/core';
+import { OnDestroy, OnInit, Signal } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
+import { SortedCollection } from './_collection-chunk.js';
 import { SignalLike } from './_signal-like-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_list-chunk.js';
@@ -37,9 +38,9 @@ import './_list-navigation-chunk.js';
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
  */
-declare class MenuBar<V> {
-    /** The menu items contained in the menubar. */
-    readonly _allItems: _angular_core.Signal<readonly MenuItem<V>[]>;
+declare class MenuBar<V> implements OnDestroy {
+    /** The collection of menu items. */
+    readonly _collection: SortedCollection<MenuItem<V>>;
     readonly _items: SignalLike<MenuItem<V>[]>;
     /** A reference to the host element. */
     private readonly _elementRef;
@@ -64,10 +65,11 @@ declare class MenuBar<V> {
     /** A callback function triggered when a menu item is selected. */
     readonly itemSelected: _angular_core.OutputEmitterRef<V>;
     constructor();
+    ngOnDestroy(): void;
     /** Closes the menubar. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuBar<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; "itemSelected": "itemSelected"; }, ["_allItems"], never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuBar<any>, "[ngMenuBar]", ["ngMenuBar"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; "itemSelected": "itemSelected"; }, never, never, true, never>;
 }
 
 /**
@@ -88,7 +90,7 @@ declare class MenuBar<V> {
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
  */
-declare class MenuItem<V> {
+declare class MenuItem<V> implements OnInit, OnDestroy {
     /** A reference to the host element. */
     private readonly _elementRef;
     /** A reference to the host element. */
@@ -114,6 +116,8 @@ declare class MenuItem<V> {
     /** The menu item ui pattern instance. */
     readonly _pattern: MenuItemPattern<V>;
     constructor();
+    ngOnInit(): void;
+    ngOnDestroy(): void;
     /** Opens the submenu focusing on the first menu item. */
     open(): void;
     /** Closes the submenu. */
@@ -149,11 +153,11 @@ declare class MenuItem<V> {
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
  */
-declare class Menu<V> {
+declare class Menu<V> implements OnDestroy {
     /** The DeferredContentAware host directive. */
     private readonly _deferredContentAware;
-    /** The menu items contained in the menu. */
-    readonly _allItems: Signal<readonly MenuItem<V>[]>;
+    /** The collection of menu items. */
+    readonly _collection: SortedCollection<MenuItem<V>>;
     /** The menu items that are direct children of this menu. */
     readonly _items: Signal<MenuItem<V>[]>;
     /** A reference to the host element. */
@@ -194,10 +198,11 @@ declare class Menu<V> {
     /** The delay in milliseconds before expanding sub-menus on hover. */
     readonly expansionDelay: _angular_core.InputSignal<number>;
     constructor();
+    ngOnDestroy(): void;
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Menu<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "itemSelected": "itemSelected"; }, ["_allItems"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "itemSelected": "itemSelected"; }, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**

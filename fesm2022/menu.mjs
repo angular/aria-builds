@@ -1,8 +1,9 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, contentChildren, output, signal, afterRenderEffect, untracked } from '@angular/core';
+import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, output, signal, afterRenderEffect, afterNextRender, untracked } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, MenuPattern } from './_menu-chunk.mjs';
+import { SortedCollection } from './_collection-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
@@ -206,6 +207,12 @@ class MenuItem {
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
   }
+  ngOnInit() {
+    this.parent?._collection.register(this);
+  }
+  ngOnDestroy() {
+    this.parent?._collection.unregister(this);
+  }
   open() {
     this._pattern.open({
       first: true
@@ -361,13 +368,8 @@ i0.ɵɵngDeclareClassMetadata({
 });
 
 class MenuBar {
-  _allItems = contentChildren(MenuItem, {
-    ...(ngDevMode ? {
-      debugName: "_allItems"
-    } : {}),
-    descendants: true
-  });
-  _items = () => this._allItems().filter(i => i.parent === this);
+  _collection = new SortedCollection();
+  _items = () => this._collection.orderedItems().filter(i => i.parent === this);
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   disabled = input(false, {
@@ -416,6 +418,12 @@ class MenuBar {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
+  }
+  ngOnDestroy() {
+    this._collection.stopObserving();
   }
   close() {
     this._pattern.close();
@@ -429,7 +437,7 @@ class MenuBar {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.10",
     type: MenuBar,
     isStandalone: true,
@@ -496,12 +504,6 @@ class MenuBar {
       provide: MENU_COMPONENT,
       useExisting: MenuBar
     }],
-    queries: [{
-      propertyName: "_allItems",
-      predicate: MenuItem,
-      descendants: true,
-      isSignal: true
-    }],
     exportAs: ["ngMenuBar"],
     ngImport: i0
   });
@@ -535,15 +537,6 @@ i0.ɵɵngDeclareClassMetadata({
   }],
   ctorParameters: () => [],
   propDecorators: {
-    _allItems: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => MenuItem), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
     disabled: [{
       type: i0.Input,
       args: [{
@@ -598,13 +591,8 @@ class Menu {
   _deferredContentAware = inject(DeferredContentAware, {
     optional: true
   });
-  _allItems = contentChildren(MenuItem, {
-    ...(ngDevMode ? {
-      debugName: "_allItems"
-    } : {}),
-    descendants: true
-  });
-  _items = computed(() => this._allItems().filter(i => i.parent === this), ...(ngDevMode ? [{
+  _collection = new SortedCollection();
+  _items = computed(() => this._collection.orderedItems().filter(i => i.parent === this), ...(ngDevMode ? [{
     debugName: "_items"
   }] : []));
   _elementRef = inject(ElementRef);
@@ -683,6 +671,12 @@ class Menu {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
+  }
+  ngOnDestroy() {
+    this._collection.stopObserving();
   }
   close() {
     this._pattern.close();
@@ -696,7 +690,7 @@ class Menu {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.10",
     type: Menu,
     isStandalone: true,
@@ -764,12 +758,6 @@ class Menu {
       provide: MENU_COMPONENT,
       useExisting: Menu
     }],
-    queries: [{
-      propertyName: "_allItems",
-      predicate: MenuItem,
-      descendants: true,
-      isSignal: true
-    }],
     exportAs: ["ngMenu"],
     hostDirectives: [{
       directive: DeferredContentAware,
@@ -813,15 +801,6 @@ i0.ɵɵngDeclareClassMetadata({
   }],
   ctorParameters: () => [],
   propDecorators: {
-    _allItems: [{
-      type: i0.ContentChildren,
-      args: [i0.forwardRef(() => MenuItem), {
-        ...{
-          descendants: true
-        },
-        isSignal: true
-      }]
-    }],
     id: [{
       type: i0.Input,
       args: [{

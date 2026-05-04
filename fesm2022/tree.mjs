@@ -1,13 +1,13 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, untracked, Directive, afterNextRender } from '@angular/core';
+import { inject, ElementRef, input, booleanAttribute, model, signal, computed, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { ComboboxPopup } from './combobox.mjs';
 export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
 import { ComboboxTreePattern, TreePattern, TreeItemPattern } from './_combobox-tree-chunk.mjs';
+import { SortedCollection, sortDirectives } from './_collection-chunk.mjs';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
-import { sortDirectives } from './_element-chunk.mjs';
-import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import './_combobox-chunk.mjs';
 import './_signal-like-chunk.mjs';
 import '@angular/core/primitives/signals';
@@ -22,9 +22,7 @@ class Tree {
   _popup = inject(ComboboxPopup, {
     optional: true
   });
-  _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_unorderedItems"
-  }] : []));
+  _collection = new SortedCollection();
   id = input(inject(_IdGenerator).getId('ng-tree-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -90,7 +88,7 @@ class Tree {
     const inputs = {
       ...this,
       id: this.id,
-      items: computed(() => [...this._unorderedItems()].sort(sortDirectives).map(item => item._pattern)),
+      items: computed(() => this._collection.orderedItems().map(item => item._pattern)),
       activeItem: signal(undefined),
       combobox: () => this._popup?.combobox?._pattern,
       element: () => this.element
@@ -99,6 +97,9 @@ class Tree {
     this.activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
       debugName: "activeDescendant"
     }] : []));
+    afterNextRender(() => {
+      this._collection.startObserving(this.element);
+    });
     if (this._popup?.combobox) {
       this._popup?._controls?.set(this._pattern);
     }
@@ -135,13 +136,8 @@ class Tree {
       }
     });
   }
-  _register(child) {
-    this._unorderedItems().add(child);
-    this._unorderedItems.set(new Set(this._unorderedItems()));
-  }
-  _unregister(child) {
-    this._unorderedItems().delete(child);
-    this._unorderedItems.set(new Set(this._unorderedItems()));
+  ngOnDestroy() {
+    this._collection.stopObserving();
   }
   scrollActiveItemIntoView(options = {
     block: 'nearest'
@@ -420,6 +416,89 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
+class TreeItemGroup {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  _deferredContent = inject(DeferredContent);
+  _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
+    debugName: "_unorderedItems"
+  }] : []));
+  _childPatterns = computed(() => [...this._unorderedItems()].sort(sortDirectives).map(c => c._pattern), ...(ngDevMode ? [{
+    debugName: "_childPatterns"
+  }] : []));
+  ownedBy = input.required(...(ngDevMode ? [{
+    debugName: "ownedBy"
+  }] : []));
+  ngOnInit() {
+    this._deferredContent.deferredContentAware.set(this.ownedBy());
+    this.ownedBy()._register(this);
+  }
+  ngOnDestroy() {
+    this.ownedBy()._unregister();
+  }
+  _register(child) {
+    this._unorderedItems().add(child);
+    this._unorderedItems.set(new Set(this._unorderedItems()));
+  }
+  _unregister(child) {
+    this._unorderedItems().delete(child);
+    this._unorderedItems.set(new Set(this._unorderedItems()));
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.10",
+    ngImport: i0,
+    type: TreeItemGroup,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "22.0.0-next.10",
+    type: TreeItemGroup,
+    isStandalone: true,
+    selector: "ng-template[ngTreeItemGroup]",
+    inputs: {
+      ownedBy: {
+        classPropertyName: "ownedBy",
+        publicName: "ownedBy",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      }
+    },
+    exportAs: ["ngTreeItemGroup"],
+    hostDirectives: [{
+      directive: DeferredContent
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.10",
+  ngImport: i0,
+  type: TreeItemGroup,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: 'ng-template[ngTreeItemGroup]',
+      exportAs: 'ngTreeItemGroup',
+      hostDirectives: [DeferredContent]
+    }]
+  }],
+  propDecorators: {
+    ownedBy: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "ownedBy",
+        required: true
+      }]
+    }]
+  }
+});
+
 class TreeItem extends DeferredContentAware {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
@@ -491,8 +570,10 @@ class TreeItem extends DeferredContentAware {
     });
   }
   ngOnInit() {
-    this.parent()._register(this);
-    this.tree()._register(this);
+    if (this.parent() instanceof TreeItemGroup) {
+      this.parent()._register(this);
+    }
+    this.tree()._collection.register(this);
     const treePattern = computed(() => this.tree()._pattern, ...(ngDevMode ? [{
       debugName: "treePattern"
     }] : []));
@@ -515,8 +596,10 @@ class TreeItem extends DeferredContentAware {
     });
   }
   ngOnDestroy() {
-    this.parent()._unregister(this);
-    this.tree()._unregister(this);
+    if (this.parent() instanceof TreeItemGroup) {
+      this.parent()._unregister(this);
+    }
+    this.tree()._collection.unregister(this);
   }
   _register(group) {
     this._group.set(group);
@@ -698,89 +781,6 @@ i0.ɵɵngDeclareClassMetadata({
         isSignal: true,
         alias: "label",
         required: false
-      }]
-    }]
-  }
-});
-
-class TreeItemGroup {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  _deferredContent = inject(DeferredContent);
-  _unorderedItems = signal(new Set(), ...(ngDevMode ? [{
-    debugName: "_unorderedItems"
-  }] : []));
-  _childPatterns = computed(() => [...this._unorderedItems()].sort(sortDirectives).map(c => c._pattern), ...(ngDevMode ? [{
-    debugName: "_childPatterns"
-  }] : []));
-  ownedBy = input.required(...(ngDevMode ? [{
-    debugName: "ownedBy"
-  }] : []));
-  ngOnInit() {
-    this._deferredContent.deferredContentAware.set(this.ownedBy());
-    this.ownedBy()._register(this);
-  }
-  ngOnDestroy() {
-    this.ownedBy()._unregister();
-  }
-  _register(child) {
-    this._unorderedItems().add(child);
-    this._unorderedItems.set(new Set(this._unorderedItems()));
-  }
-  _unregister(child) {
-    this._unorderedItems().delete(child);
-    this._unorderedItems.set(new Set(this._unorderedItems()));
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.10",
-    ngImport: i0,
-    type: TreeItemGroup,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "22.0.0-next.10",
-    type: TreeItemGroup,
-    isStandalone: true,
-    selector: "ng-template[ngTreeItemGroup]",
-    inputs: {
-      ownedBy: {
-        classPropertyName: "ownedBy",
-        publicName: "ownedBy",
-        isSignal: true,
-        isRequired: true,
-        transformFunction: null
-      }
-    },
-    exportAs: ["ngTreeItemGroup"],
-    hostDirectives: [{
-      directive: DeferredContent
-    }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.10",
-  ngImport: i0,
-  type: TreeItemGroup,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: 'ng-template[ngTreeItemGroup]',
-      exportAs: 'ngTreeItemGroup',
-      hostDirectives: [DeferredContent]
-    }]
-  }],
-  propDecorators: {
-    ownedBy: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "ownedBy",
-        required: true
       }]
     }]
   }

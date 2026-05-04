@@ -1,5 +1,8 @@
 import { signal, computed } from '@angular/core';
-import { sortDirectives } from './_element-chunk.mjs';
+
+function sortDirectives(a, b) {
+  return (a.element.compareDocumentPosition(b.element) & Node.DOCUMENT_POSITION_PRECEDING) > 0 ? 1 : -1;
+}
 
 class SortedCollection {
   _items = signal(new Set());
@@ -45,5 +48,5 @@ class SortedCollection {
   }
 }
 
-export { SortedCollection };
+export { SortedCollection, sortDirectives };
 //# sourceMappingURL=_collection-chunk.mjs.map

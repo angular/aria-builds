@@ -9,7 +9,6 @@ import './_signal-like-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
-import './_element-chunk.js';
 
 /**
  * The content panel of an accordion item that is conditionally visible.

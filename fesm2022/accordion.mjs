@@ -5,7 +5,6 @@ import { Directionality } from '@angular/cdk/bidi';
 import { SortedCollection } from './_collection-chunk.mjs';
 import { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import './_element-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_signal-like-chunk.mjs';
