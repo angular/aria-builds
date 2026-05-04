@@ -6,7 +6,7 @@ export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, resolveElement } from './_widget-chunk.mjs';
 export { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.mjs';
 import { computed, signal, untracked } from '@angular/core';
-import { KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
 export { computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 export { SortedCollection, sortDirectives } from './_collection-chunk.mjs';
@@ -73,13 +73,17 @@ class SimpleComboboxPattern {
       ignoreRepeat: false
     }).on('ArrowDown', e => this.keyboardEventRelay.set(e), {
       ignoreRepeat: false
+    }).on(Modifier.Shift, 'ArrowUp', e => this.keyboardEventRelay.set(e), {
+      ignoreRepeat: false
+    }).on(Modifier.Shift, 'ArrowDown', e => this.keyboardEventRelay.set(e), {
+      ignoreRepeat: false
     }).on('Home', e => this.keyboardEventRelay.set(e)).on('End', e => this.keyboardEventRelay.set(e)).on('Enter', e => this.keyboardEventRelay.set(e)).on('PageUp', e => this.keyboardEventRelay.set(e)).on('PageDown', e => this.keyboardEventRelay.set(e)).on('Escape', () => {
       if (!this.inputs.alwaysExpanded()) {
         this.inputs.expanded.set(false);
       }
     });
     if (!this.isEditable()) {
-      manager.on(' ', e => this.keyboardEventRelay.set(e)).on(/^.$/, e => {
+      manager.on(' ', e => this.keyboardEventRelay.set(e)).on([Modifier.Ctrl, Modifier.Meta], 'a', e => this.keyboardEventRelay.set(e)).on([Modifier.Ctrl, Modifier.Meta], 'A', e => this.keyboardEventRelay.set(e)).on(Modifier.Shift, 'Home', e => this.keyboardEventRelay.set(e)).on(Modifier.Shift, 'End', e => this.keyboardEventRelay.set(e)).on(/^.$/, e => {
         this.keyboardEventRelay.set(e);
       });
     }

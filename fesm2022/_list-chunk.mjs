@@ -112,6 +112,9 @@ class List {
     const moved = operation();
     if (moved) {
       this.updateSelection(opts);
+      if (!opts?.selectRange) {
+        this.anchor(this.activeIndex());
+      }
     }
     this._wrap.set(true);
   }
