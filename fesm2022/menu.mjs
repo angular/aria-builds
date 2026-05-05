@@ -285,7 +285,6 @@ class MenuItem {
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
         "attr.data-active": "active()",
-        "attr.aria-label": "value()",
         "attr.aria-haspopup": "hasPopup()",
         "attr.aria-expanded": "expanded()",
         "attr.aria-disabled": "_pattern.disabled()",
@@ -311,7 +310,6 @@ i0.ɵɵngDeclareClassMetadata({
         '(focusin)': '_pattern.onFocusIn()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.data-active]': 'active()',
-        '[attr.aria-label]': 'value()',
         '[attr.aria-haspopup]': 'hasPopup()',
         '[attr.aria-expanded]': 'expanded()',
         '[attr.aria-disabled]': '_pattern.disabled()',

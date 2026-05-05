@@ -80,7 +80,7 @@ declare class MenuBar<V> implements OnDestroy {
  *
  * ```html
  * <div ngMenu (itemSelected)="doAction()">
- *   <div ngMenuItem >Action Item</div>
+ *   <div ngMenuItem>Action Item</div>
  *   <div ngMenuItem [submenu]="anotherMenu">Submenu Trigger</div>
  * </div>
  * ```
@@ -97,7 +97,7 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
     readonly element: HTMLElement;
     /** The unique ID of the menu item. */
     readonly id: _angular_core.InputSignal<string>;
-    /** The value of the menu item, used as the default aria-label */
+    /** The value of the menu item. */
     readonly value: _angular_core.InputSignal<V>;
     /** Whether the menu item is disabled. */
     readonly disabled: _angular_core.InputSignal<boolean>;
