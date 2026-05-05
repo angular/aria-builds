@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, afterRenderEffect, afterNextRender, Directive, output, Renderer2, EventEmitter, contentChild, model, Output } from '@angular/core';
+import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, afterRenderEffect, afterNextRender, Directive, output, Renderer2, contentChild, model } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
@@ -350,34 +350,25 @@ class GridCellWidget {
   tabindex = input(...(ngDevMode ? [undefined, {
     debugName: "tabindex"
   }] : []));
-  _tabIndex = computed(() => this.tabindex() ?? (this.focusTarget() ? -1 : this._pattern.tabIndex()), ...(ngDevMode ? [{
+  _tabIndex = computed(() => this.tabindex() ?? this._pattern.tabIndex(), ...(ngDevMode ? [{
     debugName: "_tabIndex"
   }] : []));
   _pattern = new GridCellWidgetPattern({
     ...this,
     element: () => this.element,
-    cell: () => this._cell._pattern
+    cell: () => this._cell._pattern,
+    onActivate: e => this.activated.emit(e),
+    onDeactivate: e => this.deactivated.emit(e)
   });
   get isActivated() {
     return computed(() => this._pattern.isActivated());
   }
   constructor() {
     afterRenderEffect({
-      read: () => {
-        if (this._pattern.isActivated()) {
-          const activateEvent = this._pattern.lastActivateEvent();
-          this.activated.emit(activateEvent);
-          this._pattern.focus();
-        }
-      }
+      write: () => this._pattern.activationEffect()
     });
     afterRenderEffect({
-      read: () => {
-        const deactivateEvent = this._pattern.lastDeactivateEvent();
-        if (deactivateEvent) {
-          this.deactivated.emit(deactivateEvent);
-        }
-      }
+      write: () => this._pattern.deactivationEffect()
     });
   }
   activate() {
@@ -528,7 +519,6 @@ class GridCell {
   _elementRef = inject(ElementRef);
   _renderer = inject(Renderer2);
   element = this._elementRef.nativeElement;
-  activated = new EventEmitter();
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
@@ -585,8 +575,7 @@ class GridCell {
     row: () => this._row._pattern,
     widget: this._widgetPattern,
     getWidget: e => this._getWidget(e),
-    element: () => this.element,
-    onActivate: e => this.activated.emit(e)
+    element: () => this.element
   });
   constructor() {
     afterRenderEffect({
@@ -725,7 +714,6 @@ class GridCell {
       }
     },
     outputs: {
-      activated: "activated",
       selected: "selectedChange"
     },
     providers: [{
@@ -761,9 +749,6 @@ i0.ɵɵngDeclareClassMetadata({
   }],
   ctorParameters: () => [],
   propDecorators: {
-    activated: [{
-      type: Output
-    }],
     _widget: [{
       type: i0.ContentChild,
       args: [i0.forwardRef(() => GridCellWidget), {

@@ -831,11 +831,6 @@ class GridCellPattern {
   onKeydown(event) {
     if (this.disabled()) return;
     this.widget()?.onKeydown(event);
-    if (this.widget()?.inputs.widgetType() === 'simple') {
-      if (event.key === 'Enter' || event.key === ' ') {
-        this.inputs.onActivate?.(event);
-      }
-    }
   }
   onFocusIn(event) {
     this.isFocused.set(true);
@@ -877,23 +872,31 @@ class GridCellWidgetPattern {
   element = () => this.inputs.element();
   widgetHost = () => resolveElement(this.inputs.focusTarget(), this.element()) ?? this.element();
   disabled = computed(() => this.inputs.disabled() || this.inputs.cell().disabled());
-  tabIndex = computed(() => this.inputs.cell().widgetTabIndex());
+  tabIndex = computed(() => {
+    if (this.inputs.focusTarget()) {
+      return -1;
+    }
+    return this.inputs.cell().widgetTabIndex();
+  });
   active = computed(() => this.inputs.cell().active() && this.inputs.cell().widget() === this);
   isActivated = signal(false);
   lastActivateEvent = signal(undefined);
   lastDeactivateEvent = signal(undefined);
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
-    if (this.isActivated()) {
-      manager.on('Escape', e => {
-        this.deactivate(e);
-        this.focus();
+    if (this.inputs.widgetType() === 'simple') {
+      return manager.on('Enter', e => this.inputs.onActivate?.(e), {
+        preventDefault: false,
+        stopPropagation: false
+      }).on(' ', e => this.inputs.onActivate?.(e), {
+        preventDefault: false,
+        stopPropagation: false
       });
+    }
+    if (this.isActivated()) {
+      manager.on('Escape', e => this.deactivate(e));
       if (this.inputs.widgetType() === 'editable') {
-        manager.on('Enter', e => {
-          this.deactivate(e);
-          this.focus();
-        });
+        manager.on('Enter', e => this.deactivate(e));
       }
       return manager;
     }
@@ -926,6 +929,24 @@ class GridCellWidgetPattern {
   }
   focus() {
     this.widgetHost().focus();
+  }
+  activationEffect() {
+    if (this.isActivated()) {
+      const event = this.lastActivateEvent();
+      this.inputs.onActivate?.(event);
+      if (this.inputs.focusTarget()) {
+        this.focus();
+      }
+    }
+  }
+  deactivationEffect() {
+    const event = this.lastDeactivateEvent();
+    if (event) {
+      this.inputs.onDeactivate?.(event);
+      if (event instanceof KeyboardEvent) {
+        this.focus();
+      }
+    }
   }
   activate(event) {
     if (this.isActivated()) return;

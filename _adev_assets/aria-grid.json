@@ -344,7 +344,7 @@
       "source": {
         "filePath": "src/aria/grid/grid-cell-widget.ts",
         "startLine": 42,
-        "endLine": 136
+        "endLine": 127
       }
     },
     {
@@ -628,18 +628,6 @@
           "jsdocTags": []
         },
         {
-          "name": "activated",
-          "type": "EventEmitter<KeyboardEvent>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly",
-            "output"
-          ],
-          "description": "Emits when the cell is activated via Enter/Space (simple widgets only).",
-          "jsdocTags": [],
-          "outputAlias": "activated"
-        },
-        {
           "name": "active",
           "type": "Signal<any>",
           "memberType": "property",
@@ -885,8 +873,8 @@
       ],
       "source": {
         "filePath": "/src/aria/grid/grid-cell.ts",
-        "startLine": 47,
-        "endLine": 187
+        "startLine": 45,
+        "endLine": 181
       }
     }
   ],
@@ -952,15 +940,7 @@
       "@angular/core"
     ],
     [
-      "EventEmitter",
-      "@angular/core"
-    ],
-    [
       "model",
-      "@angular/core"
-    ],
-    [
-      "Output",
       "@angular/core"
     ],
     [
@@ -1121,10 +1101,6 @@
     ],
     [
       "GridCell.element",
-      "@angular/aria/grid"
-    ],
-    [
-      "GridCell.activated",
       "@angular/aria/grid"
     ],
     [

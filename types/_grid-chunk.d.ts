@@ -352,6 +352,10 @@ interface GridCellWidgetInputs {
     widgetType: SignalLike<'simple' | 'complex' | 'editable'>;
     /** The element that will receive focus when the widget is activated. */
     focusTarget: SignalLike<ElementResolver<HTMLElement>>;
+    /** Callback hook used to notify parents or directives upon interaction. */
+    onActivate?: (event: KeyboardEvent | FocusEvent | undefined) => void;
+    /** Callback hook used to notify parents or directives upon exit. */
+    onDeactivate?: (event: KeyboardEvent | FocusEvent | undefined) => void;
 }
 /** The UI pattern for a widget inside a grid cell. */
 declare class GridCellWidgetPattern {
@@ -383,6 +387,10 @@ declare class GridCellWidgetPattern {
     onFocusOut(event: FocusEvent): void;
     /** Focuses the widget's host element. */
     focus(): void;
+    /** Side-effect executed whenever the widget activates. Runs in the write phase. */
+    activationEffect(): void;
+    /** Side-effect executed whenever the widget deactivates. Runs in the write phase. */
+    deactivationEffect(): void;
     /** Activates the widget. */
     activate(event?: KeyboardEvent | FocusEvent): void;
     /** Deactivates the widget and restores focus to the widget's host element. */
@@ -403,8 +411,6 @@ interface GridCellInputs extends GridCell {
     colIndex: SignalLike<number | undefined>;
     /** A function that returns the cell widget associated with a given element. */
     getWidget: (e: Element | null) => GridCellWidgetPattern | undefined;
-    /** Callback when the cell is activated via Enter/Space. */
-    onActivate?: (event: KeyboardEvent) => void;
 }
 /** The UI pattern for a grid cell. */
 declare class GridCellPattern implements GridCell {
