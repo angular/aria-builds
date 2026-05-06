@@ -109,8 +109,9 @@ class Tree {
       write: () => {
         const items = inputs.items();
         const activeItem = untracked(() => inputs.activeItem());
-        if (!items.some(i => i === activeItem) && activeItem) {
+        if (activeItem && !items.some(i => i === activeItem)) {
           this._pattern.treeBehavior.unfocus();
+          this._pattern.setDefaultState();
         }
       }
     });
