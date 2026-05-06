@@ -1,6 +1,6 @@
 {
   "name": "@angular/aria",
-  "version": "22.0.0-next.7+sha-b8201ed",
+  "version": "22.0.0-next.7+sha-0ca47b4",
   "description": "Angular Aria",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/angular/components#readme",
   "peerDependencies": {
-    "@angular/cdk": "22.0.0-next.7+sha-b8201ed",
+    "@angular/cdk": "22.0.0-next.7+sha-0ca47b4",
     "@angular/core": "^22.0.0-0 || ^22.1.0-0 || ^22.2.0-0 || ^22.3.0-0 || ^23.0.0-0"
   },
   "devDependencies": {
@@ -63,6 +63,10 @@
       "types": "./types/combobox.d.ts",
       "default": "./fesm2022/combobox.mjs"
     },
+    "./combobox/testing": {
+      "types": "./types/combobox-testing.d.ts",
+      "default": "./fesm2022/combobox-testing.mjs"
+    },
     "./grid": {
       "types": "./types/grid.d.ts",
       "default": "./fesm2022/grid.mjs"
@@ -90,14 +94,6 @@
     "./private": {
       "types": "./types/private.d.ts",
       "default": "./fesm2022/private.mjs"
-    },
-    "./simple-combobox": {
-      "types": "./types/simple-combobox.d.ts",
-      "default": "./fesm2022/simple-combobox.mjs"
-    },
-    "./simple-combobox/testing": {
-      "types": "./types/simple-combobox-testing.d.ts",
-      "default": "./fesm2022/simple-combobox-testing.mjs"
     },
     "./tabs": {
       "types": "./types/tabs.d.ts",

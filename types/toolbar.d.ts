@@ -3,7 +3,6 @@ import { OnInit, OnDestroy } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { ToolbarWidgetGroupPattern, ToolbarWidgetPattern, ToolbarPattern } from './_toolbar-chunk.js';
 import { SortedCollection } from './_collection-chunk.js';
-import './_signal-like-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 

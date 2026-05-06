@@ -2,26 +2,19 @@ import * as i0 from '@angular/core';
 import { inject, ElementRef, input, booleanAttribute, model, signal, computed, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
-import { ComboboxPopup } from './combobox.mjs';
-export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
-import { ComboboxTreePattern, TreePattern, TreeItemPattern } from './_combobox-tree-chunk.mjs';
+import { TreePattern, TreeItemPattern } from './_tree-chunk.mjs';
 import { SortedCollection, sortDirectives } from './_collection-chunk.mjs';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
-import './_combobox-chunk.mjs';
-import './_signal-like-chunk.mjs';
-import '@angular/core/primitives/signals';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
+import '@angular/core/primitives/signals';
 
 class Tree {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _popup = inject(ComboboxPopup, {
-    optional: true
-  });
   _collection = new SortedCollection();
   id = input(inject(_IdGenerator).getId('ng-tree-', true), ...(ngDevMode ? [{
     debugName: "id"
@@ -90,19 +83,15 @@ class Tree {
       id: this.id,
       items: computed(() => this._collection.orderedItems().map(item => item._pattern)),
       activeItem: signal(undefined),
-      combobox: () => this._popup?.combobox?._pattern,
       element: () => this.element
     };
-    this._pattern = this._popup?.combobox ? new ComboboxTreePattern(inputs) : new TreePattern(inputs);
+    this._pattern = new TreePattern(inputs);
     this.activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
       debugName: "activeDescendant"
     }] : []));
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });
-    if (this._popup?.combobox) {
-      this._popup?._controls?.set(this._pattern);
-    }
     afterRenderEffect({
       read: () => {
         if (typeof ngDevMode === 'undefined' || ngDevMode) {
@@ -122,16 +111,6 @@ class Tree {
         const activeItem = untracked(() => inputs.activeItem());
         if (!items.some(i => i === activeItem) && activeItem) {
           this._pattern.treeBehavior.unfocus();
-        }
-      }
-    });
-    afterRenderEffect({
-      write: () => {
-        if (!(this._pattern instanceof ComboboxTreePattern)) return;
-        const items = inputs.items();
-        const value = untracked(() => this.value());
-        if (items && value.some(v => !items.some(i => i.value() === v))) {
-          this.value.set(value.filter(v => items.some(i => i.value() === v)));
         }
       }
     });
@@ -273,9 +252,6 @@ class Tree {
       }
     },
     exportAs: ["ngTree"],
-    hostDirectives: [{
-      directive: ComboboxPopup
-    }],
     ngImport: i0
   });
 }
@@ -300,8 +276,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocusIn()'
-      },
-      hostDirectives: [ComboboxPopup]
+      }
     }]
   }],
   ctorParameters: () => [],
@@ -558,14 +533,9 @@ class TreeItem extends DeferredContentAware {
   _pattern;
   constructor() {
     super();
-    afterNextRender(() => {
-      if (this.tree()._pattern instanceof ComboboxTreePattern) {
-        this.preserveContent.set(true);
-      }
-    });
     afterRenderEffect({
       write: () => {
-        this.tree()._pattern instanceof ComboboxTreePattern ? this.contentVisible.set(true) : this.contentVisible.set(this._pattern.expanded());
+        this.contentVisible.set(this._pattern.expanded());
       }
     });
   }
@@ -786,5 +756,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Tree, TreeItem, TreeItemGroup, ComboboxPopup as ɵɵComboboxPopup, DeferredContent as ɵɵDeferredContent };
+export { Tree, TreeItem, TreeItemGroup, DeferredContent as ɵɵDeferredContent };
 //# sourceMappingURL=tree.mjs.map

@@ -3,15 +3,10 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal } from '@angular/core';
 import { OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 import { SortedCollection } from './_collection-chunk.js';
-import { ComboboxPopup } from './combobox.js';
-export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.js';
-import './_signal-like-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_click-event-manager-chunk.js';
-import './_combobox-chunk.js';
-import './_deferred-content-chunk.js';
 
 /**
  * A selectable option in an `ngListbox`.
@@ -87,8 +82,6 @@ declare class Option<V> implements OnInit, OnDestroy {
 declare class Listbox<V> implements OnDestroy {
     /** A unique identifier for the listbox. */
     readonly id: _angular_core.InputSignal<string>;
-    /** A reference to the parent combobox popup, if one exists. */
-    private readonly _popup;
     /** A reference to the host element. */
     private readonly _elementRef;
     /** A reference to the host element. */
@@ -140,7 +133,7 @@ declare class Listbox<V> implements OnDestroy {
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, [{ directive: typeof ComboboxPopup; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;
 }
 
-export { Listbox, Option, ComboboxPopup as ɵɵComboboxPopup };
+export { Listbox, Option };

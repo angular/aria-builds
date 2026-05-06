@@ -1,6 +1,6 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
-import { computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { computed, KeyboardEventManager } from './_collection-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 const focusMode = () => 'roving';

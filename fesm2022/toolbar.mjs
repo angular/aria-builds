@@ -4,11 +4,10 @@ import { Directionality } from '@angular/cdk/bidi';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { SortedCollection } from './_collection-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import './_signal-like-chunk.mjs';
-import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
+import '@angular/core/primitives/signals';
 
 class Toolbar {
   _elementRef = inject(ElementRef);

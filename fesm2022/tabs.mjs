@@ -6,10 +6,9 @@ import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk
 import { Directionality } from '@angular/cdk/bidi';
 import { SortedCollection } from './_collection-chunk.mjs';
 import './_expansion-chunk.mjs';
-import './_signal-like-chunk.mjs';
-import '@angular/core/primitives/signals';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
+import '@angular/core/primitives/signals';
 
 const TABS = new InjectionToken('TABS');
 const TAB_LIST = new InjectionToken('TAB_LIST');

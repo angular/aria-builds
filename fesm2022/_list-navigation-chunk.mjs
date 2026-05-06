@@ -1,4 +1,4 @@
-import { signal, computed } from './_signal-like-chunk.mjs';
+import { signal, computed } from './_collection-chunk.mjs';
 
 class ListFocus {
   inputs;

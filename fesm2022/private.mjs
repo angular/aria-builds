@@ -1,17 +1,15 @@
 export { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
-export { ComboboxDialogPattern, ComboboxPattern } from './_combobox-chunk.mjs';
-export { ComboboxListboxPattern, ListboxPattern, OptionPattern } from './_combobox-listbox-chunk.mjs';
-export { ComboboxTreePattern, TreeItemPattern, TreePattern } from './_combobox-tree-chunk.mjs';
+import { computed, signal, untracked } from '@angular/core';
+import { KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
+export { SortedCollection, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal, sortDirectives } from './_collection-chunk.mjs';
+import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, resolveElement } from './_widget-chunk.mjs';
+export { ListboxPattern, OptionPattern } from './_option-chunk.mjs';
 export { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.mjs';
-import { computed, signal, untracked } from '@angular/core';
-import { KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
-export { computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal } from './_signal-like-chunk.mjs';
-import { ClickEventManager } from './_click-event-manager-chunk.mjs';
-export { SortedCollection, sortDirectives } from './_collection-chunk.mjs';
 export { TabListPattern, TabPanelPattern, TabPattern } from './_tabs-chunk.mjs';
 export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern } from './_toolbar-widget-group-chunk.mjs';
+export { TreeItemPattern, TreePattern } from './_tree-chunk.mjs';
 export { tabIndexTransform } from './_transforms-chunk.mjs';
 export { untracked } from '@angular/core/primitives/signals';
 import './_expansion-chunk.mjs';
@@ -19,7 +17,7 @@ import './_list-navigation-chunk.mjs';
 import './_list-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 
-class SimpleComboboxPattern {
+class ComboboxPattern {
   inputs;
   isExpanded = computed(() => this.inputs.alwaysExpanded() || this.inputs.expanded());
   value;
@@ -155,7 +153,7 @@ class SimpleComboboxPattern {
     }
   }
 }
-class SimpleComboboxPopupPattern {
+class ComboboxPopupPattern {
   inputs;
   popupType = () => this.inputs.popupType();
   controlTarget = () => this.inputs.controlTarget();
@@ -175,5 +173,5 @@ class SimpleComboboxPopupPattern {
   }
 }
 
-export { SimpleComboboxPattern, SimpleComboboxPopupPattern };
+export { ComboboxPattern, ComboboxPopupPattern };
 //# sourceMappingURL=private.mjs.map

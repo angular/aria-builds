@@ -1,4 +1,4 @@
-import { signal, computed, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
+import { signal, computed, KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
@@ -222,52 +222,5 @@ class OptionPattern {
   }
 }
 
-class ComboboxListboxPattern extends ListboxPattern {
-  inputs;
-  id = computed(() => this.inputs.id());
-  role = computed(() => 'listbox');
-  activeId = computed(() => this.listBehavior.activeDescendant());
-  items = computed(() => this.inputs.items());
-  tabIndex = () => -1;
-  multi = computed(() => {
-    return this.inputs.combobox()?.readonly() ? this.inputs.multi() : false;
-  });
-  constructor(inputs) {
-    if (inputs.combobox()) {
-      inputs.focusMode = () => 'activedescendant';
-      inputs.element = inputs.combobox().inputs.inputEl;
-    }
-    super(inputs);
-    this.inputs = inputs;
-  }
-  onKeydown(_) {}
-  onClick(_) {}
-  setDefaultState() {}
-  focus = (item, opts) => {
-    this.listBehavior.goto(item, opts);
-  };
-  getActiveItem = () => this.inputs.activeItem();
-  next = () => this.listBehavior.next();
-  prev = () => this.listBehavior.prev();
-  last = () => this.listBehavior.last();
-  first = () => this.listBehavior.first();
-  unfocus = () => this.listBehavior.unfocus();
-  select = item => this.listBehavior.select(item);
-  toggle = item => this.listBehavior.toggle(item);
-  clearSelection = () => this.listBehavior.deselectAll();
-  getItem = e => this._getItem(e);
-  getSelectedItems = () => {
-    const items = [];
-    for (const value of this.inputs.value()) {
-      const item = this.items().find(i => i.value() === value);
-      if (item) {
-        items.push(item);
-      }
-    }
-    return items;
-  };
-  setValue = value => this.inputs.value.set(value ? [value] : []);
-}
-
-export { ComboboxListboxPattern, ListboxPattern, OptionPattern };
-//# sourceMappingURL=_combobox-listbox-chunk.mjs.map
+export { ListboxPattern, OptionPattern };
+//# sourceMappingURL=_option-chunk.mjs.map

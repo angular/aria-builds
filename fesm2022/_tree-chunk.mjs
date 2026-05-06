@@ -1,4 +1,4 @@
-import { computed, signal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
+import { computed, signal, KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
 import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';
@@ -478,50 +478,5 @@ class TreePattern {
   }
 }
 
-class ComboboxTreePattern extends TreePattern {
-  inputs;
-  toggleExpansion = item => this.treeBehavior.toggleExpansion(item);
-  isItemCollapsible = () => this.inputs.activeItem()?.parent() instanceof TreeItemPattern;
-  role = () => 'tree';
-  activeId = computed(() => this.treeBehavior.activeDescendant());
-  getActiveItem = () => this.inputs.activeItem();
-  items = computed(() => this.inputs.items());
-  tabIndex = () => -1;
-  constructor(inputs) {
-    if (inputs.combobox()) {
-      inputs.multi = () => false;
-      inputs.focusMode = () => 'activedescendant';
-      inputs.element = inputs.combobox().inputs.inputEl;
-    }
-    super(inputs);
-    this.inputs = inputs;
-  }
-  onKeydown(_) {}
-  onClick(_) {}
-  setDefaultState() {}
-  focus = item => this.treeBehavior.goto(item);
-  next = () => this.treeBehavior.next();
-  prev = () => this.treeBehavior.prev();
-  last = () => this.treeBehavior.last();
-  first = () => this.treeBehavior.first();
-  unfocus = () => this.treeBehavior.unfocus();
-  select = item => this.treeBehavior.select(item);
-  toggle = item => this.treeBehavior.toggle(item);
-  clearSelection = () => this.treeBehavior.deselectAll();
-  getItem = e => this._getItem(e);
-  getSelectedItems = () => this.inputs.items().filter(item => item.selected());
-  setValue = value => this.inputs.value.set(value ? [value] : []);
-  expandItem = () => this._expandOrFirstChild();
-  collapseItem = () => this._collapseOrParent();
-  isItemExpandable(item = this.inputs.activeItem()) {
-    return item ? item.expandable() : false;
-  }
-  expandAll = () => this.treeBehavior.expandAll();
-  collapseAll = () => this.treeBehavior.collapseAll();
-  isItemSelectable = (item = this.inputs.activeItem()) => {
-    return item ? item.selectable() : false;
-  };
-}
-
-export { ComboboxTreePattern, TreeItemPattern, TreePattern };
-//# sourceMappingURL=_combobox-tree-chunk.mjs.map
+export { TreeItemPattern, TreePattern };
+//# sourceMappingURL=_tree-chunk.mjs.map

@@ -1,4 +1,4 @@
-import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
+import { SignalLike, WritableSignalLike } from './_collection-chunk.js';
 import { ExpansionItem, ListExpansionInputs, ListExpansion } from './_expansion-chunk.js';
 import { ListNavigationItem, ListFocusItem, ListFocusInputs, ListNavigationInputs, ListNavigation, ListFocus } from './_list-navigation-chunk.js';
 import { ListTypeaheadItem, ListSelectionItem, ListSelectionInputs, ListTypeaheadInputs, ListSelection, ListTypeahead, NavOptions } from './_list-chunk.js';

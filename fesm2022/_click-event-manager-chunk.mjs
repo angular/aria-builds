@@ -1,4 +1,4 @@
-import { EventManager, Modifier, hasModifiers } from './_signal-like-chunk.mjs';
+import { EventManager, Modifier, hasModifiers } from './_collection-chunk.mjs';
 
 function isFakeClick(event) {
   return event.detail === 0 || !event.pointerType;

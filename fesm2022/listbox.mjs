@@ -2,19 +2,14 @@ import * as i0 from '@angular/core';
 import { InjectionToken, input, inject, ElementRef, booleanAttribute, model, computed, signal, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import { ComboboxPopup } from './combobox.mjs';
-export { Combobox as ɵɵCombobox, ComboboxDialog as ɵɵComboboxDialog, ComboboxInput as ɵɵComboboxInput, ComboboxPopupContainer as ɵɵComboboxPopupContainer } from './combobox.mjs';
-import { ComboboxListboxPattern, ListboxPattern, OptionPattern } from './_combobox-listbox-chunk.mjs';
+import { ListboxPattern, OptionPattern } from './_option-chunk.mjs';
 import { SortedCollection } from './_collection-chunk.mjs';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
-import './_deferred-content-chunk.mjs';
-import './_combobox-chunk.mjs';
-import './_signal-like-chunk.mjs';
-import '@angular/core/primitives/signals';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
+import '@angular/core/primitives/signals';
 
 const LISTBOX = new InjectionToken('LISTBOX');
 
@@ -22,9 +17,6 @@ class Listbox {
   id = input(inject(_IdGenerator).getId('ng-listbox-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  _popup = inject(ComboboxPopup, {
-    optional: true
-  });
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   _collection = new SortedCollection();
@@ -93,19 +85,15 @@ class Listbox {
       items: orderedItemPatterns,
       activeItem: signal(undefined),
       textDirection: this.textDirection,
-      element: () => this._elementRef.nativeElement,
-      combobox: () => this._popup?.combobox?._pattern
+      element: () => this._elementRef.nativeElement
     };
-    this._pattern = this._popup?.combobox ? new ComboboxListboxPattern(inputs) : new ListboxPattern(inputs);
+    this._pattern = new ListboxPattern(inputs);
     this.activeDescendant = computed(() => this._pattern.activeDescendant(), ...(ngDevMode ? [{
       debugName: "activeDescendant"
     }] : []));
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });
-    if (this._popup) {
-      this._popup._controls.set(this._pattern);
-    }
     afterRenderEffect({
       read: () => {
         if (typeof ngDevMode === 'undefined' || ngDevMode) {
@@ -276,9 +264,6 @@ class Listbox {
       useExisting: Listbox
     }],
     exportAs: ["ngListbox"],
-    hostDirectives: [{
-      directive: ComboboxPopup
-    }],
     ngImport: i0
   });
 }
@@ -305,7 +290,6 @@ i0.ɵɵngDeclareClassMetadata({
         '(click)': '_pattern.onClick($event)',
         '(focusin)': '_pattern.onFocusIn()'
       },
-      hostDirectives: [ComboboxPopup],
       providers: [{
         provide: LISTBOX,
         useExisting: Listbox
@@ -573,5 +557,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Listbox, Option, ComboboxPopup as ɵɵComboboxPopup };
+export { Listbox, Option };
 //# sourceMappingURL=listbox.mjs.map

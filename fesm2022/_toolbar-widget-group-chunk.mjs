@@ -1,4 +1,4 @@
-import { signal, computed, KeyboardEventManager } from './_signal-like-chunk.mjs';
+import { signal, computed, KeyboardEventManager } from './_collection-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
 class ToolbarPattern {

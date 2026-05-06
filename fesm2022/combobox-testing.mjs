@@ -76,4 +76,4 @@ class ComboboxHarness extends ContentContainerComponentHarness {
 }
 
 export { ComboboxHarness };
-//# sourceMappingURL=simple-combobox-testing.mjs.map
+//# sourceMappingURL=combobox-testing.mjs.map

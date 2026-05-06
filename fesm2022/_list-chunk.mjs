@@ -1,4 +1,4 @@
-import { computed, signal } from './_signal-like-chunk.mjs';
+import { computed, signal } from './_collection-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';
 

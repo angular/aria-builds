@@ -1,4 +1,4 @@
-import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_signal-like-chunk.mjs';
+import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
 import { ElementRef } from '@angular/core';

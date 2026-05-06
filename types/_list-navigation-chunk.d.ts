@@ -1,4 +1,4 @@
-import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
+import { SignalLike, WritableSignalLike } from './_collection-chunk.js';
 
 /** Represents an item in a collection, such as a listbox option, than may receive focus. */
 interface ListFocusItem {

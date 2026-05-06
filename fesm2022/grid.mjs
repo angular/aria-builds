@@ -5,9 +5,8 @@ import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { SortedCollection } from './_collection-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
-import './_signal-like-chunk.mjs';
-import '@angular/core/primitives/signals';
 import './_click-event-manager-chunk.mjs';
+import '@angular/core/primitives/signals';
 
 const GRID_CELL = new InjectionToken('GRID_CELL');
 const GRID_ROW = new InjectionToken('GRID_ROW');

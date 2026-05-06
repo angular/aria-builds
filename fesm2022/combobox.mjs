@@ -1,65 +1,15 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, signal, Directive, ElementRef, contentChild, input, booleanAttribute, computed, afterRenderEffect, model, untracked } from '@angular/core';
-import { Directionality } from '@angular/cdk/bidi';
-import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
-import { ComboboxPattern, ComboboxDialogPattern } from './_combobox-chunk.mjs';
-import { _IdGenerator } from '@angular/cdk/a11y';
-import './_signal-like-chunk.mjs';
-import '@angular/core/primitives/signals';
+import { inject, Renderer2, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, Directive, InjectionToken } from '@angular/core';
+import * as i1 from '@angular/aria/private';
+import { DeferredContentAware, tabIndexTransform, ComboboxPattern, DeferredContent, ComboboxPopupPattern } from '@angular/aria/private';
+export { DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware } from './_deferred-content-chunk.mjs';
 
-const COMBOBOX = new InjectionToken('COMBOBOX');
-
-class ComboboxPopup {
-  combobox = inject(COMBOBOX, {
-    optional: true
-  });
-  _controls = signal(undefined, ...(ngDevMode ? [{
-    debugName: "_controls"
-  }] : []));
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.10",
-    ngImport: i0,
-    type: ComboboxPopup,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "14.0.0",
-    version: "22.0.0-next.10",
-    type: ComboboxPopup,
-    isStandalone: true,
-    selector: "[ngComboboxPopup]",
-    exportAs: ["ngComboboxPopup"],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.10",
-  ngImport: i0,
-  type: ComboboxPopup,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngComboboxPopup]',
-      exportAs: 'ngComboboxPopup'
-    }]
-  }]
-});
-
-class Combobox {
-  textDirection = inject(Directionality).valueSignal.asReadonly();
+class Combobox extends DeferredContentAware {
+  _renderer = inject(Renderer2);
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
-  _deferredContentAware = inject(DeferredContentAware, {
-    optional: true
-  });
-  popup = contentChild(ComboboxPopup, ...(ngDevMode ? [{
-    debugName: "popup"
-  }] : []));
-  filterMode = input('manual', ...(ngDevMode ? [{
-    debugName: "filterMode"
+  _popup = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_popup"
   }] : []));
   disabled = input(false, {
     ...(ngDevMode ? {
@@ -67,58 +17,66 @@ class Combobox {
     } : {}),
     transform: booleanAttribute
   });
-  readonly = input(false, {
+  softDisabled = input(true, {
     ...(ngDevMode ? {
-      debugName: "readonly"
+      debugName: "softDisabled"
     } : {}),
     transform: booleanAttribute
   });
-  firstMatch = input(undefined, ...(ngDevMode ? [{
-    debugName: "firstMatch"
-  }] : []));
-  expanded = computed(() => this.alwaysExpanded() || this._pattern.expanded(), ...(ngDevMode ? [{
-    debugName: "expanded"
-  }] : []));
   alwaysExpanded = input(false, {
     ...(ngDevMode ? {
       debugName: "alwaysExpanded"
     } : {}),
     transform: booleanAttribute
   });
-  inputElement = computed(() => this._pattern.inputs.inputEl(), ...(ngDevMode ? [{
-    debugName: "inputElement"
+  tabIndex = input(undefined, {
+    ...(ngDevMode ? {
+      debugName: "tabIndex"
+    } : {}),
+    alias: 'tabindex',
+    transform: tabIndexTransform
+  });
+  expanded = model(false, ...(ngDevMode ? [{
+    debugName: "expanded"
+  }] : []));
+  value = model('', ...(ngDevMode ? [{
+    debugName: "value"
+  }] : []));
+  inlineSuggestion = input(undefined, ...(ngDevMode ? [{
+    debugName: "inlineSuggestion"
   }] : []));
   _pattern = new ComboboxPattern({
     ...this,
-    textDirection: this.textDirection,
-    disabled: this.disabled,
-    readonly: this.readonly,
-    inputValue: signal(''),
-    inputEl: signal(undefined),
-    containerEl: () => this._elementRef.nativeElement,
-    popupControls: () => this.popup()?._controls()
+    element: () => this.element,
+    expandable: () => true,
+    popup: computed(() => this._popup()?._pattern)
   });
   constructor() {
+    super();
+    afterRenderEffect(() => this._pattern.keyboardEventRelayEffect());
+    afterRenderEffect(() => this._pattern.closePopupOnBlurEffect());
     afterRenderEffect(() => {
-      if (this.alwaysExpanded()) {
-        this._pattern.expanded.set(true);
-      }
+      this.contentVisible.set(this._pattern.isExpanded());
     });
-    afterRenderEffect({
-      write: () => {
-        if (!this._deferredContentAware?.contentVisible() && (this._pattern.isFocused() || this.alwaysExpanded())) {
-          this._deferredContentAware?.contentVisible.set(true);
-        }
-      }
-    });
+    if (this._pattern.isEditable()) {
+      afterRenderEffect(() => {
+        this._renderer.setProperty(this.element, 'value', this.value());
+      });
+      afterRenderEffect(() => {
+        this._pattern.highlightEffect();
+      });
+    }
   }
-  open() {
-    this._pattern.open({
-      selected: true
-    });
+  ngOnInit() {
+    if (this.alwaysExpanded()) {
+      this.expanded.set(true);
+    }
   }
-  close() {
-    this._pattern.close();
+  _registerPopup(popup) {
+    this._popup.set(popup);
+  }
+  _unregisterPopup() {
+    this._popup.set(undefined);
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
@@ -129,19 +87,12 @@ class Combobox {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.2.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.10",
     type: Combobox,
     isStandalone: true,
     selector: "[ngCombobox]",
     inputs: {
-      filterMode: {
-        classPropertyName: "filterMode",
-        publicName: "filterMode",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
@@ -149,16 +100,9 @@ class Combobox {
         isRequired: false,
         transformFunction: null
       },
-      readonly: {
-        classPropertyName: "readonly",
-        publicName: "readonly",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      firstMatch: {
-        classPropertyName: "firstMatch",
-        publicName: "firstMatch",
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -169,36 +113,65 @@ class Combobox {
         isSignal: true,
         isRequired: false,
         transformFunction: null
+      },
+      tabIndex: {
+        classPropertyName: "tabIndex",
+        publicName: "tabindex",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      expanded: {
+        classPropertyName: "expanded",
+        publicName: "expanded",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      inlineSuggestion: {
+        classPropertyName: "inlineSuggestion",
+        publicName: "inlineSuggestion",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
       }
+    },
+    outputs: {
+      expanded: "expandedChange",
+      value: "valueChange"
     },
     host: {
+      attributes: {
+        "role": "combobox"
+      },
       listeners: {
-        "input": "_pattern.onInput($event)",
         "keydown": "_pattern.onKeydown($event)",
+        "focusin": "_pattern.onFocusin()",
+        "focusout": "_pattern.onFocusout($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn()",
-        "focusout": "_pattern.onFocusOut($event)"
+        "input": "_pattern.onInput($event)"
       },
       properties: {
-        "attr.data-expanded": "expanded()"
+        "attr.aria-autocomplete": "_pattern.autocomplete()",
+        "attr.aria-disabled": "_pattern.disabled()",
+        "attr.aria-expanded": "_pattern.isExpanded()",
+        "attr.aria-activedescendant": "_pattern.activeDescendant()",
+        "attr.aria-controls": "_pattern.popupId()",
+        "attr.aria-haspopup": "_pattern.popupType()",
+        "attr.tabindex": "disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)",
+        "attr.disabled": "disabled() && !softDisabled() ? \"\" : null",
+        "attr.readonly": "disabled() && _pattern.isEditable() ? \"\" : null"
       }
     },
-    providers: [{
-      provide: COMBOBOX,
-      useExisting: Combobox
-    }],
-    queries: [{
-      propertyName: "popup",
-      first: true,
-      predicate: ComboboxPopup,
-      descendants: true,
-      isSignal: true
-    }],
     exportAs: ["ngCombobox"],
-    hostDirectives: [{
-      directive: DeferredContentAware,
-      inputs: ["preserveContent", "preserveContent"]
-    }],
+    usesInheritance: true,
     ngImport: i0
   });
 }
@@ -212,40 +185,27 @@ i0.ɵɵngDeclareClassMetadata({
     args: [{
       selector: '[ngCombobox]',
       exportAs: 'ngCombobox',
-      hostDirectives: [{
-        directive: DeferredContentAware,
-        inputs: ['preserveContent']
-      }],
       host: {
-        '[attr.data-expanded]': 'expanded()',
-        '(input)': '_pattern.onInput($event)',
+        'role': 'combobox',
+        '[attr.aria-autocomplete]': '_pattern.autocomplete()',
+        '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.aria-expanded]': '_pattern.isExpanded()',
+        '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
+        '[attr.aria-controls]': '_pattern.popupId()',
+        '[attr.aria-haspopup]': '_pattern.popupType()',
+        '[attr.tabindex]': 'disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)',
+        '[attr.disabled]': 'disabled() && !softDisabled() ? "" : null',
+        '[attr.readonly]': 'disabled() && _pattern.isEditable() ? "" : null',
         '(keydown)': '_pattern.onKeydown($event)',
+        '(focusin)': '_pattern.onFocusin()',
+        '(focusout)': '_pattern.onFocusout($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn()',
-        '(focusout)': '_pattern.onFocusOut($event)'
-      },
-      providers: [{
-        provide: COMBOBOX,
-        useExisting: Combobox
-      }]
+        '(input)': '_pattern.onInput($event)'
+      }
     }]
   }],
   ctorParameters: () => [],
   propDecorators: {
-    popup: [{
-      type: i0.ContentChild,
-      args: [i0.forwardRef(() => ComboboxPopup), {
-        isSignal: true
-      }]
-    }],
-    filterMode: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "filterMode",
-        required: false
-      }]
-    }],
     disabled: [{
       type: i0.Input,
       args: [{
@@ -254,19 +214,11 @@ i0.ɵɵngDeclareClassMetadata({
         required: false
       }]
     }],
-    readonly: [{
+    softDisabled: [{
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "readonly",
-        required: false
-      }]
-    }],
-    firstMatch: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "firstMatch",
+        alias: "softDisabled",
         required: false
       }]
     }],
@@ -277,200 +229,26 @@ i0.ɵɵngDeclareClassMetadata({
         alias: "alwaysExpanded",
         required: false
       }]
-    }]
-  }
-});
-
-class ComboboxDialog {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  combobox = inject(Combobox);
-  id = input(inject(_IdGenerator).getId('ng-combobox-dialog-', true), ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
-  _popup = inject(ComboboxPopup, {
-    optional: true
-  });
-  _pattern = new ComboboxDialogPattern({
-    id: this.id,
-    element: () => this.element,
-    combobox: this.combobox._pattern
-  });
-  constructor() {
-    if (this._popup) {
-      this._popup._controls.set(this._pattern);
-    }
-    afterRenderEffect({
-      write: () => {
-        this.combobox._pattern.expanded() ? this.element.showModal() : this.element.close();
-      }
-    });
-  }
-  close() {
-    this._popup?.combobox?._pattern.close();
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.10",
-    ngImport: i0,
-    type: ComboboxDialog,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "22.0.0-next.10",
-    type: ComboboxDialog,
-    isStandalone: true,
-    selector: "dialog[ngComboboxDialog]",
-    inputs: {
-      id: {
-        classPropertyName: "id",
-        publicName: "id",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      }
-    },
-    host: {
-      listeners: {
-        "keydown": "_pattern.onKeydown($event)",
-        "click": "_pattern.onClick($event)"
-      },
-      properties: {
-        "attr.data-open": "combobox._pattern.expanded()"
-      }
-    },
-    exportAs: ["ngComboboxDialog"],
-    hostDirectives: [{
-      directive: ComboboxPopup
     }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.10",
-  ngImport: i0,
-  type: ComboboxDialog,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: 'dialog[ngComboboxDialog]',
-      exportAs: 'ngComboboxDialog',
-      host: {
-        '[attr.data-open]': 'combobox._pattern.expanded()',
-        '(keydown)': '_pattern.onKeydown($event)',
-        '(click)': '_pattern.onClick($event)'
-      },
-      hostDirectives: [ComboboxPopup]
-    }]
-  }],
-  ctorParameters: () => [],
-  propDecorators: {
-    id: [{
+    tabIndex: [{
       type: i0.Input,
       args: [{
         isSignal: true,
-        alias: "id",
+        alias: "tabindex",
         required: false
       }]
-    }]
-  }
-});
-
-class ComboboxInput {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  combobox = inject(Combobox);
-  value = model('', ...(ngDevMode ? [{
-    debugName: "value"
-  }] : []));
-  constructor() {
-    this.combobox._pattern.inputs.inputEl.set(this._elementRef.nativeElement);
-    this.combobox._pattern.inputs.inputValue = this.value;
-    const controls = this.combobox.popup()?._controls();
-    if (controls instanceof ComboboxDialogPattern) {
-      return;
-    }
-    afterRenderEffect({
-      write: () => {
-        this.value();
-        controls?.items();
-        untracked(() => this.combobox._pattern.onFilter());
-      }
-    });
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.10",
-    ngImport: i0,
-    type: ComboboxInput,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "22.0.0-next.10",
-    type: ComboboxInput,
-    isStandalone: true,
-    selector: "input[ngComboboxInput]",
-    inputs: {
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
+    }],
+    expanded: [{
+      type: i0.Input,
+      args: [{
         isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      }
-    },
-    outputs: {
-      value: "valueChange"
-    },
-    host: {
-      attributes: {
-        "role": "combobox"
-      },
-      properties: {
-        "value": "value()",
-        "attr.aria-disabled": "combobox._pattern.disabled()",
-        "attr.aria-expanded": "combobox._pattern.expanded()",
-        "attr.aria-activedescendant": "combobox._pattern.activeDescendant()",
-        "attr.aria-controls": "combobox._pattern.popupId()",
-        "attr.aria-haspopup": "combobox._pattern.hasPopup()",
-        "attr.aria-autocomplete": "combobox._pattern.autocomplete()",
-        "attr.readonly": "combobox._pattern.readonly()"
-      }
-    },
-    exportAs: ["ngComboboxInput"],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.10",
-  ngImport: i0,
-  type: ComboboxInput,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: 'input[ngComboboxInput]',
-      exportAs: 'ngComboboxInput',
-      host: {
-        'role': 'combobox',
-        '[value]': 'value()',
-        '[attr.aria-disabled]': 'combobox._pattern.disabled()',
-        '[attr.aria-expanded]': 'combobox._pattern.expanded()',
-        '[attr.aria-activedescendant]': 'combobox._pattern.activeDescendant()',
-        '[attr.aria-controls]': 'combobox._pattern.popupId()',
-        '[attr.aria-haspopup]': 'combobox._pattern.hasPopup()',
-        '[attr.aria-autocomplete]': 'combobox._pattern.autocomplete()',
-        '[attr.readonly]': 'combobox._pattern.readonly()'
-      }
-    }]
-  }],
-  ctorParameters: () => [],
-  propDecorators: {
+        alias: "expanded",
+        required: false
+      }]
+    }, {
+      type: i0.Output,
+      args: ["expandedChange"]
+    }],
     value: [{
       type: i0.Input,
       args: [{
@@ -481,28 +259,93 @@ i0.ɵɵngDeclareClassMetadata({
     }, {
       type: i0.Output,
       args: ["valueChange"]
+    }],
+    inlineSuggestion: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "inlineSuggestion",
+        required: false
+      }]
     }]
   }
 });
 
-class ComboboxPopupContainer {
+const COMBOBOX_POPUP = new InjectionToken('COMBOBOX_POPUP');
+
+class ComboboxPopup {
+  _deferredContent = inject(DeferredContent);
+  combobox = input.required(...(ngDevMode ? [{
+    debugName: "combobox"
+  }] : []));
+  _widget = signal(undefined, ...(ngDevMode ? [{
+    debugName: "_widget"
+  }] : []));
+  controlTarget = computed(() => this._widget()?.element, ...(ngDevMode ? [{
+    debugName: "controlTarget"
+  }] : []));
+  popupId = computed(() => this._widget()?.popupId(), ...(ngDevMode ? [{
+    debugName: "popupId"
+  }] : []));
+  activeDescendant = computed(() => this._widget()?.activeDescendant(), ...(ngDevMode ? [{
+    debugName: "activeDescendant"
+  }] : []));
+  popupType = input('listbox', ...(ngDevMode ? [{
+    debugName: "popupType"
+  }] : []));
+  _pattern = new ComboboxPopupPattern({
+    ...this
+  });
+  ngOnInit() {
+    this.combobox()._registerPopup(this);
+    this._deferredContent.deferredContentAware.set(this.combobox());
+  }
+  ngOnDestroy() {
+    this.combobox()._unregisterPopup();
+  }
+  _registerWidget(widget) {
+    this._widget.set(widget);
+  }
+  _unregisterWidget() {
+    this._widget.set(undefined);
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "22.0.0-next.10",
     ngImport: i0,
-    type: ComboboxPopupContainer,
+    type: ComboboxPopup,
     deps: [],
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "14.0.0",
+    minVersion: "17.1.0",
     version: "22.0.0-next.10",
-    type: ComboboxPopupContainer,
+    type: ComboboxPopup,
     isStandalone: true,
-    selector: "ng-template[ngComboboxPopupContainer]",
-    exportAs: ["ngComboboxPopupContainer"],
+    selector: "ng-template[ngComboboxPopup]",
+    inputs: {
+      combobox: {
+        classPropertyName: "combobox",
+        publicName: "combobox",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      },
+      popupType: {
+        classPropertyName: "popupType",
+        publicName: "popupType",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    providers: [{
+      provide: COMBOBOX_POPUP,
+      useExisting: ComboboxPopup
+    }],
+    exportAs: ["ngComboboxPopup"],
     hostDirectives: [{
-      directive: DeferredContent
+      directive: i1.DeferredContent
     }],
     ngImport: i0
   });
@@ -511,16 +354,139 @@ i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
   version: "22.0.0-next.10",
   ngImport: i0,
-  type: ComboboxPopupContainer,
+  type: ComboboxPopup,
   decorators: [{
     type: Directive,
     args: [{
-      selector: 'ng-template[ngComboboxPopupContainer]',
-      exportAs: 'ngComboboxPopupContainer',
-      hostDirectives: [DeferredContent]
+      selector: 'ng-template[ngComboboxPopup]',
+      exportAs: 'ngComboboxPopup',
+      hostDirectives: [DeferredContent],
+      providers: [{
+        provide: COMBOBOX_POPUP,
+        useExisting: ComboboxPopup
+      }]
     }]
-  }]
+  }],
+  propDecorators: {
+    combobox: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "combobox",
+        required: true
+      }]
+    }],
+    popupType: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "popupType",
+        required: false
+      }]
+    }]
+  }
 });
 
-export { Combobox, ComboboxDialog, ComboboxInput, ComboboxPopup, ComboboxPopupContainer, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
+class ComboboxWidget {
+  _elementRef = inject(ElementRef);
+  _popup = inject(COMBOBOX_POPUP);
+  element = this._elementRef.nativeElement;
+  popupId = signal(undefined, ...(ngDevMode ? [{
+    debugName: "popupId"
+  }] : []));
+  activeDescendant = input(undefined, ...(ngDevMode ? [{
+    debugName: "activeDescendant"
+  }] : []));
+  _observer;
+  constructor() {
+    const el = this.element;
+    this._observer = new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        if (mutation.attributeName === 'id') {
+          this.popupId.set(el.id);
+        }
+      }
+    });
+    this._observer.observe(el, {
+      attributes: true,
+      attributeFilter: ['id']
+    });
+  }
+  ngOnInit() {
+    this.popupId.set(this.element.id);
+    this._popup._registerWidget(this);
+  }
+  ngOnDestroy() {
+    this._observer?.disconnect();
+    this._popup._unregisterWidget();
+  }
+  onFocusin() {
+    this._popup._pattern.onFocusin();
+  }
+  onFocusout(event) {
+    this._popup._pattern.onFocusout(event);
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.10",
+    ngImport: i0,
+    type: ComboboxWidget,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "22.0.0-next.10",
+    type: ComboboxWidget,
+    isStandalone: true,
+    selector: "[ngComboboxWidget]",
+    inputs: {
+      activeDescendant: {
+        classPropertyName: "activeDescendant",
+        publicName: "activeDescendant",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      }
+    },
+    host: {
+      listeners: {
+        "focusin": "onFocusin()",
+        "focusout": "onFocusout($event)"
+      }
+    },
+    exportAs: ["ngComboboxWidget"],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.10",
+  ngImport: i0,
+  type: ComboboxWidget,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngComboboxWidget]',
+      exportAs: 'ngComboboxWidget',
+      host: {
+        '(focusin)': 'onFocusin()',
+        '(focusout)': 'onFocusout($event)'
+      }
+    }]
+  }],
+  ctorParameters: () => [],
+  propDecorators: {
+    activeDescendant: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "activeDescendant",
+        required: false
+      }]
+    }]
+  }
+});
+
+export { Combobox, ComboboxPopup, ComboboxWidget };
 //# sourceMappingURL=combobox.mjs.map
