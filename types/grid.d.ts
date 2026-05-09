@@ -17,8 +17,6 @@ import './_click-event-manager-chunk.js';
  * </td>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Grid](guide/aria/grid)
  */
 declare class GridCell implements OnInit, OnDestroy {
@@ -82,8 +80,6 @@ declare class GridCell implements OnInit, OnDestroy {
  * </tr>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Grid](guide/aria/grid)
  */
 declare class GridRow implements OnInit, OnDestroy {
@@ -128,8 +124,6 @@ declare class GridRow implements OnInit, OnDestroy {
  *   }
  * </table>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Grid](guide/aria/grid)
  */
@@ -210,8 +204,6 @@ declare class Grid implements OnDestroy {
  *   <button ngGridCellWidget>Click Me</button>
  * </td>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Grid](guide/aria/grid)
  */

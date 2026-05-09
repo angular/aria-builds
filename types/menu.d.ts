@@ -32,8 +32,6 @@ import './_list-navigation-chunk.js';
  * </div>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
  */
@@ -83,8 +81,6 @@ declare class MenuBar<V> implements OnDestroy {
  *   <div ngMenuItem [submenu]="anotherMenu">Submenu Trigger</div>
  * </div>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
@@ -146,8 +142,6 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
  *   <div ngMenuItem value="Sub Item 2">Sub Item 2</div>
  * </div>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
@@ -220,8 +214,6 @@ declare class Menu<V> implements OnDestroy {
  * </div>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)
  */
@@ -267,8 +259,6 @@ declare class MenuTrigger<V> {
  *   </ng-template>
  * </div>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Menu](guide/aria/menu)
  * @see [MenuBar](guide/aria/menubar)

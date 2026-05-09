@@ -21,8 +21,6 @@ import './_list-navigation-chunk.js';
  * </li>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Tabs](guide/aria/tabs)
  */
 declare class Tab implements HasElement, OnInit, OnDestroy {
@@ -67,8 +65,6 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
  *   <li ngTab value="second">Second Tab</li>
  * </ul>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Tabs](guide/aria/tabs)
  */
@@ -139,8 +135,6 @@ declare class TabList implements OnInit, OnDestroy {
  * </div>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Tabs](guide/aria/tabs)
  */
 declare class TabPanel implements OnInit, OnDestroy {
@@ -196,8 +190,6 @@ declare class TabPanel implements OnInit, OnDestroy {
  * </div>
  * ```
  *
- * @developerPreview 21.0
- *
  * @see [Tabs](guide/aria/tabs)
  */
 declare class Tabs implements OnDestroy {
@@ -239,8 +231,6 @@ declare class Tabs implements OnDestroy {
  *   </ng-template>
  * </div>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Tabs](guide/aria/tabs)
  */

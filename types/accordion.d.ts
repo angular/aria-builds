@@ -27,7 +27,6 @@ import './_list-navigation-chunk.js';
  * </div>
  * ```
  *
- * @developerPreview 21.0
  * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionPanel {
@@ -73,7 +72,6 @@ declare class AccordionPanel {
  * </button>
  * ```
  *
- * @developerPreview 21.0
  * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionTrigger implements OnInit, OnDestroy {
@@ -142,7 +140,6 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
  * </div>
  * ```
  *
- * @developerPreview 21.0
  * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionGroup implements OnDestroy {
@@ -195,7 +192,6 @@ declare class AccordionGroup implements OnDestroy {
  * </div>
  * ```
  *
- * @developerPreview 21.0
  * @see [Accordion](guide/aria/accordion)
  */
 declare class AccordionContent {
