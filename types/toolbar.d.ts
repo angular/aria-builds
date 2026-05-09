@@ -10,8 +10,6 @@ import './_list-navigation-chunk.js';
  * A directive that groups toolbar widgets, used for more complex widgets like radio groups
  * that have their own internal navigation.
  *
- * @developerPreview 21.0
- *
  * @see [Toolbar](guide/aria/toolbar)
  */
 declare class ToolbarWidgetGroup<V> {
@@ -49,8 +47,6 @@ declare class ToolbarWidgetGroup<V> {
  *   Perform Action
  * </button>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Toolbar](guide/aria/toolbar)
  */
@@ -103,8 +99,6 @@ declare class ToolbarWidget<V> implements OnInit, OnDestroy {
  *   </div>
  * </div>
  * ```
- *
- * @developerPreview 21.0
  *
  * @see [Toolbar](guide/aria/toolbar)
  */
