@@ -31,6 +31,7 @@ declare class ToolbarWidgetGroup<V> {
     readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The ToolbarWidgetGroup UIPattern. */
     readonly _pattern: ToolbarWidgetGroupPattern<ToolbarWidgetPattern<V>, V>;
+    constructor();
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ToolbarWidgetGroup<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ToolbarWidgetGroup<any>, "[ngToolbarWidgetGroup]", ["ngToolbarWidgetGroup"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; }, {}, ["_widgets"], never, true, never>;
 }

@@ -36,6 +36,7 @@ declare class AccordionPanel {
     readonly element: HTMLElement;
     /** The DeferredContentAware host directive. */
     private readonly _deferredContentAware;
+    private readonly _accordionContent;
     /** A global unique identifier for the panel. */
     readonly id: _angular_core.InputSignal<string>;
     /** Whether the accordion panel is visible. True if the associated trigger is expanded. */
@@ -54,7 +55,7 @@ declare class AccordionPanel {
     /** Toggles the expansion state of this item. */
     toggle(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<AccordionPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<AccordionPanel, "[ngAccordionPanel]", ["ngAccordionPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; }, {}, ["_accordionContent"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**
@@ -95,6 +96,7 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
     readonly active: _angular_core.Signal<boolean>;
     /** The UI pattern instance for this trigger. */
     _pattern: AccordionTriggerPattern;
+    constructor();
     ngOnInit(): void;
     ngOnDestroy(): void;
     /** Expands this item. */

@@ -2,7 +2,7 @@ import * as i0 from '@angular/core';
 import { inject, ElementRef, computed, input, booleanAttribute, model, signal, afterRenderEffect, afterNextRender, Directive, InjectionToken, contentChildren } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
-import { SortedCollection } from './_collection-chunk.mjs';
+import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
@@ -54,6 +54,13 @@ class Toolbar {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          reportViolations(this._pattern.validate(), this.element);
+        }
+      });
+    }
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });
@@ -390,6 +397,19 @@ class ToolbarWidgetGroup {
     items: this._itemPatterns,
     toolbar: this._toolbarPattern
   });
+  constructor() {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          if (!this._toolbar) {
+            violations.push('ngToolbarWidgetGroup must be placed inside an ngToolbar container.');
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
     version: "22.0.0-next.12",
@@ -450,6 +470,7 @@ i0.ɵɵngDeclareClassMetadata({
       }]
     }]
   }],
+  ctorParameters: () => [],
   propDecorators: {
     _widgets: [{
       type: i0.ContentChildren,

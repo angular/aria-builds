@@ -1,8 +1,8 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, afterRenderEffect, Directive, InjectionToken, booleanAttribute, signal, afterNextRender, model } from '@angular/core';
-import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import { Directive, inject, ElementRef, contentChild, input, computed, afterRenderEffect, InjectionToken, booleanAttribute, signal, afterNextRender, model } from '@angular/core';
+import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
-import { SortedCollection } from './_collection-chunk.mjs';
+import { reportViolations, SortedCollection } from './_violations-chunk.mjs';
 import { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import '@angular/core/primitives/signals';
@@ -10,10 +10,48 @@ import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 
+class AccordionContent {
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.12",
+    ngImport: i0,
+    type: AccordionContent,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "14.0.0",
+    version: "22.0.0-next.12",
+    type: AccordionContent,
+    isStandalone: true,
+    selector: "ng-template[ngAccordionContent]",
+    hostDirectives: [{
+      directive: DeferredContent
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.12",
+  ngImport: i0,
+  type: AccordionContent,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: 'ng-template[ngAccordionContent]',
+      hostDirectives: [DeferredContent]
+    }]
+  }]
+});
+
 class AccordionPanel {
   _elementRef = inject(ElementRef);
   element = this._elementRef.nativeElement;
   _deferredContentAware = inject(DeferredContentAware);
+  _accordionContent = contentChild(AccordionContent, ...(ngDevMode ? [{
+    debugName: "_accordionContent"
+  }] : []));
   id = input(inject(_IdGenerator).getId('ng-accordion-panel-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
@@ -27,6 +65,20 @@ class AccordionPanel {
         this._deferredContentAware.contentVisible.set(this.visible());
       }
     });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          if (!this._accordionContent()) {
+            violations.push('ngAccordionPanel must have an ngAccordionContent to render.');
+          }
+          if (!this._pattern) {
+            violations.push('ngAccordionPanel must have an ngAccordionTrigger to control it.');
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
   }
   expand() {
     this._pattern?.open();
@@ -46,7 +98,7 @@ class AccordionPanel {
     target: i0.ɵɵFactoryTarget.Directive
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
+    minVersion: "17.2.0",
     version: "22.0.0-next.12",
     type: AccordionPanel,
     isStandalone: true,
@@ -70,6 +122,13 @@ class AccordionPanel {
         "attr.inert": "!visible() ? true : null"
       }
     },
+    queries: [{
+      propertyName: "_accordionContent",
+      first: true,
+      predicate: AccordionContent,
+      descendants: true,
+      isSignal: true
+    }],
     exportAs: ["ngAccordionPanel"],
     hostDirectives: [{
       directive: DeferredContentAware,
@@ -102,6 +161,12 @@ i0.ɵɵngDeclareClassMetadata({
   }],
   ctorParameters: () => [],
   propDecorators: {
+    _accordionContent: [{
+      type: i0.ContentChild,
+      args: [i0.forwardRef(() => AccordionContent), {
+        isSignal: true
+      }]
+    }],
     id: [{
       type: i0.Input,
       args: [{
@@ -160,6 +225,13 @@ class AccordionGroup {
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          reportViolations(this._pattern.validate(), this.element);
+        }
+      });
+    }
   }
   ngOnDestroy() {
     this._collection.stopObserving();
@@ -313,6 +385,22 @@ class AccordionTrigger {
     debugName: "active"
   }] : []));
   _pattern;
+  constructor() {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          if (this.panel() && this.panel().element.contains(this.element)) {
+            violations.push('ngAccordionTrigger must not be nested inside its controlled ngAccordionPanel, otherwise it will become unreachable when collapsed.');
+          }
+          if (this.panel() && this.panel()._pattern !== this._pattern) {
+            violations.push('ngAccordionPanel is already controlled by another ngAccordionTrigger.');
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
+  }
   ngOnInit() {
     this._pattern = new AccordionTriggerPattern({
       ...this,
@@ -423,6 +511,7 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
+  ctorParameters: () => [],
   propDecorators: {
     panel: [{
       type: i0.Input,
@@ -460,41 +549,6 @@ i0.ɵɵngDeclareClassMetadata({
       args: ["expandedChange"]
     }]
   }
-});
-
-class AccordionContent {
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.12",
-    ngImport: i0,
-    type: AccordionContent,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "14.0.0",
-    version: "22.0.0-next.12",
-    type: AccordionContent,
-    isStandalone: true,
-    selector: "ng-template[ngAccordionContent]",
-    hostDirectives: [{
-      directive: DeferredContent
-    }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.12",
-  ngImport: i0,
-  type: AccordionContent,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: 'ng-template[ngAccordionContent]',
-      hostDirectives: [DeferredContent]
-    }]
-  }]
 });
 
 export { AccordionContent, AccordionGroup, AccordionPanel, AccordionTrigger, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };

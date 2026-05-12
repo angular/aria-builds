@@ -1,6 +1,6 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
-import { computed, KeyboardEventManager } from './_collection-chunk.mjs';
+import { computed, KeyboardEventManager } from './_violations-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 const focusMode = () => 'roving';
@@ -73,6 +73,16 @@ class AccordionGroupPattern {
   }
   collapseAll() {
     this.expansionBehavior.closeAll();
+  }
+  validate() {
+    const violations = [];
+    if (!this.inputs.multiExpandable()) {
+      const expandedCount = this.inputs.items().filter(t => t.expanded()).length;
+      if (expandedCount > 1) {
+        violations.push('ngAccordionGroup has multiExpandable set to false, but multiple ngAccordionTrigger panels are initially expanded.');
+      }
+    }
+    return violations;
   }
   _findTriggerPattern(element) {
     let target = element;

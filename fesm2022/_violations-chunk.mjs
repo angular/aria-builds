@@ -166,5 +166,14 @@ class SortedCollection {
   }
 }
 
-export { EventManager, KeyboardEventManager, Modifier, SortedCollection, computed, convertGetterSetterToWritableSignalLike, hasModifiers, linkedSignal, signal, sortDirectives };
-//# sourceMappingURL=_collection-chunk.mjs.map
+function reportViolations(violations, element) {
+  if (violations.length) {
+    console.warn('Violations found on element: %o:', element);
+    violations.forEach(violation => {
+      console.warn(violation);
+    });
+  }
+}
+
+export { EventManager, KeyboardEventManager, Modifier, SortedCollection, computed, convertGetterSetterToWritableSignalLike, hasModifiers, linkedSignal, reportViolations, signal, sortDirectives };
+//# sourceMappingURL=_violations-chunk.mjs.map

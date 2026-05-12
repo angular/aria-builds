@@ -1,4 +1,4 @@
-import { computed, signal, KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
+import { computed, signal, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
 import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';
@@ -408,6 +408,11 @@ class TreePattern {
     const violations = [];
     if (!this.inputs.multi() && this.inputs.value().length > 1) {
       violations.push(`A single-select tree should not have multiple selected options. Selected options: ${this.inputs.value().join(', ')}`);
+    }
+    const values = this.inputs.items().map(t => t.value());
+    const duplicates = values.filter((val, idx) => values.indexOf(val) !== idx);
+    if (duplicates.length > 0) {
+      violations.push(`Duplicate tree item value '${duplicates[0]}' detected inside ngTree.`);
     }
     return violations;
   }

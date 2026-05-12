@@ -538,6 +538,8 @@ declare class GridPattern {
     /** Whether the grid state is stale and needs to be reconciled. */
     private readonly _stateStale;
     constructor(inputs: GridInputs);
+    /** Returns a set of violations */
+    validate(): string[];
     /** Handles keydown events on the grid. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles click events on the grid. */

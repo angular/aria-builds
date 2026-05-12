@@ -1,4 +1,4 @@
-import { computed, signal, KeyboardEventManager } from './_collection-chunk.mjs';
+import { computed, signal, KeyboardEventManager } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
 class MenuPattern {
@@ -60,6 +60,15 @@ class MenuPattern {
       ...inputs,
       value: signal([])
     });
+  }
+  validate() {
+    const violations = [];
+    const values = this.inputs.items().map(i => i.value());
+    const duplicates = values.filter((val, idx) => values.indexOf(val) !== idx);
+    if (duplicates.length > 0) {
+      violations.push(`Duplicate value '${duplicates[0]}' detected inside ngMenu.`);
+    }
+    return violations;
   }
   setDefaultState() {
     if (!this.inputs.parent()) {

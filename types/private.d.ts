@@ -22,6 +22,9 @@ import './_list-navigation-chunk.js';
  */
 declare function tabIndexTransform(v: string | number | undefined): number | undefined;
 
+/** Logs each of the violations to the console as errors, optionally with the host element context. */
+declare function reportViolations(violations: string[], element: Element): void;
+
 /** Represents the required inputs for a simple combobox. */
 interface ComboboxInputs extends ExpansionItem {
     /** Whether the combobox should always remain expanded. */
@@ -123,5 +126,5 @@ declare class ComboboxPopupPattern {
     onFocusout(event: FocusEvent): void;
 }
 
-export { ComboboxPattern, ComboboxPopupPattern, SignalLike, WritableSignalLike, tabIndexTransform };
+export { ComboboxPattern, ComboboxPopupPattern, SignalLike, WritableSignalLike, reportViolations, tabIndexTransform };
 export type { ComboboxInputs, ComboboxPopupInputs };

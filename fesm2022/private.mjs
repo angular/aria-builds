@@ -1,7 +1,7 @@
 export { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { computed, signal, untracked } from '@angular/core';
-import { KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
-export { SortedCollection, computed, convertGetterSetterToWritableSignalLike, linkedSignal, signal, sortDirectives } from './_collection-chunk.mjs';
+import { KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
+export { SortedCollection, computed, convertGetterSetterToWritableSignalLike, linkedSignal, reportViolations, signal, sortDirectives } from './_violations-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 export { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 export { GridCellPattern, GridCellWidgetPattern, GridPattern, GridRowPattern, resolveElement } from './_widget-chunk.mjs';

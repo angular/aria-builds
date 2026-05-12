@@ -1,4 +1,4 @@
-import { signal, computed } from './_collection-chunk.mjs';
+import { signal, computed } from './_violations-chunk.mjs';
 
 class ListSelection {
   inputs;

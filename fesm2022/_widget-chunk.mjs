@@ -1,4 +1,4 @@
-import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
+import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
 import { ElementRef } from '@angular/core';
@@ -706,6 +706,16 @@ class GridPattern {
       ...inputs,
       cells: computed(() => this.inputs.rows().map(row => row.inputs.cells()))
     });
+  }
+  validate() {
+    const violations = [];
+    const rows = this.inputs.rows();
+    for (const row of rows) {
+      if (row.inputs.cells().length === 0) {
+        violations.push('ngGridRow must contain at least one ngGridCell.');
+      }
+    }
+    return violations;
   }
   onKeydown(event) {
     if (this.disabled()) return;
