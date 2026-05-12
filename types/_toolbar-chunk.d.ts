@@ -106,6 +106,8 @@ declare class ToolbarPattern<V> {
     private _goto;
     select(): void;
     constructor(inputs: ToolbarInputs<V>);
+    /** Returns a set of violations */
+    validate(): string[];
     /** Handles keydown events for the toolbar. */
     onKeydown(event: KeyboardEvent): void;
     onPointerdown(event: PointerEvent): void;

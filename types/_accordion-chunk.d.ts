@@ -37,6 +37,8 @@ declare class AccordionGroupPattern {
     expandAll(): void;
     /** Collapses all accordion panels. */
     collapseAll(): void;
+    /** Returns a set of violations */
+    validate(): string[];
     /** Finds the trigger pattern for a given element. */
     private _findTriggerPattern;
 }

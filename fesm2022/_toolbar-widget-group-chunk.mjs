@@ -1,4 +1,4 @@
-import { signal, computed, KeyboardEventManager } from './_collection-chunk.mjs';
+import { signal, computed, KeyboardEventManager } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
 class ToolbarPattern {
@@ -100,6 +100,15 @@ class ToolbarPattern {
       selectionMode: () => 'explicit',
       typeaheadDelay: () => 0
     });
+  }
+  validate() {
+    const violations = [];
+    const values = this.inputs.items().map(w => w.value());
+    const duplicates = values.filter((val, idx) => values.indexOf(val) !== idx);
+    if (duplicates.length > 0) {
+      violations.push(`Duplicate value '${duplicates[0]}' detected inside ngToolbar.`);
+    }
+    return violations;
   }
   onKeydown(event) {
     if (this.disabled()) return;

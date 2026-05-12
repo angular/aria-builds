@@ -3,7 +3,7 @@ import { inject, ElementRef, input, booleanAttribute, model, signal, computed, a
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { TreePattern, TreeItemPattern } from './_tree-chunk.mjs';
-import { SortedCollection, sortDirectives } from './_collection-chunk.mjs';
+import { SortedCollection, reportViolations, sortDirectives } from './_violations-chunk.mjs';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import './_expansion-chunk.mjs';
@@ -92,16 +92,13 @@ class Tree {
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });
-    afterRenderEffect({
-      read: () => {
-        if (typeof ngDevMode === 'undefined' || ngDevMode) {
-          const violations = this._pattern.validate();
-          for (const violation of violations) {
-            console.error(violation);
-          }
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          reportViolations(this._pattern.validate(), this.element);
         }
-      }
-    });
+      });
+    }
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });

@@ -1,4 +1,4 @@
-import { signal, computed, KeyboardEventManager, Modifier } from './_collection-chunk.mjs';
+import { signal, computed, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
@@ -149,6 +149,16 @@ class ListboxPattern {
     const violations = [];
     if (!this.inputs.multi() && this.inputs.value().length > 1) {
       violations.push(`A single-select listbox should not have multiple selected options. Selected options: ${this.inputs.value().join(', ')}`);
+    }
+    const values = this.inputs.items().map(o => o.value());
+    const duplicates = values.filter((val, idx) => values.indexOf(val) !== idx);
+    if (duplicates.length > 0) {
+      violations.push(`Duplicate option value '${duplicates[0]}' detected inside ngListbox.`);
+    }
+    const ids = this.inputs.items().map(o => o.id());
+    const duplicateIds = ids.filter((id, idx) => ids.indexOf(id) !== idx);
+    if (duplicateIds.length > 0) {
+      violations.push(`Duplicate option ID '${duplicateIds[0]}' detected inside ngListbox.`);
     }
     return violations;
   }

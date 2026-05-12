@@ -1,9 +1,9 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, output, signal, afterRenderEffect, afterNextRender, untracked } from '@angular/core';
+import { inject, ElementRef, input, computed, booleanAttribute, effect, Directive, InjectionToken, model, afterRenderEffect, output, signal, afterNextRender, untracked } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, MenuPattern } from './_menu-chunk.mjs';
-import { SortedCollection } from './_collection-chunk.mjs';
+import { reportViolations, SortedCollection } from './_violations-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
@@ -205,6 +205,17 @@ class MenuItem {
   });
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          if (!this.parent) {
+            violations.push('ngMenuItem must be placed inside an ngMenu or ngMenuBar container.');
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
   }
   ngOnInit() {
     this.parent?._collection.register(this);
@@ -668,6 +679,13 @@ class Menu {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          reportViolations(this._pattern.validate(), this.element);
+        }
+      });
+    }
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });

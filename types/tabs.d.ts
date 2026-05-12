@@ -46,6 +46,7 @@ declare class Tab implements HasElement, OnInit, OnDestroy {
     readonly _pattern: TabPattern;
     /** Opens this tab panel. */
     open(): void;
+    constructor();
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Tab, never>;
@@ -156,11 +157,12 @@ declare class TabPanel implements OnInit, OnDestroy {
     readonly visible: _angular_core.Signal<boolean>;
     /** The TabPanel UIPattern. */
     readonly _pattern: TabPanelPattern;
+    private readonly _tabContent;
     constructor();
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TabPanel, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabPanel, "[ngTabPanel]", ["ngTabPanel"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; }, {}, ["_tabContent"], never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**

@@ -3,7 +3,7 @@ import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, 
 import { Directionality } from '@angular/cdk/bidi';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
-import { SortedCollection } from './_collection-chunk.mjs';
+import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import './_click-event-manager-chunk.mjs';
 import '@angular/core/primitives/signals';
@@ -88,6 +88,13 @@ class Grid {
     afterRenderEffect({
       write: () => this._pattern.focusEffect()
     });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          reportViolations(this._pattern.validate(), this.element);
+        }
+      });
+    }
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });

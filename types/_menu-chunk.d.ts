@@ -84,6 +84,8 @@ declare class MenuPattern<V> {
     /** Handles keyboard events for the menu. */
     readonly keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuInputs<V>);
+    /** Returns a set of violations */
+    validate(): string[];
     /** Sets the default state for the menu. */
     setDefaultState(): void;
     /** Sets the default active state of the menu before receiving interaction for the first time. */

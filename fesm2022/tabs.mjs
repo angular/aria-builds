@@ -1,10 +1,10 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, signal, computed, afterNextRender, Directive, input, booleanAttribute, model, linkedSignal, afterRenderEffect } from '@angular/core';
+import { InjectionToken, inject, ElementRef, signal, computed, afterNextRender, Directive, input, booleanAttribute, model, linkedSignal, afterRenderEffect, contentChild } from '@angular/core';
 import { TabListPattern, TabPattern, TabPanelPattern } from './_tabs-chunk.mjs';
-import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
+import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
-import { SortedCollection } from './_collection-chunk.mjs';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
@@ -168,6 +168,19 @@ class TabList {
         this.selectedTab.set(tab?.value());
       }
     });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          const values = this._collection.orderedItems().map(t => t.value());
+          const duplicates = values.filter((item, index) => values.indexOf(item) !== index);
+          if (duplicates.length > 0) {
+            violations.push(`Duplicate value '${duplicates[0]}' detected inside ngTabList.`);
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
   }
   ngOnInit() {
     this._tabsParent._register(this);
@@ -400,6 +413,21 @@ class Tab {
   open() {
     this._pattern.open();
   }
+  constructor() {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          if (this._tabList && this._tabList._tabsParent) {
+            if (!this._tabList._tabsParent._panelMap().has(this.value())) {
+              violations.push(`ngTab with value '${this.value()}' does not have a corresponding ngTabPanel.`);
+            }
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
+  }
   ngOnInit() {
     this._tabList._collection.register(this);
   }
@@ -481,6 +509,7 @@ i0.ɵɵngDeclareClassMetadata({
       }
     }]
   }],
+  ctorParameters: () => [],
   propDecorators: {
     id: [{
       type: i0.Input,
@@ -495,131 +524,6 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "disabled",
-        required: false
-      }]
-    }],
-    value: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "value",
-        required: true
-      }]
-    }]
-  }
-});
-
-class TabPanel {
-  _elementRef = inject(ElementRef);
-  element = this._elementRef.nativeElement;
-  _deferredContentAware = inject(DeferredContentAware);
-  _tabs = inject(TABS);
-  id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
-    debugName: "id"
-  }] : []));
-  _tabPattern = computed(() => {
-    return this._tabs._tabMap().get(this.value());
-  }, ...(ngDevMode ? [{
-    debugName: "_tabPattern"
-  }] : []));
-  value = input.required(...(ngDevMode ? [{
-    debugName: "value"
-  }] : []));
-  visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
-    debugName: "visible"
-  }] : []));
-  _pattern = new TabPanelPattern({
-    ...this,
-    tab: this._tabPattern
-  });
-  constructor() {
-    afterRenderEffect(() => this._deferredContentAware.contentVisible.set(this.visible()));
-  }
-  ngOnInit() {
-    this._tabs._collection.register(this);
-  }
-  ngOnDestroy() {
-    this._tabs._collection.unregister(this);
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "22.0.0-next.12",
-    ngImport: i0,
-    type: TabPanel,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "22.0.0-next.12",
-    type: TabPanel,
-    isStandalone: true,
-    selector: "[ngTabPanel]",
-    inputs: {
-      id: {
-        classPropertyName: "id",
-        publicName: "id",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
-        isSignal: true,
-        isRequired: true,
-        transformFunction: null
-      }
-    },
-    host: {
-      attributes: {
-        "role": "tabpanel"
-      },
-      properties: {
-        "attr.id": "_pattern.id()",
-        "attr.tabindex": "_pattern.tabIndex()",
-        "attr.inert": "!visible() ? true : null",
-        "attr.aria-labelledby": "_pattern.labelledBy()"
-      }
-    },
-    exportAs: ["ngTabPanel"],
-    hostDirectives: [{
-      directive: DeferredContentAware,
-      inputs: ["preserveContent", "preserveContent"]
-    }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "22.0.0-next.12",
-  ngImport: i0,
-  type: TabPanel,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[ngTabPanel]',
-      exportAs: 'ngTabPanel',
-      host: {
-        'role': 'tabpanel',
-        '[attr.id]': '_pattern.id()',
-        '[attr.tabindex]': '_pattern.tabIndex()',
-        '[attr.inert]': '!visible() ? true : null',
-        '[attr.aria-labelledby]': '_pattern.labelledBy()'
-      },
-      hostDirectives: [{
-        directive: DeferredContentAware,
-        inputs: ['preserveContent']
-      }]
-    }]
-  }],
-  ctorParameters: () => [],
-  propDecorators: {
-    id: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "id",
         required: false
       }]
     }],
@@ -669,6 +573,165 @@ i0.ɵɵngDeclareClassMetadata({
       hostDirectives: [DeferredContent]
     }]
   }]
+});
+
+class TabPanel {
+  _elementRef = inject(ElementRef);
+  element = this._elementRef.nativeElement;
+  _deferredContentAware = inject(DeferredContentAware);
+  _tabs = inject(TABS);
+  id = input(inject(_IdGenerator).getId('ng-tabpanel-', true), ...(ngDevMode ? [{
+    debugName: "id"
+  }] : []));
+  _tabPattern = computed(() => {
+    return this._tabs._tabMap().get(this.value());
+  }, ...(ngDevMode ? [{
+    debugName: "_tabPattern"
+  }] : []));
+  value = input.required(...(ngDevMode ? [{
+    debugName: "value"
+  }] : []));
+  visible = computed(() => !this._pattern.hidden(), ...(ngDevMode ? [{
+    debugName: "visible"
+  }] : []));
+  _pattern = new TabPanelPattern({
+    ...this,
+    tab: this._tabPattern
+  });
+  _tabContent = contentChild(TabContent, ...(ngDevMode ? [{
+    debugName: "_tabContent"
+  }] : []));
+  constructor() {
+    afterRenderEffect({
+      write: () => {
+        this._deferredContentAware.contentVisible.set(this.visible());
+      }
+    });
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      afterRenderEffect({
+        read: () => {
+          const violations = [];
+          if (!this._tabContent()) {
+            violations.push('ngTabPanel must have an ngTabContent structural directive to render.');
+          }
+          if (!this._tabs._tabMap().has(this.value())) {
+            violations.push(`ngTabPanel with value '${this.value()}' does not have a corresponding ngTab.`);
+          }
+          reportViolations(violations, this.element);
+        }
+      });
+    }
+  }
+  ngOnInit() {
+    this._tabs._collection.register(this);
+  }
+  ngOnDestroy() {
+    this._tabs._collection.unregister(this);
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.12",
+    ngImport: i0,
+    type: TabPanel,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.2.0",
+    version: "22.0.0-next.12",
+    type: TabPanel,
+    isStandalone: true,
+    selector: "[ngTabPanel]",
+    inputs: {
+      id: {
+        classPropertyName: "id",
+        publicName: "id",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      value: {
+        classPropertyName: "value",
+        publicName: "value",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      }
+    },
+    host: {
+      attributes: {
+        "role": "tabpanel"
+      },
+      properties: {
+        "attr.id": "_pattern.id()",
+        "attr.tabindex": "_pattern.tabIndex()",
+        "attr.inert": "!visible() ? true : null",
+        "attr.aria-labelledby": "_pattern.labelledBy()"
+      }
+    },
+    queries: [{
+      propertyName: "_tabContent",
+      first: true,
+      predicate: TabContent,
+      descendants: true,
+      isSignal: true
+    }],
+    exportAs: ["ngTabPanel"],
+    hostDirectives: [{
+      directive: DeferredContentAware,
+      inputs: ["preserveContent", "preserveContent"]
+    }],
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.12",
+  ngImport: i0,
+  type: TabPanel,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[ngTabPanel]',
+      exportAs: 'ngTabPanel',
+      host: {
+        'role': 'tabpanel',
+        '[attr.id]': '_pattern.id()',
+        '[attr.tabindex]': '_pattern.tabIndex()',
+        '[attr.inert]': '!visible() ? true : null',
+        '[attr.aria-labelledby]': '_pattern.labelledBy()'
+      },
+      hostDirectives: [{
+        directive: DeferredContentAware,
+        inputs: ['preserveContent']
+      }]
+    }]
+  }],
+  ctorParameters: () => [],
+  propDecorators: {
+    id: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "id",
+        required: false
+      }]
+    }],
+    value: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "value",
+        required: true
+      }]
+    }],
+    _tabContent: [{
+      type: i0.ContentChild,
+      args: [i0.forwardRef(() => TabContent), {
+        isSignal: true
+      }]
+    }]
+  }
 });
 
 export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
