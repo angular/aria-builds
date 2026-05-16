@@ -169,6 +169,8 @@ declare class Menu<V> implements OnDestroy {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** A reference to the parent menu item or menu trigger. */
     readonly parent: _angular_core.WritableSignal<MenuTrigger<V> | MenuItem<V> | undefined>;
+    /** Whether the menu is soft disabled. */
+    readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The menu ui pattern instance. */
     readonly _pattern: MenuPattern<V>;
     /**
@@ -195,7 +197,7 @@ declare class Menu<V> implements OnDestroy {
     /** Closes the menu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Menu<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "itemSelected": "itemSelected"; }, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Menu<any>, "[ngMenu]", ["ngMenu"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "expansionDelay": { "alias": "expansionDelay"; "required": false; "isSignal": true; }; }, { "itemSelected": "itemSelected"; }, never, never, true, [{ directive: typeof DeferredContentAware; inputs: { "preserveContent": "preserveContent"; }; outputs: {}; }]>;
 }
 
 /**
