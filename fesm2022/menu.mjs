@@ -415,7 +415,6 @@ class MenuBar {
       ...this,
       items: this._itemPatterns,
       multi: () => false,
-      softDisabled: () => true,
       focusMode: () => 'roving',
       orientation: () => 'horizontal',
       selectionMode: () => 'explicit',
@@ -627,6 +626,12 @@ class Menu {
   parent = signal(undefined, ...(ngDevMode ? [{
     debugName: "parent"
   }] : []));
+  softDisabled = input(true, {
+    ...(ngDevMode ? {
+      debugName: "softDisabled"
+    } : {}),
+    transform: booleanAttribute
+  });
   _pattern;
   _itemPatterns = computed(() => {
     this._pattern.visible();
@@ -650,7 +655,6 @@ class Menu {
       parent: computed(() => this.parent()?._pattern),
       items: this._itemPatterns,
       multi: () => false,
-      softDisabled: () => true,
       focusMode: () => 'roving',
       orientation: () => 'vertical',
       selectionMode: () => 'explicit',
@@ -735,6 +739,13 @@ class Menu {
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      softDisabled: {
+        classPropertyName: "softDisabled",
+        publicName: "softDisabled",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -845,6 +856,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "disabled",
+        required: false
+      }]
+    }],
+    softDisabled: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "softDisabled",
         required: false
       }]
     }],

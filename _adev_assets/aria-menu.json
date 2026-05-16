@@ -704,7 +704,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu-bar.ts",
         "startLine": 55,
-        "endLine": 140
+        "endLine": 139
       }
     },
     {
@@ -780,6 +780,16 @@
             "readonly"
           ],
           "description": "A reference to the parent menu item or menu trigger.",
+          "jsdocTags": []
+        },
+        {
+          "name": "softDisabled",
+          "type": "InputSignalWithTransform<boolean, unknown>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly"
+          ],
+          "description": "Whether the menu is soft disabled.",
           "jsdocTags": []
         },
         {
@@ -912,7 +922,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu.ts",
         "startLine": 57,
-        "endLine": 213
+        "endLine": 215
       }
     }
   ],
@@ -1187,6 +1197,10 @@
     ],
     [
       "Menu.parent",
+      "@angular/aria/menu"
+    ],
+    [
+      "Menu.softDisabled",
       "@angular/aria/menu"
     ],
     [
