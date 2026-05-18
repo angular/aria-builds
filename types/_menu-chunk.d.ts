@@ -43,6 +43,8 @@ interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
     parent: SignalLike<MenuPattern<V> | MenuBarPattern<V> | undefined>;
     /** A reference to the submenu associated with the menu item. */
     submenu: SignalLike<MenuPattern<V> | undefined>;
+    /** The role of the menu item. */
+    role: SignalLike<'menuitem' | 'menuitemradio' | 'menuitemcheckbox'>;
 }
 /** The menu ui pattern class. */
 declare class MenuPattern<V> {
@@ -252,7 +254,7 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** The ID of the menu that the menu item controls. */
     readonly controls: WritableSignalLike<string | undefined>;
     /** The role of the menu item. */
-    readonly role: () => string;
+    readonly role: () => "menuitem" | "menuitemradio" | "menuitemcheckbox";
     /** Whether the menu item has a popup. */
     readonly hasPopup: SignalLike<boolean>;
     /** The submenu associated with the menu item. */

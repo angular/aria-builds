@@ -98,6 +98,8 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
     readonly disabled: _angular_core.InputSignal<boolean>;
     /** The search term associated with the menu item. */
     readonly searchTerm: _angular_core.ModelSignal<string>;
+    /** The role of the menu item. */
+    readonly role: _angular_core.InputSignal<"menuitem" | "menuitemradio" | "menuitemcheckbox">;
     /** A reference to the parent menu or menubar. */
     readonly parent: Menu<V> | MenuBar<V> | null;
     /** The submenu associated with the menu item. */
@@ -118,7 +120,7 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
     /** Closes the submenu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuItem<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
 }
 
 /**

@@ -513,7 +513,7 @@ class MenuItemPattern {
   expanded = computed(() => this.submenu() ? this._expanded() : null);
   _expanded = signal(false);
   controls = signal(undefined);
-  role = () => 'menuitem';
+  role = () => this.inputs.role();
   hasPopup = computed(() => !!this.submenu());
   submenu;
   selectable;

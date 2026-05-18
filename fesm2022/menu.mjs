@@ -180,6 +180,9 @@ class MenuItem {
   searchTerm = model('', ...(ngDevMode ? [{
     debugName: "searchTerm"
   }] : []));
+  role = input('menuitem', ...(ngDevMode ? [{
+    debugName: "role"
+  }] : []));
   parent = inject(MENU_COMPONENT, {
     optional: true
   });
@@ -202,7 +205,8 @@ class MenuItem {
     disabled: this.disabled,
     searchTerm: this.searchTerm,
     parent: computed(() => this.parent?._pattern),
-    submenu: computed(() => this.submenu()?._pattern)
+    submenu: computed(() => this.submenu()?._pattern),
+    role: this.role
   });
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
@@ -275,6 +279,13 @@ class MenuItem {
         isRequired: false,
         transformFunction: null
       },
+      role: {
+        classPropertyName: "role",
+        publicName: "role",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
       submenu: {
         classPropertyName: "submenu",
         publicName: "submenu",
@@ -287,13 +298,11 @@ class MenuItem {
       searchTerm: "searchTermChange"
     },
     host: {
-      attributes: {
-        "role": "menuitem"
-      },
       listeners: {
         "focusin": "_pattern.onFocusIn()"
       },
       properties: {
+        "attr.role": "_pattern.role()",
         "attr.tabindex": "_pattern.tabIndex()",
         "attr.data-active": "active()",
         "attr.aria-haspopup": "hasPopup()",
@@ -317,7 +326,7 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngMenuItem]',
       exportAs: 'ngMenuItem',
       host: {
-        'role': 'menuitem',
+        '[attr.role]': '_pattern.role()',
         '(focusin)': '_pattern.onFocusIn()',
         '[attr.tabindex]': '_pattern.tabIndex()',
         '[attr.data-active]': 'active()',
@@ -364,6 +373,14 @@ i0.ɵɵngDeclareClassMetadata({
     }, {
       type: i0.Output,
       args: ["searchTermChange"]
+    }],
+    role: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "role",
+        required: false
+      }]
     }],
     submenu: [{
       type: i0.Input,
