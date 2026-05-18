@@ -412,6 +412,7 @@ class MenuTriggerPattern {
   inputs;
   expanded = signal(false);
   hasBeenInteracted = signal(false);
+  pendingFocus = signal(undefined);
   role = () => 'button';
   hasPopup = () => true;
   menu;
@@ -433,6 +434,18 @@ class MenuTriggerPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.menu = this.inputs.menu;
+  }
+  pendingFocusEffect() {
+    const menu = this.inputs.menu();
+    const intent = this.pendingFocus();
+    if (menu && intent) {
+      if (intent === 'first') {
+        menu.first();
+      } else if (intent === 'last') {
+        menu.last();
+      }
+      this.pendingFocus.set(undefined);
+    }
   }
   onKeydown(event) {
     if (!this.inputs.disabled()) {
@@ -460,13 +473,14 @@ class MenuTriggerPattern {
   open(opts) {
     this.expanded.set(true);
     if (opts?.first) {
-      this.inputs.menu()?.first();
+      this.pendingFocus.set('first');
     } else if (opts?.last) {
-      this.inputs.menu()?.last();
+      this.pendingFocus.set('last');
     }
   }
   close(opts = {}) {
     this.expanded.set(false);
+    this.pendingFocus.set(undefined);
     this.menu()?.listBehavior.unfocus();
     if (opts.refocus) {
       this.inputs.element()?.focus();
