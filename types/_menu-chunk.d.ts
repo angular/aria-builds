@@ -189,6 +189,8 @@ declare class MenuTriggerPattern<V> {
     readonly expanded: WritableSignalLike<boolean>;
     /** Whether the menu trigger has received interaction. */
     readonly hasBeenInteracted: WritableSignalLike<boolean>;
+    /** The pending focus target when the menu is opened before the menu instance is available. */
+    readonly pendingFocus: WritableSignalLike<"first" | "last" | undefined>;
     /** The role of the menu trigger. */
     readonly role: () => string;
     /** Whether the menu trigger has a popup. */
@@ -202,6 +204,8 @@ declare class MenuTriggerPattern<V> {
     /** Handles keyboard events for the menu trigger. */
     readonly keydownManager: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     constructor(inputs: MenuTriggerInputs<V>);
+    /** Flushes any pending focus when the menu instance becomes available. */
+    pendingFocusEffect(): void;
     /** Handles keyboard events for the menu trigger. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles click events for the menu trigger. */

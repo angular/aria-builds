@@ -43,6 +43,7 @@ class MenuTrigger {
   });
   constructor() {
     effect(() => this.menu()?.parent.set(this));
+    effect(() => this._pattern.pendingFocusEffect());
   }
   open() {
     this._pattern.open({
