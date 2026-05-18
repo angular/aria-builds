@@ -282,6 +282,19 @@
           "outputAlias": "searchTermChange"
         },
         {
+          "name": "role",
+          "type": "InputSignal<\"menuitem\" | \"menuitemradio\" | \"menuitemcheckbox\">",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "input"
+          ],
+          "description": "The role of the menu item.",
+          "jsdocTags": [],
+          "inputAlias": "role",
+          "isRequiredInput": false
+        },
+        {
           "name": "parent",
           "type": "Menu<V> | MenuBar<V> | null",
           "memberType": "property",
@@ -499,7 +512,7 @@
       "source": {
         "filePath": "/src/aria/menu/menu-item.ts",
         "startLine": 43,
-        "endLine": 136
+        "endLine": 140
       }
     },
     {
@@ -1085,6 +1098,10 @@
     ],
     [
       "MenuItem.searchTerm",
+      "@angular/aria/menu"
+    ],
+    [
+      "MenuItem.role",
       "@angular/aria/menu"
     ],
     [
