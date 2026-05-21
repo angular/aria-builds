@@ -44,6 +44,9 @@ class MenuTrigger {
   constructor() {
     effect(() => this.menu()?.parent.set(this));
     effect(() => this._pattern.pendingFocusEffect());
+    if (this.element.tagName === 'BUTTON' && !this.element.hasAttribute('type')) {
+      this.element.setAttribute('type', 'button');
+    }
   }
   open() {
     this._pattern.open({

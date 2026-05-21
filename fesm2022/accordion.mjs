@@ -386,6 +386,9 @@ class AccordionTrigger {
   }] : []));
   _pattern;
   constructor() {
+    if (this.element.tagName === 'BUTTON' && !this.element.hasAttribute('type')) {
+      this.element.setAttribute('type', 'button');
+    }
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       afterRenderEffect({
         read: () => {
