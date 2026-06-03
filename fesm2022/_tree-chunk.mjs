@@ -257,7 +257,7 @@ class TreePattern {
   activeDescendant = computed(() => this.treeBehavior.activeDescendant());
   children = computed(() => this.inputs.items().filter(item => item.level() === this.level() + 1));
   followFocus = computed(() => this.inputs.selectionMode() === 'follow');
-  isRtl = computed(() => this.inputs.textDirection() === 'rtl');
+  isRtl = computed(() => this.textDirection() === 'rtl');
   prevKey = computed(() => {
     if (this.inputs.orientation() === 'vertical') {
       return 'ArrowUp';
@@ -389,7 +389,7 @@ class TreePattern {
   softDisabled = () => this.inputs.softDisabled();
   wrap = () => this.inputs.wrap();
   orientation = () => this.inputs.orientation();
-  textDirection = () => this.textDirection();
+  textDirection = () => this.inputs.textDirection();
   multi = computed(() => this.nav() ? false : this.inputs.multi());
   selectionMode = () => this.inputs.selectionMode();
   typeaheadDelay = () => this.inputs.typeaheadDelay();
