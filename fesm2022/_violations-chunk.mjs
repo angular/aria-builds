@@ -73,7 +73,7 @@ class KeyboardEventManager extends EventManager {
     };
   }
   _isMatch(event, key, modifiers, options) {
-    if (!hasModifiers(event, modifiers)) {
+    if (event.key == null || !hasModifiers(event, modifiers)) {
       return false;
     }
     if (event.repeat && options?.ignoreRepeat !== false) {
