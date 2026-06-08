@@ -138,11 +138,12 @@ class ComboboxPattern {
     const event = this.keyboardEventRelay();
     if (event === undefined) return;
     this.isDeleting.set(false);
-    const popup = untracked(() => this.inputs.popup());
-    const popupExpanded = untracked(() => this.isExpanded());
-    if (popupExpanded) {
-      popup?.controlTarget()?.dispatchEvent(event);
-    }
+    untracked(() => {
+      const popup = this.inputs.popup();
+      if (this.isExpanded()) {
+        popup?.controlTarget()?.dispatchEvent(event);
+      }
+    });
   }
   closePopupOnBlurEffect() {
     const expanded = this.isExpanded();
