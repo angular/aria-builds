@@ -1,5 +1,5 @@
 import { ListExpansion } from './_expansion-chunk.mjs';
-import { signal, computed, linkedSignal, KeyboardEventManager } from './_violations-chunk.mjs';
+import { signal, computed, KeyboardEventManager, linkedSignal } from './_violations-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
