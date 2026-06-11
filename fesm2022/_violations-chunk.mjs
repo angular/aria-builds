@@ -60,7 +60,7 @@ class KeyboardEventManager extends EventManager {
     return this;
   }
   _normalizeInputs(...args) {
-    const withModifiers = Array.isArray(args[0]) || args[0] in Modifier;
+    const withModifiers = Array.isArray(args[0]) || Modifier.hasOwnProperty(args[0]);
     const modifiers = withModifiers ? args[0] : Modifier.None;
     const key = withModifiers ? args[1] : args[0];
     const handler = withModifiers ? args[2] : args[1];
