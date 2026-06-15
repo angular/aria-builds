@@ -17,6 +17,12 @@ class Combobox extends DeferredContentAware {
     } : {}),
     transform: booleanAttribute
   });
+  readonly = input(false, {
+    ...(ngDevMode ? {
+      debugName: "readonly"
+    } : {}),
+    transform: booleanAttribute
+  });
   softDisabled = input(true, {
     ...(ngDevMode ? {
       debugName: "softDisabled"
@@ -47,6 +53,7 @@ class Combobox extends DeferredContentAware {
   }] : []));
   _pattern = new ComboboxPattern({
     ...this,
+    readonly: () => this.readonly(),
     element: () => this.element,
     expandable: () => true,
     popup: computed(() => this._popup()?._pattern)
@@ -96,6 +103,13 @@ class Combobox extends DeferredContentAware {
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
+        isSignal: true,
+        isRequired: false,
+        transformFunction: null
+      },
+      readonly: {
+        classPropertyName: "readonly",
+        publicName: "readonly",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -161,13 +175,14 @@ class Combobox extends DeferredContentAware {
       properties: {
         "attr.aria-autocomplete": "_pattern.autocomplete()",
         "attr.aria-disabled": "_pattern.disabled()",
+        "attr.aria-readonly": "_pattern.ariaReadonly()",
         "attr.aria-expanded": "_pattern.isExpanded()",
         "attr.aria-activedescendant": "_pattern.activeDescendant()",
         "attr.aria-controls": "_pattern.popupId()",
         "attr.aria-haspopup": "_pattern.popupType()",
         "attr.tabindex": "disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)",
-        "attr.disabled": "disabled() && !softDisabled() ? \"\" : null",
-        "attr.readonly": "disabled() && _pattern.isEditable() ? \"\" : null"
+        "attr.disabled": "_pattern.nativeDisabled()",
+        "attr.readonly": "_pattern.nativeReadonly()"
       }
     },
     exportAs: ["ngCombobox"],
@@ -189,13 +204,14 @@ i0.ɵɵngDeclareClassMetadata({
         'role': 'combobox',
         '[attr.aria-autocomplete]': '_pattern.autocomplete()',
         '[attr.aria-disabled]': '_pattern.disabled()',
+        '[attr.aria-readonly]': '_pattern.ariaReadonly()',
         '[attr.aria-expanded]': '_pattern.isExpanded()',
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '[attr.aria-controls]': '_pattern.popupId()',
         '[attr.aria-haspopup]': '_pattern.popupType()',
         '[attr.tabindex]': 'disabled() && !softDisabled() ? -1 : (tabIndex() !== undefined ? tabIndex() : 0)',
-        '[attr.disabled]': 'disabled() && !softDisabled() ? "" : null',
-        '[attr.readonly]': 'disabled() && _pattern.isEditable() ? "" : null',
+        '[attr.disabled]': '_pattern.nativeDisabled()',
+        '[attr.readonly]': '_pattern.nativeReadonly()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusin)': '_pattern.onFocusin()',
         '(focusout)': '_pattern.onFocusout($event)',
@@ -211,6 +227,14 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "disabled",
+        required: false
+      }]
+    }],
+    readonly: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "readonly",
         required: false
       }]
     }],

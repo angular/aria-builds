@@ -39,6 +39,8 @@ interface ComboboxInputs extends ExpansionItem {
     inlineSuggestion: SignalLike<string | undefined>;
     /** Whether the combobox is disabled. */
     disabled: SignalLike<boolean>;
+    /** Whether the combobox is readonly. */
+    readonly: SignalLike<boolean>;
     /** Whether the combobox is soft disabled. */
     softDisabled?: SignalLike<boolean>;
 }
@@ -53,6 +55,8 @@ declare class ComboboxPattern {
     readonly element: () => HTMLElement;
     /** Whether the combobox is disabled. */
     readonly disabled: () => boolean;
+    /** Whether the combobox is readonly. */
+    readonly readonly: () => boolean;
     /** Whether the combobox is soft disabled. */
     readonly softDisabled: () => boolean;
     /** An inline suggestion to be displayed in the input. */
@@ -73,6 +77,12 @@ declare class ComboboxPattern {
     readonly isDeleting: _angular_core.WritableSignal<boolean>;
     /** Whether the combobox is editable (i.e., an input or textarea). */
     readonly isEditable: _angular_core.Signal<boolean>;
+    /** The aria-readonly attribute value for non-editable comboboxes. */
+    readonly ariaReadonly: _angular_core.Signal<"true" | null>;
+    /** The native readonly attribute value for editable comboboxes. */
+    readonly nativeReadonly: _angular_core.Signal<"" | null>;
+    /** The native disabled attribute value for hard-disabled comboboxes. */
+    readonly nativeDisabled: _angular_core.Signal<"" | null>;
     /** The keydown event manager for the combobox. */
     keydown: _angular_core.Signal<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the combobox. */

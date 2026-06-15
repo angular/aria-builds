@@ -23,6 +23,7 @@ class ComboboxPattern {
   value;
   element = () => this.inputs.element();
   disabled = () => this.inputs.disabled();
+  readonly = () => this.inputs.readonly();
   softDisabled = () => this.inputs.softDisabled?.() ?? true;
   inlineSuggestion = () => this.inputs.inlineSuggestion();
   activeDescendant = computed(() => this.inputs.popup()?.activeDescendant());
@@ -47,13 +48,18 @@ class ComboboxPattern {
   isFocused = signal(false);
   isDeleting = signal(false);
   isEditable = computed(() => this.element().tagName.toLowerCase() === 'input' || this.element().tagName.toLowerCase() === 'textarea');
+  ariaReadonly = computed(() => this.readonly() && !this.isEditable() ? 'true' : null);
+  nativeReadonly = computed(() => (this.readonly() || this.disabled()) && this.isEditable() ? '' : null);
+  nativeDisabled = computed(() => this.disabled() && !this.softDisabled() ? '' : null);
   keydown = computed(() => {
     const manager = new KeyboardEventManager();
     if (!this.isExpanded()) {
-      manager.on('ArrowDown', () => this.inputs.expanded.set(true));
-      if (!this.isEditable()) {
-        manager.on('Enter', () => this.inputs.expanded.set(true));
-        manager.on(' ', () => this.inputs.expanded.set(true));
+      if (!this.readonly()) {
+        manager.on('ArrowDown', () => this.inputs.expanded.set(true));
+        if (!this.isEditable()) {
+          manager.on('Enter', () => this.inputs.expanded.set(true));
+          manager.on(' ', () => this.inputs.expanded.set(true));
+        }
       }
       return manager;
     }
@@ -75,12 +81,15 @@ class ComboboxPattern {
       ignoreRepeat: false
     }).on(Modifier.Shift, 'ArrowDown', e => this.keyboardEventRelay.set(e), {
       ignoreRepeat: false
-    }).on('Home', e => this.keyboardEventRelay.set(e)).on('End', e => this.keyboardEventRelay.set(e)).on('Enter', e => this.keyboardEventRelay.set(e)).on('PageUp', e => this.keyboardEventRelay.set(e)).on('PageDown', e => this.keyboardEventRelay.set(e)).on('Escape', () => {
+    }).on('Home', e => this.keyboardEventRelay.set(e)).on('End', e => this.keyboardEventRelay.set(e)).on('PageUp', e => this.keyboardEventRelay.set(e)).on('PageDown', e => this.keyboardEventRelay.set(e)).on('Escape', () => {
       if (!this.inputs.alwaysExpanded()) {
         this.inputs.expanded.set(false);
       }
     });
-    if (!this.isEditable()) {
+    if (!this.readonly()) {
+      manager.on('Enter', e => this.keyboardEventRelay.set(e));
+    }
+    if (!this.isEditable() && !this.readonly()) {
       manager.on(' ', e => this.keyboardEventRelay.set(e)).on([Modifier.Ctrl, Modifier.Meta], 'a', e => this.keyboardEventRelay.set(e)).on([Modifier.Ctrl, Modifier.Meta], 'A', e => this.keyboardEventRelay.set(e)).on(Modifier.Shift, 'Home', e => this.keyboardEventRelay.set(e)).on(Modifier.Shift, 'End', e => this.keyboardEventRelay.set(e)).on(/^.$/, e => {
         this.keyboardEventRelay.set(e);
       });
@@ -89,7 +98,7 @@ class ComboboxPattern {
   });
   click = computed(() => {
     const manager = new ClickEventManager();
-    if (this.isEditable()) return manager;
+    if (this.isEditable() || this.readonly()) return manager;
     manager.on(() => this.inputs.expanded.update(v => !v));
     return manager;
   });
@@ -115,7 +124,7 @@ class ComboboxPattern {
   }
   onInput(event) {
     if (!(event.target instanceof HTMLInputElement)) return;
-    if (this.disabled()) return;
+    if (this.disabled() || this.readonly()) return;
     this.inputs.expanded.set(true);
     this.value.set(event.target.value);
     this.isDeleting.set(event instanceof InputEvent && !!event.inputType.match(/^delete/));
@@ -126,7 +135,7 @@ class ComboboxPattern {
     const isDeleting = untracked(() => this.isDeleting());
     const isFocused = untracked(() => this.isFocused());
     const isExpanded = this.isExpanded();
-    if (!inlineSuggestion || !isFocused || !isExpanded || isDeleting) return;
+    if (!inlineSuggestion || !isFocused || !isExpanded || isDeleting || this.readonly()) return;
     const inputEl = this.element();
     const isHighlightable = inlineSuggestion.toLowerCase().startsWith(value.toLowerCase());
     if (isHighlightable) {
