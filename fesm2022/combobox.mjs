@@ -60,7 +60,9 @@ class Combobox extends DeferredContentAware {
   });
   constructor() {
     super();
-    afterRenderEffect(() => this._pattern.keyboardEventRelayEffect());
+    afterRenderEffect({
+      write: () => this._pattern.keyboardEventRelayEffect()
+    });
     afterRenderEffect(() => this._pattern.closePopupOnBlurEffect());
     afterRenderEffect(() => {
       this.contentVisible.set(this._pattern.isExpanded());

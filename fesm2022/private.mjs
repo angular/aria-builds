@@ -150,7 +150,8 @@ class ComboboxPattern {
     untracked(() => {
       const popup = this.inputs.popup();
       if (this.isExpanded()) {
-        popup?.controlTarget()?.dispatchEvent(event);
+        const relayedEvent = new KeyboardEvent(event.type, event);
+        popup?.controlTarget()?.dispatchEvent(relayedEvent);
       }
     });
   }
