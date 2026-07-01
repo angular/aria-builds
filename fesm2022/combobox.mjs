@@ -89,7 +89,7 @@ class Combobox extends DeferredContentAware {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.1",
+    version: "22.1.0-next.3",
     ngImport: i0,
     type: Combobox,
     deps: [],
@@ -97,7 +97,7 @@ class Combobox extends DeferredContentAware {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.1",
+    version: "22.1.0-next.3",
     type: Combobox,
     isStandalone: true,
     selector: "[ngCombobox]",
@@ -194,7 +194,7 @@ class Combobox extends DeferredContentAware {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.1",
+  version: "22.1.0-next.3",
   ngImport: i0,
   type: Combobox,
   decorators: [{
@@ -337,7 +337,7 @@ class ComboboxPopup {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.1",
+    version: "22.1.0-next.3",
     ngImport: i0,
     type: ComboboxPopup,
     deps: [],
@@ -345,7 +345,7 @@ class ComboboxPopup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.1",
+    version: "22.1.0-next.3",
     type: ComboboxPopup,
     isStandalone: true,
     selector: "ng-template[ngComboboxPopup]",
@@ -378,7 +378,7 @@ class ComboboxPopup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.1",
+  version: "22.1.0-next.3",
   ngImport: i0,
   type: ComboboxPopup,
   decorators: [{
@@ -454,7 +454,7 @@ class ComboboxWidget {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.1",
+    version: "22.1.0-next.3",
     ngImport: i0,
     type: ComboboxWidget,
     deps: [],
@@ -462,7 +462,7 @@ class ComboboxWidget {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.1",
+    version: "22.1.0-next.3",
     type: ComboboxWidget,
     isStandalone: true,
     selector: "[ngComboboxWidget]",
@@ -487,7 +487,7 @@ class ComboboxWidget {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.1",
+  version: "22.1.0-next.3",
   ngImport: i0,
   type: ComboboxWidget,
   decorators: [{
