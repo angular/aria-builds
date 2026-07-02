@@ -73,7 +73,7 @@ class Toolbar {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.3",
+    version: "22.1.0-next.4",
     ngImport: i0,
     type: Toolbar,
     deps: [],
@@ -81,7 +81,7 @@ class Toolbar {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.3",
+    version: "22.1.0-next.4",
     type: Toolbar,
     isStandalone: true,
     selector: "[ngToolbar]",
@@ -147,7 +147,7 @@ class Toolbar {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.3",
+  version: "22.1.0-next.4",
   ngImport: i0,
   type: Toolbar,
   decorators: [{
@@ -263,7 +263,7 @@ class ToolbarWidget {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.3",
+    version: "22.1.0-next.4",
     ngImport: i0,
     type: ToolbarWidget,
     deps: [],
@@ -271,7 +271,7 @@ class ToolbarWidget {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.3",
+    version: "22.1.0-next.4",
     type: ToolbarWidget,
     isStandalone: true,
     selector: "[ngToolbarWidget]",
@@ -317,7 +317,7 @@ class ToolbarWidget {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.3",
+  version: "22.1.0-next.4",
   ngImport: i0,
   type: ToolbarWidget,
   decorators: [{
@@ -412,7 +412,7 @@ class ToolbarWidgetGroup {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.3",
+    version: "22.1.0-next.4",
     ngImport: i0,
     type: ToolbarWidgetGroup,
     deps: [],
@@ -420,7 +420,7 @@ class ToolbarWidgetGroup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "22.1.0-next.3",
+    version: "22.1.0-next.4",
     type: ToolbarWidgetGroup,
     isStandalone: true,
     selector: "[ngToolbarWidgetGroup]",
@@ -456,7 +456,7 @@ class ToolbarWidgetGroup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.3",
+  version: "22.1.0-next.4",
   ngImport: i0,
   type: ToolbarWidgetGroup,
   decorators: [{
