@@ -75,14 +75,14 @@ class Listbox {
   }] : []));
   _pattern;
   activeDescendant;
+  _orderedItemPatterns = computed(() => this._collection.orderedItems().map(option => option._pattern), ...(ngDevMode ? [{
+    debugName: "_orderedItemPatterns"
+  }] : []));
   constructor() {
-    const orderedItemPatterns = computed(() => this._collection.orderedItems().map(option => option._pattern), ...(ngDevMode ? [{
-      debugName: "orderedItemPatterns"
-    }] : []));
     const inputs = {
       ...this,
       id: this.id,
-      items: orderedItemPatterns,
+      items: this._orderedItemPatterns,
       activeItem: signal(undefined),
       textDirection: this.textDirection,
       element: () => this._elementRef.nativeElement
@@ -134,6 +134,13 @@ class Listbox {
   }
   gotoFirst() {
     this._pattern.listBehavior.first();
+  }
+  gotoIndex(index) {
+    const patterns = this._orderedItemPatterns();
+    const item = patterns[Math.min(Math.max(index, 0), patterns.length - 1)];
+    if (item) {
+      this._pattern.listBehavior.goto(item);
+    }
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
