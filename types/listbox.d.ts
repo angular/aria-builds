@@ -123,11 +123,14 @@ declare class Listbox<V> implements OnDestroy {
     readonly _pattern: ListboxPattern<V>;
     /** The ID of the active descendant in the listbox. */
     readonly activeDescendant: Signal<string | undefined>;
+    private readonly _orderedItemPatterns;
     constructor();
     ngOnDestroy(): void;
     scrollActiveItemIntoView(options?: ScrollIntoViewOptions): void;
     /** Navigates to the first item in the listbox. */
     gotoFirst(): void;
+    /** Navigates to an item at a specific index in the listbox. */
+    gotoIndex(index: number): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<Listbox<any>, never>;
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;
 }
