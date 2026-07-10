@@ -95,15 +95,13 @@ declare class ComboboxPattern {
     /** Handles focus in events for the combobox. */
     onFocusin(): void;
     /** Handles focus out events for the combobox. */
-    onFocusout(event: FocusEvent): void;
+    onFocusout(): void;
     /** Handles input events for the combobox. */
     onInput(event: Event): void;
     /** Highlights the currently selected item in the combobox. */
     highlightEffect(): void;
     /** Relays keyboard events to the popup. */
     keyboardEventRelayEffect(): void;
-    /** Closes the popup when focus leaves the combobox and popup. */
-    closePopupOnBlurEffect(): void;
 }
 /** Represents the required inputs for a simple combobox popup. */
 interface ComboboxPopupInputs {

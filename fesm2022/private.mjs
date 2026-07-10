@@ -119,7 +119,14 @@ class ComboboxPattern {
   onFocusin() {
     this.isFocused.set(true);
   }
-  onFocusout(event) {
+  onFocusout() {
+    setTimeout(() => {
+      const comboboxFocused = this.isFocused();
+      const popupFocused = !!this.inputs.popup()?.isFocused();
+      if (!this.inputs.alwaysExpanded() && !comboboxFocused && !popupFocused) {
+        this.inputs.expanded.set(false);
+      }
+    });
     this.isFocused.set(false);
   }
   onInput(event) {
@@ -154,14 +161,6 @@ class ComboboxPattern {
         popup?.controlTarget()?.dispatchEvent(relayedEvent);
       }
     });
-  }
-  closePopupOnBlurEffect() {
-    const expanded = this.isExpanded();
-    const comboboxFocused = this.isFocused();
-    const popupFocused = !!this.inputs.popup()?.isFocused();
-    if (expanded && !this.inputs.alwaysExpanded() && !comboboxFocused && !popupFocused) {
-      this.inputs.expanded.set(false);
-    }
   }
 }
 class ComboboxPopupPattern {
