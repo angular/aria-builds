@@ -56,7 +56,6 @@ class Combobox extends DeferredContentAware {
     afterRenderEffect({
       write: () => this._pattern.keyboardEventRelayEffect()
     });
-    afterRenderEffect(() => this._pattern.closePopupOnBlurEffect());
     afterRenderEffect(() => {
       this.contentVisible.set(this._pattern.isExpanded());
     });
@@ -156,7 +155,7 @@ class Combobox extends DeferredContentAware {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "focusin": "_pattern.onFocusin()",
-        "focusout": "_pattern.onFocusout($event)",
+        "focusout": "_pattern.onFocusout()",
         "click": "_pattern.onClick($event)",
         "input": "_pattern.onInput($event)"
       },
@@ -200,7 +199,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.readonly]': 'disabled() && _pattern.isEditable() ? "" : null',
         '(keydown)': '_pattern.onKeydown($event)',
         '(focusin)': '_pattern.onFocusin()',
-        '(focusout)': '_pattern.onFocusout($event)',
+        '(focusout)': '_pattern.onFocusout()',
         '(click)': '_pattern.onClick($event)',
         '(input)': '_pattern.onInput($event)'
       }
