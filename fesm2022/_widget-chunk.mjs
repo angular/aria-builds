@@ -133,7 +133,8 @@ class GridFocus {
     const activeCoordsCell = this.inputs.grid.getCell(activeCoords);
     const activeCellNotValid = activeCellCoords === undefined;
     const activeCellMismatch = activeCell !== activeCoordsCell;
-    return activeCellNotValid || activeCellMismatch;
+    const activeCellNotFocusable = !this.isFocusable(activeCell);
+    return activeCellNotValid || activeCellMismatch || activeCellNotFocusable;
   });
   activeDescendant = computed(() => {
     if (this.gridDisabled() || this.inputs.focusMode() === 'roving') {
@@ -817,7 +818,7 @@ class GridCellPattern {
   isFocused = signal(false);
   selected;
   selectable = () => this.inputs.selectable();
-  disabled = () => this.inputs.disabled();
+  disabled = computed(() => this.inputs.disabled() || (this.inputs.widget()?.inputs.disabled() ?? false));
   rowSpan = () => this.inputs.rowSpan();
   colSpan = () => this.inputs.colSpan();
   active = computed(() => this.inputs.grid().activeCell() === this);
