@@ -475,7 +475,7 @@ class TreePattern {
     }
   }
   _getItem(event) {
-    if (!(event.target instanceof HTMLElement)) {
+    if (!event.target) {
       return;
     }
     const element = event.target.closest('[role="treeitem"]');
