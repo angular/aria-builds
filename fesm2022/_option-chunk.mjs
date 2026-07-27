@@ -202,7 +202,7 @@ class ListboxPattern {
     this.setDefaultState();
   }
   _getItem(e) {
-    if (!(e.target instanceof HTMLElement)) {
+    if (!e.target) {
       return;
     }
     const element = e.target.closest('[role="option"]');
