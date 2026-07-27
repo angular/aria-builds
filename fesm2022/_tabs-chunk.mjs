@@ -136,7 +136,7 @@ class TabListPattern {
     }
   }
   _getItem(e) {
-    if (!(e.target instanceof HTMLElement)) {
+    if (!e.target) {
       return;
     }
     const element = e.target.closest('[role="tab"]');
