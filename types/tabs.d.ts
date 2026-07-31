@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy, WritableSignal } from '@angular/core';
+import { OnInit, OnDestroy, WritableSignal, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { TabPattern, TabListPattern, TabPanelPattern } from './_tabs-chunk.js';
 import { HasElement, SortedCollection } from './_collection-chunk.js';
@@ -241,4 +241,9 @@ declare class TabContent {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<TabContent, "ng-template[ngTabContent]", ["ngTabContent"], {}, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
-export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
+/** Token used to expose the `Tabs` directive to child directives. */
+declare const TABS: InjectionToken<Tabs>;
+/** Token used to expose the tab list. */
+declare const TAB_LIST: InjectionToken<TabList>;
+
+export { TABS, TAB_LIST, Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };

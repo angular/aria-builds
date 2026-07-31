@@ -1,6 +1,6 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy, Signal } from '@angular/core';
+import { OnInit, OnDestroy, Signal, InjectionToken } from '@angular/core';
 import { OptionPattern, ListboxPattern } from './_listbox-chunk.js';
 import { SortedCollection } from './_collection-chunk.js';
 import './_list-chunk.js';
@@ -135,4 +135,6 @@ declare class Listbox<V> implements OnDestroy {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Listbox<any>, "[ngListbox]", ["ngListbox"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "multi": { "alias": "multi"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "focusMode": { "alias": "focusMode"; "required": false; "isSignal": true; }; "selectionMode": { "alias": "selectionMode"; "required": false; "isSignal": true; }; "typeaheadDelay": { "alias": "typeaheadDelay"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;
 }
 
-export { Listbox, Option };
+declare const LISTBOX: InjectionToken<Listbox<any>>;
+
+export { LISTBOX, Listbox, Option };

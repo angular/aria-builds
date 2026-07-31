@@ -562,5 +562,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Listbox, Option };
+export { LISTBOX, Listbox, Option };
 //# sourceMappingURL=listbox.mjs.map

@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { OnDestroy, OnInit, Signal } from '@angular/core';
+import { OnDestroy, OnInit, Signal, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
@@ -272,4 +272,7 @@ declare class MenuContent {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuContent, "ng-template[ngMenuContent]", ["ngMenuContent"], {}, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
-export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
+/** Token used to expose menus to their child components. */
+declare const MENU_COMPONENT: InjectionToken<Menu<any> | MenuBar<any>>;
+
+export { MENU_COMPONENT, Menu, MenuBar, MenuContent, MenuItem, MenuTrigger, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };

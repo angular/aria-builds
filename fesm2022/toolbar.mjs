@@ -500,5 +500,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Toolbar, ToolbarWidget, ToolbarWidgetGroup };
+export { TOOLBAR_WIDGET_GROUP, Toolbar, ToolbarWidget, ToolbarWidgetGroup };
 //# sourceMappingURL=toolbar.mjs.map

@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy, InjectionToken } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { ComboboxPopupPattern, DeferredContentAware, ComboboxPattern } from '@angular/aria/private';
 export { DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware } from './_deferred-content-chunk.js';
@@ -143,4 +143,7 @@ declare class Combobox extends DeferredContentAware implements OnInit {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Combobox, "[ngCombobox]", ["ngCombobox"], { "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "readonly": { "alias": "readonly"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "alwaysExpanded": { "alias": "alwaysExpanded"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabindex"; "required": false; "isSignal": true; }; "expanded": { "alias": "expanded"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "inlineSuggestion": { "alias": "inlineSuggestion"; "required": false; "isSignal": true; }; }, { "expanded": "expandedChange"; "value": "valueChange"; }, never, never, true, never>;
 }
 
-export { Combobox, ComboboxPopup, ComboboxWidget };
+/** Token used to expose the combobox popup. */
+declare const COMBOBOX_POPUP: InjectionToken<ComboboxPopup>;
+
+export { COMBOBOX_POPUP, Combobox, ComboboxPopup, ComboboxWidget };

@@ -953,5 +953,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Grid, GridCell, GridCellWidget, GridRow };
+export { GRID, GRID_CELL, GRID_ROW, Grid, GridCell, GridCellWidget, GridRow };
 //# sourceMappingURL=grid.mjs.map

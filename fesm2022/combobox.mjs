@@ -513,5 +513,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Combobox, ComboboxPopup, ComboboxWidget };
+export { COMBOBOX_POPUP, Combobox, ComboboxPopup, ComboboxWidget };
 //# sourceMappingURL=combobox.mjs.map

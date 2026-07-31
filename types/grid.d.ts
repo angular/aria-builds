@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy, Signal } from '@angular/core';
+import { OnInit, OnDestroy, Signal, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridCellPattern, GridPattern, GridRowPattern, ElementResolver, GridCellWidgetPattern } from './_grid-chunk.js';
 import { SortedCollection } from './_collection-chunk.js';
@@ -248,4 +248,11 @@ declare class GridCellWidget {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<GridCellWidget, "[ngGridCellWidget]", ["ngGridCellWidget"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "widgetType": { "alias": "widgetType"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "focusTarget": { "alias": "focusTarget"; "required": false; "isSignal": true; }; "tabindex": { "alias": "tabindex"; "required": false; "isSignal": true; }; }, { "activated": "activated"; "deactivated": "deactivated"; }, never, never, true, never>;
 }
 
-export { Grid, GridCell, GridCellWidget, GridRow };
+/** Token used to expose a `GridCell`. */
+declare const GRID_CELL: InjectionToken<GridCell>;
+/** Token used to expose a `GridRow`. */
+declare const GRID_ROW: InjectionToken<GridRow>;
+/** Token used to expose a `Grid`. */
+declare const GRID: InjectionToken<Grid>;
+
+export { GRID, GRID_CELL, GRID_ROW, Grid, GridCell, GridCellWidget, GridRow };

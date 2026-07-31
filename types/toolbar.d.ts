@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { ToolbarWidgetGroupPattern, ToolbarWidgetPattern, ToolbarPattern } from './_toolbar-chunk.js';
 import { SortedCollection } from './_collection-chunk.js';
@@ -137,4 +137,7 @@ declare class Toolbar<V> implements OnDestroy {
     static ɵdir: _angular_core.ɵɵDirectiveDeclaration<Toolbar<any>, "[ngToolbar]", ["ngToolbar"], { "orientation": { "alias": "orientation"; "required": false; "isSignal": true; }; "softDisabled": { "alias": "softDisabled"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "wrap": { "alias": "wrap"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; }, { "value": "valueChange"; }, never, never, true, never>;
 }
 
-export { Toolbar, ToolbarWidget, ToolbarWidgetGroup };
+/** Token used to provide the `ToolbarWidgetGroup` directive. */
+declare const TOOLBAR_WIDGET_GROUP: InjectionToken<ToolbarWidgetGroup<unknown>>;
+
+export { TOOLBAR_WIDGET_GROUP, Toolbar, ToolbarWidget, ToolbarWidgetGroup };

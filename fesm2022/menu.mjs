@@ -940,5 +940,5 @@ i0.ɵɵngDeclareClassMetadata({
   }]
 });
 
-export { Menu, MenuBar, MenuContent, MenuItem, MenuTrigger, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
+export { MENU_COMPONENT, Menu, MenuBar, MenuContent, MenuItem, MenuTrigger, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
 //# sourceMappingURL=menu.mjs.map

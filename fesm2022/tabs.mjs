@@ -1,6 +1,6 @@
-import { _IdGenerator } from '@angular/cdk/a11y';
 import * as i0 from '@angular/core';
 import { InjectionToken, inject, ElementRef, signal, computed, afterNextRender, Directive, input, booleanAttribute, model, linkedSignal, afterRenderEffect, contentChild } from '@angular/core';
+import { _IdGenerator } from '@angular/cdk/a11y';
 import { TabListPattern, TabPattern, TabPanelPattern } from './_tabs-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
@@ -737,5 +737,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
+export { TABS, TAB_LIST, Tab, TabContent, TabList, TabPanel, Tabs, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
 //# sourceMappingURL=tabs.mjs.map
