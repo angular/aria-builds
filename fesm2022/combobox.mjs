@@ -1,7 +1,8 @@
 import * as i0 from '@angular/core';
-import { inject, Renderer2, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, Directive, InjectionToken } from '@angular/core';
+import { inject, Renderer2, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, Directive, InjectionToken, afterNextRender } from '@angular/core';
 import * as i1 from '@angular/aria/private';
 import { DeferredContentAware, tabIndexTransform, ComboboxPattern, DeferredContent, ComboboxPopupPattern } from '@angular/aria/private';
+import { _IdGenerator } from '@angular/cdk/a11y';
 export { DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware } from './_deferred-content-chunk.mjs';
 
 class Combobox extends DeferredContentAware {
@@ -415,6 +416,7 @@ i0.ɵɵngDeclareClassMetadata({
 class ComboboxWidget {
   _elementRef = inject(ElementRef);
   _popup = inject(COMBOBOX_POPUP);
+  _idGenerator = inject(_IdGenerator);
   element = this._elementRef.nativeElement;
   popupId = signal(undefined, ...(ngDevMode ? [{
     debugName: "popupId"
@@ -435,6 +437,12 @@ class ComboboxWidget {
     this._observer.observe(el, {
       attributes: true,
       attributeFilter: ['id']
+    });
+    afterNextRender(() => {
+      if (!el.id) {
+        el.id = this._idGenerator.getId('ng-combobox-widget-', true);
+      }
+      this.popupId.set(el.id);
     });
   }
   ngOnInit() {
