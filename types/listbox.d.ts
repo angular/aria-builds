@@ -1,8 +1,8 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal, InjectionToken } from '@angular/core';
-import { OptionPattern, ListboxPattern } from './_listbox-chunk.js';
-import { SortedCollection } from './_collection-chunk.js';
+import { OptionPattern, ListboxPattern } from './private.js';
+import { SortedCollection } from './private.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 import './_keyboard-event-manager-chunk.js';

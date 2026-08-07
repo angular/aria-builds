@@ -1,9 +1,9 @@
 import * as _angular_core from '@angular/core';
 import { OnDestroy, OnInit, Signal, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './_menu-chunk.js';
+import { MenuBarPattern, MenuItemPattern, MenuPattern, MenuTriggerPattern } from './private.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
-import { SortedCollection, SignalLike } from './_collection-chunk.js';
+import { SortedCollection, SignalLike } from './private.js';
 import './_keyboard-event-manager-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';

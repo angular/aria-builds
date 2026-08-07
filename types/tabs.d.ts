@@ -1,8 +1,8 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, WritableSignal, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { TabPattern, TabListPattern, TabPanelPattern } from './_tabs-chunk.js';
-import { HasElement, SortedCollection } from './_collection-chunk.js';
+import { TabPattern, TabListPattern, TabPanelPattern } from './private.js';
+import { HasElement, SortedCollection } from './private.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_click-event-manager-chunk.js';

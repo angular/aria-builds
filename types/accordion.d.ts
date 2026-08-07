@@ -1,9 +1,9 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, InjectionToken } from '@angular/core';
-import { AccordionTriggerPattern, AccordionGroupPattern } from './_accordion-chunk.js';
+import { AccordionTriggerPattern, AccordionGroupPattern } from './private.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { SortedCollection } from './_collection-chunk.js';
+import { SortedCollection } from './private.js';
 import './_keyboard-event-manager-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';

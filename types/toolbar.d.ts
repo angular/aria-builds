@@ -1,8 +1,8 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
-import { ToolbarWidgetGroupPattern, ToolbarWidgetPattern, ToolbarPattern } from './_toolbar-chunk.js';
-import { SortedCollection } from './_collection-chunk.js';
+import { ToolbarWidgetGroupPattern, ToolbarWidgetPattern, ToolbarPattern } from './private.js';
+import { SortedCollection } from './private.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 

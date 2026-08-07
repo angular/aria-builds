@@ -1,9 +1,10 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal } from '@angular/core';
-import { TreeItemPattern, TreePattern } from './_tree-chunk.js';
-import { HasElement, SortedCollection } from './_collection-chunk.js';
-import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
+import { TreeItemPattern, TreePattern } from './private.js';
+import { HasElement, SortedCollection } from './private.js';
+import { DeferredContent } from './_deferred-content-chunk.js';
+import { DeferredContentAware } from './private.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
 import './_list-chunk.js';
