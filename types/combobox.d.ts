@@ -15,6 +15,7 @@ declare class ComboboxWidget implements OnInit, OnDestroy {
     /** The element that the popup widget is attached to. */
     private readonly _elementRef;
     private readonly _popup;
+    private readonly _idGenerator;
     /** A reference to the popup widget element. */
     readonly element: HTMLElement;
     /** The ID of the popup widget. */
