@@ -22,13 +22,13 @@ import './_list-navigation-chunk.js';
  * </div>
  *
  * <div ngMenu #fileMenu="ngMenu">
- *   <div ngMenuItem>New</div>
- *   <div ngMenuItem>Open</div>
+ *   <div ngMenuItem value="New">New</div>
+ *   <div ngMenuItem value="Open">Open</div>
  * </div>
  *
  * <div ngMenu #editMenu="ngMenu">
- *   <div ngMenuItem>Cut</div>
- *   <div ngMenuItem>Copy</div>
+ *   <div ngMenuItem value="Cut">Cut</div>
+ *   <div ngMenuItem value="Copy">Copy</div>
  * </div>
  * ```
  *
@@ -77,8 +77,8 @@ declare class MenuBar<V> implements OnDestroy {
  *
  * ```html
  * <div ngMenu (itemSelected)="doAction()">
- *   <div ngMenuItem>Action Item</div>
- *   <div ngMenuItem [submenu]="anotherMenu">Submenu Trigger</div>
+ *   <div ngMenuItem value="Action Item">Action Item</div>
+ *   <div ngMenuItem value="Submenu Trigger" [submenu]="anotherMenu">Submenu Trigger</div>
  * </div>
  * ```
  *
@@ -213,8 +213,8 @@ declare class Menu<V> implements OnDestroy {
  * <button ngMenuTrigger [menu]="myMenu">Open Menu</button>
  *
  * <div ngMenu #myMenu="ngMenu">
- *   <div ngMenuItem>Item 1</div>
- *   <div ngMenuItem>Item 2</div>
+ *   <div ngMenuItem value="Item 1">Item 1</div>
+ *   <div ngMenuItem value="Item 2">Item 2</div>
  * </div>
  * ```
  *
@@ -258,8 +258,8 @@ declare class MenuTrigger<V> {
  * ```html
  * <div ngMenu #myMenu="ngMenu">
  *   <ng-template ngMenuContent>
- *     <div ngMenuItem>Lazy Item 1</div>
- *     <div ngMenuItem>Lazy Item 2</div>
+ *     <div ngMenuItem value="Lazy Item 1">Lazy Item 1</div>
+ *     <div ngMenuItem value="Lazy Item 2">Lazy Item 2</div>
  *   </ng-template>
  * </div>
  * ```
