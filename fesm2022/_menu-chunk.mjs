@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { computed, signal, KeyboardEventManager } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
@@ -95,7 +96,7 @@ class MenuPattern {
       return;
     }
     this.hasBeenHovered.set(true);
-    const item = this.inputs.items().find(i => i.element()?.contains(event.target));
+    const item = this.inputs.items().find(i => i.element()?.contains(_getEventTarget(event)));
     if (!item) {
       return;
     }
@@ -157,7 +158,7 @@ class MenuPattern {
     }
   }
   onClick(event) {
-    const relatedTarget = event.target;
+    const relatedTarget = _getEventTarget(event);
     const item = this.inputs.items().find(i => i.element()?.contains(relatedTarget));
     if (item) {
       item.open();
@@ -342,7 +343,7 @@ class MenuBarPattern {
     this.keydownManager().handle(event);
   }
   onClick(event) {
-    const item = this.inputs.items().find(i => i.element()?.contains(event.target));
+    const item = this.inputs.items().find(i => i.element()?.contains(_getEventTarget(event)));
     if (!item) {
       return;
     }
@@ -350,7 +351,7 @@ class MenuBarPattern {
     item.expanded() ? item.close() : item.open();
   }
   onMouseOver(event) {
-    const item = this.inputs.items().find(i => i.element()?.contains(event.target));
+    const item = this.inputs.items().find(i => i.element()?.contains(_getEventTarget(event)));
     if (item) {
       this.goto(item, {
         focusElement: this.isFocused()

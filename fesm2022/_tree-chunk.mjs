@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { computed, signal, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
@@ -475,10 +476,11 @@ class TreePattern {
     }
   }
   _getItem(event) {
-    if (!event.target) {
+    const target = _getEventTarget(event);
+    if (!target) {
       return;
     }
-    const element = event.target.closest('[role="treeitem"]');
+    const element = target.closest('[role="treeitem"]');
     return this.inputs.items().find(i => i.element() === element);
   }
 }

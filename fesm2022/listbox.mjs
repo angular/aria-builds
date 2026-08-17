@@ -5,6 +5,7 @@ import { _IdGenerator } from '@angular/cdk/a11y';
 import { ListboxPattern, OptionPattern } from './_option-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
+import '@angular/cdk/platform';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';

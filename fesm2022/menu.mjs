@@ -5,6 +5,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { MenuTriggerPattern, MenuItemPattern, MenuBarPattern, MenuPattern } from './_menu-chunk.mjs';
 import { reportViolations, SortedCollection } from './_violations-chunk.mjs';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
+import '@angular/cdk/platform';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';

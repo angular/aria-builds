@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
@@ -671,14 +672,14 @@ class GridPattern {
     const manager = new ClickEventManager();
     if (!this.inputs.enableSelection()) {
       manager.on(e => {
-        const cell = this.inputs.getCell(e.target);
+        const cell = this.inputs.getCell(_getEventTarget(e));
         if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
         this.gridBehavior.gotoCell(cell);
       });
     }
     if (this.inputs.enableSelection()) {
       manager.on(e => {
-        const cell = this.inputs.getCell(e.target);
+        const cell = this.inputs.getCell(_getEventTarget(e));
         if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
         this.gridBehavior.gotoCell(cell, {
           selectOne: this.inputs.selectionMode() === 'follow',
@@ -688,7 +689,7 @@ class GridPattern {
       });
       if (this.inputs.multi()) {
         manager.on([Modifier.Ctrl, Modifier.Meta], e => {
-          const cell = this.inputs.getCell(e.target);
+          const cell = this.inputs.getCell(_getEventTarget(e));
           if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
           this.gridBehavior.gotoCell(cell, {
             toggle: true
@@ -732,7 +733,7 @@ class GridPattern {
   onFocusIn(event) {
     this.isFocused.set(true);
     this.hasBeenInteracted.set(true);
-    const cell = this.inputs.getCell(event.target);
+    const cell = this.inputs.getCell(_getEventTarget(event));
     if (!cell || !this.gridBehavior.focusBehavior.isFocusable(cell)) return;
     cell.onFocusIn(event);
     if (cell !== this.activeCell()) {
@@ -740,7 +741,7 @@ class GridPattern {
     }
   }
   onFocusOut(event) {
-    const blurTarget = event.target;
+    const blurTarget = _getEventTarget(event);
     const cell = this.inputs.getCell(blurTarget);
     cell?.onFocusOut(event);
     const focusTarget = event.relatedTarget;
@@ -845,13 +846,13 @@ class GridCellPattern {
   }
   onFocusIn(event) {
     this.isFocused.set(true);
-    const focusTarget = event.target;
+    const focusTarget = _getEventTarget(event);
     const widget = this.inputs.getWidget(focusTarget);
     if (!widget) return;
     widget.onFocusIn(event);
   }
   onFocusOut(event) {
-    const blurTarget = event.target;
+    const blurTarget = _getEventTarget(event);
     const widget = this.inputs.getWidget(blurTarget);
     widget?.onFocusOut(event);
     const focusTarget = event.relatedTarget;
@@ -928,7 +929,7 @@ class GridCellWidgetPattern {
   }
   onFocusIn(event) {
     if (this.inputs.widgetType() === 'simple') return;
-    const focusTarget = event.target;
+    const focusTarget = _getEventTarget(event);
     if (this.widgetHost().contains(focusTarget) && this.widgetHost() !== focusTarget) {
       this.activate(event);
     }

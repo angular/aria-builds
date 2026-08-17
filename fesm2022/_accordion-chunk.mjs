@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { computed, KeyboardEventManager } from './_violations-chunk.mjs';
@@ -45,7 +46,7 @@ class AccordionGroupPattern {
   });
   click = computed(() => {
     return new ClickEventManager().on(e => {
-      const item = this._findTriggerPattern(e.target);
+      const item = this._findTriggerPattern(_getEventTarget(e));
       if (!item) return;
       this.navigationBehavior.goto(item);
       this.expansionBehavior.toggle(item);
@@ -58,7 +59,7 @@ class AccordionGroupPattern {
     this.click().handle(event);
   }
   onFocus(event) {
-    const item = this._findTriggerPattern(event.target);
+    const item = this._findTriggerPattern(_getEventTarget(event));
     if (!item) return;
     if (!this.focusBehavior.isFocusable(item)) return;
     this.focusBehavior.focus(item);

@@ -6,6 +6,7 @@ import { TreePattern, TreeItemPattern } from './_tree-chunk.mjs';
 import { SortedCollection, reportViolations, sortDirectives } from './_violations-chunk.mjs';
 import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
+import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';

@@ -6,6 +6,7 @@ import { reportViolations, SortedCollection } from './_violations-chunk.mjs';
 import { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import '@angular/core/primitives/signals';
+import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
