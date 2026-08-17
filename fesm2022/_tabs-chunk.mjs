@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { signal, computed, KeyboardEventManager, linkedSignal } from './_violations-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
@@ -136,10 +137,11 @@ class TabListPattern {
     }
   }
   _getItem(e) {
-    if (!e.target) {
+    const target = _getEventTarget(e);
+    if (!target) {
       return;
     }
-    const element = e.target.closest('[role="tab"]');
+    const element = target.closest('[role="tab"]');
     return this.inputs.items().find(i => i.element() === element);
   }
 }

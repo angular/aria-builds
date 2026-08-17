@@ -4,6 +4,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import '@angular/cdk/platform';
 import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_list-typeahead-chunk.mjs';

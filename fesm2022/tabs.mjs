@@ -5,6 +5,7 @@ import { TabListPattern, TabPattern, TabPanelPattern } from './_tabs-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
+import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_click-event-manager-chunk.mjs';

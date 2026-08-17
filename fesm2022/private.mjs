@@ -1,5 +1,6 @@
 export { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { computed, signal, untracked } from '@angular/core';
+import { _getEventTarget } from '@angular/cdk/platform';
 import { KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 export { SortedCollection, computed, convertGetterSetterToWritableSignalLike, linkedSignal, reportViolations, signal, sortDirectives } from './_violations-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
@@ -130,10 +131,10 @@ class ComboboxPattern {
     this.isFocused.set(false);
   }
   onInput(event) {
-    if (!(event.target instanceof HTMLInputElement)) return;
-    if (this.disabled() || this.readonly()) return;
+    const target = _getEventTarget(event);
+    if (!(target instanceof HTMLInputElement) || this.disabled() || this.readonly()) return;
     this.inputs.expanded.set(true);
-    this.value.set(event.target.value);
+    this.value.set(target.value);
     this.isDeleting.set(event instanceof InputEvent && !!event.inputType.match(/^delete/));
   }
   highlightEffect() {

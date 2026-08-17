@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { signal, computed, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
@@ -202,10 +203,11 @@ class ListboxPattern {
     this.setDefaultState();
   }
   _getItem(e) {
-    if (!e.target) {
+    const target = _getEventTarget(e);
+    if (!target) {
       return;
     }
-    const element = e.target.closest('[role="option"]');
+    const element = target.closest('[role="option"]');
     return this.inputs.items().find(i => i.element() === element);
   }
 }

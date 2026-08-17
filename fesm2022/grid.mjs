@@ -5,6 +5,7 @@ import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import '@angular/cdk/platform';
 import './_click-event-manager-chunk.mjs';
 import '@angular/core/primitives/signals';
 

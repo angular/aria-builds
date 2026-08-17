@@ -1,3 +1,4 @@
+import { _getEventTarget } from '@angular/cdk/platform';
 import { signal, computed, KeyboardEventManager } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
 
@@ -76,7 +77,7 @@ class ToolbarPattern {
     this.listBehavior.prev();
   }
   _goto(e) {
-    const item = this.inputs.getItem(e.target);
+    const item = this.inputs.getItem(_getEventTarget(e));
     if (item) {
       this.listBehavior.goto(item);
       this.select();
