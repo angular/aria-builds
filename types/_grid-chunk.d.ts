@@ -99,7 +99,7 @@ declare class GridFocus<T extends GridFocusCell> {
     /** Whether the grid is in a disabled state. */
     readonly gridDisabled: SignalLike<boolean>;
     /** The tab index for the grid container. */
-    readonly gridTabIndex: SignalLike<0 | -1>;
+    readonly gridTabIndex: SignalLike<-1 | 0>;
     constructor(inputs: GridFocusInputs & GridFocusDeps<T>);
     /** Returns the tab index for the given grid cell cell. */
     getCellTabIndex(cell: T): -1 | 0;
@@ -504,7 +504,7 @@ declare class GridPattern {
     /** The cells in the grid. */
     readonly cells: SignalLike<GridCellPattern[][]>;
     /** The tab index for the grid. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the grid is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** Whether the grid is multi-selectable. */
@@ -524,9 +524,9 @@ declare class GridPattern {
     /** Whether the user is currently dragging to select a range of cells. */
     readonly dragging: WritableSignalLike<boolean>;
     /** The key for navigating to the previous column. */
-    readonly prevColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
+    readonly prevColKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The key for navigating to the next column. */
-    readonly nextColKey: SignalLike<"ArrowRight" | "ArrowLeft">;
+    readonly nextColKey: SignalLike<"ArrowLeft" | "ArrowRight">;
     /** The keydown event manager for the grid. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the grid. */

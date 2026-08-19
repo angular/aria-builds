@@ -18,7 +18,7 @@ interface HasElement {
 /**
  * Sort directives by their document order.
  */
-declare function sortDirectives(a: HasElement, b: HasElement): 1 | -1;
+declare function sortDirectives(a: HasElement, b: HasElement): -1 | 1;
 
 /**
  * A collection that lazily sorts its items based on their DOM position.

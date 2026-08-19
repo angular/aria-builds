@@ -81,7 +81,7 @@ declare class TabList implements OnInit, OnDestroy {
     /** The Tab UIPatterns of the child Tabs. */
     readonly _tabPatterns: _angular_core.Signal<TabPattern[]>;
     /** Whether the tablist is vertically or horizontally oriented. */
-    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    readonly orientation: _angular_core.InputSignal<"horizontal" | "vertical">;
     /** Text direction. */
     readonly textDirection: WritableSignal<_angular_cdk_bidi.Direction>;
     /** Whether focus should wrap when navigating. */
@@ -96,13 +96,13 @@ declare class TabList implements OnInit, OnDestroy {
      * - `roving`: Focus is moved to the active tab using `tabindex`.
      * - `activedescendant`: Focus remains on the tablist container, and `aria-activedescendant` is used to indicate the active tab.
      */
-    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
+    readonly focusMode: _angular_core.InputSignal<"activedescendant" | "roving">;
     /**
      * The selection strategy used by the tablist.
      * - `follow`: The focused tab is automatically selected.
      * - `explicit`: Tabs are selected explicitly by the user (e.g., via click or spacebar).
      */
-    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    readonly selectionMode: _angular_core.InputSignal<"explicit" | "follow">;
     /** The current selected tab as a model input. */
     readonly selectedTab: _angular_core.ModelSignal<string | undefined>;
     /** The current selected Tab pattern, passed to the List pattern. */

@@ -87,7 +87,7 @@ declare class Listbox<V> implements OnDestroy {
     /** A signal wrapper for directionality. */
     protected readonly textDirection: Signal<_angular_cdk_bidi.Direction>;
     /** Whether the list is vertically or horizontally oriented. */
-    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    readonly orientation: _angular_core.InputSignal<"horizontal" | "vertical">;
     /** Whether multiple items in the list can be selected at once. */
     readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether focus should wrap when navigating. */
@@ -102,13 +102,13 @@ declare class Listbox<V> implements OnDestroy {
      * - `roving`: Focus is moved to the active item using `tabindex`.
      * - `activedescendant`: Focus remains on the listbox container, and `aria-activedescendant` is used to indicate the active item.
      */
-    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
+    readonly focusMode: _angular_core.InputSignal<"activedescendant" | "roving">;
     /**
      * The selection strategy used by the list.
      * - `follow`: The focused item is automatically selected.
      * - `explicit`: Items are selected explicitly by the user (e.g., via click or spacebar).
      */
-    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    readonly selectionMode: _angular_core.InputSignal<"explicit" | "follow">;
     /** The amount of time before the typeahead search is reset. */
     readonly typeaheadDelay: _angular_core.InputSignal<number>;
     /** Whether the listbox is disabled. */

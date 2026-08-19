@@ -36,7 +36,7 @@ declare class OptionPattern<V> {
     /** A reference to the parent listbox. */
     readonly listbox: SignalLike<ListboxPattern$1<V> | undefined>;
     /** The tab index of the option. */
-    readonly tabIndex: SignalLike<0 | -1 | undefined>;
+    readonly tabIndex: SignalLike<-1 | 0 | undefined>;
     /** The html element that should receive focus. */
     readonly element: SignalLike<HTMLElement | undefined>;
     constructor(args: OptionInputs<V>);
@@ -74,9 +74,9 @@ declare class ListboxPattern<V> {
     /** Whether the listbox should wrap. Used to disable wrapping while range selecting. */
     readonly wrap: WritableSignalLike<boolean>;
     /** The key used to navigate to the previous item in the list. */
-    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowLeft" | "ArrowRight" | "ArrowUp">;
     /** The key used to navigate to the next item in the list. */
-    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowDown" | "ArrowLeft" | "ArrowRight">;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
     readonly dynamicSpaceKey: SignalLike<"" | " ">;
     /** The regexp used to decide if a key should trigger typeahead. */

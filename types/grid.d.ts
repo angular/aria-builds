@@ -37,7 +37,7 @@ declare class GridCell implements OnInit, OnDestroy {
     /** A unique identifier for the cell. */
     readonly id: _angular_core.InputSignal<string>;
     /** The ARIA role for the cell. */
-    readonly role: _angular_core.InputSignal<"gridcell" | "columnheader" | "rowheader">;
+    readonly role: _angular_core.InputSignal<"columnheader" | "gridcell" | "rowheader">;
     /** The number of rows the cell should span. */
     readonly rowSpan: _angular_core.InputSignal<number>;
     /** The number of columns the cell should span. */
@@ -152,7 +152,7 @@ declare class Grid implements OnDestroy {
      * - `roving`: Focus is moved to the active cell using `tabindex`.
      * - `activedescendant`: Focus remains on the grid container, and `aria-activedescendant` is used to indicate the active cell.
      */
-    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
+    readonly focusMode: _angular_core.InputSignal<"activedescendant" | "roving">;
     /**
      * The wrapping behavior for keyboard navigation along the row axis.
      * - `continuous`: Navigation wraps from the last row to the first, and vice-versa.
@@ -174,7 +174,7 @@ declare class Grid implements OnDestroy {
      * - `follow`: The focused cell is automatically selected.
      * - `explicit`: Cells are selected explicitly by the user (e.g., via click or spacebar).
      */
-    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    readonly selectionMode: _angular_core.InputSignal<"explicit" | "follow">;
     /** The tabindex of the grid. */
     readonly tabIndex: _angular_core.InputSignalWithTransform<number | undefined, string | number | undefined>;
     /** The UI pattern for the grid. */
@@ -219,15 +219,15 @@ declare class GridCellWidget {
     /** A unique identifier for the widget. */
     readonly id: _angular_core.InputSignal<string>;
     /** The type of widget, which determines how it is activated. */
-    readonly widgetType: _angular_core.InputSignal<"simple" | "complex" | "editable">;
+    readonly widgetType: _angular_core.InputSignal<"complex" | "editable" | "simple">;
     /** Whether the widget is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The target that will receive focus instead of the widget. */
     readonly focusTarget: _angular_core.InputSignal<ElementResolver<HTMLElement>>;
     /** Emits when the widget is activated. */
-    readonly activated: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
+    readonly activated: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
     /** Emits when the widget is deactivated. */
-    readonly deactivated: _angular_core.OutputEmitterRef<KeyboardEvent | FocusEvent | undefined>;
+    readonly deactivated: _angular_core.OutputEmitterRef<FocusEvent | KeyboardEvent | undefined>;
     /** The tabindex override. */
     readonly tabindex: _angular_core.InputSignal<number | undefined>;
     /**

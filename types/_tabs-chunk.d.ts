@@ -28,7 +28,7 @@ declare class TabPattern {
     /** Whether the tab is selected. */
     readonly selected: SignalLike<boolean>;
     /** The tab index of the tab. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The id of the tabpanel associated with the tab. */
     readonly controls: SignalLike<string | undefined>;
     constructor(inputs: TabInputs);
@@ -82,15 +82,15 @@ declare class TabListPattern {
     /** Whether the tablist is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The tab index of the tablist. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active tab. */
     readonly activeDescendant: SignalLike<string | undefined>;
     /** Whether selection should follow focus. */
     readonly followFocus: SignalLike<boolean>;
     /** The key used to navigate to the previous tab in the tablist. */
-    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowLeft" | "ArrowRight" | "ArrowUp">;
     /** The key used to navigate to the next item in the list. */
-    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowDown" | "ArrowLeft" | "ArrowRight">;
     /** The keydown event manager for the tablist. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the tablist. */

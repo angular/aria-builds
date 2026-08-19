@@ -99,7 +99,7 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
     /** The search term associated with the menu item. */
     readonly searchTerm: _angular_core.ModelSignal<string>;
     /** The role of the menu item. */
-    readonly role: _angular_core.InputSignal<"menuitem" | "menuitemradio" | "menuitemcheckbox">;
+    readonly role: _angular_core.InputSignal<"menuitem" | "menuitemcheckbox" | "menuitemradio">;
     /** A reference to the parent menu or menubar. */
     readonly parent: Menu<V> | MenuBar<V> | null;
     /** The submenu associated with the menu item. */
@@ -170,7 +170,7 @@ declare class Menu<V> implements OnDestroy {
     /** Whether the menu is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** A reference to the parent menu item or menu trigger. */
-    readonly parent: _angular_core.WritableSignal<MenuTrigger<V> | MenuItem<V> | undefined>;
+    readonly parent: _angular_core.WritableSignal<MenuItem<V> | MenuTrigger<V> | undefined>;
     /** Whether the menu is soft disabled. */
     readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** The menu ui pattern instance. */
@@ -189,7 +189,7 @@ declare class Menu<V> implements OnDestroy {
     /** Whether the menu is visible. */
     readonly visible: Signal<boolean>;
     /** The tab index of the menu. */
-    readonly tabIndex: Signal<0 | -1>;
+    readonly tabIndex: Signal<-1 | 0>;
     /** A callback function triggered when a menu item is selected. */
     readonly itemSelected: _angular_core.OutputEmitterRef<V>;
     /** The delay in milliseconds before expanding sub-menus on hover. */

@@ -70,7 +70,7 @@ declare class MenuPattern<V> {
     /** Timeout used to close sub-menus on hover out. */
     _closeTimeout: any;
     /** The tab index of the menu. */
-    readonly tabIndex: () => 0 | -1;
+    readonly tabIndex: () => -1 | 0;
     /** Whether the menu should be focused on mouse over. */
     readonly shouldFocus: SignalLike<boolean>;
     /** The key used to expand sub-menus. */
@@ -141,7 +141,7 @@ declare class MenuBarPattern<V> {
     /** Controls list behavior for the menu items. */
     readonly listBehavior: List<MenuItemPattern<V>, V>;
     /** The tab index of the menu. */
-    readonly tabIndex: () => 0 | -1;
+    readonly tabIndex: () => -1 | 0;
     /** The key used to navigate to the next item. */
     private readonly _nextKey;
     /** The key used to navigate to the previous item. */
@@ -244,7 +244,7 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** Whether the menu item has received interaction. */
     readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** The tab index of the menu item. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The position of the menu item in the menu. */
     readonly index: SignalLike<number>;
     /** Whether the menu item is expanded. */
@@ -254,7 +254,7 @@ declare class MenuItemPattern<V> implements ListItem<V> {
     /** The ID of the menu that the menu item controls. */
     readonly controls: WritableSignalLike<string | undefined>;
     /** The role of the menu item. */
-    readonly role: () => "menuitem" | "menuitemradio" | "menuitemcheckbox";
+    readonly role: () => "menuitem" | "menuitemcheckbox" | "menuitemradio";
     /** Whether the menu item has a popup. */
     readonly hasPopup: SignalLike<boolean>;
     /** The submenu associated with the menu item. */

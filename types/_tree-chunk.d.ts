@@ -34,7 +34,7 @@ declare class Tree<T extends TreeItem<V, T>, V> {
     /** The id of the current active item. */
     readonly activeDescendant: SignalLike<string | undefined>;
     /** The tab index of the tree. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The index of the currently active item in the tree (within the flattened list). */
     readonly activeIndex: SignalLike<number>;
     /** The uncommitted index for selecting a range of options. */
@@ -43,7 +43,7 @@ declare class Tree<T extends TreeItem<V, T>, V> {
     private readonly _wrap;
     constructor(inputs: TreeInputs$1<T, V>);
     /** Returns the tab index for the given item. */
-    getItemTabindex(item: T): 0 | -1;
+    getItemTabindex(item: T): -1 | 0;
     /** Navigates to the first option in the tree. */
     first(opts?: NavOptions<T>): void;
     /** Navigates to the last option in the tree. */
@@ -159,7 +159,7 @@ declare class TreeItemPattern<V> implements TreeItem<V, TreeItemPattern<V>> {
     /** Whether the item is active. */
     readonly active: SignalLike<boolean>;
     /** The tab index of the item. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** Whether the item is selected. */
     readonly selected: SignalLike<boolean | undefined>;
     /** The current type of this item. */
@@ -208,13 +208,13 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** Whether the tree direction is RTL. */
     readonly isRtl: SignalLike<boolean>;
     /** The key for navigating to the previous item. */
-    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowLeft" | "ArrowRight" | "ArrowUp">;
     /** The key for navigating to the next item. */
-    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowDown" | "ArrowLeft" | "ArrowRight">;
     /** The key for collapsing an item or moving to its parent. */
-    readonly collapseKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly collapseKey: SignalLike<"ArrowLeft" | "ArrowRight" | "ArrowUp">;
     /** The key for expanding an item or moving to its first child. */
-    readonly expandKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly expandKey: SignalLike<"ArrowDown" | "ArrowLeft" | "ArrowRight">;
     /** Represents the space key. Does nothing when the user is actively using typeahead. */
     readonly dynamicSpaceKey: SignalLike<"" | " ">;
     /** Regular expression to match characters for typeahead. */

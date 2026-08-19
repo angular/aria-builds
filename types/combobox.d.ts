@@ -61,7 +61,7 @@ declare class ComboboxPopup implements OnInit, OnDestroy {
     /** The ID of the active descendant in the popup. */
     readonly activeDescendant: _angular_core.Signal<string | undefined>;
     /** The type of the popup (e.g., listbox, tree, grid, dialog). */
-    readonly popupType: _angular_core.InputSignal<"listbox" | "tree" | "grid" | "dialog">;
+    readonly popupType: _angular_core.InputSignal<"dialog" | "grid" | "listbox" | "tree">;
     /** The popup pattern. */
     readonly _pattern: ComboboxPopupPattern;
     ngOnInit(): void;

@@ -18,9 +18,9 @@ declare class AccordionGroupPattern {
     readonly expansionBehavior: ListExpansion;
     constructor(inputs: AccordionGroupInputs);
     /** The key used to navigate to the previous accordion trigger. */
-    readonly prevKey: SignalLike<"ArrowUp" | "ArrowRight" | "ArrowLeft">;
+    readonly prevKey: SignalLike<"ArrowLeft" | "ArrowRight" | "ArrowUp">;
     /** The key used to navigate to the next accordion trigger. */
-    readonly nextKey: SignalLike<"ArrowRight" | "ArrowLeft" | "ArrowDown">;
+    readonly nextKey: SignalLike<"ArrowDown" | "ArrowLeft" | "ArrowRight">;
     /** The keydown event manager for the accordion trigger. */
     readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
     /** The click event manager for the accordion trigger. */
