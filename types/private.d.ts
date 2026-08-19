@@ -66,9 +66,9 @@ declare class ComboboxPattern {
     /** The ID of the popup. */
     readonly popupId: _angular_core.Signal<string | undefined>;
     /** The type of the popup. */
-    readonly popupType: _angular_core.Signal<"listbox" | "tree" | "grid" | "dialog" | undefined>;
+    readonly popupType: _angular_core.Signal<"dialog" | "grid" | "listbox" | "tree" | undefined>;
     /** The autocomplete behavior of the combobox. */
-    readonly autocomplete: _angular_core.Signal<"none" | "inline" | "list" | "both">;
+    readonly autocomplete: _angular_core.Signal<"both" | "inline" | "list" | "none">;
     /** A relay for keyboard events to the popup. */
     readonly keyboardEventRelay: _angular_core.WritableSignal<KeyboardEvent | undefined>;
     /** Whether the combobox is focused. */
@@ -118,7 +118,7 @@ interface ComboboxPopupInputs {
 declare class ComboboxPopupPattern {
     readonly inputs: ComboboxPopupInputs;
     /** The type of the popup. */
-    readonly popupType: () => "listbox" | "tree" | "grid" | "dialog";
+    readonly popupType: () => "dialog" | "grid" | "listbox" | "tree";
     /** The element that serves as the control target for the popup. */
     readonly controlTarget: () => HTMLElement | undefined;
     /** The ID of the active descendant in the popup. */

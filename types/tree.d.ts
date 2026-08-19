@@ -76,7 +76,7 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     /** The value of the tree item. */
     readonly value: _angular_core.InputSignal<V>;
     /** The parent tree root or tree item group. */
-    readonly parent: _angular_core.InputSignal<TreeItemGroup<V> | Tree<V>>;
+    readonly parent: _angular_core.InputSignal<Tree<V> | TreeItemGroup<V>>;
     /** Whether the tree item is disabled. */
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the tree item is selectable. */
@@ -154,7 +154,7 @@ declare class Tree<V> implements OnDestroy {
     /** A unique identifier for the tree. */
     readonly id: _angular_core.InputSignal<string>;
     /** Orientation of the tree. */
-    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    readonly orientation: _angular_core.InputSignal<"horizontal" | "vertical">;
     /** Whether multi-selection is allowed. */
     readonly multi: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the tree is disabled. */
@@ -164,13 +164,13 @@ declare class Tree<V> implements OnDestroy {
      * - `explicit`: Items are selected explicitly by the user (e.g., via click or spacebar).
      * - `follow`: The focused item is automatically selected.
      */
-    readonly selectionMode: _angular_core.InputSignal<"follow" | "explicit">;
+    readonly selectionMode: _angular_core.InputSignal<"explicit" | "follow">;
     /**
      * The focus strategy used by the tree.
      * - `roving`: Focus is moved to the active item using `tabindex`.
      * - `activedescendant`: Focus remains on the tree container, and `aria-activedescendant` is used to indicate the active item.
      */
-    readonly focusMode: _angular_core.InputSignal<"roving" | "activedescendant">;
+    readonly focusMode: _angular_core.InputSignal<"activedescendant" | "roving">;
     /** Whether navigation wraps. */
     readonly wrap: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /**
@@ -192,7 +192,7 @@ declare class Tree<V> implements OnDestroy {
      * The `aria-current` type. It can be used in navigation trees to indicate the currently active item.
      * See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current for more details.
      */
-    readonly currentType: _angular_core.InputSignal<"page" | "step" | "location" | "date" | "time" | "true" | "false">;
+    readonly currentType: _angular_core.InputSignal<"date" | "false" | "location" | "page" | "step" | "time" | "true">;
     /** The UI pattern for the tree. */
     readonly _pattern: TreePattern<V>;
     /** The ID of the active descendant in the tree. */

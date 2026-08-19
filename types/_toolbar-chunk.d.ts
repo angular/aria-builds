@@ -48,7 +48,7 @@ declare class ToolbarWidgetPattern<V> implements ListItem<V> {
     /** A reference to the toolbar containing the widget. */
     readonly toolbar: () => ToolbarPattern<V>;
     /** The tabindex of the widget. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The text used by the typeahead search. */
     readonly searchTerm: () => string;
     /** The value associated with the widget. */
@@ -83,7 +83,7 @@ declare class ToolbarPattern<V> {
     /** Whether the toolbar is disabled. */
     readonly disabled: SignalLike<boolean>;
     /** The tab index of the toolbar (if using activedescendant). */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The id of the current active widget (if using activedescendant). */
     readonly activeDescendant: SignalLike<string | undefined>;
     /** The currently active item in the toolbar. */

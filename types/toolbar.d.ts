@@ -115,7 +115,7 @@ declare class Toolbar<V> implements OnDestroy {
     /** Sorted UIPatterns of the child widgets */
     readonly _itemPatterns: _angular_core.Signal<ToolbarWidgetPattern<V>[]>;
     /** Whether the toolbar is vertically or horizontally oriented. */
-    readonly orientation: _angular_core.InputSignal<"vertical" | "horizontal">;
+    readonly orientation: _angular_core.InputSignal<"horizontal" | "vertical">;
     /**
      * Whether to allow disabled items to receive focus. When `true`, disabled items are
      * focusable but not interactive. When `false`, disabled items are skipped during navigation.

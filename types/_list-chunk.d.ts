@@ -140,7 +140,7 @@ declare class List<T extends ListItem<V>, V> {
     /** The id of the current active item. */
     readonly activeDescendant: SignalLike<string | undefined>;
     /** The tab index of the list. */
-    readonly tabIndex: SignalLike<0 | -1>;
+    readonly tabIndex: SignalLike<-1 | 0>;
     /** The index of the currently active item in the list. */
     readonly activeIndex: SignalLike<number>;
     /**
@@ -160,7 +160,7 @@ declare class List<T extends ListItem<V>, V> {
     private readonly _wrap;
     constructor(inputs: ListInputs<T, V>);
     /** Returns the tab index for the given item. */
-    getItemTabindex(item: T): 0 | -1;
+    getItemTabindex(item: T): -1 | 0;
     /** Navigates to the first option in the list. */
     first(opts?: NavOptions<T>): void;
     /** Navigates to the last option in the list. */
