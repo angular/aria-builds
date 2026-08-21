@@ -124,7 +124,7 @@ class Grid {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     ngImport: i0,
     type: Grid,
     deps: [],
@@ -132,7 +132,7 @@ class Grid {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     type: Grid,
     isStandalone: true,
     selector: "[ngGrid]",
@@ -228,7 +228,7 @@ class Grid {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.2.0-next.2",
+  version: "22.2.0-next.3",
   ngImport: i0,
   type: Grid,
   decorators: [{
@@ -386,7 +386,7 @@ class GridCellWidget {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     ngImport: i0,
     type: GridCellWidget,
     deps: [],
@@ -394,7 +394,7 @@ class GridCellWidget {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     type: GridCellWidget,
     isStandalone: true,
     selector: "[ngGridCellWidget]",
@@ -453,7 +453,7 @@ class GridCellWidget {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.2.0-next.2",
+  version: "22.2.0-next.3",
   ngImport: i0,
   type: GridCellWidget,
   decorators: [{
@@ -636,7 +636,7 @@ class GridCell {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     ngImport: i0,
     type: GridCell,
     deps: [],
@@ -644,7 +644,7 @@ class GridCell {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.2.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     type: GridCell,
     isStandalone: true,
     selector: "[ngGridCell]",
@@ -740,7 +740,7 @@ class GridCell {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.2.0-next.2",
+  version: "22.2.0-next.3",
   ngImport: i0,
   type: GridCell,
   decorators: [{
@@ -884,7 +884,7 @@ class GridRow {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     ngImport: i0,
     type: GridRow,
     deps: [],
@@ -892,7 +892,7 @@ class GridRow {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.2.0-next.2",
+    version: "22.2.0-next.3",
     type: GridRow,
     isStandalone: true,
     selector: "[ngGridRow]",
@@ -923,7 +923,7 @@ class GridRow {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.2.0-next.2",
+  version: "22.2.0-next.3",
   ngImport: i0,
   type: GridRow,
   decorators: [{
