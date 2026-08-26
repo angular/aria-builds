@@ -64,7 +64,7 @@ class MenuPattern {
   }
   validate() {
     const violations = [];
-    const values = this.inputs.items().map(i => i.value());
+    const values = this.inputs.items().map(i => i.value()).filter(val => val !== undefined);
     const duplicates = values.filter((val, idx) => values.indexOf(val) !== idx);
     if (duplicates.length > 0) {
       violations.push(`Duplicate value '${duplicates[0]}' detected inside ngMenu.`);
@@ -521,7 +521,7 @@ class MenuItemPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
-    this.value = inputs.value;
+    this.value = inputs.value ?? signal(undefined);
     this.element = inputs.element;
     this.submenu = this.inputs.submenu;
     this.searchTerm = inputs.searchTerm;

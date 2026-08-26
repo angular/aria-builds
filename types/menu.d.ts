@@ -60,7 +60,7 @@ declare class MenuBar<V> implements OnDestroy {
     /** The menu items as a writable signal. */
     private readonly _itemPatterns;
     /** A callback function triggered when a menu item is selected. */
-    readonly itemSelected: _angular_core.OutputEmitterRef<V>;
+    readonly itemSelected: _angular_core.OutputEmitterRef<V | undefined>;
     constructor();
     ngOnDestroy(): void;
     /** Closes the menubar. */
@@ -93,7 +93,7 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
     /** The unique ID of the menu item. */
     readonly id: _angular_core.InputSignal<string>;
     /** The value of the menu item. */
-    readonly value: _angular_core.InputSignal<V>;
+    readonly value: _angular_core.InputSignal<V | undefined>;
     /** Whether the menu item is disabled. */
     readonly disabled: _angular_core.InputSignal<boolean>;
     /** The search term associated with the menu item. */
@@ -120,7 +120,7 @@ declare class MenuItem<V> implements OnInit, OnDestroy {
     /** Closes the submenu. */
     close(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MenuItem<any>, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": true; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<MenuItem<any>, "[ngMenuItem]", ["ngMenuItem"], { "id": { "alias": "id"; "required": false; "isSignal": true; }; "value": { "alias": "value"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; "searchTerm": { "alias": "searchTerm"; "required": false; "isSignal": true; }; "role": { "alias": "role"; "required": false; "isSignal": true; }; "submenu": { "alias": "submenu"; "required": false; "isSignal": true; }; }, { "searchTerm": "searchTermChange"; }, never, never, true, never>;
 }
 
 /**
@@ -191,7 +191,7 @@ declare class Menu<V> implements OnDestroy {
     /** The tab index of the menu. */
     readonly tabIndex: Signal<-1 | 0>;
     /** A callback function triggered when a menu item is selected. */
-    readonly itemSelected: _angular_core.OutputEmitterRef<V>;
+    readonly itemSelected: _angular_core.OutputEmitterRef<V | undefined>;
     /** The delay in milliseconds before expanding sub-menus on hover. */
     readonly expansionDelay: _angular_core.InputSignal<number>;
     constructor();

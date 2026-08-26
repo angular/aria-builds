@@ -175,7 +175,7 @@ class MenuItem {
   id = input(inject(_IdGenerator).getId('ng-menu-item-', true), ...(ngDevMode ? [{
     debugName: "id"
   }] : []));
-  value = input.required(...(ngDevMode ? [{
+  value = input(undefined, ...(ngDevMode ? [{
     debugName: "value"
   }] : []));
   disabled = input(false, ...(ngDevMode ? [{
@@ -266,7 +266,7 @@ class MenuItem {
         classPropertyName: "value",
         publicName: "value",
         isSignal: true,
-        isRequired: true,
+        isRequired: false,
         transformFunction: null
       },
       disabled: {
@@ -356,7 +356,7 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "value",
-        required: true
+        required: false
       }]
     }],
     disabled: [{

@@ -3,16 +3,16 @@ import { KeyboardEventManager } from './_keyboard-event-manager-chunk.js';
 import { ListInputs, ListItem, List } from './_list-chunk.js';
 
 /** The inputs for the MenuBarPattern class. */
-interface MenuBarInputs<V> extends ListInputs<MenuItemPattern<V>, V> {
+interface MenuBarInputs<V> extends ListInputs<MenuItemPattern<V>, V | undefined> {
     /** The menu items contained in the menu. */
     items: SignalLike<MenuItemPattern<V>[]>;
     /** Callback function triggered when a menu item is selected. */
-    itemSelected?: (value: V) => void;
+    itemSelected?: (value: V | undefined) => void;
     /** The text direction of the menu bar. */
     textDirection: SignalLike<'ltr' | 'rtl'>;
 }
 /** The inputs for the MenuPattern class. */
-interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value'> {
+interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V | undefined>, 'value'> {
     /** The unique ID of the menu. */
     id: SignalLike<string>;
     /** The menu items contained in the menu. */
@@ -20,7 +20,7 @@ interface MenuInputs<V> extends Omit<ListInputs<MenuItemPattern<V>, V>, 'value'>
     /** A reference to the parent menu or menu trigger. */
     parent: SignalLike<MenuTriggerPattern<V> | MenuItemPattern<V> | undefined>;
     /** Callback function triggered when a menu item is selected. */
-    itemSelected?: (value: V) => void;
+    itemSelected?: (value: V | undefined) => void;
     /** The text direction of the menu bar. */
     textDirection: SignalLike<'ltr' | 'rtl'>;
     /** The delay in milliseconds before expanding sub-menus on hover. */
@@ -38,7 +38,9 @@ interface MenuTriggerInputs<V> {
     disabled: SignalLike<boolean>;
 }
 /** The inputs for the MenuItemPattern class. */
-interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable'> {
+interface MenuItemInputs<V> extends Omit<ListItem<V>, 'index' | 'selectable' | 'value'> {
+    /** The value of the menu item. */
+    value?: SignalLike<V | undefined>;
     /** A reference to the parent menu or menu trigger. */
     parent: SignalLike<MenuPattern<V> | MenuBarPattern<V> | undefined>;
     /** A reference to the submenu associated with the menu item. */
@@ -58,7 +60,7 @@ declare class MenuPattern<V> {
     /** Whether the menu is visible. */
     readonly visible: SignalLike<boolean>;
     /** Controls list behavior for the menu items. */
-    readonly listBehavior: List<MenuItemPattern<V>, V>;
+    readonly listBehavior: List<MenuItemPattern<V>, V | undefined>;
     /** Whether the menu or any of its child elements are currently focused. */
     readonly isFocused: WritableSignalLike<boolean>;
     /** Whether the menu has received interaction. */
@@ -139,7 +141,7 @@ declare class MenuPattern<V> {
 declare class MenuBarPattern<V> {
     readonly inputs: MenuBarInputs<V>;
     /** Controls list behavior for the menu items. */
-    readonly listBehavior: List<MenuItemPattern<V>, V>;
+    readonly listBehavior: List<MenuItemPattern<V>, V | undefined>;
     /** The tab index of the menu. */
     readonly tabIndex: () => -1 | 0;
     /** The key used to navigate to the next item. */
@@ -227,10 +229,10 @@ declare class MenuTriggerPattern<V> {
     }): void;
 }
 /** The menu item ui pattern class. */
-declare class MenuItemPattern<V> implements ListItem<V> {
+declare class MenuItemPattern<V> implements ListItem<V | undefined> {
     readonly inputs: MenuItemInputs<V>;
     /** The value of the menu item. */
-    readonly value: SignalLike<V>;
+    readonly value: SignalLike<V | undefined>;
     /** The unique ID of the menu item. */
     readonly id: SignalLike<string>;
     /** Whether the menu item is disabled. */
