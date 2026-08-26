@@ -121,6 +121,10 @@ class ComboboxPattern {
     this.isFocused.set(true);
   }
   onFocusout() {
+    this.isFocused.set(false);
+    this.closePopupOnFocusout();
+  }
+  closePopupOnFocusout() {
     setTimeout(() => {
       const comboboxFocused = this.isFocused();
       const popupFocused = !!this.inputs.popup()?.isFocused();
@@ -128,7 +132,6 @@ class ComboboxPattern {
         this.inputs.expanded.set(false);
       }
     });
-    this.isFocused.set(false);
   }
   onInput(event) {
     const target = _getEventTarget(event);
@@ -170,6 +173,7 @@ class ComboboxPopupPattern {
   controlTarget = () => this.inputs.controlTarget();
   activeDescendant = () => this.inputs.activeDescendant();
   popupId = () => this.inputs.popupId();
+  combobox = () => this.inputs.combobox();
   isFocused = signal(false);
   constructor(inputs) {
     this.inputs = inputs;
@@ -181,6 +185,7 @@ class ComboboxPopupPattern {
     const focusTarget = event.relatedTarget;
     if (this.controlTarget()?.contains(focusTarget)) return;
     this.isFocused.set(false);
+    this.combobox()?.closePopupOnFocusout();
   }
 }
 

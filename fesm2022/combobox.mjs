@@ -320,7 +320,8 @@ class ComboboxPopup {
     debugName: "popupType"
   }] : []));
   _pattern = new ComboboxPopupPattern({
-    ...this
+    ...this,
+    combobox: computed(() => this.combobox()._pattern)
   });
   ngOnInit() {
     this.combobox()._registerPopup(this);

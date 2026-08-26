@@ -96,6 +96,8 @@ declare class ComboboxPattern {
     onFocusin(): void;
     /** Handles focus out events for the combobox. */
     onFocusout(): void;
+    /** Closes the popup once focus has left both the combobox and the popup. */
+    closePopupOnFocusout(): void;
     /** Handles input events for the combobox. */
     onInput(event: Event): void;
     /** Highlights the currently selected item in the combobox. */
@@ -113,6 +115,8 @@ interface ComboboxPopupInputs {
     activeDescendant: SignalLike<string | undefined>;
     /** The ID of the popup. */
     popupId: SignalLike<string | undefined>;
+    /** A reference to the parent combobox. */
+    combobox: SignalLike<ComboboxPattern | undefined>;
 }
 /** Controls the state of a simple combobox popup. */
 declare class ComboboxPopupPattern {
@@ -125,6 +129,8 @@ declare class ComboboxPopupPattern {
     readonly activeDescendant: () => string | undefined;
     /** The ID of the popup. */
     readonly popupId: () => string | undefined;
+    /** A reference to the parent combobox. */
+    readonly combobox: () => ComboboxPattern | undefined;
     /** Whether the popup is focused. */
     readonly isFocused: _angular_core.WritableSignal<boolean>;
     constructor(inputs: ComboboxPopupInputs);
