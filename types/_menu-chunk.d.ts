@@ -67,10 +67,12 @@ declare class MenuPattern<V> {
     readonly hasBeenInteracted: WritableSignalLike<boolean>;
     /** Whether the menu trigger has been hovered. */
     readonly hasBeenHovered: WritableSignalLike<boolean>;
+    /** Items currently inside the menu. */
+    readonly items: () => MenuItemPattern<V>[];
     /** Timeout used to open sub-menus on hover. */
-    _openTimeout: any;
+    private _openTimeout;
     /** Timeout used to close sub-menus on hover out. */
-    _closeTimeout: any;
+    private _closeTimeout;
     /** The tab index of the menu. */
     readonly tabIndex: () => -1 | 0;
     /** Whether the menu should be focused on mouse over. */
