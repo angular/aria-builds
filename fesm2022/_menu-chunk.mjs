@@ -12,6 +12,7 @@ class MenuPattern {
   isFocused = signal(false);
   hasBeenInteracted = signal(false);
   hasBeenHovered = signal(false);
+  items = () => this.inputs.items();
   _openTimeout;
   _closeTimeout;
   tabIndex = () => this.listBehavior.tabIndex();
@@ -101,7 +102,7 @@ class MenuPattern {
       return;
     }
     const parent = this.inputs.parent();
-    const activeItem = this?.inputs.activeItem();
+    const activeItem = this.inputs.activeItem();
     if (parent instanceof MenuItemPattern) {
       const grandparent = parent.inputs.parent();
       if (grandparent instanceof MenuPattern) {
@@ -439,7 +440,8 @@ class MenuTriggerPattern {
   pendingFocusEffect() {
     const menu = this.inputs.menu();
     const intent = this.pendingFocus();
-    if (menu && intent) {
+    const items = menu?.items();
+    if (menu && intent && items?.length) {
       if (intent === 'first') {
         menu.first();
       } else if (intent === 'last') {
