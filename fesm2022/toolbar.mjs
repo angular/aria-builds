@@ -1,13 +1,11 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, computed, input, booleanAttribute, model, signal, afterRenderEffect, afterNextRender, Directive, InjectionToken, contentChildren } from '@angular/core';
+import { inject, ElementRef, computed, input, booleanAttribute, signal, afterRenderEffect, afterNextRender, Directive, InjectionToken, contentChildren } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { ToolbarPattern, ToolbarWidgetPattern, ToolbarWidgetGroupPattern } from './_toolbar-widget-group-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import '@angular/cdk/platform';
-import './_list-chunk.mjs';
 import './_list-navigation-chunk.mjs';
-import './_list-typeahead-chunk.mjs';
 import '@angular/core/primitives/signals';
 
 class Toolbar {
@@ -39,29 +37,18 @@ class Toolbar {
     } : {}),
     transform: booleanAttribute
   });
-  value = model([], ...(ngDevMode ? [{
-    debugName: "value"
-  }] : []));
   _pattern = new ToolbarPattern({
     ...this,
     items: this._itemPatterns,
     activeItem: signal(undefined),
     textDirection: this.textDirection,
     element: () => this._elementRef.nativeElement,
-    getItem: e => this._getItem(e),
-    value: this.value
+    getItem: e => this._getItem(e)
   });
   constructor() {
     afterRenderEffect({
       write: () => this._pattern.setDefaultStateEffect()
     });
-    if (typeof ngDevMode === 'undefined' || ngDevMode) {
-      afterRenderEffect({
-        read: () => {
-          reportViolations(this._pattern.validate(), this.element);
-        }
-      });
-    }
     afterNextRender(() => {
       this._collection.startObserving(this.element);
     });
@@ -114,17 +101,7 @@ class Toolbar {
         isSignal: true,
         isRequired: false,
         transformFunction: null
-      },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
       }
-    },
-    outputs: {
-      value: "valueChange"
     },
     host: {
       attributes: {
@@ -201,17 +178,6 @@ i0.ɵɵngDeclareClassMetadata({
         alias: "wrap",
         required: false
       }]
-    }],
-    value: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "value",
-        required: false
-      }]
-    }, {
-      type: i0.Output,
-      args: ["valueChange"]
     }]
   }
 });
@@ -240,20 +206,15 @@ class ToolbarWidget {
   _group = inject(TOOLBAR_WIDGET_GROUP, {
     optional: true
   });
-  value = input.required(...(ngDevMode ? [{
-    debugName: "value"
-  }] : []));
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  selected = () => this._pattern.selected();
   _groupPattern = () => this._group?._pattern;
   _pattern = new ToolbarWidgetPattern({
     ...this,
     group: this._groupPattern,
     toolbar: this._toolbarPattern,
     id: this.id,
-    value: this.value,
     element: () => this.element
   });
   ngOnInit() {
@@ -289,13 +250,6 @@ class ToolbarWidget {
         publicName: "disabled",
         isSignal: true,
         isRequired: false,
-        transformFunction: null
-      },
-      value: {
-        classPropertyName: "value",
-        publicName: "value",
-        isSignal: true,
-        isRequired: true,
         transformFunction: null
       }
     },
@@ -353,14 +307,6 @@ i0.ɵɵngDeclareClassMetadata({
         alias: "disabled",
         required: false
       }]
-    }],
-    value: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "value",
-        required: true
-      }]
     }]
   }
 });
@@ -387,12 +333,6 @@ class ToolbarWidgetGroup {
     transform: booleanAttribute
   });
   _itemPatterns = () => this._widgets().map(w => w._pattern);
-  multi = input(false, {
-    ...(ngDevMode ? {
-      debugName: "multi"
-    } : {}),
-    transform: booleanAttribute
-  });
   _pattern = new ToolbarWidgetGroupPattern({
     ...this,
     items: this._itemPatterns,
@@ -429,13 +369,6 @@ class ToolbarWidgetGroup {
       disabled: {
         classPropertyName: "disabled",
         publicName: "disabled",
-        isSignal: true,
-        isRequired: false,
-        transformFunction: null
-      },
-      multi: {
-        classPropertyName: "multi",
-        publicName: "multi",
         isSignal: true,
         isRequired: false,
         transformFunction: null
@@ -487,14 +420,6 @@ i0.ɵɵngDeclareClassMetadata({
       args: [{
         isSignal: true,
         alias: "disabled",
-        required: false
-      }]
-    }],
-    multi: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "multi",
         required: false
       }]
     }]
