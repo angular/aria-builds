@@ -1,6 +1,6 @@
 {
   "name": "@angular/aria",
-  "version": "22.1.6+sha-0cf603b",
+  "version": "22.1.6+sha-bbc7b49",
   "description": "Angular Aria",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/angular/components#readme",
   "peerDependencies": {
-    "@angular/cdk": "22.1.6+sha-0cf603b",
+    "@angular/cdk": "22.1.6+sha-bbc7b49",
     "@angular/core": "^22.0.0 || ^23.0.0"
   },
   "devDependencies": {
