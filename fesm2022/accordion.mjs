@@ -477,7 +477,8 @@ class AccordionTrigger {
     },
     host: {
       attributes: {
-        "role": "button"
+        "role": "button",
+        "ngAccordionTrigger": ""
       },
       properties: {
         "attr.data-active": "active()",
@@ -511,7 +512,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-controls]': '_pattern.controls()',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.disabled]': '_pattern.hardDisabled() ? true : null',
-        '[attr.tabindex]': '_pattern.tabIndex()'
+        '[attr.tabindex]': '_pattern.tabIndex()',
+        'ngAccordionTrigger': ''
       }
     }]
   }],
