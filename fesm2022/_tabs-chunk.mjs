@@ -1,7 +1,8 @@
 import { _getEventTarget } from '@angular/cdk/platform';
 import { ListExpansion } from './_expansion-chunk.mjs';
-import { signal, computed, KeyboardEventManager, linkedSignal } from './_violations-chunk.mjs';
+import { signal, computed, linkedSignal } from './_violations-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class TabPattern {

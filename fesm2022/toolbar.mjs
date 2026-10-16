@@ -6,6 +6,7 @@ import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import '@angular/cdk/platform';
 import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 import '@angular/core/primitives/signals';
 
 class Toolbar {

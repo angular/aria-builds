@@ -1,9 +1,12 @@
 import * as i0 from '@angular/core';
 import { inject, Renderer2, ElementRef, signal, input, booleanAttribute, model, computed, afterRenderEffect, Directive, InjectionToken, afterNextRender } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { DeferredContentAware, tabIndexTransform, ComboboxPattern, DeferredContent, ComboboxPopupPattern } from '@angular/aria/private';
+import { tabIndexTransform } from './_transforms-chunk.mjs';
+import { ComboboxPattern, ComboboxPopupPattern } from './_combobox-chunk.mjs';
+import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
-export { DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware } from './_deferred-content-chunk.mjs';
+import '@angular/cdk/platform';
+import './_keyboard-event-manager-chunk.mjs';
+import './_click-event-manager-chunk.mjs';
 
 class Combobox extends DeferredContentAware {
   _renderer = inject(Renderer2);
@@ -372,7 +375,7 @@ class ComboboxPopup {
     }],
     exportAs: ["ngComboboxPopup"],
     hostDirectives: [{
-      directive: i1.DeferredContent
+      directive: DeferredContent
     }],
     ngImport: i0
   });
@@ -522,5 +525,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { COMBOBOX_POPUP, Combobox, ComboboxPopup, ComboboxWidget };
+export { COMBOBOX_POPUP, Combobox, ComboboxPopup, ComboboxWidget, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };
 //# sourceMappingURL=combobox.mjs.map

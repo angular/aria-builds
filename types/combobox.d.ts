@@ -1,8 +1,11 @@
 import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, InjectionToken } from '@angular/core';
-import * as i1 from '@angular/aria/private';
-import { ComboboxPopupPattern, DeferredContentAware, ComboboxPattern } from '@angular/aria/private';
-export { DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware } from './_deferred-content-chunk.js';
+import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.js';
+import { ComboboxPopupPattern, ComboboxPattern } from './private.js';
+import './_keyboard-event-manager-chunk.js';
+import './_signal-like-chunk.js';
+import './_click-event-manager-chunk.js';
+import './_expansion-chunk.js';
 
 /**
  * Identifies an element as a widget within a combobox popup.
@@ -71,7 +74,7 @@ declare class ComboboxPopup implements OnInit, OnDestroy {
     /** Unregisters the widget from the popup. */
     _unregisterWidget(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ComboboxPopup, never>;
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup, "ng-template[ngComboboxPopup]", ["ngComboboxPopup"], { "combobox": { "alias": "combobox"; "required": true; "isSignal": true; }; "popupType": { "alias": "popupType"; "required": false; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.DeferredContent; inputs: {}; outputs: {}; }]>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ComboboxPopup, "ng-template[ngComboboxPopup]", ["ngComboboxPopup"], { "combobox": { "alias": "combobox"; "required": true; "isSignal": true; }; "popupType": { "alias": "popupType"; "required": false; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof DeferredContent; inputs: {}; outputs: {}; }]>;
 }
 
 /**
@@ -147,4 +150,4 @@ declare class Combobox extends DeferredContentAware implements OnInit {
 /** Token used to expose the combobox popup. */
 declare const COMBOBOX_POPUP: InjectionToken<ComboboxPopup>;
 
-export { COMBOBOX_POPUP, Combobox, ComboboxPopup, ComboboxWidget };
+export { COMBOBOX_POPUP, Combobox, ComboboxPopup, ComboboxWidget, DeferredContent as ɵɵDeferredContent, DeferredContentAware as ɵɵDeferredContentAware };

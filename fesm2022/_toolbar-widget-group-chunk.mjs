@@ -1,6 +1,7 @@
 import { _getEventTarget } from '@angular/cdk/platform';
-import { signal, computed, KeyboardEventManager } from './_violations-chunk.mjs';
+import { signal, computed } from './_violations-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
 
 class ToolbarPattern {
   inputs;

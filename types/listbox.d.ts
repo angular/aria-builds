@@ -3,6 +3,7 @@ import * as _angular_core from '@angular/core';
 import { OnInit, OnDestroy, Signal, InjectionToken } from '@angular/core';
 import { OptionPattern, ListboxPattern } from './private.js';
 import { SortedCollection } from './private.js';
+import './_signal-like-chunk.js';
 import './_list-chunk.js';
 import './_list-navigation-chunk.js';
 import './_keyboard-event-manager-chunk.js';

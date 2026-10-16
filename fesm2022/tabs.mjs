@@ -8,6 +8,7 @@ import { Directionality } from '@angular/cdk/bidi';
 import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 import '@angular/core/primitives/signals';
 

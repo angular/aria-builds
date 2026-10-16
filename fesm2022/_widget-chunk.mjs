@@ -1,5 +1,6 @@
 import { _getEventTarget } from '@angular/cdk/platform';
-import { computed, signal, linkedSignal, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
+import { computed, signal, linkedSignal } from './_violations-chunk.mjs';
+import { KeyboardEventManager, Modifier } from './_keyboard-event-manager-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 import { untracked } from '@angular/core/primitives/signals';
 import { ElementRef } from '@angular/core';
