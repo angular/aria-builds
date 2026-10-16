@@ -9,6 +9,7 @@ import '@angular/core/primitives/signals';
 import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
+import './_keyboard-event-manager-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 
 class AccordionContent {

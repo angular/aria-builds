@@ -1,11 +1,12 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, inject, ElementRef, computed, input, booleanAttribute, afterRenderEffect, afterNextRender, Directive, output, Renderer2, contentChild, model } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
-import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { GridPattern, GridCellWidgetPattern, GridCellPattern, GridRowPattern } from './_widget-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
+import { tabIndexTransform } from './_transforms-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import '@angular/cdk/platform';
+import './_keyboard-event-manager-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 import '@angular/core/primitives/signals';
 

@@ -3,6 +3,7 @@ import { OnInit, OnDestroy, Signal, InjectionToken } from '@angular/core';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import { GridCellPattern, GridPattern, GridRowPattern, ElementResolver, GridCellWidgetPattern } from './private.js';
 import { SortedCollection } from './private.js';
+import './_signal-like-chunk.js';
 import './_keyboard-event-manager-chunk.js';
 import './_click-event-manager-chunk.js';
 

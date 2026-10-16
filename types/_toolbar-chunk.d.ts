@@ -1,4 +1,4 @@
-import { SignalLike, WritableSignalLike } from './_collection-chunk.js';
+import { SignalLike, WritableSignalLike } from './_signal-like-chunk.js';
 import { ListFocusItem, ListNavigationItem, ListFocus, ListNavigation } from './_list-navigation-chunk.js';
 
 /** Represents the required inputs for a toolbar widget group. */

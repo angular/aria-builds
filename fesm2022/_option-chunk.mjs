@@ -1,6 +1,7 @@
 import { _getEventTarget } from '@angular/cdk/platform';
-import { signal, computed, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
+import { signal, computed } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
+import { KeyboardEventManager, Modifier } from './_keyboard-event-manager-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class ListboxPattern {

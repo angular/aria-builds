@@ -1,8 +1,9 @@
 import { _getEventTarget } from '@angular/cdk/platform';
-import { computed, signal, KeyboardEventManager, Modifier } from './_violations-chunk.mjs';
+import { computed, signal } from './_violations-chunk.mjs';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListNavigation, ListFocus } from './_list-navigation-chunk.mjs';
 import { ListSelection, ListTypeahead } from './_list-typeahead-chunk.mjs';
+import { KeyboardEventManager, Modifier } from './_keyboard-event-manager-chunk.mjs';
 import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class TreeListFocus extends ListFocus {

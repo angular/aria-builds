@@ -5,6 +5,7 @@ import { TreeItemPattern, TreePattern } from './private.js';
 import { HasElement, SortedCollection } from './private.js';
 import { DeferredContent } from './_deferred-content-chunk.js';
 import { DeferredContentAware } from './private.js';
+import './_signal-like-chunk.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
 import './_list-chunk.js';

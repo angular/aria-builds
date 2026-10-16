@@ -1,6 +1,7 @@
 import { _getEventTarget } from '@angular/cdk/platform';
-import { computed, signal, KeyboardEventManager } from './_violations-chunk.mjs';
+import { computed, signal } from './_violations-chunk.mjs';
 import { List } from './_list-chunk.mjs';
+import { KeyboardEventManager } from './_keyboard-event-manager-chunk.mjs';
 
 class MenuPattern {
   inputs;

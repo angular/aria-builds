@@ -5,6 +5,7 @@ import { TabPattern, TabListPattern, TabPanelPattern } from './private.js';
 import { HasElement, SortedCollection } from './private.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import './_keyboard-event-manager-chunk.js';
+import './_signal-like-chunk.js';
 import './_click-event-manager-chunk.js';
 import './_expansion-chunk.js';
 import './_list-navigation-chunk.js';
