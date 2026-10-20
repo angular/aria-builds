@@ -53,6 +53,8 @@ declare class ComboboxWidget implements OnInit, OnDestroy {
  */
 declare class ComboboxPopup implements OnInit, OnDestroy {
     private readonly _deferredContent;
+    /** The combobox that the popup is registered with. */
+    private _registeredCombobox;
     /** The combobox that the popup belongs to. */
     readonly combobox: _angular_core.InputSignal<Combobox>;
     /** The widget contained within the popup. */

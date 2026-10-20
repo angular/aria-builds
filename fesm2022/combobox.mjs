@@ -304,6 +304,7 @@ const COMBOBOX_POPUP = new InjectionToken('COMBOBOX_POPUP');
 
 class ComboboxPopup {
   _deferredContent = inject(DeferredContent);
+  _registeredCombobox;
   combobox = input.required(...(ngDevMode ? [{
     debugName: "combobox"
   }] : []));
@@ -327,11 +328,12 @@ class ComboboxPopup {
     combobox: computed(() => this.combobox()._pattern)
   });
   ngOnInit() {
-    this.combobox()._registerPopup(this);
-    this._deferredContent.deferredContentAware.set(this.combobox());
+    this._registeredCombobox = this.combobox();
+    this._registeredCombobox._registerPopup(this);
+    this._deferredContent.deferredContentAware.set(this._registeredCombobox);
   }
   ngOnDestroy() {
-    this.combobox()._unregisterPopup();
+    this._registeredCombobox?._unregisterPopup();
   }
   _registerWidget(widget) {
     this._widget.set(widget);
