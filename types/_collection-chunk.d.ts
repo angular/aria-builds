@@ -17,13 +17,14 @@ declare function sortDirectives(a: HasElement, b: HasElement): -1 | 1;
  */
 declare class SortedCollection<T extends HasElement> {
     private readonly _items;
-    private readonly _version;
+    private readonly _sortedItems;
     private _observer?;
     readonly orderedItems: Signal<T[]>;
     register(item: T): void;
     unregister(item: T): void;
     startObserving(element: HTMLElement): void;
     stopObserving(): void;
+    private _getSortedItems;
 }
 
 export { SortedCollection, sortDirectives };
