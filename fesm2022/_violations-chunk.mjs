@@ -1,5 +1,5 @@
 import { createComputed, SIGNAL, createSignal, createLinkedSignal, linkedSignalUpdateFn, linkedSignalSetFn } from '@angular/core/primitives/signals';
-import { signal as signal$1, computed as computed$1 } from '@angular/core';
+import { signal as signal$1 } from '@angular/core';
 
 function convertGetterSetterToWritableSignalLike(getter, setter) {
   return Object.assign(getter, {
@@ -37,46 +37,47 @@ function sortDirectives(a, b) {
 }
 
 class SortedCollection {
-  _items = signal$1(new Set());
-  _version = signal$1(0);
+  _items = new Set();
+  _sortedItems = signal$1([]);
   _observer;
-  orderedItems = computed$1(() => {
-    this._version();
-    const itemsArray = Array.from(this._items());
-    return itemsArray.sort(sortDirectives);
-  });
+  orderedItems = this._sortedItems.asReadonly();
   register(item) {
-    this._items.update(set => {
-      const newSet = new Set(set);
-      newSet.add(item);
-      return newSet;
-    });
+    if (!this._items.has(item)) {
+      this._items.add(item);
+      this._sortedItems.set(this._getSortedItems());
+    }
   }
   unregister(item) {
-    this._items.update(set => {
-      const newSet = new Set(set);
-      newSet.delete(item);
-      return newSet;
-    });
+    if (this._items.has(item)) {
+      this._items.delete(item);
+      this._sortedItems.set(this._getSortedItems());
+    }
   }
   startObserving(element) {
-    if (this._observer) {
-      this._observer.disconnect();
-    }
+    this.stopObserving();
     this._observer = new MutationObserver(mutations => {
       const hasStructuralChange = mutations.some(m => m.addedNodes.length || m.removedNodes.length);
       if (hasStructuralChange) {
-        this._version.update(v => v + 1);
+        const newItems = this._getSortedItems();
+        const currentItems = this._sortedItems();
+        const hasChanged = newItems.length !== currentItems.length || newItems.some((item, index) => currentItems[index] !== item);
+        if (hasChanged) {
+          this._sortedItems.set(newItems);
+        }
       }
     });
     this._observer.observe(element, {
       childList: true,
-      subtree: true
+      subtree: true,
+      attributes: false
     });
   }
   stopObserving() {
     this._observer?.disconnect();
     this._observer = undefined;
+  }
+  _getSortedItems() {
+    return Array.from(this._items).sort(sortDirectives);
   }
 }
 
