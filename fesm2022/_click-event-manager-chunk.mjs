@@ -1,7 +1,7 @@
 import { EventManager, Modifier, hasModifiers } from './_keyboard-event-manager-chunk.mjs';
 
 function isFakeClick(event) {
-  return event.detail === 0 || !event.pointerType;
+  return event.detail === 0 && event.screenX === 0 && event.screenY === 0;
 }
 function isProgrammaticClick(event) {
   return !event.isTrusted;
