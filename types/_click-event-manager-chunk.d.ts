@@ -21,7 +21,7 @@ declare class ClickEventManager<T extends PointerEvent> extends EventManager<T> 
      */
     on(handler: EventHandler<T>): this;
     private _normalizeInputs;
-    _isMatch(event: T, modifiers: ModifierInputs): boolean;
+    private _isMatch;
 }
 
 export { ClickEventManager };
