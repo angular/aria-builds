@@ -6,7 +6,6 @@ import { reportViolations, SortedCollection } from './_violations-chunk.mjs';
 import { AccordionGroupPattern, AccordionTriggerPattern } from './_accordion-chunk.mjs';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import '@angular/core/primitives/signals';
-import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_keyboard-event-manager-chunk.mjs';
@@ -288,13 +287,6 @@ class AccordionGroup {
         transformFunction: null
       }
     },
-    host: {
-      listeners: {
-        "keydown": "_pattern.onKeydown($event)",
-        "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocus($event)"
-      }
-    },
     providers: [{
       provide: ACCORDION_GROUP,
       useExisting: AccordionGroup
@@ -313,11 +305,6 @@ i0.ɵɵngDeclareClassMetadata({
     args: [{
       selector: '[ngAccordionGroup]',
       exportAs: 'ngAccordionGroup',
-      host: {
-        '(keydown)': '_pattern.onKeydown($event)',
-        '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocus($event)'
-      },
       providers: [{
         provide: ACCORDION_GROUP,
         useExisting: AccordionGroup
@@ -383,10 +370,15 @@ class AccordionTrigger {
   expanded = model(false, ...(ngDevMode ? [{
     debugName: "expanded"
   }] : []));
+  _pattern = new AccordionTriggerPattern({
+    ...this,
+    element: () => this.element,
+    accordionGroup: () => this._accordionGroup._pattern,
+    accordionPanelId: this.panelId
+  });
   active = computed(() => this._pattern.active(), ...(ngDevMode ? [{
     debugName: "active"
   }] : []));
-  _pattern;
   constructor() {
     if (this.element.tagName === 'BUTTON' && !this.element.hasAttribute('type')) {
       this.element.setAttribute('type', 'button');
@@ -407,12 +399,6 @@ class AccordionTrigger {
     }
   }
   ngOnInit() {
-    this._pattern = new AccordionTriggerPattern({
-      ...this,
-      element: () => this.element,
-      accordionGroup: () => this._accordionGroup._pattern,
-      accordionPanelId: this.panelId
-    });
     this.panel()._pattern = this._pattern;
     this._accordionGroup._collection.register(this);
   }
@@ -481,6 +467,11 @@ class AccordionTrigger {
         "role": "button",
         "ngAccordionTrigger": ""
       },
+      listeners: {
+        "keydown": "_pattern.onKeydown($event)",
+        "click": "_pattern.onClick($event)",
+        "focus": "_pattern.onFocus()"
+      },
       properties: {
         "attr.data-active": "active()",
         "id": "id()",
@@ -514,6 +505,9 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.disabled]': '_pattern.hardDisabled() ? true : null',
         '[attr.tabindex]': '_pattern.tabIndex()',
+        '(keydown)': '_pattern.onKeydown($event)',
+        '(click)': '_pattern.onClick($event)',
+        '(focus)': '_pattern.onFocus()',
         'ngAccordionTrigger': ''
       }
     }]

@@ -17,30 +17,12 @@ declare class AccordionGroupPattern {
     /** Controls expansion for the group. */
     readonly expansionBehavior: ListExpansion;
     constructor(inputs: AccordionGroupInputs);
-    /** The key used to navigate to the previous accordion trigger. */
-    readonly prevKey: SignalLike<"ArrowLeft" | "ArrowRight" | "ArrowUp">;
-    /** The key used to navigate to the next accordion trigger. */
-    readonly nextKey: SignalLike<"ArrowDown" | "ArrowLeft" | "ArrowRight">;
-    /** The keydown event manager for the accordion trigger. */
-    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
-    /** The click event manager for the accordion trigger. */
-    readonly click: SignalLike<ClickEventManager<PointerEvent>>;
-    /** Handles keydown events on the trigger, delegating to the group if not disabled. */
-    onKeydown(event: KeyboardEvent): void;
-    /** Handles click events on the trigger, delegating to the group if not disabled. */
-    onClick(event: PointerEvent): void;
-    /** Handles focus events on the trigger. This ensures the tabbing changes the active index. */
-    onFocus(event: FocusEvent): void;
-    /** Toggles the expansion state of the active accordion item. */
-    toggle(): void;
     /** Expands all accordion panels if multi-expandable. */
     expandAll(): void;
     /** Collapses all accordion panels. */
     collapseAll(): void;
     /** Returns a set of violations */
     validate(): string[];
-    /** Finds the trigger pattern for a given element. */
-    private _findTriggerPattern;
 }
 /** Inputs for the AccordionTriggerPattern. */
 interface AccordionTriggerInputs extends Omit<ListNavigationItem & ListFocusItem, 'index'>, Omit<ExpansionItem, 'expandable'> {
@@ -70,7 +52,21 @@ declare class AccordionTriggerPattern implements ListNavigationItem, ListFocusIt
     readonly disabled: SignalLike<boolean>;
     /** Whether the trigger is hard disabled.  */
     readonly hardDisabled: SignalLike<boolean>;
+    /** The key used to navigate to the previous accordion trigger. */
+    private readonly _prevKey;
+    /** The key used to navigate to the next accordion trigger. */
+    private readonly _nextKey;
+    /** The keydown event manager for the accordion trigger. */
+    readonly keydown: SignalLike<KeyboardEventManager<KeyboardEvent>>;
+    /** The click event manager for the accordion trigger. */
+    readonly click: SignalLike<ClickEventManager<PointerEvent>>;
     constructor(inputs: AccordionTriggerInputs);
+    /** Handles keydown events on the trigger, delegating to the group if not disabled. */
+    onKeydown(event: KeyboardEvent): void;
+    /** Handles click events on the trigger, delegating to the group if not disabled. */
+    onClick(event: PointerEvent): void;
+    /** Handles focus events on the trigger. This ensures the tabbing changes the active index. */
+    onFocus(): void;
     /** Opens the accordion panel. */
     open(): void;
     /** Closes the accordion panel. */

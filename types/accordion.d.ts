@@ -93,10 +93,10 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the corresponding panel is expanded. */
     readonly expanded: _angular_core.ModelSignal<boolean>;
+    /** The UI pattern instance for this trigger. */
+    readonly _pattern: AccordionTriggerPattern;
     /** Whether the trigger is active. */
     readonly active: _angular_core.Signal<boolean>;
-    /** The UI pattern instance for this trigger. */
-    _pattern: AccordionTriggerPattern;
     constructor();
     ngOnInit(): void;
     ngOnDestroy(): void;
