@@ -1,4 +1,3 @@
-import { _getEventTarget } from '@angular/cdk/platform';
 import { ListExpansion } from './_expansion-chunk.mjs';
 import { ListFocus, ListNavigation } from './_list-navigation-chunk.mjs';
 import { computed } from './_violations-chunk.mjs';
@@ -26,50 +25,6 @@ class AccordionGroupPattern {
       ...inputs
     });
   }
-  prevKey = computed(() => {
-    if (this.inputs.orientation() === 'vertical') {
-      return 'ArrowUp';
-    }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
-  });
-  nextKey = computed(() => {
-    if (this.inputs.orientation() === 'vertical') {
-      return 'ArrowDown';
-    }
-    return this.inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
-  });
-  keydown = computed(() => {
-    return new KeyboardEventManager().on(this.prevKey, () => this.navigationBehavior.prev(), {
-      ignoreRepeat: false
-    }).on(this.nextKey, () => this.navigationBehavior.next(), {
-      ignoreRepeat: false
-    }).on('Home', () => this.navigationBehavior.first()).on('End', () => this.navigationBehavior.last()).on(' ', () => this.toggle()).on('Enter', () => this.toggle());
-  });
-  click = computed(() => {
-    return new ClickEventManager().on(e => {
-      const item = this._findTriggerPattern(_getEventTarget(e));
-      if (!item) return;
-      this.navigationBehavior.goto(item);
-      this.expansionBehavior.toggle(item);
-    });
-  });
-  onKeydown(event) {
-    this.keydown().handle(event);
-  }
-  onClick(event) {
-    this.click().handle(event);
-  }
-  onFocus(event) {
-    const item = this._findTriggerPattern(_getEventTarget(event));
-    if (!item) return;
-    if (!this.focusBehavior.isFocusable(item)) return;
-    this.focusBehavior.focus(item);
-  }
-  toggle() {
-    const activeItem = this.inputs.activeItem();
-    if (activeItem === undefined) return;
-    this.expansionBehavior.toggle(activeItem);
-  }
   expandAll() {
     this.expansionBehavior.openAll();
   }
@@ -86,17 +41,6 @@ class AccordionGroupPattern {
     }
     return violations;
   }
-  _findTriggerPattern(element) {
-    let target = element;
-    while (target) {
-      const pattern = this.inputs.items().find(t => t.element() === target);
-      if (pattern) {
-        return pattern;
-      }
-      target = target.parentElement?.closest('[ngAccordionTrigger]');
-    }
-    return undefined;
-  }
 }
 class AccordionTriggerPattern {
   inputs;
@@ -109,11 +53,54 @@ class AccordionTriggerPattern {
   tabIndex = computed(() => this.inputs.accordionGroup().focusBehavior.isFocusable(this) ? 0 : -1);
   disabled = computed(() => this.inputs.disabled() || this.inputs.accordionGroup().inputs.disabled());
   hardDisabled = computed(() => this.disabled() && !this.inputs.accordionGroup().inputs.softDisabled());
+  _prevKey = computed(() => {
+    if (this.inputs.accordionGroup().inputs.orientation() === 'vertical') {
+      return 'ArrowUp';
+    }
+    return this.inputs.accordionGroup().inputs.textDirection() === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+  });
+  _nextKey = computed(() => {
+    if (this.inputs.accordionGroup().inputs.orientation() === 'vertical') {
+      return 'ArrowDown';
+    }
+    return this.inputs.accordionGroup().inputs.textDirection() === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+  });
+  keydown = computed(() => {
+    const group = this.inputs.accordionGroup();
+    return new KeyboardEventManager().on(this._prevKey, () => group.navigationBehavior.prev(), {
+      ignoreRepeat: false
+    }).on(this._nextKey, () => group.navigationBehavior.next(), {
+      ignoreRepeat: false
+    }).on('Home', () => group.navigationBehavior.first()).on('End', () => group.navigationBehavior.last()).on(' ', () => this.toggle()).on('Enter', () => this.toggle());
+  });
+  click = computed(() => {
+    return new ClickEventManager().on(() => {
+      const group = this.inputs.accordionGroup();
+      group.navigationBehavior.goto(this);
+      group.expansionBehavior.toggle(this);
+    });
+  });
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
     this.expanded = inputs.expanded;
     this.controls = inputs.accordionPanelId;
+  }
+  onKeydown(event) {
+    if (!this.active()) {
+      this.inputs.accordionGroup().focusBehavior.focus(this, {
+        focusElement: false
+      });
+    }
+    this.keydown().handle(event);
+  }
+  onClick(event) {
+    this.click().handle(event);
+  }
+  onFocus() {
+    this.inputs.accordionGroup().focusBehavior.focus(this, {
+      focusElement: false
+    });
   }
   open() {
     this.inputs.accordionGroup().expansionBehavior.open(this);

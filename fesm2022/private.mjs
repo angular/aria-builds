@@ -10,12 +10,12 @@ export { ToolbarPattern, ToolbarWidgetGroupPattern, ToolbarWidgetPattern } from 
 export { TreeItemPattern, TreePattern } from './_tree-chunk.mjs';
 export { tabIndexTransform } from './_transforms-chunk.mjs';
 export { untracked } from '@angular/core/primitives/signals';
-import '@angular/cdk/platform';
 import './_expansion-chunk.mjs';
 import './_list-navigation-chunk.mjs';
 import './_keyboard-event-manager-chunk.mjs';
 import './_click-event-manager-chunk.mjs';
 import '@angular/core';
+import '@angular/cdk/platform';
 import './_list-chunk.mjs';
 import './_list-typeahead-chunk.mjs';
 //# sourceMappingURL=private.mjs.map
