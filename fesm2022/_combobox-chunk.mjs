@@ -30,7 +30,7 @@ class ComboboxPattern {
     }
     return 'none';
   });
-  keyboardEventRelay = signal(undefined);
+  keyboardEventRelay = signal([]);
   isFocused = signal(false);
   isDeleting = signal(false);
   isEditable = computed(() => this.element().tagName.toLowerCase() === 'input' || this.element().tagName.toLowerCase() === 'textarea');
@@ -50,34 +50,35 @@ class ComboboxPattern {
       return manager;
     }
     manager.on('ArrowLeft', e => {
-      this.keyboardEventRelay.set(e);
+      this._relayKeydown(e);
     }, {
       preventDefault: this.popupType() !== 'listbox',
       ignoreRepeat: false
     }).on('ArrowRight', e => {
-      this.keyboardEventRelay.set(e);
+      this._relayKeydown(e);
     }, {
       preventDefault: this.popupType() !== 'listbox',
       ignoreRepeat: false
-    }).on('ArrowUp', e => this.keyboardEventRelay.set(e), {
+    }).on('ArrowUp', e => this._relayKeydown(e), {
       ignoreRepeat: false
-    }).on('ArrowDown', e => this.keyboardEventRelay.set(e), {
+    }).on('ArrowDown', e => this._relayKeydown(e), {
       ignoreRepeat: false
-    }).on(Modifier.Shift, 'ArrowUp', e => this.keyboardEventRelay.set(e), {
+    }).on(Modifier.Shift, 'ArrowUp', e => this._relayKeydown(e), {
       ignoreRepeat: false
-    }).on(Modifier.Shift, 'ArrowDown', e => this.keyboardEventRelay.set(e), {
+    }).on(Modifier.Shift, 'ArrowDown', e => this._relayKeydown(e), {
       ignoreRepeat: false
-    }).on('Home', e => this.keyboardEventRelay.set(e)).on('End', e => this.keyboardEventRelay.set(e)).on('PageUp', e => this.keyboardEventRelay.set(e)).on('PageDown', e => this.keyboardEventRelay.set(e)).on('Escape', () => {
+    }).on('Home', e => this._relayKeydown(e)).on('End', e => this._relayKeydown(e)).on('PageUp', e => this._relayKeydown(e)).on('PageDown', e => this._relayKeydown(e)).on('Escape', () => {
       if (!this.inputs.alwaysExpanded()) {
         this.inputs.expanded.set(false);
+        this.keyboardEventRelay.set([]);
       }
     });
     if (!this.readonly()) {
-      manager.on('Enter', e => this.keyboardEventRelay.set(e));
+      manager.on('Enter', e => this._relayKeydown(e));
     }
     if (!this.isEditable() && !this.readonly()) {
-      manager.on(' ', e => this.keyboardEventRelay.set(e)).on([Modifier.Ctrl, Modifier.Meta], 'a', e => this.keyboardEventRelay.set(e)).on([Modifier.Ctrl, Modifier.Meta], 'A', e => this.keyboardEventRelay.set(e)).on(Modifier.Shift, 'Home', e => this.keyboardEventRelay.set(e)).on(Modifier.Shift, 'End', e => this.keyboardEventRelay.set(e)).on(/^.$/, e => {
-        this.keyboardEventRelay.set(e);
+      manager.on([Modifier.Ctrl, Modifier.Meta], 'A', e => this._relayKeydown(e)).on(Modifier.Shift, 'Home', e => this._relayKeydown(e)).on(Modifier.Shift, 'End', e => this._relayKeydown(e)).on(/^.$/, e => {
+        this._relayKeydown(e);
       });
     }
     return manager;
@@ -91,6 +92,9 @@ class ComboboxPattern {
   constructor(inputs) {
     this.inputs = inputs;
     this.value = inputs.value;
+  }
+  _relayKeydown(event) {
+    this.keyboardEventRelay.update(events => [...events, event]);
   }
   onKeydown(event) {
     if (!this.inputs.disabled()) {
@@ -140,16 +144,19 @@ class ComboboxPattern {
     }
   }
   keyboardEventRelayEffect() {
-    const event = this.keyboardEventRelay();
-    if (event === undefined) return;
+    const events = this.keyboardEventRelay();
+    if (events.length === 0) return;
     this.isDeleting.set(false);
-    untracked(() => {
-      const popup = this.inputs.popup();
-      if (this.isExpanded()) {
-        const relayedEvent = new KeyboardEvent(event.type, event);
-        popup?.controlTarget()?.dispatchEvent(relayedEvent);
-      }
-    });
+    if (!untracked(() => this.isExpanded())) {
+      this.keyboardEventRelay.set([]);
+      return;
+    }
+    const target = this.inputs.popup()?.controlTarget();
+    if (!target) return;
+    this.keyboardEventRelay.set([]);
+    for (const event of events) {
+      target.dispatchEvent(new KeyboardEvent(event.type, event));
+    }
   }
 }
 class ComboboxPopupPattern {

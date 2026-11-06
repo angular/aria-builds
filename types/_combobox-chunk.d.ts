@@ -48,8 +48,8 @@ declare class ComboboxPattern {
     readonly popupType: _angular_core.Signal<"dialog" | "grid" | "listbox" | "tree" | undefined>;
     /** The autocomplete behavior of the combobox. */
     readonly autocomplete: _angular_core.Signal<"both" | "inline" | "list" | "none">;
-    /** A relay for keyboard events to the popup. */
-    readonly keyboardEventRelay: _angular_core.WritableSignal<KeyboardEvent | undefined>;
+    /** A relay queue for keyboard events to the popup. */
+    readonly keyboardEventRelay: _angular_core.WritableSignal<KeyboardEvent[]>;
     /** Whether the combobox is focused. */
     readonly isFocused: _angular_core.WritableSignal<boolean>;
     /** Whether the most recent input event was a deletion. */
@@ -67,6 +67,8 @@ declare class ComboboxPattern {
     /** The click event manager for the combobox. */
     click: _angular_core.Signal<ClickEventManager<PointerEvent>>;
     constructor(inputs: ComboboxInputs);
+    /** Queues a keyboard event to be relayed to the popup. */
+    private _relayKeydown;
     /** Handles keydown events for the combobox. */
     onKeydown(event: KeyboardEvent): void;
     /** Handles click events for the combobox. */
