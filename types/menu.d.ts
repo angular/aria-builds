@@ -239,6 +239,8 @@ declare class MenuTrigger<V> {
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     /** Whether the menu trigger is soft disabled. */
     readonly softDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    /** Tab index of the menu trigger. */
+    readonly tabIndex: _angular_core.Signal<-1 | 0>;
     /** The menu trigger ui pattern instance. */
     readonly _pattern: MenuTriggerPattern<V>;
     constructor();
