@@ -37,6 +37,9 @@ class MenuTrigger {
     } : {}),
     transform: booleanAttribute
   });
+  tabIndex = computed(() => this._pattern.tabIndex(), ...(ngDevMode ? [{
+    debugName: "tabIndex"
+  }] : []));
   _pattern = new MenuTriggerPattern({
     textDirection: this.textDirection,
     element: computed(() => this._elementRef.nativeElement),
@@ -103,7 +106,7 @@ class MenuTrigger {
         "focusin": "_pattern.onFocusIn()"
       },
       properties: {
-        "attr.tabindex": "_pattern.tabIndex()",
+        "attr.tabindex": "tabIndex()",
         "attr.disabled": "!softDisabled() && _pattern.disabled() ? true : null",
         "attr.aria-disabled": "_pattern.disabled()",
         "attr.aria-haspopup": "hasPopup()",
@@ -126,7 +129,7 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngMenuTrigger]',
       exportAs: 'ngMenuTrigger',
       host: {
-        '[attr.tabindex]': '_pattern.tabIndex()',
+        '[attr.tabindex]': 'tabIndex()',
         '[attr.disabled]': '!softDisabled() && _pattern.disabled() ? true : null',
         '[attr.aria-disabled]': '_pattern.disabled()',
         '[attr.aria-haspopup]': 'hasPopup()',
