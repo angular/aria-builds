@@ -265,7 +265,11 @@ declare class MenuItemPattern<V> implements ListItem<V | undefined> {
     readonly submenu: SignalLike<MenuPattern<V> | undefined>;
     /** Whether the menu item is selectable. */
     readonly selectable: SignalLike<boolean>;
+    /** The pending focus target when the submenu is opened before the submenu instance is available. */
+    readonly pendingFocus: WritableSignalLike<"first" | "last" | null>;
     constructor(inputs: MenuItemInputs<V>);
+    /** Flushes any pending focus when the submenu instance becomes available. */
+    pendingFocusEffect(): void;
     /** Opens the submenu. */
     open(opts?: {
         first?: boolean;

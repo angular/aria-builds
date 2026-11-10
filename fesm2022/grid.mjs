@@ -441,6 +441,9 @@ class GridCellWidget {
       deactivated: "deactivated"
     },
     host: {
+      attributes: {
+        "ngGridCellWidget": ""
+      },
       properties: {
         "attr.data-active": "active()",
         "attr.data-active-control": "isActivated() ? \"widget\" : \"cell\"",
@@ -463,6 +466,7 @@ i0.ɵɵngDeclareClassMetadata({
       selector: '[ngGridCellWidget]',
       exportAs: 'ngGridCellWidget',
       host: {
+        'ngGridCellWidget': '',
         '[attr.data-active]': 'active()',
         '[attr.data-active-control]': 'isActivated() ? "widget" : "cell"',
         '[tabindex]': '_tabIndex()',

@@ -521,6 +521,7 @@ class MenuItemPattern {
   hasPopup = computed(() => !!this.submenu());
   submenu;
   selectable;
+  pendingFocus = signal(null);
   constructor(inputs) {
     this.inputs = inputs;
     this.id = inputs.id;
@@ -530,20 +531,41 @@ class MenuItemPattern {
     this.searchTerm = inputs.searchTerm;
     this.selectable = computed(() => !this.submenu());
   }
+  pendingFocusEffect() {
+    const submenu = this.submenu();
+    const intent = this.pendingFocus();
+    const items = submenu?.items();
+    if (submenu && intent && items?.length) {
+      if (intent === 'first') {
+        submenu.first();
+      } else if (intent === 'last') {
+        submenu.last();
+      }
+      this.pendingFocus.set(null);
+    }
+  }
   open(opts) {
     if (this.disabled()) {
       return;
     }
     this._expanded.set(true);
-    if (opts?.first) {
-      this.submenu()?.first();
-    }
-    if (opts?.last) {
-      this.submenu()?.last();
+    const submenu = this.submenu();
+    const items = submenu?.items();
+    if (submenu && items?.length) {
+      if (opts?.first) {
+        submenu.first();
+      } else if (opts?.last) {
+        submenu.last();
+      }
+    } else if (opts?.first) {
+      this.pendingFocus.set('first');
+    } else if (opts?.last) {
+      this.pendingFocus.set('last');
     }
   }
   close(opts = {}) {
     this._expanded.set(false);
+    this.pendingFocus.set(null);
     if (opts.refocus) {
       this.inputs.parent()?.listBehavior.goto(this);
     }
