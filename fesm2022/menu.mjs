@@ -218,6 +218,7 @@ class MenuItem {
   });
   constructor() {
     effect(() => this.submenu()?.parent.set(this));
+    effect(() => this._pattern.pendingFocusEffect());
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       afterRenderEffect({
         read: () => {
@@ -694,7 +695,7 @@ class Menu {
         if (parent instanceof MenuItem && parent.parent instanceof MenuBar) {
           this._deferredContentAware?.contentVisible.set(true);
         } else {
-          this._deferredContentAware?.contentVisible.set(this._pattern.visible() || !!this.parent()?._pattern.hasBeenInteracted());
+          this._deferredContentAware?.contentVisible.set(this._pattern.visible());
         }
       }
     });
