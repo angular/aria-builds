@@ -1,5 +1,5 @@
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy, InjectionToken } from '@angular/core';
+import { OnDestroy, InjectionToken } from '@angular/core';
 import { AccordionTriggerPattern, AccordionGroupPattern } from './private.js';
 import { DeferredContentAware, DeferredContent } from './_deferred-content-chunk.js';
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
@@ -76,7 +76,7 @@ declare class AccordionPanel {
  *
  * @see [Accordion](guide/aria/accordion)
  */
-declare class AccordionTrigger implements OnInit, OnDestroy {
+declare class AccordionTrigger {
     /** A reference to the trigger element. */
     private readonly _elementRef;
     /** A reference to the trigger element. */
@@ -98,8 +98,6 @@ declare class AccordionTrigger implements OnInit, OnDestroy {
     /** Whether the trigger is active. */
     readonly active: _angular_core.Signal<boolean>;
     constructor();
-    ngOnInit(): void;
-    ngOnDestroy(): void;
     /** Expands this item. */
     expand(): void;
     /** Collapses this item. */
