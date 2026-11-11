@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { Directive, inject, ElementRef, contentChild, input, computed, afterRenderEffect, InjectionToken, booleanAttribute, signal, afterNextRender, model } from '@angular/core';
+import { Directive, inject, ElementRef, contentChild, input, computed, afterRenderEffect, InjectionToken, booleanAttribute, signal, afterNextRender, model, effect, untracked } from '@angular/core';
 import { DeferredContent, DeferredContentAware } from './_deferred-content-chunk.mjs';
 import { Directionality } from '@angular/cdk/bidi';
 import { reportViolations, SortedCollection } from './_violations-chunk.mjs';
@@ -380,6 +380,17 @@ class AccordionTrigger {
     debugName: "active"
   }] : []));
   constructor() {
+    effect(onCleanup => {
+      const panel = this.panel();
+      untracked(() => {
+        panel._pattern = this._pattern;
+        this._accordionGroup._collection.register(this);
+      });
+      onCleanup(() => {
+        panel._pattern = undefined;
+        this._accordionGroup._collection.unregister(this);
+      });
+    });
     if (this.element.tagName === 'BUTTON' && !this.element.hasAttribute('type')) {
       this.element.setAttribute('type', 'button');
     }
@@ -397,14 +408,6 @@ class AccordionTrigger {
         }
       });
     }
-  }
-  ngOnInit() {
-    this.panel()._pattern = this._pattern;
-    this._accordionGroup._collection.register(this);
-  }
-  ngOnDestroy() {
-    this.panel()._pattern = undefined;
-    this._accordionGroup._collection.unregister(this);
   }
   expand() {
     this._pattern.open();

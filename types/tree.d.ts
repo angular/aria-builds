@@ -1,6 +1,6 @@
 import * as _angular_cdk_bidi from '@angular/cdk/bidi';
 import * as _angular_core from '@angular/core';
-import { OnInit, OnDestroy, Signal } from '@angular/core';
+import { OnInit, Signal, OnDestroy } from '@angular/core';
 import { TreeItemPattern, TreePattern } from './private.js';
 import { HasElement, SortedCollection } from './private.js';
 import { DeferredContent } from './_deferred-content-chunk.js';
@@ -32,7 +32,7 @@ import './_click-event-manager-chunk.js';
  *
  * @see [Tree](guide/aria/tree)
  */
-declare class TreeItemGroup<V> implements OnInit, OnDestroy {
+declare class TreeItemGroup<V> {
     /** A reference to the host element. */
     private readonly _elementRef;
     /** A reference to the host element. */
@@ -45,8 +45,7 @@ declare class TreeItemGroup<V> implements OnInit, OnDestroy {
     readonly _childPatterns: _angular_core.Signal<TreeItemPattern<V>[]>;
     /** Tree item that owns the group. */
     readonly ownedBy: _angular_core.InputSignal<TreeItem<V>>;
-    ngOnInit(): void;
-    ngOnDestroy(): void;
+    constructor();
     _register(child: TreeItem<V>): void;
     _unregister(child: TreeItem<V>): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItemGroup<any>, never>;
@@ -66,7 +65,7 @@ declare class TreeItemGroup<V> implements OnInit, OnDestroy {
  * </li>
  * ```
  */
-declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDestroy, HasElement {
+declare class TreeItem<V> extends DeferredContentAware implements OnInit, HasElement {
     /** A reference to the host element. */
     private readonly _elementRef;
     /** A reference to the host element. */
@@ -105,7 +104,6 @@ declare class TreeItem<V> extends DeferredContentAware implements OnInit, OnDest
     _pattern: TreeItemPattern<V>;
     constructor();
     ngOnInit(): void;
-    ngOnDestroy(): void;
     _register(group: TreeItemGroup<V>): void;
     _unregister(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<TreeItem<any>, never>;

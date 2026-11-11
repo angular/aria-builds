@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { inject, ElementRef, input, booleanAttribute, model, signal, computed, afterNextRender, afterRenderEffect, untracked, Directive } from '@angular/core';
+import { inject, ElementRef, input, booleanAttribute, model, signal, computed, afterNextRender, afterRenderEffect, untracked, Directive, effect } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { TreePattern, TreeItemPattern } from './_tree-chunk.mjs';
@@ -404,12 +404,15 @@ class TreeItemGroup {
   ownedBy = input.required(...(ngDevMode ? [{
     debugName: "ownedBy"
   }] : []));
-  ngOnInit() {
-    this._deferredContent.deferredContentAware.set(this.ownedBy());
-    this.ownedBy()._register(this);
-  }
-  ngOnDestroy() {
-    this.ownedBy()._unregister();
+  constructor() {
+    effect(onCleanup => {
+      const owner = this.ownedBy();
+      untracked(() => {
+        this._deferredContent.deferredContentAware.set(owner);
+        owner._register(this);
+      });
+      onCleanup(() => owner._unregister());
+    });
   }
   _register(child) {
     this._unorderedItems().add(child);
@@ -462,6 +465,7 @@ i0.ɵɵngDeclareClassMetadata({
       hostDirectives: [DeferredContent]
     }]
   }],
+  ctorParameters: () => [],
   propDecorators: {
     ownedBy: [{
       type: i0.Input,
@@ -533,6 +537,22 @@ class TreeItem extends DeferredContentAware {
   _pattern;
   constructor() {
     super();
+    effect(onCleanup => {
+      const parent = this.parent();
+      const tree = this.tree();
+      untracked(() => {
+        if (parent instanceof TreeItemGroup) {
+          parent._register(this);
+        }
+        tree._collection.register(this);
+      });
+      onCleanup(() => {
+        if (parent instanceof TreeItemGroup) {
+          parent._unregister(this);
+        }
+        tree._collection.unregister(this);
+      });
+    });
     afterRenderEffect({
       write: () => {
         this.contentVisible.set(this._pattern.expanded());
@@ -540,10 +560,6 @@ class TreeItem extends DeferredContentAware {
     });
   }
   ngOnInit() {
-    if (this.parent() instanceof TreeItemGroup) {
-      this.parent()._register(this);
-    }
-    this.tree()._collection.register(this);
     const treePattern = computed(() => this.tree()._pattern, ...(ngDevMode ? [{
       debugName: "treePattern"
     }] : []));
@@ -564,12 +580,6 @@ class TreeItem extends DeferredContentAware {
       element: () => this.element,
       searchTerm: () => this.searchTerm() ?? ''
     });
-  }
-  ngOnDestroy() {
-    if (this.parent() instanceof TreeItemGroup) {
-      this.parent()._unregister(this);
-    }
-    this.tree()._collection.unregister(this);
   }
   _register(group) {
     this._group.set(group);
