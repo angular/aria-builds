@@ -272,7 +272,7 @@ class TabList {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn()"
+        "focusin": "_pattern.onFocusIn($event)"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
@@ -307,7 +307,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn()'
+        '(focusin)': '_pattern.onFocusIn($event)'
       },
       providers: [{
         provide: TAB_LIST,

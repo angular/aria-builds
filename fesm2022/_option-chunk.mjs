@@ -176,8 +176,11 @@ class ListboxPattern {
       this.clickManager().handle(event);
     }
   }
-  onFocusIn() {
+  onFocusIn(event) {
     this.hasBeenInteracted.set(true);
+    if (event) {
+      this.listBehavior.sync(this._getItem(event));
+    }
   }
   setDefaultState() {
     let firstItem = null;
@@ -205,11 +208,11 @@ class ListboxPattern {
   }
   _getItem(e) {
     const target = _getEventTarget(e);
-    if (!target) {
+    if (!(target instanceof Element)) {
       return;
     }
     const element = target.closest('[role="option"]');
-    return this.inputs.items().find(i => i.element() === element);
+    return element ? this.inputs.items().find(i => i.element() === element) : undefined;
   }
 }
 

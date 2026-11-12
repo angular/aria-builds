@@ -64,6 +64,13 @@ declare class Tree<T extends TreeItem<V, T>, V> {
     parent(opts?: NavOptions<T>): void;
     /** Navigates to the given item in the tree. */
     goto(item: T, opts?: NavOptions<T>): void;
+    /**
+     * Syncs `activeItem` to an externally focused item without moving DOM focus.
+     *
+     * Leaves selection and the range anchor untouched: a pointer click focuses the item before
+     * the click handler runs, and that handler still needs the anchor from before the click.
+     */
+    sync(item: T | undefined): void;
     /** Removes focus from the tree. */
     unfocus(): void;
     /** Marks the given index as the potential start of a range selection. */
@@ -272,7 +279,7 @@ declare class TreePattern<V> implements TreeInputs<V> {
     /** Handles click events on the tree. */
     onClick(event: PointerEvent): void;
     /** Handles focusin events on the tree. */
-    onFocusIn(): void;
+    onFocusIn(event?: FocusEvent): void;
     /** Navigates to the given tree item in the tree. */
     goto(e: PointerEvent, opts?: SelectOptions): void;
     /** Expands the active item if possible, otherwise navigates to the first child. */

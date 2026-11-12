@@ -254,7 +254,7 @@ class Listbox {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn()"
+        "focusin": "_pattern.onFocusIn($event)"
       },
       properties: {
         "attr.id": "id()",
@@ -295,7 +295,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn()'
+        '(focusin)': '_pattern.onFocusIn($event)'
       },
       providers: [{
         provide: LISTBOX,
