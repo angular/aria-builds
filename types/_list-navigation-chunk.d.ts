@@ -46,6 +46,8 @@ declare class ListFocus<T extends ListFocusItem> {
     focus(item: T, opts?: {
         focusElement?: boolean;
     }): boolean;
+    /** Syncs `activeItem` to an externally focused item without moving DOM focus. */
+    sync(item: T | undefined): boolean;
     /** Returns true if the given item can be navigated to. */
     isFocusable(item: T): boolean;
 }

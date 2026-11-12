@@ -116,7 +116,7 @@ declare class ToolbarPattern {
     /** Handles keydown events for the toolbar. */
     onKeydown(event: KeyboardEvent): void;
     onPointerdown(event: PointerEvent): void;
-    onFocusIn(): void;
+    onFocusIn(event?: FocusEvent): void;
     /** Handles click events for the toolbar. */
     onClick(event: MouseEvent): void;
     /**

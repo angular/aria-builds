@@ -240,7 +240,7 @@ class Tree {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn()"
+        "focusin": "_pattern.onFocusIn($event)"
       },
       properties: {
         "attr.id": "id()",
@@ -275,7 +275,7 @@ i0.ɵɵngDeclareClassMetadata({
         '[tabindex]': 'tabIndex() !== undefined ? tabIndex() : _pattern.tabIndex()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn()'
+        '(focusin)': '_pattern.onFocusIn($event)'
       }
     }]
   }],

@@ -52,6 +52,14 @@ class ListFocus {
     }
     return true;
   }
+  sync(item) {
+    if (!item || item === this.inputs.activeItem()) {
+      return false;
+    }
+    return this.focus(item, {
+      focusElement: false
+    });
+  }
   isFocusable(item) {
     return !item.disabled() || this.inputs.softDisabled();
   }

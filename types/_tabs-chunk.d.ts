@@ -112,12 +112,12 @@ declare class TabListPattern {
     /** The click event manager for the tablist. */
     onClick(event: PointerEvent): void;
     /** Handles focusin events for the tablist. */
-    onFocusIn(): void;
+    onFocusIn(event?: FocusEvent): void;
     /** Opens the given tab or the current active tab. */
     open(tab?: TabPattern): boolean;
     /** Executes a navigation operation and expand the active tab if needed. */
     private _navigate;
-    /** Returns the tab item associated with the given pointer event. */
+    /** Returns the tab item associated with the given event. */
     private _getItem;
 }
 

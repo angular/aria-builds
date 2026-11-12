@@ -525,7 +525,7 @@ class MenuBar {
         "keydown": "_pattern.onKeydown($event)",
         "mouseover": "_pattern.onMouseOver($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn()",
+        "focusin": "_pattern.onFocusIn($event)",
         "focusout": "_pattern.onFocusOut($event)"
       },
       properties: {
@@ -560,7 +560,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(keydown)': '_pattern.onKeydown($event)',
         '(mouseover)': '_pattern.onMouseOver($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn()',
+        '(focusin)': '_pattern.onFocusIn($event)',
         '(focusout)': '_pattern.onFocusOut($event)'
       },
       providers: [{
@@ -797,7 +797,7 @@ class Menu {
         "mouseover": "_pattern.onMouseOver($event)",
         "mouseout": "_pattern.onMouseOut($event)",
         "focusout": "_pattern.onFocusOut($event)",
-        "focusin": "_pattern.onFocusIn()",
+        "focusin": "_pattern.onFocusIn($event)",
         "click": "_pattern.onClick($event)"
       },
       properties: {
@@ -839,7 +839,7 @@ i0.ɵɵngDeclareClassMetadata({
         '(mouseover)': '_pattern.onMouseOver($event)',
         '(mouseout)': '_pattern.onMouseOut($event)',
         '(focusout)': '_pattern.onFocusOut($event)',
-        '(focusin)': '_pattern.onFocusIn()',
+        '(focusin)': '_pattern.onFocusIn($event)',
         '(click)': '_pattern.onClick($event)'
       },
       hostDirectives: [{
