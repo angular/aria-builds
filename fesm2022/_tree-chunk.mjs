@@ -103,6 +103,9 @@ class Tree {
   goto(item, opts) {
     this._navigate(opts, () => this.navigationBehavior.goto(item, opts));
   }
+  sync(item) {
+    this.focusBehavior.sync(item);
+  }
   unfocus() {
     this.inputs.activeItem.set(undefined);
   }
@@ -451,8 +454,11 @@ class TreePattern {
       this.clickManager().handle(event);
     }
   }
-  onFocusIn() {
+  onFocusIn(event) {
     this.hasBeenInteracted.set(true);
+    if (event) {
+      this.treeBehavior.sync(this._getItem(event));
+    }
   }
   goto(e, opts) {
     const item = this._getItem(e);
@@ -478,11 +484,11 @@ class TreePattern {
   }
   _getItem(event) {
     const target = _getEventTarget(event);
-    if (!target) {
+    if (!(target instanceof Element)) {
       return;
     }
     const element = target.closest('[role="treeitem"]');
-    return this.inputs.items().find(i => i.element() === element);
+    return element ? this.inputs.items().find(i => i.element() === element) : undefined;
   }
 }
 

@@ -109,7 +109,7 @@ declare class MenuPattern<V> {
     /** Handles click events for the menu. */
     onClick(event: MouseEvent): void;
     /** Handles focusin events for the menu. */
-    onFocusIn(): void;
+    onFocusIn(event?: FocusEvent): void;
     /** Handles the focusout event for the menu. */
     onFocusOut(event: FocusEvent): void;
     /** Focuses the previous menu item. */
@@ -174,7 +174,7 @@ declare class MenuBarPattern<V> {
     /** Handles mouseover events for the menu bar. */
     onMouseOver(event: MouseEvent): void;
     /** Handles focusin events for the menu bar. */
-    onFocusIn(): void;
+    onFocusIn(event?: FocusEvent): void;
     /** Handles focusout events for the menu bar. */
     onFocusOut(event: FocusEvent): void;
     /** Goes to and optionally focuses the specified menu item. */

@@ -91,7 +91,7 @@ declare class ListboxPattern<V> {
     /** Handles keydown events for the listbox. */
     onKeydown(event: KeyboardEvent): void;
     onClick(event: PointerEvent): void;
-    onFocusIn(): void;
+    onFocusIn(event?: FocusEvent): void;
     /**
      * Sets the listbox to it's default initial state.
      *
@@ -107,7 +107,7 @@ declare class ListboxPattern<V> {
      * Sets the default active state of the listbox before receiving interaction for the first time.
      */
     setDefaultStateEffect(): void;
-    protected _getItem(e: PointerEvent): OptionPattern<V> | undefined;
+    protected _getItem(e: Event): OptionPattern<V> | undefined;
 }
 
 export { ListboxPattern, OptionPattern };

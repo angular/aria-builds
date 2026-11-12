@@ -49,6 +49,9 @@ class List {
   goto(item, opts) {
     this._navigate(opts, () => this.navigationBehavior.goto(item, opts));
   }
+  sync(item) {
+    this.focusBehavior.sync(item);
+  }
   unfocus() {
     this.inputs.activeItem.set(undefined);
   }

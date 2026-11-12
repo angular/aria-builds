@@ -111,8 +111,12 @@ class ToolbarPattern {
   onPointerdown(event) {
     this.hasBeenInteracted.set(true);
   }
-  onFocusIn() {
+  onFocusIn(event) {
     this.hasBeenInteracted.set(true);
+    const target = event && _getEventTarget(event);
+    if (target instanceof Element) {
+      this.focusManager.sync(this.inputs.getItem(target));
+    }
   }
   onClick(event) {
     if (this.disabled() || event.pointerType === '') return;
