@@ -125,7 +125,7 @@ class Tree {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.3.0-next.4",
+    version: "22.3.0-rc.0",
     ngImport: i0,
     type: Tree,
     deps: [],
@@ -133,7 +133,7 @@ class Tree {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.3.0-next.4",
+    version: "22.3.0-rc.0",
     type: Tree,
     isStandalone: true,
     selector: "[ngTree]",
@@ -257,7 +257,7 @@ class Tree {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.3.0-next.4",
+  version: "22.3.0-rc.0",
   ngImport: i0,
   type: Tree,
   decorators: [{
@@ -424,7 +424,7 @@ class TreeItemGroup {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.3.0-next.4",
+    version: "22.3.0-rc.0",
     ngImport: i0,
     type: TreeItemGroup,
     deps: [],
@@ -432,7 +432,7 @@ class TreeItemGroup {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.3.0-next.4",
+    version: "22.3.0-rc.0",
     type: TreeItemGroup,
     isStandalone: true,
     selector: "ng-template[ngTreeItemGroup]",
@@ -454,7 +454,7 @@ class TreeItemGroup {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.3.0-next.4",
+  version: "22.3.0-rc.0",
   ngImport: i0,
   type: TreeItemGroup,
   decorators: [{
@@ -589,7 +589,7 @@ class TreeItem extends DeferredContentAware {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.3.0-next.4",
+    version: "22.3.0-rc.0",
     ngImport: i0,
     type: TreeItem,
     deps: [],
@@ -597,7 +597,7 @@ class TreeItem extends DeferredContentAware {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.3.0-next.4",
+    version: "22.3.0-rc.0",
     type: TreeItem,
     isStandalone: true,
     selector: "[ngTreeItem]",
@@ -679,7 +679,7 @@ class TreeItem extends DeferredContentAware {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.3.0-next.4",
+  version: "22.3.0-rc.0",
   ngImport: i0,
   type: TreeItem,
   decorators: [{
