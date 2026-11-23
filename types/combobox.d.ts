@@ -113,7 +113,7 @@ declare class ComboboxPopup implements OnInit, OnDestroy {
  * </ng-template>
  * ```
  */
-declare class Combobox extends DeferredContentAware implements OnInit {
+declare class Combobox extends DeferredContentAware implements OnInit, OnDestroy {
     private readonly _renderer;
     /** The element that the combobox is attached to. */
     private readonly _elementRef;
@@ -141,6 +141,7 @@ declare class Combobox extends DeferredContentAware implements OnInit {
     readonly _pattern: ComboboxPattern;
     constructor();
     ngOnInit(): void;
+    ngOnDestroy(): void;
     /** Registers a popup with the combobox. */
     _registerPopup(popup: ComboboxPopup): void;
     /** Unregisters the popup from the combobox. */
