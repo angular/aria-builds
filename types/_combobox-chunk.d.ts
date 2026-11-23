@@ -26,6 +26,7 @@ interface ComboboxInputs extends ExpansionItem {
 /** Controls the state of a simple combobox. */
 declare class ComboboxPattern {
     readonly inputs: ComboboxInputs;
+    private _focusoutTimeout;
     /** The expanded state of the combobox. */
     readonly isExpanded: _angular_core.Signal<boolean>;
     /** The value of the combobox. */
@@ -85,6 +86,8 @@ declare class ComboboxPattern {
     highlightEffect(): void;
     /** Relays keyboard events to the popup. */
     keyboardEventRelayEffect(): void;
+    /** Cleans up the pattern. */
+    destroy(): void;
 }
 /** Represents the required inputs for a simple combobox popup. */
 interface ComboboxPopupInputs {

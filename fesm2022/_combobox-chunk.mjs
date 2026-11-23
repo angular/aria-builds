@@ -5,6 +5,7 @@ import { ClickEventManager } from './_click-event-manager-chunk.mjs';
 
 class ComboboxPattern {
   inputs;
+  _focusoutTimeout;
   isExpanded = computed(() => this.inputs.alwaysExpanded() || this.inputs.expanded());
   value;
   element = () => this.inputs.element();
@@ -114,7 +115,8 @@ class ComboboxPattern {
     this.closePopupOnFocusout();
   }
   closePopupOnFocusout() {
-    setTimeout(() => {
+    clearTimeout(this._focusoutTimeout);
+    this._focusoutTimeout = setTimeout(() => {
       const comboboxFocused = this.isFocused();
       const popupFocused = !!this.inputs.popup()?.isFocused();
       if (!this.inputs.alwaysExpanded() && !comboboxFocused && !popupFocused) {
@@ -157,6 +159,10 @@ class ComboboxPattern {
     for (const event of events) {
       target.dispatchEvent(new KeyboardEvent(event.type, event));
     }
+  }
+  destroy() {
+    clearTimeout(this._focusoutTimeout);
+    this._focusoutTimeout = undefined;
   }
 }
 class ComboboxPopupPattern {

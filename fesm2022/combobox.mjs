@@ -76,6 +76,9 @@ class Combobox extends DeferredContentAware {
       this.expanded.set(true);
     }
   }
+  ngOnDestroy() {
+    this._pattern.destroy();
+  }
   _registerPopup(popup) {
     this._popup.set(popup);
   }
