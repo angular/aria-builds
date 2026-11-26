@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, signal, computed, afterNextRender, Directive, input, booleanAttribute, model, linkedSignal, afterRenderEffect, contentChild } from '@angular/core';
+import { InjectionToken, inject, ElementRef, signal, computed, afterNextRender, Directive, input, booleanAttribute, model, linkedSignal, afterRenderEffect, untracked, contentChild } from '@angular/core';
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { TabListPattern, TabPattern, TabPanelPattern } from './_tabs-chunk.mjs';
 import { SortedCollection, reportViolations } from './_violations-chunk.mjs';
@@ -170,6 +170,27 @@ class TabList {
         this.selectedTab.set(tab?.value());
       }
     });
+    afterRenderEffect({
+      write: () => {
+        const selectedTab = this._selectedTabPattern();
+        const isFocused = this._pattern.isFocused();
+        untracked(() => {
+          if (selectedTab && !isFocused) {
+            this._pattern.focusBehavior.sync(selectedTab);
+          }
+        });
+      }
+    });
+    afterRenderEffect({
+      write: () => {
+        const items = this._tabPatterns();
+        const activeItem = untracked(() => this._pattern.inputs.activeItem());
+        if (activeItem && !items.includes(activeItem)) {
+          this._pattern.isFocused.set(false);
+          this._pattern.setDefaultState();
+        }
+      }
+    });
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       afterRenderEffect({
         read: () => {
@@ -272,7 +293,8 @@ class TabList {
       listeners: {
         "keydown": "_pattern.onKeydown($event)",
         "click": "_pattern.onClick($event)",
-        "focusin": "_pattern.onFocusIn($event)"
+        "focusin": "_pattern.onFocusIn($event)",
+        "focusout": "_pattern.onFocusOut($event)"
       },
       properties: {
         "attr.tabindex": "_pattern.tabIndex()",
@@ -307,7 +329,8 @@ i0.ɵɵngDeclareClassMetadata({
         '[attr.aria-activedescendant]': '_pattern.activeDescendant()',
         '(keydown)': '_pattern.onKeydown($event)',
         '(click)': '_pattern.onClick($event)',
-        '(focusin)': '_pattern.onFocusIn($event)'
+        '(focusin)': '_pattern.onFocusIn($event)',
+        '(focusout)': '_pattern.onFocusOut($event)'
       },
       providers: [{
         provide: TAB_LIST,

@@ -42,6 +42,7 @@ class TabListPattern {
   navigationBehavior;
   expansionBehavior;
   hasBeenInteracted = signal(false);
+  isFocused = signal(false);
   activeTab;
   selectedTab;
   orientation;
@@ -121,8 +122,15 @@ class TabListPattern {
   }
   onFocusIn(event) {
     this.hasBeenInteracted.set(true);
+    this.isFocused.set(true);
     if (event) {
       this.focusBehavior.sync(this._getItem(event));
+    }
+  }
+  onFocusOut(event) {
+    const relatedTarget = event.relatedTarget;
+    if (!this.inputs.element()?.contains(relatedTarget)) {
+      this.isFocused.set(false);
     }
   }
   open(tab) {

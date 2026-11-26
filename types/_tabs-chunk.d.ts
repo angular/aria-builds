@@ -73,6 +73,8 @@ declare class TabListPattern {
     readonly expansionBehavior: ListExpansion;
     /** Whether the tablist has been interacted with. */
     readonly hasBeenInteracted: WritableSignalLike<boolean>;
+    /** Whether focus is currently inside the tablist. */
+    readonly isFocused: WritableSignalLike<boolean>;
     /** The currently active tab. */
     readonly activeTab: SignalLike<TabPattern | undefined>;
     /** The currently selected tab. */
@@ -113,6 +115,8 @@ declare class TabListPattern {
     onClick(event: PointerEvent): void;
     /** Handles focusin events for the tablist. */
     onFocusIn(event?: FocusEvent): void;
+    /** Handles focusout events for the tablist. */
+    onFocusOut(event: FocusEvent): void;
     /** Opens the given tab or the current active tab. */
     open(tab?: TabPattern): boolean;
     /** Executes a navigation operation and expand the active tab if needed. */
