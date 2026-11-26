@@ -787,8 +787,8 @@
       ],
       "source": {
         "filePath": "/src/aria/tabs/tab-list.ts",
-        "startLine": 46,
-        "endLine": 186
+        "startLine": 47,
+        "endLine": 215
       }
     }
   ],
@@ -859,6 +859,10 @@
     ],
     [
       "linkedSignal",
+      "@angular/core"
+    ],
+    [
+      "untracked",
       "@angular/core"
     ],
     [
